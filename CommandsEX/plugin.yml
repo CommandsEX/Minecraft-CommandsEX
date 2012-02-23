@@ -1,0 +1,17 @@
+author: Zathrus Writer
+database: false
+description: A set of commonly used admin commands, built to per-request specs.
+main: com.github.zathrus_writer.commandsex.CommandsEX
+name: CommandsEX
+load: postworld
+version: '1.0'
+website: http://dev.bukkit.org/server-mods/commandsex
+permissions:
+  cex.tploc:
+    default: op
+    description: Allows player teleporting to specified location.
+commands:
+  tploc:
+    description: Teleports a player to the given XYZ coordinates.
+    usage: /<command> X Y Z
+    aliases: []
