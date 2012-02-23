@@ -1,7 +1,7 @@
 package com.github.zathrus_writer.commandsex;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
  */
 public class Teleportation {
 	private static CommandsEX plugin;
+	public final static Logger LOGGER = Logger.getLogger("Minecraft");
 
 	// language constants
 	public final static String langTpNoCoords = "Please enter coordinates.";
@@ -20,40 +21,25 @@ public class Teleportation {
 	public final static String langTpCoordsMustBeNumeric = "Teleport coordinates must be numeric.";
 	public final static String langTpInvalidArgument = "Coordinates must be a comma-separated value (e.g. 0,0,0)";
 	
-	// list of methods in this class that should not be counted in as command functions
-	private final String exFunctions[] = {};
-	
 
 	/***
 	 * Constructor, sets the main plugin class locally.
 	 * @param plugin
 	 */
-	public Teleportation(CommandsEX p) {
+	public static void init(CommandsEX p) {
 		plugin = p;
-
-		// set command listeners for all available commands and add these into main class for reference
-		Method[] methods = this.getClass().getDeclaredMethods();
-		for (Method m : methods) {
-			String n = m.getName().toLowerCase();
-			if (Arrays.binarySearch(this.exFunctions, n) < 0) {
-				plugin.getCommand(n).setExecutor(plugin);
-				plugin.commands.add(n + ":" + this.getClass().getSimpleName());
-			}
-		}
 	}
-	
-	
-	
+		
 	/***
 	 * TPLOC - teleports player to given coordinates
 	 * @param player
 	 * @param args
 	 * @return
 	 */
-	public static Boolean tploc(Player player, String[] args) {
+	public static Boolean _tploc(Player player, String[] args) {
 		// check permissions before allowing player to teleport
     	if (!plugin.checkPerms(player)) {
-    		player.sendMessage(ChatColor.RED + plugin.langInsufficientPerms);
+    		player.sendMessage(ChatColor.RED + CommandsEX.langInsufficientPerms);
             return true;
         }
 
@@ -83,8 +69,8 @@ public class Teleportation {
         	try {
         		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
         	} catch (Exception e) {
-        		player.sendMessage(ChatColor.RED + plugin.langInternalError);
-        		plugin.l.severe("TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
+        		player.sendMessage(ChatColor.RED + CommandsEX.langInternalError);
+        		LOGGER.severe("TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
         		return false;
         	}
         }
