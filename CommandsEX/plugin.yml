@@ -17,5 +17,5 @@ commands:
             /<command> X Y Z
             /<command> X,Y,Z
     permission: cex.tploc
-    permission-message: You don't have sufficient permissions to use /<command>
+    permission-message: You don't have sufficient permissions to use this command.
     aliases: []

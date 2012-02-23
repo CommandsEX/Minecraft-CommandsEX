@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CommandsEX extends JavaPlugin {
 
 	// regex to check if String is a number
-	public final String intRegex = "(-)?(\\d){1,10}(\\.(\\d){1,10})?";
+	public final static String intRegex = "(-)?(\\d){1,10}(\\.(\\d){1,10})?";
 	
 	// logger
 	public final static Logger LOGGER = Logger.getLogger("Minecraft");
@@ -41,7 +41,7 @@ public class CommandsEX extends JavaPlugin {
 	 * @param cs
 	 * @return
 	 */
-	public Boolean checkIsPlayer(CommandSender cs) {
+	public static Boolean checkIsPlayer(CommandSender cs) {
 		if (cs instanceof Player) {
 			return true;
 		}
@@ -52,25 +52,23 @@ public class CommandsEX extends JavaPlugin {
 	
 	
 	/***
-	 * Returns name of the method that calls this function.
-	 * @return
-	 */
-	public String getCurrentMethodNameForPerms() {
-		return Thread.currentThread().getStackTrace()[3].getMethodName();
-	}
-
-	
-	/***
 	 * Check whether given player has permission to the function which called this method.
 	 * This is determined from function name, so i.e. function /tploc will check for "cex.tploc" permission node.
 	 * @param player
 	 * @return
 	 */
-	public Boolean checkPerms(Player player) {
-		return player.hasPermission("cex." + this.getCurrentMethodNameForPerms());
+	public static Boolean checkPerms(Player player) {
+		String caller_method = Thread.currentThread().getStackTrace()[3].getMethodName();
+		Boolean hasPerms = player.hasPermission("cex." + caller_method);
+		
+		if (!hasPerms) {
+			player.sendMessage(ChatColor.RED + langInsufficientPerms);
+		}
+		
+		return hasPerms;
 	}
-	
-	
+
+
 	/***
 	 * OnEnable
 	 */
@@ -84,11 +82,10 @@ public class CommandsEX extends JavaPlugin {
 			try {
 				// no need to create instances here, just call init() and let them all live in peace
 				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + cName);
-				Method method = c.getDeclaredMethod("init", proto);
-				method.invoke(null, params);
+				c.getDeclaredMethod("init", proto).invoke(null, params);
 
-				// we only add public methods as command functions
-				Method[] methods = c.getMethods();
+				// we only add public methods that starts on underscore (_) as command functions
+				Method[] methods = c.getDeclaredMethods();
 				for (Method m : methods) {
 					String n = m.getName();
 					if (n.startsWith("_")) {
@@ -118,37 +115,35 @@ public class CommandsEX extends JavaPlugin {
 	
 	/***
 	 * NOTE: there is some room for improvement here, since iterating list of all commands isn't the quickest of searches
+	 * ... this looks interesting but also a little too much as an overkill: http://www.roseindia.net/java/example/java/util/PartialSearcher.shtml
 	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (this.checkIsPlayer(sender)) {
-    		Player player = (Player)sender;
-    		String cmd = command.getName().toLowerCase();
-
-    		// check if the command name if present in our list of commands, and if so, pass action to the appropriate function
-    		for (String sCommand : this.commands) {
-				// check for the correct class to be used
-				if (sCommand.startsWith("_" + cmd + ":")) {
-					String[] s = sCommand.split(":");
-					try {
-						Class<?>[] proto = new Class[] {Player.class, String[].class};
-						Object[] params = new Object[] {player, args};
-						Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + s[1]);
-						Method method = c.getDeclaredMethod(s[0], proto);
-						Object ret = method.invoke(null, params);
-						return Boolean.TRUE.equals(ret);
-					} catch (Throwable e) {
-						player.sendMessage(ChatColor.RED + langInternalError);
-						LOGGER.severe("Couldn't handle function call " + cmd + " (" + s[0] + ") for class " + s[1] + ", error returned: " + e.getMessage());
-			    		return true;
-			    	}
-				}
-					
-				// we should never get here, except for errors
-				player.sendMessage(ChatColor.RED + langInternalError);
-				LOGGER.severe("Command /" + cmd + " did not match any known function for player "+ player.getDisplayName() +"!");
-    		}
-    	}
+	public boolean onCommand(CommandSender sender, Command command, String cmdAlias, String[] args) {
+		String cmd = command.getName().toLowerCase();
+		// check if the command name if present in our list of commands, and if so, pass action to the appropriate function
+		for (String sCommand : this.commands) {
+			// check for the correct class to be used
+			if (sCommand.startsWith("_" + cmd + ":")) {
+				String[] s = sCommand.split(":");
+				// check permissions
+				try {
+					Class<?>[] proto = new Class[] {CommandSender.class, String[].class};
+					Object[] params = new Object[] {sender, args};
+					Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + s[1]);
+					Method method = c.getDeclaredMethod(s[0], proto);
+					Object ret = method.invoke(null, params);
+					return Boolean.TRUE.equals(ret);
+				} catch (Throwable e) {
+					sender.sendMessage(ChatColor.RED + langInternalError);
+					LOGGER.severe("Couldn't handle function call " + cmd + " (" + s[0] + ") for class " + s[1] + ", error returned: " + e.getMessage());
+		    		return true;
+		    	}
+			}
+				
+			// we should never get here, except for errors
+			sender.sendMessage(ChatColor.RED + langInternalError);
+			LOGGER.severe("Command /" + cmd + " did not match any known function for player "+ sender.getName() +"!");
+		}
         return true;
 	}
 }
