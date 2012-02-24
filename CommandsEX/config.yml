@@ -1,0 +1,7 @@
+# set this to true if you don't want your players see version of CommandsEX when they type /cex
+disableVersion: false
+
+# provide a list of commands that you don't want CommandsEX to handle
+# ... this could be useful if you downloaded the full build and you don't want to use
+#     certain commands from CommandsEX because another plugin already contains them.
+disabledCommands: []

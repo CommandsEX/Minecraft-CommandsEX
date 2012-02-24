@@ -21,7 +21,13 @@ permissions:
   cex.tploc:
     default: op
     description: Allows player to teleport himself to a specified location (/tploc).
+  cex.reload:
+    default: op
+    description: Allows player to reload CommandsEX configuration from disk (/cex reload).
 commands:
+  cex:
+    description: Displays version information (if enabled in config) and allows for viewing / changing config (based on permissions).
+    usage:  /<command>
   tp:
     description: Teleports one player to another.
     usage:  /<command> Player1 [Player2]

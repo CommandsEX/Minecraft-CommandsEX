@@ -193,7 +193,7 @@ public class Teleportation {
 		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
 		        	} catch (Exception e) {
 		        		player.sendMessage(ChatColor.RED + CommandsEX.langInternalError);
-		        		LOGGER.severe("TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
+		        		LOGGER.severe("["+ CommandsEX.pdfFile.getName() +"]: TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
 		        		return false;
 		        	}
 		        }
