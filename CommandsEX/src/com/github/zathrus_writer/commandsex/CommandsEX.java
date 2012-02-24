@@ -57,9 +57,43 @@ public class CommandsEX extends JavaPlugin {
 	 * @param player
 	 * @return
 	 */
-	public static Boolean checkPerms(Player player) {
-		String caller_method = Thread.currentThread().getStackTrace()[3].getMethodName();
-		Boolean hasPerms = player.hasPermission("cex." + caller_method);
+	public static Boolean checkPerms(Player player, String... customPerm) {
+		// if we have custom permissions to check, they override default behaviour...
+		// the first parameter MUST BE either "AND" or "OR" (exception = when only 1 node is being checked)
+		// ... this will allow us to see if we should check whether the player has either one
+		// of these permissions (OR) or whether they have all of them (ALL) and return result
+		// accordingly. Every other parameter is a permission node itself.
+		Boolean hasPerms = false;
+		int cLength = customPerm.length;
+		if (cLength == 1) {
+			// only a single node is being checked
+			hasPerms = player.hasPermission(customPerm[0]);
+		} else if (cLength > 1) {
+			// multiple nodes check
+			if (customPerm[0].equals("OR") || customPerm[0].equals("AND")) {
+				for (int i = 1; i < cLength; i++) {
+					hasPerms = player.hasPermission(customPerm[i]);
+
+					// only 1 permission node must be present, check if this one can pull it off
+					if (customPerm[0].equals("OR") && hasPerms) {
+						return true;
+					}
+					
+					// all permissions must be true if we're handling "AND", check it here
+					if (customPerm[0].equals("AND") && !hasPerms) {
+						player.sendMessage(ChatColor.RED + langInsufficientPerms);
+						return false;
+					}
+				}
+			} else {
+				hasPerms = false;
+				LOGGER.severe("Custom permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (first parameter is not one of: AND/OR - it was '" + customPerm[0] + "')");
+			}
+		} else {
+			// no custom permissions, check the caller method's name as permission node
+			String caller_method = Thread.currentThread().getStackTrace()[2].getMethodName();
+			hasPerms = player.hasPermission("cex." + caller_method.substring(8));
+		}
 		
 		if (!hasPerms) {
 			player.sendMessage(ChatColor.RED + langInsufficientPerms);
@@ -88,7 +122,7 @@ public class CommandsEX extends JavaPlugin {
 				Method[] methods = c.getDeclaredMethods();
 				for (Method m : methods) {
 					String n = m.getName();
-					if (n.startsWith("_")) {
+					if (n.startsWith("command_")) {
 						this.commands.add(n + ":" + c.getSimpleName());
 					}
 				}
@@ -96,12 +130,12 @@ public class CommandsEX extends JavaPlugin {
 				// all ok if class was not found, this is a modular plugin
 		    } catch(Exception e) {
 		    	// all other errors, we need to log these to console
-		    	LOGGER.severe("Error loading class " + cName + " (" + e.getMessage() + ")");
+		    	LOGGER.severe("Error loading class '" + cName + "' (" + e.getMessage() + ")");
 		    }
 		}
 
 		PluginDescriptionFile pdfFile = this.getDescription();
-		LOGGER.info(pdfFile.getName() + " " + langVersion + " " + pdfFile.getVersion() + langEnableMsg);
+		LOGGER.info("[" + pdfFile.getName() + "] " + langVersion + " " + pdfFile.getVersion() + langEnableMsg);
 	}
 
 	
@@ -109,7 +143,7 @@ public class CommandsEX extends JavaPlugin {
 	 * OnDisable
 	 */
 	public void onDisable() {
-		LOGGER.info(this.getDescription().getName() + langDisableMsg);
+		LOGGER.info("[" + this.getDescription().getName() + "] " + langDisableMsg);
 	}
 	
 	
@@ -123,27 +157,25 @@ public class CommandsEX extends JavaPlugin {
 		// check if the command name if present in our list of commands, and if so, pass action to the appropriate function
 		for (String sCommand : this.commands) {
 			// check for the correct class to be used
-			if (sCommand.startsWith("_" + cmd + ":")) {
+			if (sCommand.startsWith("command_" + cmd + ":")) {
 				String[] s = sCommand.split(":");
-				// check permissions
 				try {
-					Class<?>[] proto = new Class[] {CommandSender.class, String[].class};
-					Object[] params = new Object[] {sender, args};
+					Class<?>[] proto = new Class[] {CommandSender.class, String.class, String[].class};
+					Object[] params = new Object[] {sender, cmdAlias, args};
 					Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + s[1]);
 					Method method = c.getDeclaredMethod(s[0], proto);
 					Object ret = method.invoke(null, params);
 					return Boolean.TRUE.equals(ret);
 				} catch (Throwable e) {
 					sender.sendMessage(ChatColor.RED + langInternalError);
-					LOGGER.severe("Couldn't handle function call " + cmd + " (" + s[0] + ") for class " + s[1] + ", error returned: " + e.getMessage());
+					LOGGER.severe("Couldn't handle function call '" + cmd + "' (" + s[0] + ") for class '" + s[1] + "', error returned: " + e.getMessage());
 		    		return true;
 		    	}
 			}
-				
-			// we should never get here, except for errors
-			sender.sendMessage(ChatColor.RED + langInternalError);
-			LOGGER.severe("Command /" + cmd + " did not match any known function for player "+ sender.getName() +"!");
 		}
+		// we should never get here, except for errors
+		sender.sendMessage(ChatColor.RED + langInternalError);
+		LOGGER.severe("Command '" + cmd + "' did not match any known function for player "+ sender.getName() +"!");
         return true;
 	}
 }
