@@ -14,6 +14,7 @@ public class CexCommands {
 	public final static String langConfigUpdated = "Config updated, new value: ";
 	public final static String langConfigReloaded = "CommandsEX config successfully reloaded.";
 	public final static String langConfigUnrecognized = "Unrecognized config parameter.";
+	public final static String langConfigNotEnoughParams = "Not enough parameters.";
 	public final static String langConfigUnrecognizedAction = "Unrecognized action.";
 	public final static String langConfigAvailableNodes = "Available options: ";
 	public final static String langConfigAvailableNodesUsage = "Usage: /cex config get [option]";
@@ -48,6 +49,14 @@ public class CexCommands {
 	 */
 	public static Boolean handle_cex(CommandsEX p, CommandSender sender, String alias, String[] args) {
 		int aLength = args.length;
+
+		// normalize arguments
+		if (aLength > 0) {
+			for (int i = 0; i < aLength; i++) {
+				args[i] = args[i].toLowerCase();
+			}
+		}
+		
 		if (aLength == 0) {
 
 			/***
@@ -77,23 +86,26 @@ public class CexCommands {
 			
 			sender.sendMessage(ChatColor.WHITE + langConfigAvailableNodes + p.getConfig().getKeys(false).toString());
 			sender.sendMessage(ChatColor.WHITE + langConfigAvailableNodesUsage);
-		} else if ((aLength >= 3) && args[0].equals("config")) {
+		} else if (
+					((aLength >= 3) && args[0].equals("config"))
+					||
+					((aLength >= 2) && (args[0].equals("cs") || args[0].equals("cg")))
+				) {
 			
 			/***
 			 * CONFIGURATION GETTING / SETTING
 			 */
 			
-			if (!args[1].equals("get") && !args[1].equals("set")) {
+			if (!args[1].equals("get") && !args[1].equals("set") && !args[0].equals("cs") && !args[0].equals("cg")) {
 				// unrecognized config action
 				sender.sendMessage(ChatColor.RED + langConfigUnrecognizedAction);
 			} else {
-				if (args[1].equals("get")) {
+				if (args[1].equals("get") || args[0].equals("cg")) {
 					
 					/***
 					 * GETTING CONFIG VALUES
 					 */
-					
-					switch (args[2].toLowerCase()) {
+					switch ((args[0].equals("cg") ? args[1] : args[2])) {
 						case "disableversion":	sender.sendMessage(ChatColor.YELLOW + langConfigVersionDisableStatus + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
 												break;
 						
@@ -103,39 +115,48 @@ public class CexCommands {
 						default:				sender.sendMessage(ChatColor.RED + langConfigUnrecognized);
 												break;
 					}
-				} else if (args[1].equals("set")) {
+				} else if (args[1].equals("set") || args[0].equals("cs")) {
 					
 					/***
 					 * SETTING CONFIG VALUES
 					 */
-					
-					switch (args[2].toLowerCase()) {
-						case "disableversion":	p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
-												p.saveConfig();
-												sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
-												break;
-						
-						case "disabledcommands":if (args[3].equals("add") && !args[4].equals(null)) {
-													List<Object> l = p.getConfig().getList("disabledCommands");
-													l.add(args[4]);
-													p.getConfig().set("disabledCommands", l);
+					if ((args[0].equals("cs") && (aLength == 4)) || (aLength == 5)) {
+						switch ((args[0].equals("cs") ? args[1] : args[2])) {
+							case "disableversion":	p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-												} else if (args[3].equals("remove") && !args[4].equals(null)) {
-													List<Object> l = p.getConfig().getList("disabledCommands");
-													l.remove(args[4]);
-													p.getConfig().set("disabledCommands", l);
-													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-												} else {
-													sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError1);
-													sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError2);
-													sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError3);
-												}
-												break;
-												
-						default:				sender.sendMessage(ChatColor.RED + langConfigUnrecognized);
-												break;
+													sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
+													break;
+							
+							case "disabledcommands":if (args[3].equals("add") || args[2].equals("add")) {
+														List<Object> l = p.getConfig().getList("disabledCommands");
+														String toAdd = args[2].equals("add") ? args[3] : args[4];
+														if (!l.contains(toAdd)) {
+															l.add(args[2].equals("add") ? args[3] : args[4]);
+															p.getConfig().set("disabledCommands", l);
+															p.saveConfig();
+														}
+														sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
+													} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
+														List<Object> l = p.getConfig().getList("disabledCommands");
+														String toRemove = args[2].equals("remove") ? args[3] : args[4];
+														if (l.contains(toRemove)) {
+															l.remove(args[2].equals("remove") ? args[3] : args[4]);
+															p.getConfig().set("disabledCommands", l);
+															p.saveConfig();
+														}
+														sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
+													} else {
+														sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError1);
+														sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError2);
+														sender.sendMessage(ChatColor.RED + langConfigUnspecifiedError3);
+													}
+													break;
+													
+							default:				sender.sendMessage(ChatColor.RED + langConfigUnrecognized);
+													break;
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + langConfigNotEnoughParams);
 					}
 				}
 			}

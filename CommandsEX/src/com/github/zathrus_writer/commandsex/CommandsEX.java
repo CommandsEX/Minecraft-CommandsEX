@@ -165,16 +165,21 @@ public class CommandsEX extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String cmdAlias, String[] args) {
 		String cmd = command.getName().toLowerCase();
+		String alias = cmdAlias.toLowerCase();
 		
 		// first of all - check if this command shouldn't be ignored by our plugin
-		if (this.ignoredCommands.contains(cmd)) {
+		if (this.ignoredCommands.contains(cmd) || this.ignoredCommands.contains(alias)) {
 			return true;
 		}
 		
 		// check if the command name if present in our list of commands, and if so, pass action to the appropriate function
 		for (String sCommand : this.commands) {
 			// check for the correct class to be used
-			if (sCommand.startsWith("command_" + cmd + ":")) {
+			if (
+				((cmd.equals("cex") || cmd.startsWith("cex_")) && sCommand.startsWith("command_" + cmd + ":"))
+				||
+				((sCommand.startsWith("command_cex_" + cmd + ":")) || (sCommand.startsWith("command_cex_" + alias + ":")))
+				) {
 				String[] s = sCommand.split(":");
 				try {
 					// the only exception to static calls for now - calling /cex command directly from this class

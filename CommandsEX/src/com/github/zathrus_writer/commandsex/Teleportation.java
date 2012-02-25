@@ -95,7 +95,7 @@ public class Teleportation {
 	 * @param args
 	 * @return
 	 */
-	public static Boolean command_tp(CommandSender sender, String alias, String[] args) {
+	public static Boolean command_cex_tp(CommandSender sender, String alias, String[] args) {
 		if (CommandsEX.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
@@ -122,7 +122,7 @@ public class Teleportation {
 	 * @param args
 	 * @return
 	 */
-	public static Boolean command_tphere(CommandSender sender, String alias, String[] args) {
+	public static Boolean command_cex_tphere(CommandSender sender, String alias, String[] args) {
 		if (CommandsEX.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
@@ -141,7 +141,7 @@ public class Teleportation {
 	 * @param args
 	 * @return
 	 */
-	public static Boolean command_tpto(CommandSender sender, String alias, String[] args) {
+	public static Boolean command_cex_tpto(CommandSender sender, String alias, String[] args) {
 		if (CommandsEX.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
@@ -160,7 +160,7 @@ public class Teleportation {
 	 * @param args
 	 * @return
 	 */
-	public static Boolean command_tploc(CommandSender sender, String alias, String[] args) {
+	public static Boolean command_cex_tploc(CommandSender sender, String alias, String[] args) {
 		if (CommandsEX.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
