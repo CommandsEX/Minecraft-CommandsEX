@@ -34,7 +34,7 @@ public class CexCommands {
 	public static void init(CommandsEX p) {
 		// load config file and write defaults in case the file doesn't exist
 		p.getConfig().options().copyDefaults(true); p.saveConfig();
-		
+
 		// load list of ignored commands
 		p.ignoredCommands = p.getConfig().getList("disabledCommands");
 	}
@@ -78,6 +78,12 @@ public class CexCommands {
 			} else {
 				LOGGER.warning("["+ CommandsEX.pdfFile.getName() +"]: Player " + sender.getName() + " tried to execute reload command without permission!");
 			}
+		} else if ((aLength == 1) && (args[0].equals("?") || args[0].equals("help"))) {
+
+			/***
+			 * USAGE HELP REQUEST
+			 */
+			CommandsEX.showCommandHelpAndUsage(sender, "cex", "cex");
 		} else if ((aLength < 3) && args[0].equals("config")) {
 			
 			/***

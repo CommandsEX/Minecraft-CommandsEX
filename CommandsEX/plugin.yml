@@ -26,31 +26,37 @@ permissions:
     description: Allows player to reload CommandsEX configuration from disk (/cex reload).
 commands:
   cex:
-    description: Displays version information (if enabled in config) and allows for viewing / changing config (based on permissions).
-    usage:  /<command>
+    description: Displays version information and allows getting/setting configuration options.
+    usage: |
+           /<command>
+           /<command> config -> lists available options
+           /<command> config get <option>
+           /<command> cg <option>
+           /<command> config set <option> [add|remove <value>]
+           /<command> cs <option> [add|remove <value>]
   cex_tp:
     description: Teleports one player to another.
-    usage:  /<command> Player1 [Player2]
+    usage:  /<command> <Player1> [Player2]
     permission: cex.tp
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tp,tele,teleport,tp2p]
   cex_tpto:
     description: Teleports the active player to another player.
-    usage:  /<command> Player
+    usage: /<command> <Player>
     permission: cex.tpto
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tpto]
   cex_tphere:
     description: Teleports another player to the active player.
-    usage:  /<command> Player
+    usage: /<command> <Player>
     permission: cex.tphere
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tphere]
   cex_tploc:
     description: Teleports the player to the given XYZ coordinates.
-    usage:  |
-            /<command> X Y Z
-            /<command> X,Y,Z
+    usage: |
+           /<command> <X> <Y> <Z>
+           /<command> <X,Y,Z>
     permission: cex.tploc
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tploc]

@@ -7,12 +7,16 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommandYamlParser;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandsEX extends JavaPlugin {
 
+	// our plugin :-)
+	public static CommandsEX plugin;
+	
 	// regex to check if String is a number
 	public final static String intRegex = "(-)?(\\d){1,10}(\\.(\\d){1,10})?";
 	
@@ -25,6 +29,8 @@ public class CommandsEX extends JavaPlugin {
 	public final static String langEnableMsg = " has successfully started.";
 	public final static String langDisableMsg = " has been disabled.";
 	public final static String langVersion = "version";
+	public final static String langUsage = "Usage";
+	public final static String langPlayerCommand = "PLAYER COMMAND";
 	public final static String langInternalError = "An internal error has occured. Please try again or contact an administrator.";
 	
 	// classnames of all our plugin components
@@ -43,6 +49,13 @@ public class CommandsEX extends JavaPlugin {
 	public static PluginDescriptionFile pdfFile;
 	
 
+	/***
+	 * class constructor
+	 */
+	public CommandsEX() {
+		plugin = this;
+	}
+	
 	/***
 	 * Checks if the CommandSender is a Player, gives the sender error message if he's not and returns Boolean value.
 	 * @param cs
@@ -181,6 +194,12 @@ public class CommandsEX extends JavaPlugin {
 				((sCommand.startsWith("command_cex_" + cmd + ":")) || (sCommand.startsWith("command_cex_" + alias + ":")))
 				) {
 				String[] s = sCommand.split(":");
+
+				// log the command if invoked by a player
+				if (sender instanceof Player) {
+					LOGGER.info("[" + langPlayerCommand + "] /" + command.getName() + " " + args.toString());
+				}
+
 				try {
 					// the only exception to static calls for now - calling /cex command directly from this class
 					if (cmd.equals("cex")) {
@@ -227,5 +246,31 @@ public class CommandsEX extends JavaPlugin {
 	public Boolean reloadConf() {
 		reloadConfig();
 		return true;
+	}
+
+	
+	/***
+	 * Gets help text and usage for a command and returns it in a 2-dimensional array for help purposes.
+	 * @param commandName
+	 * @return
+	 */
+	public static void showCommandHelpAndUsage(CommandSender sender, String commandName, String alias) {
+		List<Command> cmdList = PluginCommandYamlParser.parse(plugin);
+		for(int i = 0; i <= cmdList.size() - 1; i++) {
+			if (cmdList.get(i).getLabel().equals(commandName)) {
+				sender.sendMessage(ChatColor.WHITE + cmdList.get(i).getDescription());
+				String usage = cmdList.get(i).getUsage().replaceAll("<command>", alias);
+				if (usage.contains("\n") || usage.contains("\r")) {
+					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
+					String[] splitted = usage.split("\n");
+					sender.sendMessage(ChatColor.WHITE + langUsage + ":");
+					for (String rVal : splitted) {
+						sender.sendMessage(ChatColor.WHITE + rVal);
+					}
+				} else {
+					sender.sendMessage(ChatColor.WHITE + langUsage + ": " + usage);
+				}
+			}
+	    }
 	}
 }

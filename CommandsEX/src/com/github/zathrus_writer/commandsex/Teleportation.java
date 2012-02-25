@@ -22,9 +22,11 @@ public class Teleportation {
 	public final static String langTpCoordsMustBeNumeric = "Teleport coordinates must be numeric.";
 	public final static String langTpInvalidArgument = "Coordinates must be a comma-separated value (e.g. 0,0,0)";
 	public final static String langTpTooManyArguments = "Please use max 2 player names.";
-	public final static String langTpNoTeleporters = "Please enter the name of the player to teleport.";
 	public final static String langTpInvalidPlayer = "Couldn't find the requested player...";
 	public final static String langTpCannotTeleportSelf = "A player cannot be teleported to himself...";
+	
+	// the CommandsEx plugin
+	public static CommandsEX plugin;
 	
 
 	/***
@@ -32,7 +34,7 @@ public class Teleportation {
 	 * @param plugin
 	 */
 	public static void init(CommandsEX p) {
-		// nothing to do :-)
+		plugin = p;
 	}
 	
 	
@@ -41,16 +43,18 @@ public class Teleportation {
 	 * @param sender
 	 * @param args
 	 * @param command
+	 * @param alias
 	 * @return
 	 */
-	public static Boolean tp_common(Player player, String[] args, String command) {
+	public static Boolean tp_common(CommandSender sender, String[] args, String command, String alias) {
+		Player player = (Player)sender;
 		// check the number of arguments
 		int aLength = args.length;
 		if (aLength > 2) {
 			player.sendMessage(ChatColor.RED + langTpTooManyArguments);
 			return true;
 		} else if (aLength == 0) {
-			player.sendMessage(ChatColor.RED + langTpNoTeleporters);
+			CommandsEX.showCommandHelpAndUsage(sender, "cex_" + command, alias);
 			return true;
 		}
 
@@ -103,12 +107,12 @@ public class Teleportation {
 			if (args.length > 1) {
 				// teleporting players one to another
 				if (CommandsEX.checkPerms(player)) {
-					tp_common(player, args, "tp");
+					tp_common(sender, args, "tp", alias);
 				}
 			} else {
 				// teleporting sender to another player
 				if (CommandsEX.checkPerms(player, "OR", "cex.tp", "cex.tpto")) {
-					tp_common(player, args, "tp");
+					tp_common(sender, args, "tp", alias);
 				}
 			}
 		}
@@ -128,7 +132,7 @@ public class Teleportation {
 
 			// check permissions and call to action
 			if (CommandsEX.checkPerms(player, "OR", "cex.tp", "cex.tphere")) {
-				tp_common(player, args, "tphere");
+				tp_common(sender, args, "tphere", alias);
 			}
 		}
         return true;
@@ -147,7 +151,7 @@ public class Teleportation {
 
 			// check permissions and call to action
 			if (CommandsEX.checkPerms(player, "OR", "cex.tp", "cex.tpto")) {
-				tp_common(player, args, "tp");
+				tp_common(sender, args, "tp", alias);
 			}
 		}
         return true;
@@ -179,7 +183,7 @@ public class Teleportation {
 		    	
 		        if (args.length <= 0) {
 		        	// no coordinates
-		        	player.sendMessage(ChatColor.RED + langTpNoCoords);
+		        	CommandsEX.showCommandHelpAndUsage(sender, "cex_tploc", alias);
 		        } else if (args.length != 3) {
 		        	// too few or too many arguments
 		        	player.sendMessage(ChatColor.RED + langTpMissingCoords);
