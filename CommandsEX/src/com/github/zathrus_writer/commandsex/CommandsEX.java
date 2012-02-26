@@ -33,15 +33,6 @@ public class CommandsEX extends JavaPlugin {
 	public final static String langPlayerCommand = "PLAYER COMMAND";
 	public final static String langInternalError = "An internal error has occured. Please try again or contact an administrator.";
 	
-	// classnames of all our plugin components
-	// NOTE: DO NOT REMOVE CommandsEX from the beginning or your /cex function will stop working
-	public final String[] extenders = {"CommandsEX", "Teleportation", "CexCommands"};
-
-	// list of all available commands for our plugin, dynamically expanded via extending classes, used for commands handling
-	// note: the list is stored in the format of "methodName:className", so we can easily implement onCommand which will binary-search
-	//       through these values for the "command:" string and then we can dynamically invoke our function along with our parameters
-	public List<String> commands = new ArrayList<String>();
-	
 	// list of commands this plugin should ignore - values come from a config file
 	public List<Object> ignoredCommands = new ArrayList<Object>();
 	
@@ -128,40 +119,10 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-		// load all extending classes we have listed in extenders array, call their init() functions
-		// and add all functions they offer for users into our commands list
-		Class<?>[] proto = new Class[] {this.getClass()};
-		Object[] params = new Object[] {this};
-
-		for (String cName : this.extenders) {
-			try {
-				// no need to create instances here, just call init() and let them all live in peace
-				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + cName);
-				if (!cName.equals("CommandsEX")) {
-					c.getDeclaredMethod("init", proto).invoke(null, params);
-				}
-
-				// we only add public methods that starts on underscore (_) as command functions
-				Method[] methods = c.getDeclaredMethods();
-				for (Method m : methods) {
-					String n = m.getName();
-					if (n.startsWith("command_")) {
-						this.commands.add(n + ":" + c.getSimpleName());
-					}
-				}
-			} catch(ClassNotFoundException e) {
-				// all ok if class was not found, this is a modular plugin
-		    } catch(Exception e) {
-		    	// all other errors, we need to log these to console
-		    	LOGGER.severe("Error loading class '" + cName + "' (" + e.getMessage() + ")");
-		    }
-		}
-		
 		pdfFile = this.getDescription();
 		LOGGER.info("[" + pdfFile.getName() + "] " + langVersion + " " + pdfFile.getVersion() + langEnableMsg);
 	}
 
-	
 	/***
 	 * OnDisable
 	 */
@@ -169,7 +130,6 @@ public class CommandsEX extends JavaPlugin {
 	public void onDisable() {
 		LOGGER.info("[" + this.getDescription().getName() + "] " + langDisableMsg);
 	}
-	
 	
 	/***
 	 * NOTE: there is some room for improvement here, since iterating list of all commands isn't the quickest of searches
@@ -185,44 +145,28 @@ public class CommandsEX extends JavaPlugin {
 			return true;
 		}
 		
-		// check if the command name if present in our list of commands, and if so, pass action to the appropriate function
-		for (String sCommand : this.commands) {
-			// check for the correct class to be used
-			if (
-				((cmd.equals("cex") || cmd.startsWith("cex_")) && sCommand.startsWith("command_" + cmd + ":"))
-				||
-				((sCommand.startsWith("command_cex_" + cmd + ":")) || (sCommand.startsWith("command_cex_" + alias + ":")))
-				) {
-				String[] s = sCommand.split(":");
-
-				// log the command if invoked by a player
-				if (sender instanceof Player) {
-					LOGGER.info("[" + langPlayerCommand + "] /" + command.getName() + " " + args.toString());
-				}
-
-				try {
-					// the only exception to static calls for now - calling /cex command directly from this class
-					if (cmd.equals("cex")) {
-						return this.command_cex(sender, cmdAlias, args);
-					} else {
-						Class<?>[] proto = new Class[] {CommandSender.class, String.class, String[].class};
-						Object[] params = new Object[] {sender, cmdAlias, args};
-						Class<?> c = Class.forName("com.github.zathrus_writer.commandsex." + s[1]);
-						Method method = c.getDeclaredMethod(s[0], proto);
-						Object ret = method.invoke(null, params);
-						return Boolean.TRUE.equals(ret);
-					}
-				} catch (Throwable e) {
-					sender.sendMessage(ChatColor.RED + langInternalError);
-					LOGGER.severe("Couldn't handle function call '" + cmd + "' (" + s[0] + ") for class '" + s[1] + "', error returned: " + e.getMessage());
-		    		return true;
-		    	}
-			}
+		// log the command if invoked by a player
+		if (sender instanceof Player) {
+			LOGGER.info("[" + langPlayerCommand + "] /" + cmd + " " + args.toString());
 		}
-		// we should never get here, except for errors
-		sender.sendMessage(ChatColor.RED + langInternalError);
-		LOGGER.severe("Command '" + cmd + "' did not match any known function for player "+ sender.getName() +"!");
-        return true;
+
+		try {
+			// the only exception to dynamic calls for now - calling /cex command directly from this class
+			if (cmd.equals("cex")) {
+				return this.command_cex(sender, cmdAlias, args);
+			} else {
+				Class<?>[] proto = new Class[] {CommandSender.class, String.class, String[].class};
+				Object[] params = new Object[] {sender, cmdAlias, args};
+				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.commands.Command_" + cmd);
+				Method method = c.getDeclaredMethod("run", proto);
+				Object ret = method.invoke(null, params);
+				return Boolean.TRUE.equals(ret);
+			}
+		} catch (Throwable e) {
+			sender.sendMessage(ChatColor.RED + langInternalError);
+			LOGGER.severe("Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
+    		return true;
+    	}
 	}
 	
 	
