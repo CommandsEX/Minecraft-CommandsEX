@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import static com.github.zathrus_writer.commandsex.CommandsEX._;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -26,7 +27,7 @@ public class Command_cex_tploc extends Teleportation {
 		        		args = args[0].split(",");
 		        	} else {
 		        		// no commas found in the argument, return error
-		        		player.sendMessage(ChatColor.RED + langTpInvalidArgument);
+		        		player.sendMessage(ChatColor.RED + _("tpInvalidArgument"));
 		        		return false;
 		        	}
 		        }
@@ -36,17 +37,17 @@ public class Command_cex_tploc extends Teleportation {
 		        	CommandsEX.showCommandHelpAndUsage(sender, "cex_tploc", alias);
 		        } else if (args.length != 3) {
 		        	// too few or too many arguments
-		        	player.sendMessage(ChatColor.RED + langTpMissingCoords);
+		        	player.sendMessage(ChatColor.RED + _("tpMissingCoords"));
 		        	return false;
 		        } else if (!args[0].matches(CommandsEX.intRegex) || !args[1].matches(CommandsEX.intRegex) || !args[2].matches(CommandsEX.intRegex)) {
 		        	// one of the coordinates is not a number
-		        	player.sendMessage(ChatColor.RED + langTpCoordsMustBeNumeric);
+		        	player.sendMessage(ChatColor.RED + _("tpCoordsMustBeNumeric"));
 		        } else {
 		        	// all ok here, we can TP the player
 		        	try {
 		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
 		        	} catch (Exception e) {
-		        		player.sendMessage(ChatColor.RED + CommandsEX.langInternalError);
+		        		player.sendMessage(ChatColor.RED + _("internalError"));
 		        		LOGGER.severe("["+ CommandsEX.pdfFile.getName() +"]: TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
 		        		return false;
 		        	}

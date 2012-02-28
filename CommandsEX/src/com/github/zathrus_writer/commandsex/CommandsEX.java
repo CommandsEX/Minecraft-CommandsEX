@@ -2,7 +2,12 @@ package com.github.zathrus_writer.commandsex;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,20 +28,16 @@ public class CommandsEX extends JavaPlugin {
 	// logger
 	public final static Logger LOGGER = Logger.getLogger("Minecraft");
 	
-	// language constants
-	public final static String langInWorldCommandOnly = "This command can only be used in-world.";
-	public final static String langInsufficientPerms = "You don't have sufficient permissions to use this command.";
-	public final static String langEnableMsg = " has successfully started.";
-	public final static String langDisableMsg = " has been disabled.";
-	public final static String langVersion = "version";
-	public final static String langUsage = "Usage";
-	public final static String langInternalError = "An internal error has occured. Please try again or contact an administrator.";
-	
 	// list of commands this plugin should ignore - values come from a config file
 	public List<Object> ignoredCommands = new ArrayList<Object>();
 	
 	// plugin description file, used at least on 2 places, so it's here :-P
 	public static PluginDescriptionFile pdfFile;
+	
+	// translations
+	public transient static String defaultLocale; // the default locale from config 
+	public static Map<String, ResourceBundle> langs = new HashMap<String, ResourceBundle>(); // e.g. ["en", English bundle] .. OR .. ["en_us", English bundle]
+	public static Map<String, String> perUserLocale = new HashMap<String, String>(); // e.g. ["Zathrus_Writer", "en_us"]
 	
 
 	/***
@@ -45,6 +46,44 @@ public class CommandsEX extends JavaPlugin {
 	public CommandsEX() {
 		plugin = this;
 	}
+	
+	
+	/***
+	 * Translates a given string into either default locale or player's set locale.
+	 * @param s
+	 * @param player
+	 * @return
+	 */
+	public static String _(String s, final String[]... playerName) {
+		String loc = defaultLocale;
+		
+		if ((playerName.length == 1) && perUserLocale.containsKey(playerName[0])) {
+			loc = perUserLocale.get(playerName[0]);
+		}
+
+		// try to get a translation or failsafe with the same String as we get to translate
+		try {
+			// load the translation locale if not loaded yet
+			if (!langs.containsKey(loc)) {
+				if (loc.contains("_")) {
+					String[] localeSplit = loc.split("_");
+					langs.put(loc, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
+				} else {
+					langs.put(loc, ResourceBundle.getBundle("lang", new Locale(loc)));
+				}
+			}
+			
+			// translate
+			s = langs.get(loc).getString(s);
+		} catch (MissingResourceException ex) {
+			LOGGER.warning("Missing translation of '" + s + "' for language '" + loc + "'");
+		} catch (Exception e) {
+			LOGGER.severe("Translation failed for message '" + s + "', language '" + loc + "'");
+		}
+
+		return s;
+	}
+	
 	
 	/***
 	 * Checks if the CommandSender is a Player, gives the sender error message if he's not and returns Boolean value.
@@ -56,7 +95,7 @@ public class CommandsEX extends JavaPlugin {
 			return true;
 		}
 
-		cs.sendMessage(ChatColor.RED + langInWorldCommandOnly);
+		cs.sendMessage(ChatColor.RED + _("inWorldCommandOnly"));
 		return false;
 	}
 	
@@ -91,7 +130,7 @@ public class CommandsEX extends JavaPlugin {
 					
 					// all permissions must be true if we're handling "AND", check it here
 					if (customPerm[0].equals("AND") && !hasPerms) {
-						player.sendMessage(ChatColor.RED + langInsufficientPerms);
+						player.sendMessage(ChatColor.RED + _("insufficientPerms"));
 						return false;
 					}
 				}
@@ -105,7 +144,7 @@ public class CommandsEX extends JavaPlugin {
 		}
 		
 		if (!hasPerms) {
-			player.sendMessage(ChatColor.RED + langInsufficientPerms);
+			player.sendMessage(ChatColor.RED + _("insufficientPerms"));
 		}
 		
 		return hasPerms;
@@ -117,8 +156,29 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
+		// save default config if not saved yet
+		getConfig().options().copyDefaults(true);
+		saveConfig();
+
+		// try to set a default locale from our config file, otherwise go by English
+		try {
+			defaultLocale = getConfig().getString("defaultLang").toLowerCase();
+			if (defaultLocale.contains("_")) {
+				String[] localeSplit = defaultLocale.split("_");
+				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
+			} else {
+				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(defaultLocale)));
+			}
+		} catch (Exception e) {
+			LOGGER.warning("Unable to load locale " + defaultLocale + ", trying English");
+			// something went wrong, load the default English locale
+			defaultLocale = "en";
+			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
+		}
+		
 		pdfFile = this.getDescription();
-		LOGGER.info("[" + pdfFile.getName() + "] " + langVersion + " " + pdfFile.getVersion() + langEnableMsg);
+		LOGGER.info("[" + pdfFile.getName() + "] " + _("startupMessage") + " " + defaultLocale);
+		LOGGER.info("[" + pdfFile.getName() + "] " + _("version") + " " + pdfFile.getVersion() + " " + _("enableMsg"));
 	}
 
 	/***
@@ -126,7 +186,7 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		LOGGER.info("[" + this.getDescription().getName() + "] " + langDisableMsg);
+		LOGGER.info("[" + this.getDescription().getName() + "] " + _("disableMsg"));
 	}
 	
 	/***
@@ -167,7 +227,7 @@ public class CommandsEX extends JavaPlugin {
 				return Boolean.TRUE.equals(ret);
 			}
 		} catch (Throwable e) {
-			sender.sendMessage(ChatColor.RED + langInternalError);
+			sender.sendMessage(ChatColor.RED + _("internalError"));
 			LOGGER.severe("Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
     		return true;
     	}
@@ -211,12 +271,12 @@ public class CommandsEX extends JavaPlugin {
 				if (usage.contains("\n") || usage.contains("\r")) {
 					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
 					String[] splitted = usage.split("\n");
-					sender.sendMessage(ChatColor.WHITE + langUsage + ":");
+					sender.sendMessage(ChatColor.WHITE + _("usage") + ":");
 					for (String rVal : splitted) {
 						sender.sendMessage(ChatColor.WHITE + rVal);
 					}
 				} else {
-					sender.sendMessage(ChatColor.WHITE + langUsage + ": " + usage);
+					sender.sendMessage(ChatColor.WHITE + _("usage") + ": " + usage);
 				}
 			}
 	    }

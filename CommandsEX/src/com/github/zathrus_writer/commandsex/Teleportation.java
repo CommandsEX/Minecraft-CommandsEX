@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex;
 
+import static com.github.zathrus_writer.commandsex.CommandsEX._;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -14,15 +15,6 @@ import org.bukkit.entity.Player;
  */
 public class Teleportation {
 	public final static Logger LOGGER = Logger.getLogger("Minecraft");
-
-	// language constants
-	public final static String langTpNoCoords = "Please enter coordinates.";
-	public final static String langTpMissingCoords = "Please enter all 3 teleport coordinates";
-	public final static String langTpCoordsMustBeNumeric = "Teleport coordinates must be numeric.";
-	public final static String langTpInvalidArgument = "Coordinates must be a comma-separated value (e.g. 0,0,0)";
-	public final static String langTpTooManyArguments = "Please use max 2 player names.";
-	public final static String langTpInvalidPlayer = "Couldn't find the requested player...";
-	public final static String langTpCannotTeleportSelf = "A player cannot be teleported to himself...";
 	
 	// the CommandsEx plugin
 	public static CommandsEX plugin;
@@ -50,7 +42,7 @@ public class Teleportation {
 		// check the number of arguments
 		int aLength = args.length;
 		if (aLength > 2) {
-			player.sendMessage(ChatColor.RED + langTpTooManyArguments);
+			player.sendMessage(ChatColor.RED + _("pTooManyArguments"));
 			return true;
 		} else if (aLength == 0) {
 			CommandsEX.showCommandHelpAndUsage(sender, "cex_" + command, alias);
@@ -68,13 +60,13 @@ public class Teleportation {
 		}
 
 		if ((player1 == null) || (player2 == null)) {
-			player.sendMessage(ChatColor.RED + langTpInvalidPlayer);
+			player.sendMessage(ChatColor.RED + _("tpInvalidPlayer"));
 			return true;
 		}
 		
 		// also, we cannot teleport player to himself
 		if (player1.getName().equals(player2.getName())) {
-			player.sendMessage(ChatColor.RED + langTpCannotTeleportSelf);
+			player.sendMessage(ChatColor.RED + _("tpCannotTeleportSelf"));
 			return true;
 		}
 		

@@ -7,3 +7,8 @@ logCommands: true
 
 # provide a list of CommandsEX commands that you want to completely disable from being used
 disabledCommands: []
+
+# default language to be used for all players until they switch
+# this should be a valid ISO Language Code, or Language and Country code
+# example: en, en_us, en_gb
+defaultLang: en
