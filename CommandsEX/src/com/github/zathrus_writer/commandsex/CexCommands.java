@@ -156,6 +156,7 @@ public class CexCommands {
 							case "defaultlang":		if (args[2] != null) {
 														p.getConfig().set("defaultLang", args[2]);
 														p.saveConfig();
+														CommandsEX.defaultLocale = args[2];
 														sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 													} else {
 														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1"));

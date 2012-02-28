@@ -65,11 +65,29 @@ public class CommandsEX extends JavaPlugin {
 		try {
 			// load the translation locale if not loaded yet
 			if (!langs.containsKey(loc)) {
-				if (loc.contains("_")) {
-					String[] localeSplit = loc.split("_");
-					langs.put(loc, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
-				} else {
-					langs.put(loc, ResourceBundle.getBundle("lang", new Locale(loc)));
+				try {
+					if (loc.contains("_")) {
+						String[] localeSplit = loc.split("_");
+						langs.put(loc, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1]), new FileResClassLoader(CommandsEX.class.getClassLoader(), plugin)));
+					} else {
+						langs.put(loc, ResourceBundle.getBundle("lang", new Locale(defaultLocale), new FileResClassLoader(CommandsEX.class.getClassLoader(), plugin)));
+					}
+				} catch (MissingResourceException r) {
+					// custom file not found, try internals
+					try {
+						if (loc.contains("_")) {
+							String[] localeSplit = loc.split("_");
+							langs.put(loc, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
+						} else {
+							langs.put(loc, ResourceBundle.getBundle("lang", new Locale(loc)));
+						}
+					} catch (Exception e) {
+						// internal nor custom file found, revert to default
+						LOGGER.warning("Unable to load locale " + loc + ", trying English");
+						// something went wrong, load the default English locale
+						loc = "en";
+						langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
+					}
 				}
 			}
 			
@@ -78,6 +96,10 @@ public class CommandsEX extends JavaPlugin {
 		} catch (MissingResourceException ex) {
 			LOGGER.warning("Missing translation of '" + s + "' for language '" + loc + "'");
 		} catch (Exception e) {
+			// unspecified bad fail, revert to English momentarily to prevent further bad fails
+			plugin.getConfig().set("defaultLang", "en");
+			plugin.saveConfig();
+			defaultLocale = "en";
 			LOGGER.severe("Translation failed for message '" + s + "', language '" + loc + "'");
 		}
 
@@ -161,19 +183,33 @@ public class CommandsEX extends JavaPlugin {
 		saveConfig();
 
 		// try to set a default locale from our config file, otherwise go by English
+		// ... first try custom file from our plugin's data folder
+		defaultLocale = getConfig().getString("defaultLang").toLowerCase();
 		try {
-			defaultLocale = getConfig().getString("defaultLang").toLowerCase();
 			if (defaultLocale.contains("_")) {
 				String[] localeSplit = defaultLocale.split("_");
-				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
+				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1]), new FileResClassLoader(CommandsEX.class.getClassLoader(), this)));
 			} else {
-				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(defaultLocale)));
+				langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(defaultLocale), new FileResClassLoader(CommandsEX.class.getClassLoader(), this)));
 			}
-		} catch (Exception e) {
-			LOGGER.warning("Unable to load locale " + defaultLocale + ", trying English");
-			// something went wrong, load the default English locale
-			defaultLocale = "en";
-			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
+		} catch (MissingResourceException r) {
+			// custom file not found, try internals
+			try {
+				if (defaultLocale.contains("_")) {
+					String[] localeSplit = defaultLocale.split("_");
+					langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1])));
+				} else {
+					langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(defaultLocale)));
+				}
+			} catch (Exception e) {
+				// internal nor custom file found, revert to default and reset config variable
+				getConfig().set("defaultLang", "en");
+				saveConfig();
+				LOGGER.warning("Unable to load locale " + defaultLocale + ", trying English");
+				// something went wrong, load the default English locale
+				defaultLocale = "en";
+				langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
+			}
 		}
 		
 		pdfFile = this.getDescription();
