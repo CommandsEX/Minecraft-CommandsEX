@@ -12,3 +12,7 @@ disabledCommands: []
 # this should be a valid ISO Language Code, or Language and Country code
 # example: en, en_us, en_gb
 defaultLang: en
+
+# list of all languages that will be available to your users,
+# should you decide to allow them to change their language on per-user basis
+availableLangs: [en, sk]

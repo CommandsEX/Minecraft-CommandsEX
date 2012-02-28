@@ -24,6 +24,9 @@ permissions:
   cex.reload:
     default: op
     description: Allows player to reload CommandsEX configuration from disk (/cex reload).
+  cex.lang:
+    default: true
+    description: Allows player to change their language and display list of available languages to change to.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -60,3 +63,9 @@ commands:
     permission: cex.tploc
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tploc]
+  cex_lang:
+    description: Displays list of available languages or changes language for the player.
+    usage: /<command> [language]
+    permission: cex.lang
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [lang]

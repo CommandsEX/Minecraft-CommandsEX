@@ -54,11 +54,11 @@ public class CommandsEX extends JavaPlugin {
 	 * @param player
 	 * @return
 	 */
-	public static String _(String s, final String[]... playerName) {
+	public static String _(String s, final String playerName) {
 		String loc = defaultLocale;
 		
-		if ((playerName.length == 1) && perUserLocale.containsKey(playerName[0])) {
-			loc = perUserLocale.get(playerName[0]);
+		if (!playerName.equals("") && !playerName.toLowerCase().equals("console") && perUserLocale.containsKey(playerName)) {
+			loc = perUserLocale.get(playerName);
 		}
 
 		// try to get a translation or failsafe with the same String as we get to translate
@@ -70,7 +70,7 @@ public class CommandsEX extends JavaPlugin {
 						String[] localeSplit = loc.split("_");
 						langs.put(loc, ResourceBundle.getBundle("lang", new Locale(localeSplit[0], localeSplit[1]), new FileResClassLoader(CommandsEX.class.getClassLoader(), plugin)));
 					} else {
-						langs.put(loc, ResourceBundle.getBundle("lang", new Locale(defaultLocale), new FileResClassLoader(CommandsEX.class.getClassLoader(), plugin)));
+						langs.put(loc, ResourceBundle.getBundle("lang", new Locale(loc), new FileResClassLoader(CommandsEX.class.getClassLoader(), plugin)));
 					}
 				} catch (MissingResourceException r) {
 					// custom file not found, try internals
@@ -88,6 +88,12 @@ public class CommandsEX extends JavaPlugin {
 						loc = "en";
 						langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 					}
+				} catch (Exception e) {
+					// we should not get here, but if we do... revert to default :-)
+					LOGGER.warning("Unable to load locale " + loc + ", trying English");
+					// something went wrong, load the default English locale
+					loc = "en";
+					langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 				}
 			}
 			
@@ -117,7 +123,7 @@ public class CommandsEX extends JavaPlugin {
 			return true;
 		}
 
-		cs.sendMessage(ChatColor.RED + _("inWorldCommandOnly"));
+		cs.sendMessage(ChatColor.RED + _("inWorldCommandOnly", ""));
 		return false;
 	}
 	
@@ -152,7 +158,7 @@ public class CommandsEX extends JavaPlugin {
 					
 					// all permissions must be true if we're handling "AND", check it here
 					if (customPerm[0].equals("AND") && !hasPerms) {
-						player.sendMessage(ChatColor.RED + _("insufficientPerms"));
+						player.sendMessage(ChatColor.RED + _("insufficientPerms", player.getName()));
 						return false;
 					}
 				}
@@ -166,7 +172,7 @@ public class CommandsEX extends JavaPlugin {
 		}
 		
 		if (!hasPerms) {
-			player.sendMessage(ChatColor.RED + _("insufficientPerms"));
+			player.sendMessage(ChatColor.RED + _("insufficientPerms", player.getName()));
 		}
 		
 		return hasPerms;
@@ -210,11 +216,19 @@ public class CommandsEX extends JavaPlugin {
 				defaultLocale = "en";
 				langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 			}
+		} catch (Exception e) {
+			// something strange happened, revert to default and reset config variable
+			getConfig().set("defaultLang", "en");
+			saveConfig();
+			LOGGER.severe("Unable to load locale " + defaultLocale + ", trying English");
+			// something went wrong, load the default English locale
+			defaultLocale = "en";
+			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 		}
 		
 		pdfFile = this.getDescription();
-		LOGGER.info("[" + pdfFile.getName() + "] " + _("startupMessage") + " " + defaultLocale);
-		LOGGER.info("[" + pdfFile.getName() + "] " + _("version") + " " + pdfFile.getVersion() + " " + _("enableMsg"));
+		LOGGER.info("[" + pdfFile.getName() + "] " + _("startupMessage", "") + " " + defaultLocale);
+		LOGGER.info("[" + pdfFile.getName() + "] " + _("version", "") + " " + pdfFile.getVersion() + " " + _("enableMsg", ""));
 	}
 
 	/***
@@ -222,7 +236,7 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		LOGGER.info("[" + this.getDescription().getName() + "] " + _("disableMsg"));
+		LOGGER.info("[" + this.getDescription().getName() + "] " + _("disableMsg", ""));
 	}
 	
 	/***
@@ -263,7 +277,7 @@ public class CommandsEX extends JavaPlugin {
 				return Boolean.TRUE.equals(ret);
 			}
 		} catch (Throwable e) {
-			sender.sendMessage(ChatColor.RED + _("internalError"));
+			sender.sendMessage(ChatColor.RED + _("internalError", sender.getName()));
 			LOGGER.severe("Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
     		return true;
     	}
@@ -307,12 +321,12 @@ public class CommandsEX extends JavaPlugin {
 				if (usage.contains("\n") || usage.contains("\r")) {
 					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
 					String[] splitted = usage.split("\n");
-					sender.sendMessage(ChatColor.WHITE + _("usage") + ":");
+					sender.sendMessage(ChatColor.WHITE + _("usage", sender.getName()) + ":");
 					for (String rVal : splitted) {
 						sender.sendMessage(ChatColor.WHITE + rVal);
 					}
 				} else {
-					sender.sendMessage(ChatColor.WHITE + _("usage") + ": " + usage);
+					sender.sendMessage(ChatColor.WHITE + _("usage", sender.getName()) + ": " + usage);
 				}
 			}
 	    }

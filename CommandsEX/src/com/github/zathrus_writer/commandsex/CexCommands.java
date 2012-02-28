@@ -48,7 +48,7 @@ public class CexCommands {
 			 */
 
 			if (!p.getConfig().getBoolean("disableVersion")) {
-				sender.sendMessage(ChatColor.YELLOW + CommandsEX.pdfFile.getName() + ", " + _("version") + " " + CommandsEX.pdfFile.getVersion());
+				sender.sendMessage(ChatColor.YELLOW + CommandsEX.pdfFile.getName() + ", " + _("version", sender.getName()) + " " + CommandsEX.pdfFile.getVersion());
 			}
 		} else if ((aLength == 1) && args[0].equals("reload")) {
 
@@ -58,7 +58,7 @@ public class CexCommands {
 			
 			if (sender.getName().toLowerCase().equals("console") || ((sender instanceof Player) && CommandsEX.checkPerms((Player)sender, "cex.reload"))) {
 				p.reloadConf();
-				sender.sendMessage(ChatColor.GREEN + _("configReloaded"));
+				sender.sendMessage(ChatColor.GREEN + _("configReloaded", sender.getName()));
 			} else {
 				LOGGER.warning("["+ CommandsEX.pdfFile.getName() +"]: Player " + sender.getName() + " tried to execute reload command without permission!");
 			}
@@ -74,8 +74,8 @@ public class CexCommands {
 			 * SHOWING ALL AVAILABLE OPTIONS
 			 */
 			
-			sender.sendMessage(ChatColor.WHITE + _("configAvailableNodes") + p.getConfig().getKeys(false).toString());
-			sender.sendMessage(ChatColor.WHITE + _("configAvailableNodesUsage"));
+			sender.sendMessage(ChatColor.WHITE + _("configAvailableNodes", sender.getName()) + p.getConfig().getKeys(false).toString());
+			sender.sendMessage(ChatColor.WHITE + _("configAvailableNodesUsage", sender.getName()));
 		} else if (
 					((aLength >= 3) && args[0].equals("config"))
 					||
@@ -88,7 +88,7 @@ public class CexCommands {
 			
 			if (!args[1].equals("get") && !args[1].equals("set") && !args[0].equals("cs") && !args[0].equals("cg")) {
 				// unrecognized config action
-				sender.sendMessage(ChatColor.RED + _("configUnrecognizedAction"));
+				sender.sendMessage(ChatColor.RED + _("configUnrecognizedAction", sender.getName()));
 			} else {
 				if (args[1].equals("get") || args[0].equals("cg")) {
 					
@@ -96,19 +96,19 @@ public class CexCommands {
 					 * GETTING CONFIG VALUES
 					 */
 					switch ((args[0].equals("cg") ? args[1].toLowerCase() : args[2].toLowerCase())) {
-						case "disableversion":	sender.sendMessage(ChatColor.YELLOW + _("configVersionDisableStatus") + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue") : ChatColor.RED + _("configStatusFalse")));
+						case "disableversion":	sender.sendMessage(ChatColor.YELLOW + _("configVersionDisableStatus", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 												break;
 						
-						case "logcommands":		sender.sendMessage(ChatColor.YELLOW + _("configCommandsLoggingStatus") + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue") : ChatColor.RED + _("configStatusFalse")));
+						case "logcommands":		sender.sendMessage(ChatColor.YELLOW + _("configCommandsLoggingStatus", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 												break;
 						
-						case "disabledcommands":sender.sendMessage(ChatColor.YELLOW + _("configDisabledCommands") + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
+						case "disabledcommands":sender.sendMessage(ChatColor.YELLOW + _("configDisabledCommands", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
 												break;
 												
-						case "defaultlang":		sender.sendMessage(ChatColor.YELLOW + _("configDefaultLang") + p.getConfig().getString("defaultLang"));
+						case "defaultlang":		sender.sendMessage(ChatColor.YELLOW + _("configDefaultLang", sender.getName()) + p.getConfig().getString("defaultLang"));
 												break;
 												
-						default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized"));
+						default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized", sender.getName()));
 												break;
 					}
 				} else if (args[1].equals("set") || args[0].equals("cs")) {
@@ -120,12 +120,12 @@ public class CexCommands {
 						switch ((args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase())) {
 							case "disableversion":	p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue") : ChatColor.RED + _("configStatusFalse")));
+													sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 													break;
 							
 							case "logcommands":		p.getConfig().set("logCommands", !p.getConfig().getBoolean("logCommands"));
 													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue") : ChatColor.RED + _("configStatusFalse")));
+													sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 													break;
 													
 							case "disabledcommands":if (args[3].equals("add") || args[2].equals("add")) {
@@ -136,7 +136,7 @@ public class CexCommands {
 															p.getConfig().set("disabledCommands", l);
 															p.saveConfig();
 														}
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
+														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
 													} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
 														List<Object> l = p.getConfig().getList("disabledCommands");
 														String toRemove = args[2].equals("remove") ? args[3] : args[4];
@@ -145,11 +145,12 @@ public class CexCommands {
 															p.getConfig().set("disabledCommands", l);
 															p.saveConfig();
 														}
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
+														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
 													} else {
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1"));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2"));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3"));
+														String sName = sender.getName();
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1", sName));
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2", sName));
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3", sName));
 													}
 													break;
 							
@@ -157,19 +158,20 @@ public class CexCommands {
 														p.getConfig().set("defaultLang", args[2]);
 														p.saveConfig();
 														CommandsEX.defaultLocale = args[2];
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated") + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
+														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 													} else {
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1"));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2"));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3"));
+														String sName = sender.getName();
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1", sName));
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2", sName));
+														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3", sName));
 													}
 													break;
 													
-							default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized"));
+							default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized", sender.getName()));
 													break;
 						}
 					} else {
-						sender.sendMessage(ChatColor.RED + _("configNotEnoughParams"));
+						sender.sendMessage(ChatColor.RED + _("configNotEnoughParams", sender.getName()));
 					}
 				}
 			}
@@ -179,7 +181,7 @@ public class CexCommands {
 			 * UNRECOGNIZED
 			 */
 			
-			sender.sendMessage(ChatColor.RED + _("configUnrecognized"));
+			sender.sendMessage(ChatColor.RED + _("configUnrecognized", sender.getName()));
 		}
 		
 		return true;

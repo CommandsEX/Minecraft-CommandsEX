@@ -27,7 +27,7 @@ public class Command_cex_tploc extends Teleportation {
 		        		args = args[0].split(",");
 		        	} else {
 		        		// no commas found in the argument, return error
-		        		player.sendMessage(ChatColor.RED + _("tpInvalidArgument"));
+		        		player.sendMessage(ChatColor.RED + _("tpInvalidArgument", player.getName()));
 		        		return false;
 		        	}
 		        }
@@ -37,17 +37,17 @@ public class Command_cex_tploc extends Teleportation {
 		        	CommandsEX.showCommandHelpAndUsage(sender, "cex_tploc", alias);
 		        } else if (args.length != 3) {
 		        	// too few or too many arguments
-		        	player.sendMessage(ChatColor.RED + _("tpMissingCoords"));
+		        	player.sendMessage(ChatColor.RED + _("tpMissingCoords", player.getName()));
 		        	return false;
 		        } else if (!args[0].matches(CommandsEX.intRegex) || !args[1].matches(CommandsEX.intRegex) || !args[2].matches(CommandsEX.intRegex)) {
 		        	// one of the coordinates is not a number
-		        	player.sendMessage(ChatColor.RED + _("tpCoordsMustBeNumeric"));
+		        	player.sendMessage(ChatColor.RED + _("tpCoordsMustBeNumeric", player.getName()));
 		        } else {
 		        	// all ok here, we can TP the player
 		        	try {
 		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
 		        	} catch (Exception e) {
-		        		player.sendMessage(ChatColor.RED + _("internalError"));
+		        		player.sendMessage(ChatColor.RED + _("internalError", player.getName()));
 		        		LOGGER.severe("["+ CommandsEX.pdfFile.getName() +"]: TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
 		        		return false;
 		        	}

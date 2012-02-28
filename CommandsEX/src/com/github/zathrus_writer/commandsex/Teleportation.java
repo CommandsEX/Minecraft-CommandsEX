@@ -42,7 +42,7 @@ public class Teleportation {
 		// check the number of arguments
 		int aLength = args.length;
 		if (aLength > 2) {
-			player.sendMessage(ChatColor.RED + _("pTooManyArguments"));
+			player.sendMessage(ChatColor.RED + _("pTooManyArguments", player.getName()));
 			return true;
 		} else if (aLength == 0) {
 			CommandsEX.showCommandHelpAndUsage(sender, "cex_" + command, alias);
@@ -60,13 +60,13 @@ public class Teleportation {
 		}
 
 		if ((player1 == null) || (player2 == null)) {
-			player.sendMessage(ChatColor.RED + _("tpInvalidPlayer"));
+			player.sendMessage(ChatColor.RED + _("tpInvalidPlayer", player.getName()));
 			return true;
 		}
 		
 		// also, we cannot teleport player to himself
 		if (player1.getName().equals(player2.getName())) {
-			player.sendMessage(ChatColor.RED + _("tpCannotTeleportSelf"));
+			player.sendMessage(ChatColor.RED + _("tpCannotTeleportSelf", player.getName()));
 			return true;
 		}
 		
