@@ -19,6 +19,7 @@ public class CexCommands {
 	public final static String langConfigAvailableNodes = "Available options: ";
 	public final static String langConfigAvailableNodesUsage = "Usage: /cex config get [option]";
 	public final static String langConfigVersionDisableStatus = "Version displaying enabled: ";
+	public final static String langConfigCommandsLoggingStatus = "Commands logging (to console) enabled: ";
 	public final static String langConfigDisabledCommands = "List of disabled commands: ";
 	public final static String langConfigUnspecifiedError1 = "An error has occured.";
 	public final static String langConfigUnspecifiedError2 = "Please make sure you use this syntax to add or amend values: ";
@@ -111,8 +112,11 @@ public class CexCommands {
 					/***
 					 * GETTING CONFIG VALUES
 					 */
-					switch ((args[0].equals("cg") ? args[1] : args[2])) {
+					switch ((args[0].equals("cg") ? args[1].toLowerCase() : args[2].toLowerCase())) {
 						case "disableversion":	sender.sendMessage(ChatColor.YELLOW + langConfigVersionDisableStatus + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
+												break;
+						
+						case "logcommands":		sender.sendMessage(ChatColor.YELLOW + langConfigCommandsLoggingStatus + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
 												break;
 						
 						case "disabledcommands":sender.sendMessage(ChatColor.YELLOW + langConfigDisabledCommands + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
@@ -126,13 +130,18 @@ public class CexCommands {
 					/***
 					 * SETTING CONFIG VALUES
 					 */
-					if ((args[0].equals("cs") && (aLength == 4)) || (aLength == 5)) {
-						switch ((args[0].equals("cs") ? args[1] : args[2])) {
+					if ((args[0].equals("cs") && ((aLength == 4) || (aLength == 2))) || (aLength == 5)) {
+						switch ((args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase())) {
 							case "disableversion":	p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 													p.saveConfig();
 													sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
 													break;
 							
+							case "logcommands":		p.getConfig().set("logCommands", !p.getConfig().getBoolean("logCommands"));
+													p.saveConfig();
+													sender.sendMessage(ChatColor.YELLOW + langConfigUpdated + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + langConfigStatusTrue : ChatColor.RED + langConfigStatusFalse));
+													break;
+													
 							case "disabledcommands":if (args[3].equals("add") || args[2].equals("add")) {
 														List<Object> l = p.getConfig().getList("disabledCommands");
 														String toAdd = args[2].equals("add") ? args[3] : args[4];

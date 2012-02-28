@@ -20,7 +20,7 @@ public class Command_cex_tp extends Teleportation {
 			// check permissions and call to action
 			if (args.length > 1) {
 				// teleporting players one to another
-				if (CommandsEX.checkPerms(player)) {
+				if (CommandsEX.checkPerms(player, "cex.tp")) {
 					tp_common(sender, args, "tp", alias);
 				}
 			} else {

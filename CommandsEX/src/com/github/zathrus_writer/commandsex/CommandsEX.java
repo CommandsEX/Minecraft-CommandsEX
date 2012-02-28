@@ -30,7 +30,6 @@ public class CommandsEX extends JavaPlugin {
 	public final static String langDisableMsg = " has been disabled.";
 	public final static String langVersion = "version";
 	public final static String langUsage = "Usage";
-	public final static String langPlayerCommand = "PLAYER COMMAND";
 	public final static String langInternalError = "An internal error has occured. Please try again or contact an administrator.";
 	
 	// list of commands this plugin should ignore - values come from a config file
@@ -63,13 +62,13 @@ public class CommandsEX extends JavaPlugin {
 	
 	
 	/***
-	 * Check whether given player has permission to the function which called this method.
-	 * This is determined from function name, so i.e. function /tploc will check for "cex.tploc" permission node.
+	 * Check whether given player has required permission.
 	 * @param player
+	 * @param customPerm
 	 * @return
 	 */
 	public static Boolean checkPerms(Player player, String... customPerm) {
-		// if we have custom permissions to check, they override default behaviour...
+		// if we have custom permissions to check, the behaviour is as follows...
 		// the first parameter MUST BE either "AND" or "OR" (exception = when only 1 node is being checked)
 		// ... this will allow us to see if we should check whether the player has either one
 		// of these permissions (OR) or whether they have all of them (ALL) and return result
@@ -101,9 +100,8 @@ public class CommandsEX extends JavaPlugin {
 				LOGGER.severe("Custom permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (first parameter is not one of: AND/OR - it was '" + customPerm[0] + "')");
 			}
 		} else {
-			// no custom permissions, check the caller method's name as permission node
-			String caller_method = Thread.currentThread().getStackTrace()[2].getMethodName();
-			hasPerms = player.hasPermission("cex." + caller_method.substring(8));
+			hasPerms = false;
+			LOGGER.severe("Permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (no paramaters seem to be present)");
 		}
 		
 		if (!hasPerms) {
@@ -146,8 +144,14 @@ public class CommandsEX extends JavaPlugin {
 		}
 		
 		// log the command if invoked by a player
-		if (sender instanceof Player) {
-			LOGGER.info("[" + langPlayerCommand + "] /" + cmd + " " + args.toString());
+		if ((sender instanceof Player) && (getConfig().getBoolean("logCommands") == true)) {
+			String arguments = " ";
+			if (args.length > 0) {
+				for (String a : args) {
+					arguments = arguments + a + " ";
+				}
+			}
+			LOGGER.info("[" + sender.getName() + "] /" + alias + arguments);
 		}
 
 		try {
