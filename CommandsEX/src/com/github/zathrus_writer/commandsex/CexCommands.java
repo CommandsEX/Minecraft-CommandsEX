@@ -20,7 +20,7 @@ public class CexCommands {
 		p.getConfig().options().copyDefaults(true); p.saveConfig();
 
 		// load list of ignored commands
-		p.ignoredCommands = p.getConfig().getList("disabledCommands");
+		p.ignoredCommands = p.getConfig().getStringList("disabledCommands");
 	}
 	
 	
@@ -128,8 +128,8 @@ public class CexCommands {
 													sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 													break;
 													
-							case "disabledcommands":if (args[3].equals("add") || args[2].equals("add")) {
-														List<Object> l = p.getConfig().getList("disabledCommands");
+							case "disabledcommands":if (((aLength > 3) && args[2].equals("add")) || ((aLength > 4) && args[3].equals("add"))) {
+													List<String> l = p.getConfig().getStringList("disabledCommands");
 														String toAdd = args[2].equals("add") ? args[3] : args[4];
 														if (!l.contains(toAdd)) {
 															l.add(args[2].equals("add") ? args[3] : args[4]);
@@ -137,8 +137,8 @@ public class CexCommands {
 															p.saveConfig();
 														}
 														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-													} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
-														List<Object> l = p.getConfig().getList("disabledCommands");
+													} else if (((aLength > 3) && args[2].equals("remove")) || ((aLength > 4) && args[3].equals("remove"))) {
+														List<String> l = p.getConfig().getStringList("disabledCommands");
 														String toRemove = args[2].equals("remove") ? args[3] : args[4];
 														if (l.contains(toRemove)) {
 															l.remove(args[2].equals("remove") ? args[3] : args[4]);
@@ -154,7 +154,7 @@ public class CexCommands {
 													}
 													break;
 							
-							case "defaultlang":		if (args[2] != null) {
+							case "defaultlang":		if ((aLength > 2) && args[2] != null) {
 														p.getConfig().set("defaultLang", args[2]);
 														p.saveConfig();
 														CommandsEX.defaultLocale = args[2];

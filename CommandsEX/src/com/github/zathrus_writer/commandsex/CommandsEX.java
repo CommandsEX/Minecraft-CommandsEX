@@ -29,7 +29,7 @@ public class CommandsEX extends JavaPlugin {
 	public final static Logger LOGGER = Logger.getLogger("Minecraft");
 	
 	// list of commands this plugin should ignore - values come from a config file
-	public List<Object> ignoredCommands = new ArrayList<Object>();
+	public List<String> ignoredCommands = new ArrayList<String>();
 	
 	// plugin description file, used at least on 2 places, so it's here :-P
 	public static PluginDescriptionFile pdfFile;
