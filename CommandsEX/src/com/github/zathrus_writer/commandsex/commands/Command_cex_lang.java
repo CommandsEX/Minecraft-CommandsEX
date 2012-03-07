@@ -28,7 +28,9 @@ public class Command_cex_lang {
 					// check if the language is within our allowed languages
 					String pName = player.getName();
 					if (CommandsEX.getConf().getList("availableLangs").contains(args[0])) {
-						SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("sqlite") ? "OR REPLACE " : "") +" INTO " + SQLManager.prefix + "user2lang VALUES (?, ?)" + ((SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE lang = VALUES(lang)" : "")), pName, args[0]);
+						if (SQLManager.enabled) {
+							SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("sqlite") ? "OR REPLACE " : "") +" INTO " + SQLManager.prefix + "user2lang VALUES (?, ?)" + ((SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE lang = VALUES(lang)" : "")), pName, args[0]);
+						}
 						CommandsEX.perUserLocale.put(pName, args[0]);
 						player.sendMessage(ChatColor.YELLOW + _("languageChanged", pName) + ChatColor.WHITE + args[0]);
 					} else {

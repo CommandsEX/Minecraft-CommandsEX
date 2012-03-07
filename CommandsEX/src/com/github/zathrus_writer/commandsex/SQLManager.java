@@ -40,7 +40,7 @@ public class SQLManager {
 								enabled = true;
 								sqlType = "sqlite";
 							} catch (Exception e) {
-								LOGGER.severe(_("dbSQLiteNotUsable", ""));
+								LOGGER.severe("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
 							}
 							break;
 
@@ -56,7 +56,7 @@ public class SQLManager {
 								enabled = true;
 								sqlType = "mysql";
 							} catch (Exception e) {
-								LOGGER.severe(_("dbSQLiteNotUsable", ""));
+								LOGGER.severe("[CommandsEX] " + _("dbMySQLNotUsable", ""));
 							}
 							break;
 		}
@@ -70,13 +70,17 @@ public class SQLManager {
 	 * @return
 	 */
 	public static Boolean query(String query, Object... params) {
+		if (!enabled) {
+			return false;
+		}
+
 		if (params.length == 0) {
 			try {
 				Statement stat = conn.createStatement();
 				stat.executeUpdate(query);
 				stat.close();
 			} catch (Exception e) {
-				LOGGER.severe(_("dbWriteError", "") + query + " (Msg: "+ e.getMessage() +")");
+				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query + " (Msg: "+ e.getMessage() +")");
 			}
 		} else {
 			try {
@@ -97,7 +101,7 @@ public class SQLManager {
 						prep.setNull(i, (int)o);
 					} else {
 						// unhandled variable type
-						LOGGER.severe(_("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
+						LOGGER.severe("[CommandsEX]" +  _("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
 						prep.clearBatch();
 						prep.close();
 						return false;
@@ -117,7 +121,7 @@ public class SQLManager {
 						params_str = params_str + ", " + o.toString();
 					}
 				}
-				LOGGER.severe(_("dbWriteError", "") + query + " ... parameters: " + params_str + " (Error: "+ e.getMessage() + ")");
+				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query + " ... parameters: " + params_str + " (Error: "+ e.getMessage() + ")");
 			}
 		}
 		
@@ -132,13 +136,17 @@ public class SQLManager {
 	 * @return
 	 */
 	public static ResultSet query_res(String query, Object... params) {
+		if (!enabled) {
+			return null;
+		}
+
 		if (params.length == 0) {
 			try {
 				Statement stat = conn.createStatement();
 				ResultSet res = stat.executeQuery(query);
 				return res;
 			} catch (Exception e) {
-				LOGGER.severe(_("dbWriteError", "") + query);
+				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query);
 			}
 		} else {
 			try {
@@ -159,7 +167,7 @@ public class SQLManager {
 						prep.setNull(i, (int)o);
 					} else {
 						// unhandled variable type
-						LOGGER.severe(_("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
+						LOGGER.severe("[CommandsEX] " + _("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
 						prep.close();
 						return null;
 					}
@@ -167,7 +175,7 @@ public class SQLManager {
 				}
 				return prep.executeQuery();
 			} catch (Exception e) {
-				LOGGER.severe(_("dbWriteError", "") + query);
+				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query);
 			}
 		}
 

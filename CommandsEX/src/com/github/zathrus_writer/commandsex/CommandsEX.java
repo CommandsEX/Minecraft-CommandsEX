@@ -71,7 +71,7 @@ public class CommandsEX extends JavaPlugin {
 				res.close();
 			} catch (Exception e) {
 				avoidDB = true;
-				LOGGER.severe(_("dbReadError", "") + "SELECT * FROM " + SQLManager.prefix + "user2lang" + ", Message: " + e.getMessage());
+				LOGGER.severe("[CommandsEX] " + _("dbReadError", "") + "SELECT * FROM " + SQLManager.prefix + "user2lang" + ", Message: " + e.getMessage());
 			}
 			perUserDataLoaded = true;
 		}
@@ -125,7 +125,7 @@ public class CommandsEX extends JavaPlugin {
 			plugin.getConfig().set("defaultLang", "en");
 			plugin.saveConfig();
 			defaultLocale = "en";
-			LOGGER.severe("Translation failed for message '" + s + "', language '" + loc + "'");
+			LOGGER.severe("[CommandsEX] Translation failed for message '" + s + "', language '" + loc + "'");
 		}
 
 		return s;
@@ -183,11 +183,11 @@ public class CommandsEX extends JavaPlugin {
 				}
 			} else {
 				hasPerms = false;
-				LOGGER.severe("Custom permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (first parameter is not one of: AND/OR - it was '" + customPerm[0] + "')");
+				LOGGER.severe("[CommandsEX] Custom permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (first parameter is not one of: AND/OR - it was '" + customPerm[0] + "')");
 			}
 		} else {
 			hasPerms = false;
-			LOGGER.severe("Permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (no paramaters seem to be present)");
+			LOGGER.severe("[CommandsEX] Permissions check failed for method '" + Thread.currentThread().getStackTrace()[3].getMethodName() + "' (no paramaters seem to be present)");
 		}
 		
 		if (!hasPerms) {
@@ -239,7 +239,7 @@ public class CommandsEX extends JavaPlugin {
 			// something strange happened, revert to default and reset config variable
 			getConfig().set("defaultLang", "en");
 			saveConfig();
-			LOGGER.severe("Unable to load locale " + defaultLocale + ", trying English");
+			LOGGER.severe("[CommandsEX] Unable to load locale " + defaultLocale + ", trying English");
 			// something went wrong, load the default English locale
 			defaultLocale = "en";
 			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
@@ -313,7 +313,7 @@ public class CommandsEX extends JavaPlugin {
 			}
 		} catch (Throwable e) {
 			sender.sendMessage(ChatColor.RED + _("internalError", sender.getName()));
-			LOGGER.severe("Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
+			LOGGER.severe("[CommandsEX] Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
     		return true;
     	}
 	}

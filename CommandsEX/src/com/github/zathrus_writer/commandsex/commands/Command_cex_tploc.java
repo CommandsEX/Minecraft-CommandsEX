@@ -48,7 +48,7 @@ public class Command_cex_tploc extends Teleportation {
 		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
 		        	} catch (Exception e) {
 		        		player.sendMessage(ChatColor.RED + _("internalError", player.getName()));
-		        		LOGGER.severe("["+ CommandsEX.pdfFile.getName() +"]: TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
+		        		LOGGER.severe("[CommandsEX]: TPLOC returned an unexpected error for player " + player.getName() + ". Error message: " + e.getMessage());
 		        		return false;
 		        	}
 		        }
