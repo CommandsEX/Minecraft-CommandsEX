@@ -12,19 +12,6 @@ public class CexCommands {
 	public final static Logger LOGGER = Logger.getLogger("Minecraft");
 	
 	/***
-	 * Constructor, sets the main plugin class locally.
-	 * @param plugin
-	 */
-	public static void init(CommandsEX p) {
-		// load config file and write defaults in case the file doesn't exist
-		p.getConfig().options().copyDefaults(true); p.saveConfig();
-
-		// load list of ignored commands
-		p.ignoredCommands = p.getConfig().getStringList("disabledCommands");
-	}
-	
-	
-	/***
 	 * Handles reactions on the /cex command.
 	 * @param sender
 	 * @param alias

@@ -14,21 +14,8 @@ import org.bukkit.entity.Player;
  *
  */
 public class Teleportation {
-	public final static Logger LOGGER = Logger.getLogger("Minecraft");
-	
-	// the CommandsEx plugin
-	public static CommandsEX plugin;
-	
+	public final static Logger LOGGER = Logger.getLogger("Minecraft");	
 
-	/***
-	 * Constructor, sets the main plugin class locally.
-	 * @param plugin
-	 */
-	public static void init(CommandsEX p) {
-		plugin = p;
-	}
-	
-	
 	/***
 	 * TPCOMMON - used as base method for teleporting players one to another
 	 * @param sender

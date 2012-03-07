@@ -16,3 +16,23 @@ defaultLang: en
 # list of all languages that will be available to your users,
 # should you decide to allow them to change their language on per-user basis
 availableLangs: [en, sk]
+
+# database connection details (sqlLite and MySQL currently supported)
+#
+# host, name, password, port and database and port are REQUIRED ONLY when using MySQL,
+# they are ignored for sqlite (except for database, which is used to create a database file itself)
+#
+# host = host name for the MySQL connection (in most cases can be left as "localhost")
+# name = username for the MySQL connection
+# password = username for the MySQL connection
+# port = connection port for MySQL (in most cases can be left as "3306")
+# database = name of your MySQL database to connect to
+# prefix = optional, prefix for all CommandsEX tables (e.g. cex_, c_)
+#
+sqlType: sqlite
+database: minecraft
+host: localhost
+port: 3306
+name: root
+password: ""
+prefix: cex_

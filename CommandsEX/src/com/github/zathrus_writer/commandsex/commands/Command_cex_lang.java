@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.SQLManager;
 
 public class Command_cex_lang {
 	/***
@@ -25,17 +26,21 @@ public class Command_cex_lang {
 				// change language
 				if (CommandsEX.checkPerms(player, "cex.lang")) {
 					// check if the language is within our allowed languages
-					if (CommandsEX.plugin.getConfig().getList("availableLangs").contains(args[0])) {
-						String pName = player.getName();
+					String pName = player.getName();
+					if (CommandsEX.getConf().getList("availableLangs").contains(args[0])) {
+						SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("sqlite") ? "OR REPLACE " : "") +" INTO " + SQLManager.prefix + "user2lang VALUES (?, ?)" + ((SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE lang = VALUES(lang)" : "")), pName, args[0]);
 						CommandsEX.perUserLocale.put(pName, args[0]);
 						player.sendMessage(ChatColor.YELLOW + _("languageChanged", pName) + ChatColor.WHITE + args[0]);
 					} else {
-						player.sendMessage(ChatColor.YELLOW + _("noSuchLanguage", player.getName()));
+						player.sendMessage(ChatColor.YELLOW + _("noSuchLanguage", pName));
+						player.sendMessage(ChatColor.YELLOW + _("availableLangs", pName) + ChatColor.WHITE + CommandsEX.getConf().getList("availableLangs").toString());
 					}
 				}
 			} else {
 				// show all available lanaguages
-				player.sendMessage(ChatColor.YELLOW + _("availableLangs", player.getName()) + ChatColor.WHITE + CommandsEX.plugin.getConfig().getList("availableLangs").toString());
+				String pName = player.getName();
+				player.sendMessage(ChatColor.YELLOW + _("langYourLang", pName) + ChatColor.WHITE + (CommandsEX.perUserLocale.containsKey(pName) ? CommandsEX.perUserLocale.get(pName) : CommandsEX.getConf().getString("defaultLang")));
+				player.sendMessage(ChatColor.YELLOW + _("availableLangs", pName) + ChatColor.WHITE + CommandsEX.getConf().getList("availableLangs").toString());
 			}
 		}
         return true;

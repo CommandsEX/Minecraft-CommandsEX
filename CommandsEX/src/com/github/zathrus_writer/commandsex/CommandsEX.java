@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex;
 
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommandYamlParser;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,8 +38,10 @@ public class CommandsEX extends JavaPlugin {
 	
 	// translations
 	public transient static String defaultLocale; // the default locale from config 
-	public static Map<String, ResourceBundle> langs = new HashMap<String, ResourceBundle>(); // e.g. ["en", English bundle] .. OR .. ["en_us", English bundle]
-	public static Map<String, String> perUserLocale = new HashMap<String, String>(); // e.g. ["Zathrus_Writer", "en_us"]
+	public static Map<String, ResourceBundle> langs = new HashMap<String, ResourceBundle>(); // ["en", English bundle] .. OR .. ["en_us", English bundle]
+	public static Map<String, String> perUserLocale = new HashMap<String, String>(); // ["Zathrus_Writer", "en_us"]
+	private static Boolean perUserDataLoaded = false;
+	private static Boolean avoidDB = false; // if true, the _() function won't try to load existing perUserLocales from DB - used in exceptions handling
 	
 
 	/***
@@ -56,6 +60,21 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	public static String _(String s, final String playerName) {
 		String loc = defaultLocale;
+
+		// if we don't have per-user data loaded from DB, do it now
+		if (!perUserDataLoaded && !avoidDB && SQLManager.enabled) {
+			try {
+				ResultSet res = SQLManager.query_res("SELECT * FROM " + SQLManager.prefix + "user2lang");
+				while (res.next()) {
+					perUserLocale.put(res.getString("username"), res.getString("lang"));
+				}
+				res.close();
+			} catch (Exception e) {
+				avoidDB = true;
+				LOGGER.severe(_("dbReadError", "") + "SELECT * FROM " + SQLManager.prefix + "user2lang" + ", Message: " + e.getMessage());
+			}
+			perUserDataLoaded = true;
+		}
 		
 		if (!playerName.equals("") && !playerName.toLowerCase().equals("console") && perUserLocale.containsKey(playerName)) {
 			loc = perUserLocale.get(playerName);
@@ -225,10 +244,22 @@ public class CommandsEX extends JavaPlugin {
 			defaultLocale = "en";
 			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 		}
-		
+
+		// load ignored commands
+		ignoredCommands = getConfig().getStringList("disabledCommands");
+
+		// get description file and display initial startup OK info
 		pdfFile = this.getDescription();
 		LOGGER.info("[" + pdfFile.getName() + "] " + _("startupMessage", "") + " " + defaultLocale);
 		LOGGER.info("[" + pdfFile.getName() + "] " + _("version", "") + " " + pdfFile.getVersion() + " " + _("enableMsg", ""));
+
+		// initialize database
+		SQLManager.init(this);
+		
+		// create default table structure if not created already
+		if (SQLManager.enabled) {
+			SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"user2lang (username varchar(50) NOT NULL, lang varchar(5) NOT NULL, PRIMARY KEY (`username`))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores per-user selected plugin language'" : ""));
+		}
 	}
 
 	/***
@@ -236,6 +267,10 @@ public class CommandsEX extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
+		// if we don't have per-player language loaded from DB, do not try to load it now :-)
+		avoidDB = true;
+		// close all database connections
+		SQLManager.close();
 		LOGGER.info("[" + this.getDescription().getName() + "] " + _("disableMsg", ""));
 	}
 	
@@ -306,6 +341,13 @@ public class CommandsEX extends JavaPlugin {
 		return true;
 	}
 
+	/***
+	 * Returns current config.
+	 * @return
+	 */
+	public static FileConfiguration getConf() {
+		return plugin.getConfig();
+	}
 	
 	/***
 	 * Gets help text and usage for a command and returns it in a 2-dimensional array for help purposes.
