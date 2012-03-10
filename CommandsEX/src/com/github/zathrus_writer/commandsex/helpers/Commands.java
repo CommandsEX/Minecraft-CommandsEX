@@ -47,7 +47,7 @@ public class Commands implements CommandExecutor {
 					arguments = arguments + a + " ";
 				}
 			}
-			LogHelper.logInfo("[" + sender.getName() + "] /" + alias + arguments);
+			LogHelper.logInfo("[" + sender.getName() + "] /" + (!alias.equals("") ? alias : cmd) + arguments);
 		}
 
 		try {

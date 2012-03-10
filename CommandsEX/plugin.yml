@@ -1,5 +1,4 @@
 author: Zathrus Writer
-database: false
 description: A set of commonly used admin commands, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
