@@ -1,8 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import static com.github.zathrus_writer.commandsex.Language._;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +29,7 @@ public class Command_cex_tploc extends Teleportation {
 		        		args = args[0].split(",");
 		        	} else {
 		        		// no commas found in the argument, return error
-		        		player.sendMessage(ChatColor.RED + _("tpInvalidArgument", player.getName()));
+		        		LogHelper.showWarning("tpInvalidArgument", sender);
 		        		return false;
 		        	}
 		        }
@@ -42,19 +39,19 @@ public class Command_cex_tploc extends Teleportation {
 		        	Commands.showCommandHelpAndUsage(sender, "cex_tploc", alias);
 		        } else if (args.length != 3) {
 		        	// too few or too many arguments
-		        	player.sendMessage(ChatColor.RED + _("tpMissingCoords", player.getName()));
+		        	LogHelper.showWarning("tpMissingCoords", sender);
 		        	return false;
 		        } else if (!args[0].matches(CommandsEX.intRegex) || !args[1].matches(CommandsEX.intRegex) || !args[2].matches(CommandsEX.intRegex)) {
 		        	// one of the coordinates is not a number
-		        	player.sendMessage(ChatColor.RED + _("tpCoordsMustBeNumeric", player.getName()));
+		        	LogHelper.showWarning("tpCoordsMustBeNumeric", sender);
 		        } else {
 		        	// all ok here, we can TP the player
 		        	try {
 		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
-		        	} catch (Exception e) {
-		        		player.sendMessage(ChatColor.RED + _("internalError", player.getName()));
+		        	} catch (Throwable e) {
+		        		LogHelper.showWarning("internalError", sender);
 		        		LogHelper.logSevere("[CommandsEX]: TPLOC returned an unexpected error for player " + player.getName() + ".");
-		        		LogHelper.logDebug("Message: " + e.getMessage());
+		        		LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 		        		return false;
 		        	}
 		        }

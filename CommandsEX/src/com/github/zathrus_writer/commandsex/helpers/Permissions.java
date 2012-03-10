@@ -1,8 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Permissions {
 	/***
@@ -35,7 +33,7 @@ public class Permissions {
 					
 					// all permissions must be true if we're handling "AND", check it here
 					if (customPerm[0].equals("AND") && !hasPerms) {
-						player.sendMessage(ChatColor.RED + _("insufficientPerms", player.getName()));
+						LogHelper.showWarning("insufficientPerms", player);
 						return false;
 					}
 				}
@@ -51,7 +49,7 @@ public class Permissions {
 		}
 		
 		if (!hasPerms) {
-			player.sendMessage(ChatColor.RED + _("insufficientPerms", player.getName()));
+			LogHelper.showWarning("insufficientPerms", player);
 		}
 		
 		return hasPerms;

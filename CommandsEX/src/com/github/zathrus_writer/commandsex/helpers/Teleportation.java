@@ -1,9 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
-import static com.github.zathrus_writer.commandsex.Language._;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,7 +23,7 @@ public class Teleportation {
 		// check the number of arguments
 		int aLength = args.length;
 		if (aLength > 2) {
-			player.sendMessage(ChatColor.RED + _("pTooManyArguments", player.getName()));
+			LogHelper.showWarning("pTooManyArguments", sender);
 			return true;
 		} else if (aLength == 0) {
 			Commands.showCommandHelpAndUsage(sender, "cex_" + command, alias);
@@ -44,13 +41,13 @@ public class Teleportation {
 		}
 
 		if ((player1 == null) || (player2 == null)) {
-			player.sendMessage(ChatColor.RED + _("tpInvalidPlayer", player.getName()));
+			LogHelper.showWarning("tpInvalidPlayer", sender);
 			return true;
 		}
 		
 		// also, we cannot teleport player to himself
 		if (player1.getName().equals(player2.getName())) {
-			player.sendMessage(ChatColor.RED + _("tpCannotTeleportSelf", player.getName()));
+			LogHelper.showWarning("tpCannotTeleportSelf", sender);
 			return true;
 		}
 		

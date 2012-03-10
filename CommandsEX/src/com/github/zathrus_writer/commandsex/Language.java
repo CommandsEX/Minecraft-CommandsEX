@@ -39,20 +39,22 @@ public class Language {
 				} else {
 					langs.put(defaultLocale, ResourceBundle.getBundle("lang", new Locale(defaultLocale)));
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				// internal nor custom file found, revert to default and reset config variable
 				plugin.getConfig().set("defaultLang", "en");
 				plugin.saveConfig();
 				LogHelper.logWarning("Unable to load locale " + defaultLocale + ", trying English");
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 				// something went wrong, load the default English locale
 				defaultLocale = "en";
 				langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// something strange happened, revert to default and reset config variable
 			plugin.getConfig().set("defaultLang", "en");
 			plugin.saveConfig();
 			LogHelper.logSevere("[CommandsEX] Unable to load locale " + defaultLocale + ", trying English");
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			// something went wrong, load the default English locale
 			defaultLocale = "en";
 			langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
@@ -76,11 +78,11 @@ public class Language {
 					perUserLocale.put(res.getString("username"), res.getString("lang"));
 				}
 				res.close();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				CommandsEX.avoidDB = true;
 				LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
 				LogHelper.logDebug("SQL: SELECT * FROM " + SQLManager.prefix + "user2lang");
-				LogHelper.logDebug("Message: " + e.getMessage());
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
 			perUserDataLoaded = true;
 		}
@@ -109,16 +111,18 @@ public class Language {
 						} else {
 							langs.put(loc, ResourceBundle.getBundle("lang", new Locale(loc)));
 						}
-					} catch (Exception e) {
+					} catch (Throwable e) {
 						// internal nor custom file found, revert to default
 						LogHelper.logWarning("Unable to load locale " + loc + ", trying English");
+						LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 						// something went wrong, load the default English locale
 						loc = "en";
 						langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
 					}
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					// we should not get here, but if we do... revert to default :-)
 					LogHelper.logWarning("Unable to load locale " + loc + ", trying English");
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 					// something went wrong, load the default English locale
 					loc = "en";
 					langs.put(defaultLocale, ResourceBundle.getBundle("lang", Locale.ENGLISH));
@@ -129,13 +133,13 @@ public class Language {
 			s = langs.get(loc).getString(s);
 		} catch (MissingResourceException ex) {
 			LogHelper.logWarning("Missing translation of '" + s + "' for language '" + loc + "'");
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// unspecified bad fail, revert to English momentarily to prevent further bad fails
 			plugin.getConfig().set("defaultLang", "en");
 			plugin.saveConfig();
 			defaultLocale = "en";
 			LogHelper.logSevere("[CommandsEX] Translation failed for message '" + s + "', language '" + loc + "'");
-			LogHelper.logDebug("Message: " + e.getMessage());
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 		}
 
 		return s;

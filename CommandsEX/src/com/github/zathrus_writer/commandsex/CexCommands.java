@@ -76,7 +76,7 @@ public class CexCommands {
 			
 			if (!args[1].equals("get") && !args[1].equals("set") && !args[0].equals("cs") && !args[0].equals("cg")) {
 				// unrecognized config action
-				sender.sendMessage(ChatColor.RED + _("configUnrecognizedAction", sender.getName()));
+				LogHelper.showWarning("configUnrecognizedAction", sender);
 			} else {
 				if (args[1].equals("get") || args[0].equals("cg")) {
 					
@@ -96,7 +96,7 @@ public class CexCommands {
 						case "defaultlang":		sender.sendMessage(ChatColor.YELLOW + _("configDefaultLang", sender.getName()) + p.getConfig().getString("defaultLang"));
 												break;
 												
-						default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized", sender.getName()));
+						default:				LogHelper.showWarning("configUnrecognized", sender);
 												break;
 					}
 				} else if (args[1].equals("set") || args[0].equals("cs")) {
@@ -135,10 +135,7 @@ public class CexCommands {
 														}
 														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
 													} else {
-														String sName = sender.getName();
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1", sName));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2", sName));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3", sName));
+														LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 													}
 													break;
 							
@@ -148,18 +145,15 @@ public class CexCommands {
 														Language.defaultLocale = args[2];
 														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 													} else {
-														String sName = sender.getName();
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError1", sName));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError2", sName));
-														sender.sendMessage(ChatColor.RED + _("configUnspecifiedError3", sName));
+														LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 													}
 													break;
 													
-							default:				sender.sendMessage(ChatColor.RED + _("configUnrecognized", sender.getName()));
+							default:				LogHelper.showWarning("configUnrecognized", sender);
 													break;
 						}
 					} else {
-						sender.sendMessage(ChatColor.RED + _("configNotEnoughParams", sender.getName()));
+						LogHelper.showWarning("configNotEnoughParams", sender);
 					}
 				}
 			}

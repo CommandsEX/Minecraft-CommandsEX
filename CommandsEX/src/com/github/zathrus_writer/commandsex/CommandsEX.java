@@ -65,7 +65,12 @@ public class CommandsEX extends JavaPlugin {
 			Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.SQLManager");
 			Method method = c.getDeclaredMethod("init", proto);
 			method.invoke(null, params);
-		} catch (Exception e) {}
+		} catch (ClassNotFoundException e) {
+			// this is OK, since we won't neccessarily have this class in each build
+		} catch (Throwable e) {
+			LogHelper.logSevere(_("dbError", ""));
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+		}
 		
 		// create default table structure if not created already
 		if (sqlEnabled) {

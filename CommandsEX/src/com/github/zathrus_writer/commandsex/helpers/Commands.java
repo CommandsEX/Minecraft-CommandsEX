@@ -63,8 +63,9 @@ public class Commands implements CommandExecutor {
 				return Boolean.TRUE.equals(ret);
 			}
 		} catch (Throwable e) {
-			sender.sendMessage(ChatColor.RED + _("internalError", sender.getName()));
-			LogHelper.logSevere("[CommandsEX] Couldn't handle function call '" + cmd + "', error returned: " + e.getMessage());
+			LogHelper.showWarning("internalError", sender);
+			LogHelper.logSevere("[CommandsEX] Couldn't handle function call '" + cmd + "'");
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: "+e.getCause());
     		return true;
     	}
 	}

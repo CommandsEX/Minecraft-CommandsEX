@@ -1,8 +1,5 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
-import static com.github.zathrus_writer.commandsex.Language._;
-
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,7 +14,7 @@ public class PlayerHelper {
 			return true;
 		}
 
-		cs.sendMessage(ChatColor.RED + _("inWorldCommandOnly", ""));
+		LogHelper.showWarning("inWorldCommandOnly", cs);
 		return false;
 	}
 }

@@ -37,9 +37,9 @@ public class SQLManager {
 								conn = DriverManager.getConnection("jdbc:sqlite:" + p.getDataFolder() + File.separatorChar + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "data") + ".db");
 								CommandsEX.sqlEnabled = true;
 								sqlType = "sqlite";
-							} catch (Exception e) {
+							} catch (Throwable e) {
 								LogHelper.logSevere("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
-								LogHelper.logDebug("Message: " + e.getMessage());
+								LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 							}
 							break;
 
@@ -54,9 +54,9 @@ public class SQLManager {
 								prefix = ((p.getConfig().getString("prefix") != null) ? p.getConfig().getString("prefix") : "");
 								CommandsEX.sqlEnabled = true;
 								sqlType = "mysql";
-							} catch (Exception e) {
+							} catch (Throwable e) {
 								LogHelper.logSevere("[CommandsEX] " + _("dbMySQLNotUsable", ""));
-								LogHelper.logDebug("Message: " + e.getMessage());
+								LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 							}
 							break;
 		}
@@ -79,10 +79,10 @@ public class SQLManager {
 				Statement stat = conn.createStatement();
 				stat.executeUpdate(query);
 				stat.close();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
 				LogHelper.logDebug("Query: " + query);
-				LogHelper.logDebug("Message: " + e.getMessage());
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
 		} else {
 			try {
@@ -117,7 +117,7 @@ public class SQLManager {
 				conn.commit();
 				prep.close();
 				prep = null;
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				String params_str = "";
 				if (params.length > 0) {
 					for (Object o : params) {
@@ -126,7 +126,7 @@ public class SQLManager {
 				}
 				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
 				LogHelper.logDebug("Query: " + query + ", parameters: " + params_str);
-				LogHelper.logDebug("Message: " + e.getMessage());
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
 		}
 		
@@ -150,10 +150,10 @@ public class SQLManager {
 				Statement stat = conn.createStatement();
 				ResultSet res = stat.executeQuery(query);
 				return res;
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
 				LogHelper.logDebug("Query: " + query);
-				LogHelper.logDebug("Message: " + e.getMessage());
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
 		} else {
 			try {
@@ -182,10 +182,10 @@ public class SQLManager {
 					i++;
 				}
 				return prep.executeQuery();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
 				LogHelper.logDebug("Query: " + query);
-				LogHelper.logDebug("Message: " + e.getMessage());
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
 		}
 
