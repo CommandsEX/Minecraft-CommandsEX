@@ -1,7 +1,6 @@
-package com.github.zathrus_writer.commandsex;
+package com.github.zathrus_writer.commandsex.helpers;
 
-import static com.github.zathrus_writer.commandsex.CommandsEX._;
-import java.util.logging.Logger;
+import static com.github.zathrus_writer.commandsex.Language._;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,8 +13,6 @@ import org.bukkit.entity.Player;
  *
  */
 public class Teleportation {
-	public final static Logger LOGGER = Logger.getLogger("Minecraft");	
-
 	/***
 	 * TPCOMMON - used as base method for teleporting players one to another
 	 * @param sender
@@ -32,7 +29,7 @@ public class Teleportation {
 			player.sendMessage(ChatColor.RED + _("pTooManyArguments", player.getName()));
 			return true;
 		} else if (aLength == 0) {
-			CommandsEX.showCommandHelpAndUsage(sender, "cex_" + command, alias);
+			Commands.showCommandHelpAndUsage(sender, "cex_" + command, alias);
 			return true;
 		}
 

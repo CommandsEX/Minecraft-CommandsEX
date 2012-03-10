@@ -36,3 +36,6 @@ port: 3306
 name: root
 password: ""
 prefix: cex_
+
+# set this to true to enable debug mode - not recommended if you're not actually debugging / updating the plugin
+debugMode: false

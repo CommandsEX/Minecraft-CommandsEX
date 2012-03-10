@@ -1,6 +1,6 @@
 package com.github.zathrus_writer.commandsex;
 
-import static com.github.zathrus_writer.commandsex.CommandsEX._;
+import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.io.File;
 import java.sql.Connection;
@@ -8,7 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.logging.Logger;
+
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 
 /***
  * Contains functions required for database data manipulation.
@@ -16,11 +17,8 @@ import java.util.logging.Logger;
  */
 
 public class SQLManager {
-	public final static Logger LOGGER = Logger.getLogger("Minecraft");
-	
 	// the CommandsEx plugin
 	public static CommandsEX plugin;
-	public static boolean enabled = false;
 	public transient static Connection conn;
 	public transient static String prefix = "cex_";
 	public transient static String sqlType;
@@ -37,10 +35,11 @@ public class SQLManager {
 			case "sqlite":	try {
 								Class.forName("org.sqlite.JDBC");
 								conn = DriverManager.getConnection("jdbc:sqlite:" + p.getDataFolder() + File.separatorChar + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "data") + ".db");
-								enabled = true;
+								CommandsEX.sqlEnabled = true;
 								sqlType = "sqlite";
 							} catch (Exception e) {
-								LOGGER.severe("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
+								LogHelper.logSevere("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
+								LogHelper.logDebug("Message: " + e.getMessage());
 							}
 							break;
 
@@ -53,10 +52,11 @@ public class SQLManager {
 																		((p.getConfig().getString("name") != null) ? p.getConfig().getString("name") : "root"),
 																		((p.getConfig().getString("password") != null) ? p.getConfig().getString("password") : ""));
 								prefix = ((p.getConfig().getString("prefix") != null) ? p.getConfig().getString("prefix") : "");
-								enabled = true;
+								CommandsEX.sqlEnabled = true;
 								sqlType = "mysql";
 							} catch (Exception e) {
-								LOGGER.severe("[CommandsEX] " + _("dbMySQLNotUsable", ""));
+								LogHelper.logSevere("[CommandsEX] " + _("dbMySQLNotUsable", ""));
+								LogHelper.logDebug("Message: " + e.getMessage());
 							}
 							break;
 		}
@@ -70,7 +70,7 @@ public class SQLManager {
 	 * @return
 	 */
 	public static Boolean query(String query, Object... params) {
-		if (!enabled) {
+		if (!CommandsEX.sqlEnabled) {
 			return false;
 		}
 
@@ -80,7 +80,9 @@ public class SQLManager {
 				stat.executeUpdate(query);
 				stat.close();
 			} catch (Exception e) {
-				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query + " (Msg: "+ e.getMessage() +")");
+				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+				LogHelper.logDebug("Query: " + query);
+				LogHelper.logDebug("Message: " + e.getMessage());
 			}
 		} else {
 			try {
@@ -101,7 +103,8 @@ public class SQLManager {
 						prep.setNull(i, (int)o);
 					} else {
 						// unhandled variable type
-						LOGGER.severe("[CommandsEX]" +  _("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
+						LogHelper.logSevere("[CommandsEX]" +  _("dbQueryParamError", ""));
+						LogHelper.logDebug("Query: " + query + ", variable: " + o.toString());
 						prep.clearBatch();
 						prep.close();
 						return false;
@@ -121,7 +124,9 @@ public class SQLManager {
 						params_str = params_str + ", " + o.toString();
 					}
 				}
-				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query + " ... parameters: " + params_str + " (Error: "+ e.getMessage() + ")");
+				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+				LogHelper.logDebug("Query: " + query + ", parameters: " + params_str);
+				LogHelper.logDebug("Message: " + e.getMessage());
 			}
 		}
 		
@@ -136,7 +141,7 @@ public class SQLManager {
 	 * @return
 	 */
 	public static ResultSet query_res(String query, Object... params) {
-		if (!enabled) {
+		if (!CommandsEX.sqlEnabled) {
 			return null;
 		}
 
@@ -146,7 +151,9 @@ public class SQLManager {
 				ResultSet res = stat.executeQuery(query);
 				return res;
 			} catch (Exception e) {
-				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query);
+				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+				LogHelper.logDebug("Query: " + query);
+				LogHelper.logDebug("Message: " + e.getMessage());
 			}
 		} else {
 			try {
@@ -167,7 +174,8 @@ public class SQLManager {
 						prep.setNull(i, (int)o);
 					} else {
 						// unhandled variable type
-						LOGGER.severe("[CommandsEX] " + _("dbQueryParamError", "") + query + ", " + _("variable", "") + ": " + o.toString());
+						LogHelper.logSevere("[CommandsEX] " + _("dbQueryParamError", ""));
+						LogHelper.logDebug("Query: " + query + ", variable: " + o.toString());
 						prep.close();
 						return null;
 					}
@@ -175,7 +183,9 @@ public class SQLManager {
 				}
 				return prep.executeQuery();
 			} catch (Exception e) {
-				LOGGER.severe("[CommandsEX] " + _("dbWriteError", "") + query);
+				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+				LogHelper.logDebug("Query: " + query);
+				LogHelper.logDebug("Message: " + e.getMessage());
 			}
 		}
 
@@ -188,7 +198,7 @@ public class SQLManager {
 	 * (used when disabling the plugin)
 	 */
 	public static void close() {
-		if (enabled) {
+		if (CommandsEX.sqlEnabled) {
 			try {
 				conn.close();
 			} catch (Exception e) {}

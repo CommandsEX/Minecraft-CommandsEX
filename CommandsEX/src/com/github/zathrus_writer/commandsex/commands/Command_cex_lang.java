@@ -1,13 +1,16 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import static com.github.zathrus_writer.commandsex.CommandsEX._;
+import static com.github.zathrus_writer.commandsex.Language._;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.Language;
 import com.github.zathrus_writer.commandsex.SQLManager;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
+import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 
 public class Command_cex_lang {
 	/***
@@ -18,20 +21,20 @@ public class Command_cex_lang {
 	 * @return
 	 */
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (CommandsEX.checkIsPlayer(sender)) {
+		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 			
 			// check permissions and call to action
 			if (args.length == 1) {
 				// change language
-				if (CommandsEX.checkPerms(player, "cex.lang")) {
+				if (Permissions.checkPerms(player, "cex.lang")) {
 					// check if the language is within our allowed languages
 					String pName = player.getName();
 					if (CommandsEX.getConf().getList("availableLangs").contains(args[0])) {
-						if (SQLManager.enabled) {
+						if (CommandsEX.sqlEnabled) {
 							SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("sqlite") ? "OR REPLACE " : "") +" INTO " + SQLManager.prefix + "user2lang VALUES (?, ?)" + ((SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE lang = VALUES(lang)" : "")), pName, args[0]);
 						}
-						CommandsEX.perUserLocale.put(pName, args[0]);
+						Language.perUserLocale.put(pName, args[0]);
 						player.sendMessage(ChatColor.YELLOW + _("languageChanged", pName) + ChatColor.WHITE + args[0]);
 					} else {
 						player.sendMessage(ChatColor.YELLOW + _("noSuchLanguage", pName));
@@ -41,7 +44,7 @@ public class Command_cex_lang {
 			} else {
 				// show all available lanaguages
 				String pName = player.getName();
-				player.sendMessage(ChatColor.YELLOW + _("langYourLang", pName) + ChatColor.WHITE + (CommandsEX.perUserLocale.containsKey(pName) ? CommandsEX.perUserLocale.get(pName) : CommandsEX.getConf().getString("defaultLang")));
+				player.sendMessage(ChatColor.YELLOW + _("langYourLang", pName) + ChatColor.WHITE + (Language.perUserLocale.containsKey(pName) ? Language.perUserLocale.get(pName) : CommandsEX.getConf().getString("defaultLang")));
 				player.sendMessage(ChatColor.YELLOW + _("availableLangs", pName) + ChatColor.WHITE + CommandsEX.getConf().getList("availableLangs").toString());
 			}
 		}

@@ -1,16 +1,17 @@
 package com.github.zathrus_writer.commandsex;
 
-import static com.github.zathrus_writer.commandsex.CommandsEX._;
-import java.util.List;
-import java.util.logging.Logger;
+import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
+
 public class CexCommands {
-	public final static Logger LOGGER = Logger.getLogger("Minecraft");
-	
 	/***
 	 * Handles reactions on the /cex command.
 	 * @param sender
@@ -43,18 +44,18 @@ public class CexCommands {
 			 * RELOAD
 			 */
 			
-			if (sender.getName().toLowerCase().equals("console") || ((sender instanceof Player) && CommandsEX.checkPerms((Player)sender, "cex.reload"))) {
-				p.reloadConf();
+			if (sender.getName().toLowerCase().equals("console") || ((sender instanceof Player) && Permissions.checkPerms((Player)sender, "cex.reload"))) {
+				p.reloadConfig();
 				sender.sendMessage(ChatColor.GREEN + _("configReloaded", sender.getName()));
 			} else {
-				LOGGER.warning("["+ CommandsEX.pdfFile.getName() +"]: Player " + sender.getName() + " tried to execute reload command without permission!");
+				LogHelper.logWarning("["+ CommandsEX.pdfFile.getName() +"]: Player " + sender.getName() + " tried to execute reload command without permission.");
 			}
 		} else if ((aLength == 1) && (args[0].equals("?") || args[0].equals("help"))) {
 
 			/***
 			 * USAGE HELP REQUEST
 			 */
-			CommandsEX.showCommandHelpAndUsage(sender, "cex", "cex");
+			Commands.showCommandHelpAndUsage(sender, "cex", "cex");
 		} else if ((aLength < 3) && args[0].equals("config")) {
 			
 			/***
@@ -144,7 +145,7 @@ public class CexCommands {
 							case "defaultlang":		if ((aLength > 2) && args[2] != null) {
 														p.getConfig().set("defaultLang", args[2]);
 														p.saveConfig();
-														CommandsEX.defaultLocale = args[2];
+														Language.defaultLocale = args[2];
 														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 													} else {
 														String sName = sender.getName();
