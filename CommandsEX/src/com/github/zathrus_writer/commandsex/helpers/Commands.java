@@ -98,10 +98,10 @@ public class Commands implements CommandExecutor {
 					String[] splitted = usage.split("\n");
 					sender.sendMessage(ChatColor.WHITE + _("usage", sender.getName()) + ":");
 					for (String rVal : splitted) {
-						sender.sendMessage(ChatColor.WHITE + rVal);
+						sender.sendMessage(ChatColor.RED + rVal);
 					}
 				} else {
-					sender.sendMessage(ChatColor.WHITE + _("usage", sender.getName()) + ": " + usage);
+					sender.sendMessage(ChatColor.RED + _("usage", sender.getName()) + ": " + usage);
 				}
 			}
 	    }
