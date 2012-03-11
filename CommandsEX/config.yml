@@ -37,5 +37,8 @@ name: root
 password: ""
 prefix: cex_
 
+# chat replacements config file name
+chatReplaceFile: playerchat.txt
+
 # set this to true to enable debug mode - not recommended if you're not actually debugging / updating the plugin
 debugMode: false

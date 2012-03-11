@@ -26,6 +26,9 @@ permissions:
   cex.lang:
     default: true
     description: Allows player to change their language and display list of available languages to change to.
+  cex.replacechat:
+    default: true
+    description: Placeholder for even function that allows chat text replacements.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

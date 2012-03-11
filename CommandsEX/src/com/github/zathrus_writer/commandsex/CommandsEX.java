@@ -29,6 +29,8 @@ public class CommandsEX extends JavaPlugin {
 	// otherwise it'll remain false... this variable removes
 	// the need for unneccessary SQLManager class if we don't need it
 	public static Boolean sqlEnabled = false;
+	// list of all existing event listeners that may exist for this plugin
+	private static String[] eventListenersList = {"PlayerChatListener"};
 
 	/***
 	 * Class constructor.
@@ -59,9 +61,9 @@ public class CommandsEX extends JavaPlugin {
 		LogHelper.logInfo("[" + pdfFile.getName() + "] " + _("version", "") + " " + pdfFile.getVersion() + " " + _("enableMsg", ""));
 
 		// initialize database, if we have it included in our build
+		Class<?>[] proto = new Class[] {this.getClass()};
+		Object[] params = new Object[] {this};
 		try {
-			Class<?>[] proto = new Class[] {this.getClass()};
-			Object[] params = new Object[] {this};
 			Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.SQLManager");
 			Method method = c.getDeclaredMethod("init", proto);
 			method.invoke(null, params);
@@ -75,6 +77,15 @@ public class CommandsEX extends JavaPlugin {
 		// create default table structure if not created already
 		if (sqlEnabled) {
 			SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"user2lang (username varchar(50) NOT NULL, lang varchar(5) NOT NULL, PRIMARY KEY (`username`))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores per-user selected plugin language'" : ""));
+		}
+
+		// enable existing event listeners here
+		if (eventListenersList.length > 0) {
+			for (String s : eventListenersList) {
+				try {
+					Class.forName("com.github.zathrus_writer.commandsex.listeners." + s).newInstance();
+				} catch (Throwable e) {}
+			}
 		}
 	}
 
