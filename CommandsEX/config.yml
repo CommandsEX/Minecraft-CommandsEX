@@ -1,21 +1,12 @@
+# set this to true to enable debug mode - not recommended if you're not actually debugging / updating the plugin
+debugMode: false
+
 # set this to true if you don't want your players see version of CommandsEX when they type /cex
 disableVersion: false
 
 # set this to true if you don't want player commands to be logged in console
 # example: [INFO] [Zathrus_Writer] /tploc 0 80 0
 logCommands: true
-
-# provide a list of CommandsEX commands that you want to completely disable from being used
-disabledCommands: []
-
-# default language to be used for all players until they switch
-# this should be a valid ISO Language Code, or Language and Country code
-# example: en, en_us, en_gb
-defaultLang: en
-
-# list of all languages that will be available to your users,
-# should you decide to allow them to change their language on per-user basis
-availableLangs: [en, sk]
 
 # database connection details (sqlLite and MySQL currently supported)
 #
@@ -29,6 +20,7 @@ availableLangs: [en, sk]
 # database = name of your MySQL database to connect to
 # prefix = optional, prefix for all CommandsEX tables (e.g. cex_, c_)
 #
+enableDatabase: true
 sqlType: sqlite
 database: minecraft
 host: localhost
@@ -36,6 +28,15 @@ port: 3306
 name: root
 password: ""
 prefix: cex_
+
+# default language to be used for all players until they switch
+# this should be a valid ISO Language Code, or Language and Country code
+# example: en, en_us, en_gb
+defaultLang: en
+
+# list of all languages that will be available to your users,
+# should you decide to allow them to change their language on per-user basis
+availableLangs: [en, sk]
 
 # chat replacements config file name
 chatReplaceFile: playerchat.txt
@@ -45,6 +46,3 @@ playerCommandsReplaceFile: playercmd.txt
 
 # console commands replacements config file name
 consoleCommandsReplaceFile: consolecmd.txt
-
-# set this to true to enable debug mode - not recommended if you're not actually debugging / updating the plugin
-debugMode: false

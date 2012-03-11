@@ -61,17 +61,19 @@ public class CommandsEX extends JavaPlugin {
 		LogHelper.logInfo("[" + pdfFile.getName() + "] " + _("version", "") + " " + pdfFile.getVersion() + " " + _("enableMsg", ""));
 
 		// initialize database, if we have it included in our build
-		Class<?>[] proto = new Class[] {this.getClass()};
-		Object[] params = new Object[] {this};
-		try {
-			Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.SQLManager");
-			Method method = c.getDeclaredMethod("init", proto);
-			method.invoke(null, params);
-		} catch (ClassNotFoundException e) {
-			// this is OK, since we won't neccessarily have this class in each build
-		} catch (Throwable e) {
-			LogHelper.logSevere(_("dbError", ""));
-			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+		if (getConf().getBoolean("enableDatabase")) {
+			Class<?>[] proto = new Class[] {this.getClass()};
+			Object[] params = new Object[] {this};
+			try {
+				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.SQLManager");
+				Method method = c.getDeclaredMethod("init", proto);
+				method.invoke(null, params);
+			} catch (ClassNotFoundException e) {
+				// this is OK, since we won't neccessarily have this class in each build
+			} catch (Throwable e) {
+				LogHelper.logSevere(_("dbError", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			}
 		}
 		
 		// create default table structure if not created already

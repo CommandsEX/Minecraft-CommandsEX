@@ -1,11 +1,14 @@
 author: Zathrus Writer
-description: A set of commonly used admin commands, built to per-request specs.
+description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
 version: '1.0'
 website: http://dev.bukkit.org/server-mods/commandsex
 permissions:
+  cex.reload:
+    default: op
+    description: Allows player to reload CommandsEX configuration from disk (/cex reload).
   cex.tp:
     default: op
     description: Allows player to teleport himself to another player (/tp Player) and also one player to another (/tp Player1 Player2).
@@ -20,9 +23,6 @@ permissions:
   cex.tploc:
     default: op
     description: Allows player to teleport himself to a specified location (/tploc).
-  cex.reload:
-    default: op
-    description: Allows player to reload CommandsEX configuration from disk (/cex reload).
   cex.lang:
     default: true
     description: Allows player to change their language and display list of available languages to change to.
