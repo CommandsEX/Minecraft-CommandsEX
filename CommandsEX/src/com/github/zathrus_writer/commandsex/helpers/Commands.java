@@ -96,7 +96,7 @@ public class Commands implements CommandExecutor {
 				if (usage.contains("\n") || usage.contains("\r")) {
 					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
 					String[] splitted = usage.split("\n");
-					sender.sendMessage(ChatColor.WHITE + _("usage", sender.getName()) + ":");
+					sender.sendMessage(ChatColor.RED + _("usage", sender.getName()) + ":");
 					for (String rVal : splitted) {
 						sender.sendMessage(ChatColor.RED + rVal);
 					}
