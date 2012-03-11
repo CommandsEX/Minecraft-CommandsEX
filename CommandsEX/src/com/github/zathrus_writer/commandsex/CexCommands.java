@@ -2,7 +2,6 @@ package com.github.zathrus_writer.commandsex;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -83,77 +82,41 @@ public class CexCommands {
 					/***
 					 * GETTING CONFIG VALUES
 					 */
-					switch ((args[0].equals("cg") ? args[1].toLowerCase() : args[2].toLowerCase())) {
-						case "disableversion":	sender.sendMessage(ChatColor.YELLOW + _("configVersionDisableStatus", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
-												break;
-						
-						case "logcommands":		sender.sendMessage(ChatColor.YELLOW + _("configCommandsLoggingStatus", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
-												break;
-						
-						case "disabledcommands":sender.sendMessage(ChatColor.YELLOW + _("configDisabledCommands", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-												break;
-												
-						case "defaultlang":		sender.sendMessage(ChatColor.YELLOW + _("configDefaultLang", sender.getName()) + p.getConfig().getString("defaultLang"));
-												break;
-												
-						default:				LogHelper.showWarning("configUnrecognized", sender);
-												break;
+					String v = (args[0].equals("cg") ? args[1].toLowerCase() : args[2].toLowerCase());
+					if (v.equals("disableversion")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configVersionDisableStatus", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("logcommands")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configCommandsLoggingStatus", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("defaultlang")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configDefaultLang", sender.getName()) + p.getConfig().getString("defaultLang"));
+					} else {
+						LogHelper.showWarning("configUnrecognized", sender);
 					}
 				} else if (args[1].equals("set") || args[0].equals("cs")) {
 					
 					/***
 					 * SETTING CONFIG VALUES
 					 */
-					if ((args[0].equals("cs") && ((aLength >= 2) && (aLength <= 4))) || (aLength == 5)) {
-						switch ((args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase())) {
-							case "disableversion":	p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
-													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
-													break;
-							
-							case "logcommands":		p.getConfig().set("logCommands", !p.getConfig().getBoolean("logCommands"));
-													p.saveConfig();
-													sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
-													break;
-													
-							case "disabledcommands":if (((aLength > 3) && args[2].equals("add")) || ((aLength > 4) && args[3].equals("add"))) {
-													List<String> l = p.getConfig().getStringList("disabledCommands");
-														String toAdd = args[2].equals("add") ? args[3] : args[4];
-														if (!l.contains(toAdd)) {
-															l.add(args[2].equals("add") ? args[3] : args[4]);
-															p.getConfig().set("disabledCommands", l);
-															p.saveConfig();
-														}
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-													} else if (((aLength > 3) && args[2].equals("remove")) || ((aLength > 4) && args[3].equals("remove"))) {
-														List<String> l = p.getConfig().getStringList("disabledCommands");
-														String toRemove = args[2].equals("remove") ? args[3] : args[4];
-														if (l.contains(toRemove)) {
-															l.remove(args[2].equals("remove") ? args[3] : args[4]);
-															p.getConfig().set("disabledCommands", l);
-															p.saveConfig();
-														}
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getList("disabledCommands").toString());
-													} else {
-														LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
-													}
-													break;
-							
-							case "defaultlang":		if ((aLength > 2) && args[2] != null) {
-														p.getConfig().set("defaultLang", args[2]);
-														p.saveConfig();
-														Language.defaultLocale = args[2];
-														sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
-													} else {
-														LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
-													}
-													break;
-													
-							default:				LogHelper.showWarning("configUnrecognized", sender);
-													break;
+					String v = (args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase());
+					if (v.equals("disableversion")) {
+						p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("logcommands")) {
+						p.getConfig().set("logCommands", !p.getConfig().getBoolean("logCommands"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("disableversion")) {
+						if ((aLength > 2) && args[2] != null) {
+							p.getConfig().set("defaultLang", args[2]);
+							p.saveConfig();
+							Language.defaultLocale = args[2];
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else {
-						LogHelper.showWarning("configNotEnoughParams", sender);
+						LogHelper.showWarning("configUnrecognized", sender);
 					}
 				}
 			}

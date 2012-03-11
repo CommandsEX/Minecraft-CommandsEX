@@ -23,7 +23,7 @@ public class Handler_replacechat {
 	 * @param plugin
 	 */
 	public static void init(CommandsEX plugin) {
-		PlayerChatListener.normalPriorityEvents.put("replacechat", "replaceChat");
+		PlayerChatListener.plugin.addEvent("normal", "replacechat", "replaceChat");
 
 		// load replacement values from config file
 		File playerChatFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("chatReplaceFile"));
@@ -45,23 +45,21 @@ public class Handler_replacechat {
 	 * @return
 	 */
 	public static Boolean replaceChat(PlayerChatEvent e) {
-		if (pairs.size() > 0) {
-			for (ReplacementPair rp : pairs) {
-				StringBuffer sb = new StringBuffer();
-				Matcher m = rp.getRegex().matcher(e.getMessage());
-				if (!m.find()) continue;
-				//loop through with find/replace
-				do { //use do while, due to the find() invocation above
-					// test if it is all upper, and replace with all upper (if we have this set up in the regex itself - in config file)
-					if (rp.getSameOutputCase() && allUpper && m.group().toUpperCase().equals(m.group())) {
-						m.appendReplacement(sb, rp.getReplacement().toUpperCase());
-					} else {
-						m.appendReplacement(sb, rp.getReplacement());
-					}
-				} while (m.find());
-				m.appendTail(sb);
-				e.setMessage(sb.toString());
-			}
+		for (ReplacementPair rp : pairs) {
+			StringBuffer sb = new StringBuffer();
+			Matcher m = rp.getRegex().matcher(e.getMessage());
+			if (!m.find()) continue;
+			//loop through with find/replace
+			do { //use do while, due to the find() invocation above
+				// test if it is all upper, and replace with all upper (if we have this set up in the regex itself - in config file)
+				if (rp.getSameOutputCase() && allUpper && m.group().toUpperCase().equals(m.group())) {
+					m.appendReplacement(sb, rp.getReplacement().toUpperCase());
+				} else {
+					m.appendReplacement(sb, rp.getReplacement());
+				}
+			} while (m.find());
+			m.appendTail(sb);
+			e.setMessage(sb.toString());
 		}
 		return true;
 	}

@@ -1,8 +1,10 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import static com.github.zathrus_writer.commandsex.Language._;
+
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,12 +14,10 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CexCommands;
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Commands implements CommandExecutor {
 
 	// list of commands this plugin should ignore - values come from a config file
-	private List<String> ignoredCommands = new ArrayList<String>();
 	private CommandsEX plugin;
 	
 	/***
@@ -26,18 +26,12 @@ public class Commands implements CommandExecutor {
 	 */
 	public Commands(CommandsEX plug) {
 		this.plugin = plug;
-		this.ignoredCommands = plug.getConfig().getStringList("disabledCommands");
 	}
  
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String cmdAlias, String[] args) {
 		String cmd = command.getName().toLowerCase();
 		String alias = cmdAlias.toLowerCase();
-		
-		// first of all - check if this command shouldn't be ignored by our plugin
-		if (this.ignoredCommands.contains(cmd) || this.ignoredCommands.contains(alias)) {
-			return true;
-		}
 		
 		// log the command if invoked by a player
 		if ((sender instanceof Player) && (this.plugin.getConfig().getBoolean("logCommands") == true)) {

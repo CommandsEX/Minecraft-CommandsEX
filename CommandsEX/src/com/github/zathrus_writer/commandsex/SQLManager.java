@@ -31,34 +31,33 @@ public class SQLManager {
 	public static void init(CommandsEX p) {
 		plugin = p;
 		
-		switch (p.getConfig().getString("sqlType").toLowerCase()) {
-			case "sqlite":	try {
-								Class.forName("org.sqlite.JDBC");
-								conn = DriverManager.getConnection("jdbc:sqlite:" + p.getDataFolder() + File.separatorChar + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "data") + ".db");
-								CommandsEX.sqlEnabled = true;
-								sqlType = "sqlite";
-							} catch (Throwable e) {
-								LogHelper.logSevere("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
-								LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
-							}
-							break;
-
-			case "mysql":	try {
-								Class.forName("com.mysql.jdbc.Driver");
-								conn = DriverManager.getConnection("jdbc:mysql://" 
-																		+ ((p.getConfig().getString("host") != null) ? p.getConfig().getString("host") : "localhost")
-																		+ ":" + ((p.getConfig().getString("port") != null) ? p.getConfig().getString("port") : "3306")
-																		+ "/" + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "minecraft"),
-																		((p.getConfig().getString("name") != null) ? p.getConfig().getString("name") : "root"),
-																		((p.getConfig().getString("password") != null) ? p.getConfig().getString("password") : ""));
-								prefix = ((p.getConfig().getString("prefix") != null) ? p.getConfig().getString("prefix") : "");
-								CommandsEX.sqlEnabled = true;
-								sqlType = "mysql";
-							} catch (Throwable e) {
-								LogHelper.logSevere("[CommandsEX] " + _("dbMySQLNotUsable", ""));
-								LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
-							}
-							break;
+		String v = p.getConfig().getString("sqlType").toLowerCase();
+		if (v.equals("sqlite")) {
+			try {
+				Class.forName("org.sqlite.JDBC");
+				conn = DriverManager.getConnection("jdbc:sqlite:" + p.getDataFolder() + File.separatorChar + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "data") + ".db");
+				CommandsEX.sqlEnabled = true;
+				sqlType = "sqlite";
+			} catch (Throwable e) {
+				LogHelper.logSevere("[CommandsEX] " + _("dbSQLiteNotUsable", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			}
+		} else if (v.equals("mysql")) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://" 
+														+ ((p.getConfig().getString("host") != null) ? p.getConfig().getString("host") : "localhost")
+														+ ":" + ((p.getConfig().getString("port") != null) ? p.getConfig().getString("port") : "3306")
+														+ "/" + ((p.getConfig().getString("database") != null) ? p.getConfig().getString("database") : "minecraft"),
+														((p.getConfig().getString("name") != null) ? p.getConfig().getString("name") : "root"),
+														((p.getConfig().getString("password") != null) ? p.getConfig().getString("password") : ""));
+				prefix = ((p.getConfig().getString("prefix") != null) ? p.getConfig().getString("prefix") : "");
+				CommandsEX.sqlEnabled = true;
+				sqlType = "mysql";
+			} catch (Throwable e) {
+				LogHelper.logSevere("[CommandsEX] " + _("dbMySQLNotUsable", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			}
 		}
 	}
 
@@ -100,7 +99,7 @@ public class SQLManager {
 					} else if (o instanceof Long) {
 						prep.setLong(i, (Long)o);
 					} else if (o.equals(null)) {
-						prep.setNull(i, (int)o);
+						prep.setNull(i, (Integer)o);
 					} else {
 						// unhandled variable type
 						LogHelper.logSevere("[CommandsEX]" +  _("dbQueryParamError", ""));
@@ -171,7 +170,7 @@ public class SQLManager {
 					} else if (o instanceof Long) {
 						prep.setLong(i, (Long)o);
 					} else if (o.equals(null)) {
-						prep.setNull(i, (int)o);
+						prep.setNull(i, (Integer)o);
 					} else {
 						// unhandled variable type
 						LogHelper.logSevere("[CommandsEX] " + _("dbQueryParamError", ""));
