@@ -58,7 +58,6 @@ public class PlayerChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(PlayerChatEvent e) {
-		LogHelper.logInfo("chat event");
 		// the usual stuff :-)
 		Class<?>[] proto = new Class[] {PlayerChatEvent.class};
 		Object[] params = new Object[] {e};

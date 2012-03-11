@@ -10,25 +10,25 @@ import java.util.Map.Entry;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.permissions.Permission;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import static com.github.zathrus_writer.commandsex.Language._;
 
-public class PlayerCommandListener implements Listener {
+public class ServerCommandListener implements Listener {
 
 	protected Map<String, String> highPriorityEvents = new HashMap<String, String>();
 	protected Map<String, String> normalPriorityEvents = new HashMap<String, String>();
-	public static PlayerCommandListener plugin;
+	public static ServerCommandListener plugin;
 	
 	/***
 	 * Initialization routine. Retrieves all event handling functions from handle
 	 * classes, so they can be executed on PlayerCommandEvent one by one.
 	 * @param plugin
 	 */
-	public PlayerCommandListener() {
+	public ServerCommandListener() {
 		plugin = this;
 		// load up all existing permissions
 		List<Permission> perms = CommandsEX.pdfFile.getPermissions();
@@ -40,7 +40,7 @@ public class PlayerCommandListener implements Listener {
 		for(int i = 0; i <= perms.size() - 1; i++) {
 			// call initialization function for each of the event handlers
 			String[] s = perms.get(i).getName().split("\\.");
-			if ((s.length == 0) || (!s[0].equals("PlayerCommandListener"))) continue;
+			if ((s.length == 0) || (!s[0].equals("ServerCommandListener"))) continue;
 			try {
 				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.handlers.Handler_" + s[1]);
 				Method method = c.getDeclaredMethod("init", proto);
@@ -57,9 +57,9 @@ public class PlayerCommandListener implements Listener {
 	 * @param e
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
+	public void onServerCommand(ServerCommandEvent e) {
 		// the usual stuff :-)
-		Class<?>[] proto = new Class[] {PlayerCommandPreprocessEvent.class};
+		Class<?>[] proto = new Class[] {ServerCommandEvent.class};
 		Object[] params = new Object[] {e};
 		
 		// iterate over all priorities and call functions one by one

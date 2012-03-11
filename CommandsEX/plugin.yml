@@ -29,9 +29,12 @@ permissions:
   PlayerChatListener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
-  PlayerCommandListener.replacecommand:
+  PlayerCommandListener.replaceplayercommand:
     default: true
-    description: Placeholder for event function that allows player commands replacements.
+    description: Placeholder for event function that allows player command replacements.
+  ServerCommandListener.replaceconsolecommand:
+    default: true
+    description: Placeholder for event function that allows server (console) command replacements.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

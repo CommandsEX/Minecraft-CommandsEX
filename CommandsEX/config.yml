@@ -41,7 +41,10 @@ prefix: cex_
 chatReplaceFile: playerchat.txt
 
 # player commands replacements config file name
-commandsReplaceFile: playercmd.txt
+playerCommandsReplaceFile: playercmd.txt
+
+# console commands replacements config file name
+consoleCommandsReplaceFile: consolecmd.txt
 
 # set this to true to enable debug mode - not recommended if you're not actually debugging / updating the plugin
 debugMode: false

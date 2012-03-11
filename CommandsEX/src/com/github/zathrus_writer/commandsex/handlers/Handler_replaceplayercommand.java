@@ -13,7 +13,7 @@ import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
 import com.github.zathrus_writer.commandsex.listeners.PlayerCommandListener;
 
-public class Handler_replacecommand {
+public class Handler_replaceplayercommand {
 
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 	
@@ -23,10 +23,10 @@ public class Handler_replacecommand {
 	 * @param plugin
 	 */
 	public static void init(CommandsEX plugin) {
-		PlayerCommandListener.plugin.addEvent("normal", "replacecommand", "replaceCommand");
+		PlayerCommandListener.plugin.addEvent("normal", "replaceplayercommand", "replaceCommand");
 
 		// load replacement values from config file
-		File playerCommandsFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("commandsReplaceFile"));
+		File playerCommandsFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("playerCommandsReplaceFile"));
 		FileListHelper.checkListFile(playerCommandsFile, "playercmd.txt");
 		pairs = FileListHelper.loadListFromFile(playerCommandsFile);
 	}
