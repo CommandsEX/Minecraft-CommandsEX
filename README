@@ -1,0 +1,32 @@
+CommandsEX, Build Your Very Own CraftBukkit Plugin
+
+If you ever needed a single function but had to download a massive plugin that contained it, you will probably know the feeling. It could be hard to pick up the right plugin-set for a server with all the plugins currently in existence. Especially since many of them conflict with each other.
+That is the idea behind CommandsEX project - to allow server administrators to choose which commands and functions they really need and let them trash all the rest.
+
+
+How it works?
+
+CommandsEX comes in a full-build flavor that is officially being distributed via the BukkitDEV website (http://dev.bukkit.org/server-mods/commandsex).
+If a person needs to exclude some functionality from the plugin, they can do it in one of the following ways:
+
+- by visiting the CommandsEX Builder page (http://commandsex.sourceforge.net)
+- by removing unneccessary files from the JAR file itself and adjusting plugin.yml file
+
+
+Permissions and Economy support?
+
+CommandsEX makes use of Bukkit's built-in permissions model (SuperPerms), therefore allowing you to use any of the permission plugins that support this (PermissionsEx, bPermissions, ...)
+As for Economy, this is certainly planned right after a few first common functions have been implemented. CommandsEX will support Economy plugins that work with Vault.
+For more information on how we're progressing on this, check out the Project RoadMap at http://sourceforge.net/userapps/trac/zathrus-writer
+
+
+Databases
+
+CommandsEX allows you to make use of either SQLite or MySQL databases to store various player data.
+This includes economy, per-user language settings and more. Configuration is available in the main config.yml file located in CommandsEX folder under your plugins directory.
+Database usage is optional and there is also an option to turn it off completely in the config file itself.
+
+
+Getting help
+Found a bug? Have feature request? Need a question answered?
+Don't hesitate and file a new ticket (http://dev.bukkit.org/server-mods/commandsex/create-ticket) or visit the comments thread on the project's page (http://dev.bukkit.org/server-mods/commandsex/#comments)!
