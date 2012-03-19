@@ -56,7 +56,7 @@ public class PlayerChatListener implements Listener {
 	 * We do this by priority - from lowest to highest.
 	 * @param e
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onChat(PlayerChatEvent e) {
 		// the usual stuff :-)
 		Class<?>[] proto = new Class[] {PlayerChatEvent.class};

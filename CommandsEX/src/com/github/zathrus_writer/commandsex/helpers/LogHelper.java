@@ -28,6 +28,10 @@ public class LogHelper {
 			LOGGER.info(msg);
 		}
 	}
+
+	public static void showInfo(String msg, CommandSender sender) {
+		sender.sendMessage(ChatColor.YELLOW + _(msg, sender.getName()));
+	}
 	
 	public static void showWarning(String msg, CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + _(msg, sender.getName()));

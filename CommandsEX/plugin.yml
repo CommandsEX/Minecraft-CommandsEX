@@ -26,6 +26,12 @@ permissions:
   cex.lang:
     default: true
     description: Allows player to change their language and display list of available languages to change to.
+  cex.spawn:
+    default: true
+    description: Allows player to instantly teleport to a spawn location.
+  cex.setspawn:
+    default: op
+    description: Allows player to set server's spawn location.
   PlayerChatListener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -77,3 +83,15 @@ commands:
     permission: cex.lang
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [lang]
+  cex_spawn:
+    description: Teleports a player to server's spawn location.
+    usage: /<command>
+    permission: cex.spawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spawn]
+  cex_setspawn:
+    description: Sets the server's spawn location.
+    usage: /<command>
+    permission: cex.setspawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setspawn]

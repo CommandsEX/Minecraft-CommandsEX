@@ -56,7 +56,7 @@ public class ServerCommandListener implements Listener {
 	 * We do this by priority - from lowest to highest.
 	 * @param e
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onServerCommand(ServerCommandEvent e) {
 		// the usual stuff :-)
 		Class<?>[] proto = new Class[] {ServerCommandEvent.class};
