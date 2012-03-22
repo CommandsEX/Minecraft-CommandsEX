@@ -47,7 +47,7 @@ public class Command_cex_tploc extends Teleportation {
 		        } else {
 		        	// all ok here, we can TP the player
 		        	try {
-		        		player.teleport(new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
+		        		Teleportation.delayedTeleport(player, new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
 		        	} catch (Throwable e) {
 		        		LogHelper.showWarning("internalError", sender);
 		        		LogHelper.logSevere("[CommandsEX]: TPLOC returned an unexpected error for player " + player.getName() + ".");

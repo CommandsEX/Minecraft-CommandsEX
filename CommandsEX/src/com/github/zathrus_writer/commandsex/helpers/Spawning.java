@@ -23,8 +23,9 @@ public class Spawning {
 		// so far, this is a very simple function that will be expanded to allow random spawns and similar features
 		Player player = (Player)sender;
 		World world = player.getWorld();
-
-		player.teleport(world.getSpawnLocation());
+		Location l = world.getSpawnLocation();
+		
+		Teleportation.delayedTeleport(player, l);
         return true;
 	}
 	

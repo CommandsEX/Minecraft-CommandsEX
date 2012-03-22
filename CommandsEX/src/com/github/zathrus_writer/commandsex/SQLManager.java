@@ -98,8 +98,8 @@ public class SQLManager {
 						prep.setFloat(i, (Float)o);
 					} else if (o instanceof Long) {
 						prep.setLong(i, (Long)o);
-					} else if (o.equals(null)) {
-						prep.setNull(i, (Integer)o);
+					} else if (o == null) {
+						prep.setNull(i, 0);
 					} else {
 						// unhandled variable type
 						LogHelper.logSevere("[CommandsEX]" +  _("dbQueryParamError", ""));
@@ -169,8 +169,8 @@ public class SQLManager {
 						prep.setFloat(i, (Float)o);
 					} else if (o instanceof Long) {
 						prep.setLong(i, (Long)o);
-					} else if (o.equals(null)) {
-						prep.setNull(i, (Integer)o);
+					} else if (o == null) {
+						prep.setNull(i, 0);
 					} else {
 						// unhandled variable type
 						LogHelper.logSevere("[CommandsEX] " + _("dbQueryParamError", ""));

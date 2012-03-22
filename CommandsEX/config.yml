@@ -46,3 +46,9 @@ playerCommandsReplaceFile: playercmd.txt
 
 # console commands replacements config file name
 consoleCommandsReplaceFile: consolecmd.txt
+
+# how long (in seconds) should a TPA request last before automatic denial
+tpaTimeout: 50
+
+# how long (in seconds) should a TPAHERE request last before automatic denial
+tpahereTimeout: 50

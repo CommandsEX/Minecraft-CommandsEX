@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: '1.0'
+version: 'Alpha 1.11'
 website: http://dev.bukkit.org/server-mods/commandsex
 permissions:
   cex.reload:
@@ -23,6 +23,21 @@ permissions:
   cex.tploc:
     default: op
     description: Allows player to teleport himself to a specified location (/tploc).
+  cex.tpa:
+    default: op
+    description: Player may ask another player for permission to teleport to him (/tpa).
+  cex.tpahere:
+    default: op
+    description: Player may ask another player to teleport to him (/tpahere).
+  cex.tpaccept:
+    default: op
+    description: Player may accept a teleport request from another player (/tpaccept).
+  cex.tpdeny:
+    default: op
+    description: Player may reject a teleport request from another player (/tpdeny).
+  cex.back:
+    default: op
+    description: Allows a player to return to his last known location (/back).
   cex.lang:
     default: true
     description: Allows player to change their language and display list of available languages to change to.
@@ -38,6 +53,9 @@ permissions:
   PlayerCommandListener.replaceplayercommand:
     default: true
     description: Placeholder for event function that allows player command replacements.
+  PlayerTeleportListener.savebackposition:
+    default: true
+    description: Placeholder for event function that saves last player position in the event of teleportation.
   ServerCommandListener.replaceconsolecommand:
     default: true
     description: Placeholder for event function that allows server (console) command replacements.
@@ -77,6 +95,36 @@ commands:
     permission: cex.tploc
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tploc]
+  cex_tpa:
+    description: Asks a player for permission to teleport to him.
+    usage: /<command> <Player>
+    permission: cex.tpa
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpa,call,tpask]
+  cex_tpahere:
+    description: Requests another player to teleport to you.
+    usage: /<command> <Player>
+    permission: cex.tpahere
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpahere]
+  cex_tpaccept:
+    description: Accepts /tpa or /tpahere request for a specified player.
+    usage: /<command> <Player>
+    permission: cex.tpaccept
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpaccept,tpyes]
+  cex_tpdeny:
+    description: Rejects /tpa or /tpahere request for a specified player.
+    usage: /<command> <Player>
+    permission: cex.tpdeny
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpdeny,tpno]
+  cex_back:
+    description: Returns a player to his last know location.
+    usage: /<command>
+    permission: cex.back
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [back]
   cex_lang:
     description: Displays list of available languages or changes language for the player.
     usage: /<command> [language]

@@ -30,7 +30,7 @@ public class CommandsEX extends JavaPlugin {
 	// the need for unneccessary SQLManager class if we don't need it
 	public static Boolean sqlEnabled = false;
 	// list of all existing event listeners that may exist for this plugin
-	private static String[] eventListenersList = {"PlayerChatListener", "PlayerCommandListener", "ServerCommandListener"};
+	private static String[] eventListenersList = {"PlayerChatListener", "PlayerCommandListener", "PlayerTeleportListener", "ServerCommandListener"};
 
 	/***
 	 * Class constructor.

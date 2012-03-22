@@ -10,7 +10,7 @@ import com.github.zathrus_writer.commandsex.helpers.Spawning;
 
 public class Command_cex_setspawn extends Spawning {
 	/***
-	 * SPAWN - teleports player to current world's spawn point
+	 * SETSPAWN - sets spawning point of the current world to where the Player is standing
 	 * @param sender
 	 * @param args
 	 * @return

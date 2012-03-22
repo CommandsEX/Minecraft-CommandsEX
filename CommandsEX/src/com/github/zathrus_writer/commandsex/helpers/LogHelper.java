@@ -1,7 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.util.logging.Logger;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -34,7 +33,21 @@ public class LogHelper {
 	}
 	
 	public static void showWarning(String msg, CommandSender sender) {
-		sender.sendMessage(ChatColor.RED + _(msg, sender.getName()));
+		// check if our message contains multiple translation parts
+		if (msg.contains("#####")) {
+			String buildup = "";
+			String[] s = msg.split("#####");
+			for (String sx : s) {
+				if (sx.startsWith("[")) {
+					buildup = buildup + sx.replace("[", "");
+				} else {
+					buildup = buildup + _(sx, sender.getName());
+				}
+			}
+			sender.sendMessage(ChatColor.RED + buildup);
+		} else {
+			sender.sendMessage(ChatColor.RED + _(msg, sender.getName()));
+		}
 	}
 	
 	public static void showWarnings(CommandSender sender, String... msg) {

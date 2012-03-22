@@ -58,6 +58,7 @@ public class PlayerChatListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onChat(PlayerChatEvent e) {
+		if (e.isCancelled()) return;
 		// the usual stuff :-)
 		Class<?>[] proto = new Class[] {PlayerChatEvent.class};
 		Object[] params = new Object[] {e};
