@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerCommandEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
 import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
-import com.github.zathrus_writer.commandsex.listeners.ServerCommandListener;
 
-public class Handler_replaceconsolecommand {
+public class Handler_replaceconsolecommand implements Listener {
 
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 	
@@ -21,13 +23,12 @@ public class Handler_replaceconsolecommand {
 	 * and loads existing chat replacements from the config file.
 	 * @param plugin
 	 */
-	public static void init(CommandsEX plugin) {
-		ServerCommandListener.plugin.addEvent("normal", "replaceconsolecommand", "replaceCommand");
-
+	public Handler_replaceconsolecommand() {
 		// load replacement values from config file
-		File playerCommandsFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("consoleCommandsReplaceFile"));
+		File playerCommandsFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("consoleCommandsReplaceFile"));
 		FileListHelper.checkListFile(playerCommandsFile, "consolecmd.txt");
 		pairs = FileListHelper.loadListFromFile(playerCommandsFile);
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
 	public static void addReplacementPair(ReplacementPair pair) {
@@ -43,7 +44,8 @@ public class Handler_replaceconsolecommand {
 	 * @param e
 	 * @return
 	 */
-	public static void replaceCommand(ServerCommandEvent e) {
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void replaceCommand(ServerCommandEvent e) {
 		for (ReplacementPair rp : pairs) {
 			Matcher m = rp.getRegex().matcher(e.getCommand());
 			if (m.matches()){

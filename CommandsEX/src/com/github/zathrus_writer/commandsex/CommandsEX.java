@@ -2,10 +2,12 @@ package com.github.zathrus_writer.commandsex;
 
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,8 +31,6 @@ public class CommandsEX extends JavaPlugin {
 	// otherwise it'll remain false... this variable removes
 	// the need for unneccessary SQLManager class if we don't need it
 	public static Boolean sqlEnabled = false;
-	// list of all existing event listeners that may exist for this plugin
-	private static String[] eventListenersList = {"PlayerChatListener", "PlayerCommandListener", "PlayerTeleportListener", "ServerCommandListener"};
 
 	/***
 	 * Class constructor.
@@ -81,11 +81,16 @@ public class CommandsEX extends JavaPlugin {
 			SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"user2lang (username varchar(50) NOT NULL, lang varchar(5) NOT NULL, PRIMARY KEY (`username`))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores per-user selected plugin language'" : ""));
 		}
 
-		// enable existing event listeners here
-		if (eventListenersList.length > 0) {
-			for (String s : eventListenersList) {
+		// enable existing classes that are listening to events - determine names from permissions
+		List<Permission> perms = CommandsEX.pdfFile.getPermissions();
+		for(int i = 0; i <= perms.size() - 1; i++) {
+			// call initialization function for each of the event handling functions
+			String pName = perms.get(i).getName();
+			if (pName.startsWith("Listener")) {
+				String[] s = pName.split("\\.");
+				if (s.length == 0) continue;
 				try {
-					Class.forName("com.github.zathrus_writer.commandsex.listeners." + s).newInstance();
+					Class.forName("com.github.zathrus_writer.commandsex.handlers.Handler_" + s[1]).newInstance();
 				} catch (Throwable e) {}
 			}
 		}

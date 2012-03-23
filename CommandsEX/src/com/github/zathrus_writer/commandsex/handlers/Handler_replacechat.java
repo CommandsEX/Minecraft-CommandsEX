@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
 import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
-import com.github.zathrus_writer.commandsex.listeners.PlayerChatListener;
 
-public class Handler_replacechat {
+public class Handler_replacechat implements Listener {
 
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 	public static boolean allUpper = true;
@@ -22,13 +24,12 @@ public class Handler_replacechat {
 	 * and loads existing chat replacements from the config file.
 	 * @param plugin
 	 */
-	public static void init(CommandsEX plugin) {
-		PlayerChatListener.plugin.addEvent("normal", "replacechat", "replaceChat");
-
+	public Handler_replacechat() {
 		// load replacement values from config file
-		File playerChatFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("chatReplaceFile"));
+		File playerChatFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("chatReplaceFile"));
 		FileListHelper.checkListFile(playerChatFile, "playerchat.txt");
 		pairs = FileListHelper.loadListFromFile(playerChatFile);
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
 	public static void addReplacementPair(ReplacementPair pair) {
@@ -44,7 +45,9 @@ public class Handler_replacechat {
 	 * @param e
 	 * @return
 	 */
-	public static Boolean replaceChat(PlayerChatEvent e) {
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void replaceChat(PlayerChatEvent e) {
+		if (e.isCancelled()) return;
 		for (ReplacementPair rp : pairs) {
 			StringBuffer sb = new StringBuffer();
 			Matcher m = rp.getRegex().matcher(e.getMessage());
@@ -61,7 +64,6 @@ public class Handler_replacechat {
 			m.appendTail(sb);
 			e.setMessage(sb.toString());
 		}
-		return true;
 	}
 	
 }

@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
-import com.github.zathrus_writer.commandsex.listeners.PlayerCommandListener;
 
-public class Handler_replaceplayercommand {
+public class Handler_replaceplayercommand implements Listener {
 
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 	
@@ -22,13 +24,12 @@ public class Handler_replaceplayercommand {
 	 * and loads existing chat replacements from the config file.
 	 * @param plugin
 	 */
-	public static void init(CommandsEX plugin) {
-		PlayerCommandListener.plugin.addEvent("normal", "replaceplayercommand", "replaceCommand");
-
+	public Handler_replaceplayercommand() {
 		// load replacement values from config file
-		File playerCommandsFile = new File(plugin.getDataFolder(), plugin.getConfig().getString("playerCommandsReplaceFile"));
+		File playerCommandsFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("playerCommandsReplaceFile"));
 		FileListHelper.checkListFile(playerCommandsFile, "playercmd.txt");
 		pairs = FileListHelper.loadListFromFile(playerCommandsFile);
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
 	public static void addReplacementPair(ReplacementPair pair) {
@@ -44,6 +45,7 @@ public class Handler_replaceplayercommand {
 	 * @param e
 	 * @return
 	 */
+	@EventHandler(priority = EventPriority.LOWEST)
 	public static void replaceCommand(PlayerCommandPreprocessEvent e) {
 		for (ReplacementPair rp : pairs) {
 			Matcher m = rp.getRegex().matcher(e.getMessage().substring(1));

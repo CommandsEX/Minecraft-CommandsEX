@@ -47,16 +47,16 @@ permissions:
   cex.setspawn:
     default: op
     description: Allows player to set server's spawn location.
-  PlayerChatListener.replacechat:
+  Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
-  PlayerCommandListener.replaceplayercommand:
+  Listener.replaceplayercommand:
     default: true
     description: Placeholder for event function that allows player command replacements.
-  PlayerTeleportListener.savebackposition:
+  Listener.savebackposition:
     default: true
     description: Placeholder for event function that saves last player position in the event of teleportation.
-  ServerCommandListener.replaceconsolecommand:
+  Listener.replaceconsolecommand:
     default: true
     description: Placeholder for event function that allows server (console) command replacements.
 commands:
