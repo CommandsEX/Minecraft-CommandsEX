@@ -51,7 +51,7 @@ public class Handler_replaceplayercommand implements Listener {
 			Matcher m = rp.getRegex().matcher(e.getMessage().substring(1));
 			if (m.matches()){
 				String rps = m.replaceFirst(replacementString(rp.getReplacement(), e));
-				e.setCancelled(true); 
+				e.setCancelled(true);
 				LogHelper.logDebug("[CommandsEX] "+e.getPlayer().getName()+": "+e.getMessage()+" ==> "+rps);
 				e.getPlayer().performCommand(rps);
 				return;

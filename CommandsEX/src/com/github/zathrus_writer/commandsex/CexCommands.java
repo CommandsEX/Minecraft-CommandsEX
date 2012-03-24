@@ -129,7 +129,7 @@ public class CexCommands {
 					if (v.equals("disableversion")) {
 						p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 						p.saveConfig();
-						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (!p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("disableVersion") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("logcommands")) {
 						p.getConfig().set("logCommands", !p.getConfig().getBoolean("logCommands"));
 						p.saveConfig();
