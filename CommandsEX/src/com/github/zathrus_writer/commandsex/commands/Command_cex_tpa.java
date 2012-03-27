@@ -17,6 +17,7 @@ import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.TpRequestCanceller;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_tpa {
 	
@@ -33,56 +34,58 @@ public class Command_cex_tpa {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
-			if (args.length > 0) {
-				if (Permissions.checkPerms(player, "cex.tpa")) {
-					// check if the requested player is online
-					Player tpaPlayer = Bukkit.getServer().getPlayer(args[0]);
-
-					// if player is offline...
-					if (tpaPlayer == null) {
-						LogHelper.showWarning("tpInvalidPlayer", sender);
-						return true;
-					}
-					
-					// disallow TPA to ourselves
-					if (player.getName().equals(tpaPlayer.getName())) {
-						LogHelper.showWarning("tpCannotTeleportSelf", sender);
-						return true;
-					}
-					
-					// if another TPA or TPAHERE request is pending...
-					String id = player.getName() + "#####" + tpaPlayer.getName();
-					if (requests.contains(id) || Command_cex_tpahere.requests.contains(id)) {
-						LogHelper.showWarning("tpRequestPending", sender);
-						return true;
-					}
-					
-					// load TPA timeout from config if not present
-					if (tTimeout == 0) {
-						Integer t = CommandsEX.getConf().getInt("tpaTimeout");
-						if (t > 0) {
-							tTimeout = t;
-						} else {
-							// fallback to default if we didn't find a valid config value
-							tTimeout = 50;
+			if (!Utils.checkCommandSpam(player, "tp-tpa")) {
+				if (args.length > 0) {
+					if (Permissions.checkPerms(player, "cex.tpa")) {
+						// check if the requested player is online
+						Player tpaPlayer = Bukkit.getServer().getPlayer(args[0]);
+	
+						// if player is offline...
+						if (tpaPlayer == null) {
+							LogHelper.showWarning("tpInvalidPlayer", sender);
+							return true;
 						}
+						
+						// disallow TPA to ourselves
+						if (player.getName().equals(tpaPlayer.getName())) {
+							LogHelper.showWarning("tpCannotTeleportSelf", sender);
+							return true;
+						}
+						
+						// if another TPA or TPAHERE request is pending...
+						String id = player.getName() + "#####" + tpaPlayer.getName();
+						if (requests.contains(id) || Command_cex_tpahere.requests.contains(id)) {
+							LogHelper.showWarning("tpRequestPending", sender);
+							return true;
+						}
+						
+						// load TPA timeout from config if not present
+						if (tTimeout == 0) {
+							Integer t = CommandsEX.getConf().getInt("tpaTimeout");
+							if (t > 0) {
+								tTimeout = t;
+							} else {
+								// fallback to default if we didn't find a valid config value
+								tTimeout = 50;
+							}
+						}
+						
+						// add names of TPA players and send message
+						requests.add(id);
+						tpaPlayer.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
+						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
+						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
+						
+						// set timeout function that will cancel TPA request if timeout is reached
+						CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpa", id), (20 * tTimeout));
+						
+						// send confimation message to the original player
+						player.sendMessage(ChatColor.GREEN + _("tpRequestSent", sender.getName()));
 					}
-					
-					// add names of TPA players and send message
-					requests.add(id);
-					tpaPlayer.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
-					tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
-					tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
-					
-					// set timeout function that will cancel TPA request if timeout is reached
-					CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpa", id), (20 * tTimeout));
-					
-					// send confimation message to the original player
-					player.sendMessage(ChatColor.GREEN + _("tpRequestSent", sender.getName()));
+				} else {
+					// we need a player name as first argument or we cannot continue
+					Commands.showCommandHelpAndUsage(sender, "cex_tpa", alias);
 				}
-			} else {
-				// we need a player name as first argument or we cannot continue
-				Commands.showCommandHelpAndUsage(sender, "cex_tpa", alias);
 			}
 		}
         return true;

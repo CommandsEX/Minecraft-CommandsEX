@@ -117,6 +117,12 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configTpahereTimeout", sender.getName()) + p.getConfig().getString("tpahereTimeout"));
 					} else if (v.equals("debugmode")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configDebugMode", sender.getName()) + p.getConfig().getString("debugMode"));
+					} else if (v.equals("commandcooldowntime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configCommandCooldownTime", sender.getName()) + p.getConfig().getInt("commandCooldownTime") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("homequalifytime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configHomeQualifyTime", sender.getName()) + p.getConfig().getInt("homeQualifyTime") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("allowmultiworldhomes")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configAllowMultiworlds", sender.getName()) + (p.getConfig().getBoolean("allowMultiworldHomes") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -145,30 +151,70 @@ public class CexCommands {
 						}
 					} else if (v.equals("tpatimeout")) {
 						if ((aLength > 2) && args[2] != null) {
-							p.getConfig().set("tpaTimeout", args[2]);
-							p.saveConfig();
-							try {
-								Command_cex_tpa.tTimeout = Integer.parseInt(args[2]);
-							} catch (Throwable e) {
-								// the tpa command might not be present in the plugin
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpaTimeout", args[2]);
+								p.saveConfig();
+								try {
+									Command_cex_tpa.tTimeout = Integer.parseInt(args[2]);
+								} catch (Throwable e) {
+									// the tpa command might not be present in the plugin
+								}
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpaTimeout"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
 							}
-							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpaTimeout"));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
-					}  else if (v.equals("tpaheretimeout")) {
+					} else if (v.equals("tpaheretimeout")) {
 						if ((aLength > 2) && args[2] != null) {
-							p.getConfig().set("tpahereTimeout", args[2]);
-							p.saveConfig();
-							try {
-								Command_cex_tpahere.tTimeout = Integer.parseInt(args[2]);
-							} catch (Throwable e) {
-								// the tpahere command might not be present in the plugin
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpahereTimeout", args[2]);
+								p.saveConfig();
+								try {
+									Command_cex_tpahere.tTimeout = Integer.parseInt(args[2]);
+								} catch (Throwable e) {
+									// the tpahere command might not be present in the plugin
+								}
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpahereTimeout"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
 							}
-							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpahereTimeout"));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("commandcooldowntime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("commandCooldownTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("commandCooldownTime"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("homequalifytime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("homeQualifyTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("homeQualifyTime"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("allowmultiworldhomes")) {
+						p.getConfig().set("allowMultiworldHomes", !p.getConfig().getBoolean("allowMultiworldHomes"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("allowMultiworldHomes") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("debugmode")) {
 						p.getConfig().set("debugMode", !p.getConfig().getBoolean("debugMode"));
 						p.saveConfig();

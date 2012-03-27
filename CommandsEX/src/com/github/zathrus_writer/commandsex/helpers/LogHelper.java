@@ -29,7 +29,27 @@ public class LogHelper {
 	}
 
 	public static void showInfo(String msg, CommandSender sender) {
-		sender.sendMessage(ChatColor.YELLOW + _(msg, sender.getName()));
+		// check if our message contains multiple translation parts
+		if (msg.contains("#####")) {
+			String buildup = "";
+			String[] s = msg.split("#####");
+			for (String sx : s) {
+				if (sx.startsWith("[")) {
+					buildup = buildup + sx.replace("[", "");
+				} else {
+					buildup = buildup + _(sx, sender.getName());
+				}
+			}
+			sender.sendMessage(ChatColor.AQUA + buildup);
+		} else {
+			sender.sendMessage(ChatColor.AQUA + _(msg, sender.getName()));
+		}
+	}
+	
+	public static void showInfos(CommandSender sender, String... msg) {
+		for (String s : msg) {
+			showInfo(s, sender);
+		}
 	}
 	
 	public static void showWarning(String msg, CommandSender sender) {
@@ -51,9 +71,8 @@ public class LogHelper {
 	}
 	
 	public static void showWarnings(CommandSender sender, String... msg) {
-		String sName = sender.getName();
 		for (String s : msg) {
-			sender.sendMessage(ChatColor.RED + _(s, sName));
+			showWarning(s, sender);
 		}
 	}
 }

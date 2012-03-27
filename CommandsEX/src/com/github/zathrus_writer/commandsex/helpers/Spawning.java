@@ -22,10 +22,12 @@ public class Spawning {
 	public static Boolean doSpawn(CommandSender sender, String[] args, String command, String alias) {
 		// so far, this is a very simple function that will be expanded to allow random spawns and similar features
 		Player player = (Player)sender;
-		World world = player.getWorld();
-		Location l = world.getSpawnLocation();
-		
-		Teleportation.delayedTeleport(player, l);
+		if (!Utils.checkCommandSpam(player, "spawn-go")) {
+			World world = player.getWorld();
+			Location l = world.getSpawnLocation();
+			
+			Teleportation.delayedTeleport(player, l);
+		}
         return true;
 	}
 	
@@ -40,11 +42,13 @@ public class Spawning {
 	public static Boolean setSpawn(CommandSender sender, String[] args, String command, String alias) {
 		// so far, this is a very simple function that will be expanded to allow random spawns and similar features
 		Player player = (Player)sender;
-		Location loc = player.getLocation();
-		World world = player.getWorld();
-
-		world.setSpawnLocation((int)loc.getX(), (int)loc.getY(), (int)loc.getZ());
-		LogHelper.showInfo("spawnSet", sender);
+		if (!Utils.checkCommandSpam(player, "spawn-set")) {
+			Location loc = player.getLocation();
+			World world = player.getWorld();
+	
+			world.setSpawnLocation((int)loc.getX(), (int)loc.getY(), (int)loc.getZ());
+			LogHelper.showInfo("spawnSet", sender);
+		}
 		
         return true;
 	}

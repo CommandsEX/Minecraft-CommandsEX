@@ -3,9 +3,12 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Alpha 1.11'
+version: 'Alpha 1.21'
 website: http://dev.bukkit.org/server-mods/commandsex
 permissions:
+  cex.allowspamcommands:
+    default: op
+    description: Allows players to repeat same command multiple times in a short time period without being stopped. Useful for admin purposes.
   cex.reload:
     default: op
     description: Allows player to reload CommandsEX configuration from disk (/cex reload).
@@ -47,6 +50,47 @@ permissions:
   cex.setspawn:
     default: op
     description: Allows player to set server's spawn location.
+  cex.sethome:
+    default: true
+    description: Allows player to set their home location in the given world.
+  cex.home:
+    default: true
+    description: Allows player to visit their home or their friends' homes.
+  cex.home.invite:
+    default: true
+    description: Allows player to invite and uninvite other players to/from their home.
+  cex.home.list:
+    default: true
+    description: Allows player to list players that are invited to his home or homes this player is invited to.
+  cex.home.listall:
+    default: op
+    description: Allows player to list all homes that are created on the server.
+  cex.home.publicize:
+    default: true
+    description: Allows player to make their home private or public.
+  cex.home.delete:
+    default: true
+    description: Allows player to delete their own home.
+  cex.home.delete.all:
+    default: op
+    description: Allows player to delete any home.
+  cex.home.iclear:
+    default: op
+    description: Allows player to clear all homes where players haven't been online in a given number of days.
+    children:
+      cex.hyes: true
+  cex.hyes:
+    default: op
+    description: Allows player to confirm the /home iclear command and really delete all homes found by it.
+  cex.home.tclear:
+    default: op
+    description: Allows player to teleport to all homes where players haven't been online in a given number of days.
+  cex.bypasshomequalify:
+    default: op
+    description: Player with this permission is not required to spend a fixed amount of time on the server before being allowed to set home.
+  cex.bypassinvite:
+    default: op
+    description: Player with this permission can visit all homes without the need to be invited to them.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -59,6 +103,9 @@ permissions:
   Listener.replaceconsolecommand:
     default: true
     description: Placeholder for event function that allows server (console) command replacements.
+  Init.Home:
+    default: true
+    description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -143,3 +190,21 @@ commands:
     permission: cex.setspawn
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [setspawn]
+  cex_sethome:
+    description: Sets player's home location in the current world.
+    usage: /<command>
+    permission: cex.sethome
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [sethome]
+  cex_home:
+    description: Sets player's home location, teleports to home locations and allows for homes administration if permissions are given.
+    usage: /<command>
+    permission: cex.home
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [home]
+  cex_hyes:
+    description: Confirms the /home iclear command and really deletes all homes found by it.
+    usage: /<command>
+    permission: cex.hyes
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [hyes]

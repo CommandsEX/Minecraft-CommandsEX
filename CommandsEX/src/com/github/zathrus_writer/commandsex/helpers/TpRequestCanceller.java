@@ -12,6 +12,7 @@ public class TpRequestCanceller implements Runnable {
 		this.tp = tpClass;
 	}
 	
+	@Override
 	public void run() {
 		// calls cancellation function of the teleportation class specified
 		Class<?>[] proto = new Class[] {String.class};

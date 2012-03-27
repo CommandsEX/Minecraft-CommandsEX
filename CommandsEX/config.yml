@@ -8,6 +8,11 @@ disableVersion: false
 # example: [INFO] [Zathrus_Writer] /tploc 0 80 0
 logCommands: true
 
+# number of seconds players need to wait between repeating same command again
+# this will not stop spamming several different commands (i.e. /home, /sethome, /tell, /me, /home, /sethome...)
+# TO BYPASS this (e.g. for your admins), give players (or groups) permission "cex.allowspamcommands"
+commandCooldownTime: 4
+
 # database connection details (sqlLite and MySQL currently supported)
 #
 # host, name, password, port and database and port are REQUIRED ONLY when using MySQL,
@@ -52,3 +57,12 @@ tpaTimeout: 50
 
 # how long (in seconds) should a TPAHERE request last before automatic denial
 tpahereTimeout: 50
+
+# time (in seconds) for a player to be on the server before he's allowed to set and use
+# their home location using /sethome (or /home set) command
+# default: 12 hours (= 43200 seconds)
+homeQualifyTime: 43200
+
+# set this to true if you want to allow players to have separate home locations in each world
+# setting this to false will set player's home in the world they actually reside when using the /sethome command
+allowMultiworldHomes: true

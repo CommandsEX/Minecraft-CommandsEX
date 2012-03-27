@@ -83,16 +83,30 @@ public class Commands implements CommandExecutor {
 	 */
 	public static void showCommandHelpAndUsage(CommandSender sender, String commandName, String alias) {
 		List<Command> cmdList = PluginCommandYamlParser.parse(CommandsEX.plugin);
+		Boolean cmdFound = false;
 		for(int i = 0; i <= cmdList.size() - 1; i++) {
 			if (cmdList.get(i).getLabel().equals(commandName)) {
-				// check if we have description in our language file, otherwise load it up from the plugin YAML file
-				String description = _("cmdDesc_" + commandName, sender.getName());
-				if (description.equals("cmdDesc_" + commandName)) {
-					sender.sendMessage(ChatColor.WHITE + cmdList.get(i).getDescription());
+				cmdFound = true;
+				String usage = "";
+				// try to load description from alias first, since some commands (like /home, /warp) use this request type
+				String description = _("cmdDesc_" + alias, sender.getName());
+				if (description.equals("cmdDesc_" + alias)) {
+					description = _("cmdDesc_" + commandName, sender.getName());
+					if (description.equals("cmdDesc_" + commandName)) {
+						sender.sendMessage(ChatColor.WHITE + cmdList.get(i).getDescription());
+					} else {
+						sender.sendMessage(ChatColor.WHITE + description);
+					}
 				} else {
 					sender.sendMessage(ChatColor.WHITE + description);
+					usage = _("cmdDesc_" + alias + "_usage", sender.getName());
 				}
-				String usage = cmdList.get(i).getUsage().replaceAll("<command>", alias);
+				
+				// load up usage if not loaded up from language file (for command alias - like /home invite) yet
+				if (usage.equals("")) {
+					usage = cmdList.get(i).getUsage().replaceAll("<command>", alias);
+				}
+				
 				if (usage.contains("\n") || usage.contains("\r")) {
 					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
 					String[] splitted = usage.split("\n");
@@ -105,5 +119,11 @@ public class Commands implements CommandExecutor {
 				}
 			}
 	    }
+		
+		// command not found
+		if (!cmdFound) {
+			LogHelper.showWarning("commandDescriptionNotFound", sender);
+			LogHelper.logWarning(_("commandDescriptionNotFound", "") + ": " + commandName + ", alias = " + alias);
+		}
 	}
 }
