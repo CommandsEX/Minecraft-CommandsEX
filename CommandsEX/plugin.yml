@@ -84,13 +84,22 @@ permissions:
     description: Allows player to confirm the /home iclear command and really delete all homes found by it.
   cex.home.tclear:
     default: op
-    description: Allows player to teleport to all homes where players haven't been online in a given number of days.
+    description: Allows player to teleport to first home where players haven't been online in a given number of days.
   cex.bypasshomequalify:
     default: op
     description: Player with this permission is not required to spend a fixed amount of time on the server before being allowed to set home.
   cex.bypassinvite:
     default: op
     description: Player with this permission can visit all homes without the need to be invited to them.
+  cex.kick:
+    default: op
+    description: Allows player to kick other players from the server.
+  cex.mute:
+    default: op
+    description: Allows player to mute other players.
+  cex.unmute:
+    default: op
+    description: Allows player to unmute other players.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -208,3 +217,21 @@ commands:
     permission: cex.hyes
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [hyes]
+  cex_kick:
+    description: Kicks given player from the server, optionally providing a custom reason.
+    usage: /<command> <Player> [reason]
+    permission: cex.kick
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kick]
+  cex_mute:
+    description: Mutes a player indefinitelly or for a given time period.
+    usage: /<command> <Player> [time]
+    permission: cex.mute
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [mute]
+  cex_unmute:
+    description: Unmutes a player.
+    usage: /<command> <Player>
+    permission: cex.unmute
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [unmute]

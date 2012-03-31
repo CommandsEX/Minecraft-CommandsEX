@@ -42,7 +42,7 @@ public class Command_cex_tpa {
 	
 						// if player is offline...
 						if (tpaPlayer == null) {
-							LogHelper.showWarning("tpInvalidPlayer", sender);
+							LogHelper.showWarning("invalidPlayer", sender);
 							return true;
 						}
 						

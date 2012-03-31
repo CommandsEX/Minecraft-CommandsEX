@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CexCommands;
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.Language;
 
 public class Commands implements CommandExecutor {
 
@@ -89,23 +90,39 @@ public class Commands implements CommandExecutor {
 				cmdFound = true;
 				String usage = "";
 				// try to load description from alias first, since some commands (like /home, /warp) use this request type
+				Language.noMissingLangWarning = true;
 				String description = _("cmdDesc_" + alias, sender.getName());
 				if (description.equals("cmdDesc_" + alias)) {
 					description = _("cmdDesc_" + commandName, sender.getName());
 					if (description.equals("cmdDesc_" + commandName)) {
 						sender.sendMessage(ChatColor.WHITE + cmdList.get(i).getDescription());
+						usage = _("cmdDesc_" + commandName + "_usage", sender.getName());
+						if (usage.equals("cmdDesc_" + commandName + "_usage")) {
+							usage = "";
+						}
 					} else {
 						sender.sendMessage(ChatColor.WHITE + description);
+						usage = _("cmdDesc_" + commandName + "_usage", sender.getName());
+						if (usage.equals("cmdDesc_" + commandName + "_usage")) {
+							usage = "";
+						}
 					}
 				} else {
 					sender.sendMessage(ChatColor.WHITE + description);
 					usage = _("cmdDesc_" + alias + "_usage", sender.getName());
+					if (usage.equals("cmdDesc_" + alias + "_usage")) {
+						usage = "";
+					}
 				}
+				Language.noMissingLangWarning = false;
 				
 				// load up usage if not loaded up from language file (for command alias - like /home invite) yet
 				if (usage.equals("")) {
-					usage = cmdList.get(i).getUsage().replaceAll("<command>", alias);
+					usage = cmdList.get(i).getUsage();
 				}
+
+				// replace <command> with the actual alias
+				usage = usage.replaceAll("<command>", alias);
 				
 				if (usage.contains("\n") || usage.contains("\r")) {
 					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");

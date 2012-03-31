@@ -47,7 +47,7 @@ public class Teleportation {
 			}
 	
 			if ((player1 == null) || (player2 == null)) {
-				LogHelper.showWarning("tpInvalidPlayer", sender);
+				LogHelper.showWarning("invalidPlayer", sender);
 				return true;
 			}
 			

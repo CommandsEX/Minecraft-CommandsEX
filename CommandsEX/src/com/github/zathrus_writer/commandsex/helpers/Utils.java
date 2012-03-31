@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -130,6 +133,67 @@ public class Utils {
 		
 		// update last command time, then return result
 		lastCommandUsage.put(playerName + "-" + commandName, stamp);
+		return ret;
+	}
+
+	/***
+	 * Returns parsed time value from a command in this format: (<days, 10> <hours, 3> <minutes, 24> <seconds, 11>)
+	 * @param args
+	 * @return
+	 * @throws PatternSyntaxException
+	 */
+	public static Map<String, Integer> parseTime(String[] args) throws PatternSyntaxException, Throwable {
+		Map<String, Integer> ret = new HashMap<String, Integer>();
+		// check for all arguments that start with t: and save them into return variable
+		for (String s : args) {
+			if (s.startsWith("t:")) {
+				Pattern Regex = Pattern.compile("(\\d+)(days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
+						Pattern.CANON_EQ | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+					Matcher RegexMatcher = Regex.matcher(s.substring(2, s.length()));
+					while (RegexMatcher.find()) {
+						Integer v;
+						if (RegexMatcher.group(1).matches(CommandsEX.intRegex)) {
+							v = Integer.parseInt(RegexMatcher.group(1));
+						} else {
+							v = 0;
+						}
+						
+						if (RegexMatcher.group(2).startsWith("d")) {
+							ret.put("days", v);
+						} else if (RegexMatcher.group(2).startsWith("h")) {
+							ret.put("hours", v);
+						}  else if (RegexMatcher.group(2).startsWith("m")) {
+							ret.put("minutes", v);
+						}  else if (RegexMatcher.group(2).startsWith("s")) {
+							ret.put("seconds", v);
+						} else {
+							throw new Throwable("Invalid time parameter: " + RegexMatcher.group(2));
+						}
+
+						//for (int i = 1; i < RegexMatcher.groupCount(); i++) {
+							// RegexMatcher.group(i); RegexMatcher.start(i); RegexMatcher.end(i);
+						//}
+					}
+			}
+		}
+
+		// fill NULL values with zeroes
+		if (ret.get("days") == null) {
+			ret.put("days", 0);
+		}
+		
+		if (ret.get("hours") == null) {
+			ret.put("hours", 0);
+		}
+		
+		if (ret.get("minutes") == null) {
+			ret.put("minutes", 0);
+		}
+		
+		if (ret.get("seconds") == null) {
+			ret.put("seconds", 0);
+		}
+		
 		return ret;
 	}
 }

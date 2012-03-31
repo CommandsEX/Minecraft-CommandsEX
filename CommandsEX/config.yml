@@ -66,3 +66,7 @@ homeQualifyTime: 43200
 # set this to true if you want to allow players to have separate home locations in each world
 # setting this to false will set player's home in the world they actually reside when using the /sethome command
 allowMultiworldHomes: true
+
+# set this to false if you want everyone on the server see when a player gets kicked
+# and the reason why this happened, otherwise set it to true
+silentKicks: false

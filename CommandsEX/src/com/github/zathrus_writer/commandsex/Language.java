@@ -16,6 +16,7 @@ public class Language {
 	public static Map<String, String> perUserLocale = new HashMap<String, String>(); // ["Zathrus_Writer", "en_us"]
 	private static Boolean perUserDataLoaded = false;
 	private static CommandsEX plugin;
+	public static Boolean noMissingLangWarning = false;
 	
 	public static void init(CommandsEX plug) {
 		plugin = plug;
@@ -132,7 +133,9 @@ public class Language {
 			// translate
 			s = langs.get(loc).getString(s);
 		} catch (MissingResourceException ex) {
-			LogHelper.logWarning("Missing translation of '" + s + "' for language '" + loc + "'");
+			if (!noMissingLangWarning) {
+				LogHelper.logWarning("Missing translation of '" + s + "' for language '" + loc + "'");
+			}
 		} catch (Throwable e) {
 			// unspecified bad fail, revert to English momentarily to prevent further bad fails
 			plugin.getConfig().set("defaultLang", "en");
