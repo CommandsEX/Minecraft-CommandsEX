@@ -28,9 +28,9 @@ public class Handler_savebackposition implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
-	public static Boolean saveBackPosition(PlayerTeleportEvent e) {
+	public void saveBackPosition(PlayerTeleportEvent e) {
+		if (e.isCancelled()) return;
 		Command_cex_back.lastLocations.put(e.getPlayer().getName(), e.getFrom());
-		return true;
 	}
 	
 }

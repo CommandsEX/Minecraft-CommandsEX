@@ -100,6 +100,9 @@ permissions:
   cex.unmute:
     default: op
     description: Allows player to unmute other players.
+  cex.freeze:
+    default: op
+    description: Allows player to freeze and unfreeze other players.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -235,3 +238,9 @@ commands:
     permission: cex.unmute
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [unmute]
+  cex_freeze:
+    description: Freezes or unfreezes a player.
+    usage: /<command> <Player>
+    permission: cex.freeze
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [freeze]

@@ -8,9 +8,9 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
-public class Command_cex_kick extends Common {
+public class Command_cex_freeze extends Common {
 	/***
-	 * KICK - kicks a player out from the server, optionally providing a custom reason
+	 * FREEZE - freezes a player, making him unable to perform physical actions on the server
 	 * @param sender
 	 * @param args
 	 * @return
@@ -21,16 +21,16 @@ public class Command_cex_kick extends Common {
 			// check permissions and roll it :)
 			Boolean hasPerms = true;
 			if (sender instanceof Player) {
-				hasPerms = Permissions.checkPerms((Player)sender, "cex.kick");
+				hasPerms = Permissions.checkPerms((Player)sender, "cex.freeze");
 			}
 			
-			// permissions ok, kick them out
+			// permissions ok, mute the player
 			if (hasPerms) {
-				kick(sender, args, "cex_kick", alias);
+				freeze(sender, args, "freeze", alias);
 			}
 		} else {
 			// show usage
-			Commands.showCommandHelpAndUsage(sender, "cex_kick", alias);
+			Commands.showCommandHelpAndUsage(sender, "cex_freeze", alias);
 		}
         return true;
 	}

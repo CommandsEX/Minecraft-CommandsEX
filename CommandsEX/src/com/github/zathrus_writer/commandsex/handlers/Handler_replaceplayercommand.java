@@ -47,6 +47,7 @@ public class Handler_replaceplayercommand implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public static void replaceCommand(PlayerCommandPreprocessEvent e) {
+		if (e.isCancelled()) return;
 		for (ReplacementPair rp : pairs) {
 			Matcher m = rp.getRegex().matcher(e.getMessage().substring(1));
 			if (m.matches()){
