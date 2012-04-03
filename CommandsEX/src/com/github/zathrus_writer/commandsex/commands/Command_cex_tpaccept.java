@@ -40,12 +40,12 @@ public class Command_cex_tpaccept {
 						// remove pending request
 						Command_cex_tpa.requests.remove(id);
 						// teleport us to the given player
-						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
+						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
 					} else if (Command_cex_tpahere.requests.contains(id)) {
 						// remove pending request
 						Command_cex_tpahere.requests.remove(id);
 						// teleport the player to us
-						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
+						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 					} else {
 						// no matching request found
 						LogHelper.showWarning("tpRequestNotFound", sender);
