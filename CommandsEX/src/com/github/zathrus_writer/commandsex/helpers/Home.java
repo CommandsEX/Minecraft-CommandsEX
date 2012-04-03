@@ -721,7 +721,7 @@ public class Home {
 		if (CommandsEX.sqlEnabled) {
 			Player player = (Player)sender;
 			
-			// make player's home public, if we didn't spam too much :)
+			// delete player's home, if we didn't spam too much :)
 			if (!Utils.checkCommandSpam(player, "home-delete")) {
 				try {
 					// check if we're having player's name passed as a parameter, in which case that'll be our home to delete
@@ -950,12 +950,8 @@ public class Home {
 	 */
 	public static Boolean help(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
-			Player player = (Player)sender;
-			
-			// teleport to first clear-up-eligible home, if we didn't spam too much :)
-			if (!Utils.checkCommandSpam(player, "home-help")) {
-				LogHelper.showInfos(sender, "homeHelp1", "homeHelp2", "homeHelp3", "homeHelp4", "homeHelp5", "homeHelp6", "homeHelp7", "homeHelp8", "homeHelp9", "homeHelp10", "homeHelp11", "homeHelp12", "homeHelp13", "homeHelp14", "homeHelp15", "homeHelp16");
-			}
+			// show help
+			LogHelper.showInfos(sender, "homeHelp1", "homeHelp2", "homeHelp3", "homeHelp4", "homeHelp5", "homeHelp6", "homeHelp7", "homeHelp8", "homeHelp9", "homeHelp10", "homeHelp11", "homeHelp12", "homeHelp13", "homeHelp14", "homeHelp15", "homeHelp16");
 		} else {
 			// no database, no homes
 			LogHelper.showInfo("homeNoDatabase", sender);
