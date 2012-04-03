@@ -70,3 +70,9 @@ allowMultiworldHomes: true
 # set this to false if you want everyone on the server see when a player gets kicked
 # and the reason why this happened, otherwise set it to true
 silentKicks: false
+
+# set this to maximum number of warp points each player is allowed to create
+# if set to 0, no limit will be imposed - use wisely, it can fill your database quite quickly if you do so
+# to allow certain people or groups to create unlimited warp points with this limit set,
+# give them cex.warp.bypasslimits permission
+maxWarpsPerPlayer: 10

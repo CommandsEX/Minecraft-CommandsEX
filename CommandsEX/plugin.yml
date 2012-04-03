@@ -103,6 +103,39 @@ permissions:
   cex.freeze:
     default: op
     description: Allows player to freeze and unfreeze other players.
+  cex.warp.bypasslimits:
+    default: op
+    description: Player with this permission can create unlimited number of warps, regardless of config settings.
+  cex.warp.create:
+    default: op
+    description: Allows player to create warps.
+  cex.warp:
+    default: true
+    description: Allows player to use warps (i.e. teleport to them).
+  cex.warp.any:
+    default: op
+    description: Allows player to visit both private and public warps.
+  cex.warp.listprivate:
+    default: op
+    description: Allows player to list private warps.
+  cex.warp.listpublic:
+    default: true
+    description: Allows player to list public warps.
+  cex.warp.public:
+    default: op
+    description: Allows player to make warps public.
+  cex.warp.private:
+    default: op
+    description: Allows player to make warps private.
+  cex.warp.rename:
+    default: op
+    description: Allows player to rename warps.
+  cex.warp.delete:
+    default: true
+    description: Allows player to delete his own warp points.
+  cex.warp.delete.all:
+    default: op
+    description: Allows player to delete any warp point.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -118,6 +151,9 @@ permissions:
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
+  Init.Warps:
+    default: true
+    description: Placeholder for initialization function used to check and create warp points database.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -244,3 +280,15 @@ commands:
     permission: cex.freeze
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [freeze]
+  cex_warp:
+    description: Teleports players to warp points and allows warp administration, if permissions are given.
+    usage: /<command>
+    permission: cex.warp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [warp]
+  cex_listwarps:
+    description: Lists all available (public/private/own) warps on the server.
+    usage: /<command>
+    permission: cex.warp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [listwarps]
