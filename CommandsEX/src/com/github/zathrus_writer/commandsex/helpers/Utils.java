@@ -128,8 +128,10 @@ public class Utils {
 			ret = ((stamp - lastCommandUsage.get(playerName + "-" + commandName)) < t);
 		}
 
-		// if the player is spamming the command, tell him
-		LogHelper.showInfo("dontSpamCommand", player);
+		if (ret) {
+			// if the player is spamming the command, tell him
+			LogHelper.showInfo("dontSpamCommand", player);
+		}
 		
 		// update last command time, then return result
 		lastCommandUsage.put(playerName + "-" + commandName, stamp);
