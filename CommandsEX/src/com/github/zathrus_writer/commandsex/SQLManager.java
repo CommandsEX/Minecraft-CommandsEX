@@ -8,10 +8,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 /***
  * Contains functions required for database data manipulation.
@@ -152,6 +155,10 @@ public class SQLManager {
 						prep.setLong(i, (Long)o);
 					} else if (o instanceof Boolean) {
 						prep.setBoolean(i, (Boolean)o);
+					} else if (o instanceof Date) {
+						prep.setTimestamp(i, new Timestamp(((Date) o).getTime()));
+					} else if (o instanceof Timestamp) {
+						prep.setTimestamp(i, (Timestamp) o);
 					} else if (o == null) {
 						prep.setNull(i, 0);
 					} else {
@@ -171,14 +178,8 @@ public class SQLManager {
 				prep.close();
 				prep = null;
 			} catch (Throwable e) {
-				String params_str = "";
-				if (params.length > 0) {
-					for (Object o : params) {
-						params_str = params_str + ", " + o.toString();
-					}
-				}
 				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
-				LogHelper.logDebug("Query: " + query + ", parameters: " + params_str);
+				LogHelper.logDebug("Query: " + query + ", parameters: " + Utils.implode(params, ", "));
 				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 				return false;
 			}
