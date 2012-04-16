@@ -71,8 +71,21 @@ allowMultiworldHomes: true
 # and the reason why this happened, otherwise set it to true
 silentKicks: false
 
-# set this to maximum number of warp points each player is allowed to create
+# set this to maximum number of warps each player is allowed to create
 # if set to 0, no limit will be imposed - use wisely, it can fill your database quite quickly if you do so
 # to allow certain people or groups to create unlimited warp points with this limit set,
 # give them cex.warp.bypasslimits permission
 maxWarpsPerPlayer: 10
+
+# number of seconds to keep player IPs internally
+# this is used when a player repeatedly joins the server, griefs (or spams) heavily and quit right away,
+# so we have his IP stored and can ip-ban the guy even after he left
+maxIPholdTime: 120
+
+# number of bans for the player to have in history before the system will suggest
+# to ban this player permanently (which admins can accept or refuse)
+minTempBansWarn: 5
+
+# set this to false if you want everyone on the server see when a player gets banned
+# and the reason why this happened, otherwise set it to true
+silentBans: false

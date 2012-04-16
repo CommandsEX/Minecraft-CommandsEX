@@ -145,10 +145,12 @@ public class Utils {
 	 * @throws PatternSyntaxException
 	 */
 	public static Map<String, Integer> parseTime(String[] args) throws PatternSyntaxException, Throwable {
+		Boolean dateNotFound = true;
 		Map<String, Integer> ret = new HashMap<String, Integer>();
 		// check for all arguments that start with t: and save them into return variable
 		for (String s : args) {
 			if (s.startsWith("t:")) {
+				dateNotFound = false;
 				Pattern Regex = Pattern.compile("(\\d+)(days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
 						Pattern.CANON_EQ | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 					Matcher RegexMatcher = Regex.matcher(s.substring(2, s.length()));
@@ -179,6 +181,11 @@ public class Utils {
 			}
 		}
 
+		// add not found value into the output, so we can check agains it
+		if (dateNotFound) {
+			ret.put("not_found", 1);
+		}
+		
 		// fill NULL values with zeroes
 		if (ret.get("days") == null) {
 			ret.put("days", 0);

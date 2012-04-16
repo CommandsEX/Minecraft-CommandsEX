@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -48,6 +50,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static Map<String, Integer> playTimes = new HashMap<String, Integer>();
 	// timestamp of user's server join time, used to update playtime periodically
 	public static Map<String, Integer> joinTimes = new HashMap<String, Integer>();
+	// IPs of all users currently on the server (or that was on the server configurable time ago)
+	public static Map<String, String> playerIPs = new HashMap<String, String>();
 	// this map will hold IDs of tasks patched to scheduler for delayed execution when a user joins the server
 	// ... this delay is used so when a player spams login/logout, the DB is not queried all the time for his playtime
 	protected Map<String, Integer> playTimeLoadTasks = new HashMap<String, Integer>();
@@ -205,15 +209,19 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static FileConfiguration getConf() {
 		return plugin.getConfig();
 	}
-	
+		
 	/***
 	 * When a player joins the server, their join timestamp is saved, helping us to determine
 	 * how long he's been online. Also, a new delayed task will be created that will load up player's
 	 * full playtime from database, should the player stay on the server for more than minTimeFromLogout seconds.
+	 * 
+	 * Additionally, when a player joins the server, their IP is stored internally to allow for IP-banning when
+	 * the player leaves as soon as they burst-grief.
 	 * @param e
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void pJoin(PlayerJoinEvent e) {
+		playerIPs.put(e.getPlayer().getName(), e.getPlayer().getAddress().getAddress().getHostAddress());
 		if (sqlEnabled) {
 			// add -1 to playtimes, so our Runnable function will know to look the player up after the delay has passed
 			String pName = e.getPlayer().getName();
@@ -283,6 +291,24 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	}
 	
 	/***
+	 * Single-purpose class that handles removal of old Players' IPs after a certain amount of time.
+	 */
+	public static class DelayedIpRemoval implements Runnable {
+    	private String pName;
+    	
+    	public DelayedIpRemoval(String pName) {
+    		this.pName = pName;
+    	}
+    	
+    	public void run() {
+    		// only remove offline player - in case of the player re-joining server
+    		if (Bukkit.getServer().getPlayer(this.pName) == null) {
+    			CommandsEX.playerIPs.remove(this.pName);
+    		}
+    	}
+    }
+	
+	/***
 	 * When a player leaves the server, their join timestamp and playtime is removed to free up memory.
 	 * Playtime will get stored into database if the time since his joining is more than 45 seconds
 	 * to prevent database overloading when player tries to spam logins/logouts.
@@ -293,6 +319,11 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		String pName = e.getPlayer().getName();
 		Integer stamp = Utils.getUnixTimestamp(0L);
 		Integer played = (stamp - joinTimes.get(pName));
+		
+		// schedule player's IP removal
+		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedIpRemoval(pName), (20 * getConf().getInt("maxIPholdTime")));
+		
+		// save player's playtime
 		if (sqlEnabled && (played >= minTimeToSavePlayTime)) {
 			// player was online for more than minTimeToSavePlayTime seconds, count this visit
 			if (playTimes.containsKey(pName) && (playTimes.get(pName) > -1)) {

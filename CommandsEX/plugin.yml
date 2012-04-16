@@ -136,6 +136,15 @@ permissions:
   cex.warp.delete.all:
     default: op
     description: Allows player to delete any warp point.
+  cex.ban:
+    default: op
+    description: Allows player to ban players from the server.
+  cex.banip:
+    default: op
+    description: Allows player to ban IPs from the server.
+  cex.bcheck:
+    default: op
+    description: Allows player see other players' current ban status.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -154,6 +163,9 @@ permissions:
   Init.Warps:
     default: true
     description: Placeholder for initialization function used to check and create warp points database.
+  Init.Bans:
+    default: true
+    description: Placeholder for initialization function used to import BanHammer database file into CommandsEX.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -292,3 +304,21 @@ commands:
     permission: cex.warp
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [listwarps]
+  cex_ban:
+    description: Bans a player from joining the server.
+    usage: /<command> <Player> [t:time] [reason]
+    permission: cex.ban
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ban]
+  cex_banip:
+    description: Bans an IP from joining the server. Alternatively, player name can be provided to do an IP lookup.
+    usage: /<command> (Player/IP) [t:time] [reason]
+    permission: cex.banip
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [banip]
+  cex_bcheck:
+    description: Shows information about current ban state of the given player.
+    usage: /<command> <Player>
+    permission: cex.bcheck
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bcheck]

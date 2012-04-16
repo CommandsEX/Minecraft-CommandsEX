@@ -28,7 +28,7 @@ public class LogHelper {
 		}
 	}
 
-	public static void showInfo(String msg, CommandSender sender) {
+	public static void showInfo(String msg, CommandSender sender, ChatColor... altColor) {
 		// check if our message contains multiple translation parts
 		if (msg.contains("#####")) {
 			String buildup = "";
@@ -40,9 +40,9 @@ public class LogHelper {
 					buildup = buildup + _(sx, sender.getName());
 				}
 			}
-			sender.sendMessage(ChatColor.AQUA + buildup);
+			sender.sendMessage(((altColor.length > 0) ? altColor[0] : ChatColor.AQUA) + buildup);
 		} else {
-			sender.sendMessage(ChatColor.AQUA + _(msg, sender.getName()));
+			sender.sendMessage(((altColor.length > 0) ? altColor[0] : ChatColor.AQUA) + _(msg, sender.getName()));
 		}
 	}
 	

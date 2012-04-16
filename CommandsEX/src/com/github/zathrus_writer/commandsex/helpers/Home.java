@@ -84,6 +84,7 @@ public class Home {
 					// unable to convert, tell user
 					LogHelper.logSevere("[CommandsEX] " + _("homeConversionFailed", ""));
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					return;
 				}
 			}
 			// rename homes.db to homes.db.done, so we don't attempt to convert again
