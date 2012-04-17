@@ -144,7 +144,13 @@ permissions:
     description: Allows player to ban IPs from the server.
   cex.bcheck:
     default: op
-    description: Allows player see other players' current ban status.
+    description: Allows player to see other players' current ban status.
+  cex.bhistory:
+    default: op
+    description: Allows player to see other players' ban history.
+  cex.pardon:
+    default: op
+    description: Allows player to pardon player or IP from being banned.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -322,3 +328,15 @@ commands:
     permission: cex.bcheck
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [bcheck]
+  cex_bhistory:
+    description: Shows information about bans history for the given player.
+    usage: /<command> <Player>
+    permission: cex.bhistory
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bhistory]
+  cex_pardon:
+    description: Pardons player or IP from being banned.
+    usage: /<command> <Player>
+    permission: cex.pardon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [pardon]

@@ -221,7 +221,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void pJoin(PlayerJoinEvent e) {
-		playerIPs.put(e.getPlayer().getName(), e.getPlayer().getAddress().getAddress().getHostAddress());
+		playerIPs.put(e.getPlayer().getName().toLowerCase(), e.getPlayer().getAddress().getAddress().getHostAddress());
 		if (sqlEnabled) {
 			// add -1 to playtimes, so our Runnable function will know to look the player up after the delay has passed
 			String pName = e.getPlayer().getName();
@@ -303,7 +303,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
     	public void run() {
     		// only remove offline player - in case of the player re-joining server
     		if (Bukkit.getServer().getPlayer(this.pName) == null) {
-    			CommandsEX.playerIPs.remove(this.pName);
+    			CommandsEX.playerIPs.remove(this.pName.toLowerCase());
     		}
     	}
     }

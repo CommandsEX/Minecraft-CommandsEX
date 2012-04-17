@@ -274,16 +274,8 @@ public class Bans {
 		// let's see if we're trying to ban a player or an IP directly
 		String ip = "";
 		if (!args[0].matches(ipV4Regex) && !args[0].matches(ipV6Regex)) {
-			// get real player name (e.g. case-sensitive)
-			String realName = "";
-			Player p = Bukkit.getServer().getPlayer(args[0]);
-			if (p == null) {
-				realName = args[0];
-			} else {
-				realName = p.getName();
-			}
-
 			// try to get IP address of the requested player
+			final String realName = args[0].toLowerCase();
 			if (CommandsEX.playerIPs.containsKey(realName)) {
 				ip = CommandsEX.playerIPs.get(realName);
 			} else {
@@ -353,7 +345,9 @@ public class Bans {
 			Map.Entry<String, String> pairs = (Map.Entry<String, String>)it.next();
 			if (pairs.getValue().equals(ip)) {
 				Player p = Bukkit.getServer().getPlayer(pairs.getKey());
-				p.kickPlayer((!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
+				if (p != null) {
+					p.kickPlayer((!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
+				}
 			}
 		}
 		
@@ -408,7 +402,14 @@ public class Bans {
 					} else {
 						// temporary ban
 						Date c;
-						Date d = new Date(res.getTimestamp("expiration_date").getTime());
+						Date d;
+						
+						try {
+							d = new Date(dateFormat.parse(res.getString("expiration_date")).getTime());
+						} catch (Throwable e) {
+							d = new Date(res.getTimestamp("expiration_date").getTime());
+						}
+						
 						try {
 							c = new Date(dateFormat.parse(res.getString("creation_date")).getTime());
 						} catch (Throwable e) {
@@ -444,5 +445,134 @@ public class Bans {
 		}
 
 		return true;
+	}
+	
+	
+	/***
+	 * BHISTORY - displays player's ban history
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean showhistory(CommandSender sender, String[] args, String command, String alias) {
+		if (CommandsEX.sqlEnabled) {
+			try {
+				// see if we can find an active record of the given player in database
+				Player p = Bukkit.getServer().getPlayer(args[0]);
+				String pName = "";
+				if (p == null) {
+					OfflinePlayer pl = Bukkit.getOfflinePlayer(args[0]);
+					if (pl == null) {
+						// player not found
+						LogHelper.showWarning("invalidPlayer", sender);
+						return true;
+					}
+					pName = pl.getName();
+				} else {
+					pName = p.getName();
+				}
+				
+				ResultSet res = SQLManager.query_res("SELECT player_name, creation_date, expiration_date, creator, reason FROM " + SQLManager.prefix + "bans WHERE player_name = ?", pName);
+				List<String> finalResult = new ArrayList<String>();
+				finalResult.add(ChatColor.AQUA + _("bansHistory1", ""));
+				finalResult.add(ChatColor.AQUA + _("bansHistory2", ""));
+
+				while (res.next()) {
+					// assemble readable dates
+					final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+					final String creation_date = dateFormat.format(res.getTimestamp("creation_date").getTime());
+					final String expiration_date = dateFormat.format(res.getTimestamp("expiration_date").getTime());
+					
+					// return info about the player and his current ban
+					finalResult.add(ChatColor.YELLOW + res.getString("player_name") + " " + _("bansPlayerIsBanned", "") + creation_date + " " + _("byPlayer", "") + " " + res.getString("creator") + ".");
+					finalResult.add(ChatColor.YELLOW + _("bansReason", "") + res.getString("reason"));
+					
+					// return data with regards to permanent / temporary ban duration
+					if (res.getString("expiration_date").equals("0000-00-00 00:00:00")) {
+						// permanent ban
+						finalResult.add(_("bansLength", "") + _("bansLengthPermanent", ""));
+					} else {
+						// temporary ban
+						Date c;
+						Date d;
+						
+						try {
+							d = new Date(dateFormat.parse(res.getString("expiration_date")).getTime());
+						} catch (Throwable e) {
+							d = new Date(res.getTimestamp("expiration_date").getTime());
+						}
+						
+						try {
+							c = new Date(dateFormat.parse(res.getString("creation_date")).getTime());
+						} catch (Throwable e) {
+							c = new Date(res.getTimestamp("creation_date").getTime());
+						}
+						Integer timeAll = (int) ((d.getTime() - c.getTime()) / 1000); // total ban time
+					
+						Integer days = (int) Math.floor(timeAll / 86400);
+						Integer hours = (int) Math.floor((timeAll - (days * 86400)) / 3600);
+						Integer minutes = (int) Math.floor((timeAll - (days * 86400) - (hours * 3600)) / 60);
+						Integer seconds = (timeAll - (days * 86400) - (hours * 3600) - (minutes * 60));
+						
+						finalResult.add(ChatColor.YELLOW + _("bansLength", "") + days + _("days", "") + ", " + hours + _("hours", "") + ", " + minutes + _("minutes", "") + ", " + seconds + _("seconds", "") + ", ");
+						finalResult.add(ChatColor.YELLOW + _("bansExpires", "") + expiration_date);
+						finalResult.add("");
+					}
+				}
+				res.close();
+				
+				if (finalResult.size() == 2) {
+					// no ban history for the player
+					LogHelper.showInfo("[" + pName + " #####bansNoBanHistory", sender);
+				} else {
+					// show what we've got :)
+					for (String s : finalResult) {
+						sender.sendMessage(s);
+					}
+				}
+			} catch (Throwable e) {
+				// unable to ban the IP
+				LogHelper.showWarning("internalError", sender);
+				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				return true;
+			}
+		} else {
+			// no database, no history
+			LogHelper.showWarning("bansNoDB", sender);
+		}
+
+		return true;
+	}
+	
+	
+	/***
+	 * PARDON - removes ban for the given player or IP address
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean pardon(CommandSender sender, String[] args, String command, String alias) {
+		if (args[0].matches(Bans.ipV4Regex) || args[0].matches(Bans.ipV6Regex)) {
+			// check if we don't have an OfflinePlayer with this name banned (which can happen by mistake)
+			// and unban in such case
+			OfflinePlayer p = Bukkit.getOfflinePlayer(args[0]);
+			if ((p != null) && p.isBanned()) {
+				p.setBanned(false);
+				LogHelper.showInfo("bansPlayerPardoned", sender);
+			} else {
+				// send message to the sender if we banned an IP, since no message is broadcasted then
+				LogHelper.showInfo("bansIpPardoned", sender);
+			}
+		}
+		
+		// use the already-existing pardonning class to unban
+		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedPardon(args[0]), 0L);
+		
+        return true;
 	}
 }
