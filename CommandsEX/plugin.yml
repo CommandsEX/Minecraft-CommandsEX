@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Alpha 1.3'
+version: 'Beta 1.0'
 website: http://dev.bukkit.org/server-mods/commandsex
 permissions:
   cex.allowspamcommands:
@@ -151,6 +151,9 @@ permissions:
   cex.pardon:
     default: op
     description: Allows player to pardon player or IP from being banned.
+  cex.online:
+    default: op
+    description: Allows player to list all players online or checks for a single player online status.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -340,3 +343,9 @@ commands:
     permission: cex.pardon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [pardon]
+  cex_online:
+    description: Shows list of all online players or checks player's online status.
+    usage: /<command> [Player]
+    permission: cex.online
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [online]
