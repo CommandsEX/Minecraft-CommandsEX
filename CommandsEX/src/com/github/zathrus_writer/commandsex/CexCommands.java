@@ -45,6 +45,8 @@ public class CexCommands {
 			if (!p.getConfig().getBoolean("disableVersion")) {
 				sender.sendMessage(ChatColor.YELLOW + CommandsEX.pdfFile.getName() + ", " + _("version", sender.getName()) + " " + CommandsEX.pdfFile.getVersion());
 			}
+		} else if ((aLength == 1) && args[0].equals("null")) {
+			// does nothing, prints nothing - used for commands replacements/aliasing
 		} else if ((aLength == 1) && args[0].equals("reload")) {
 
 			/***

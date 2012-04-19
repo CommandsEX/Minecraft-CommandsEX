@@ -339,7 +339,7 @@ commands:
     aliases: [bhistory]
   cex_pardon:
     description: Pardons player or IP from being banned.
-    usage: /<command> <Player>
+    usage: /<command> (Player/IP)
     permission: cex.pardon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [pardon]

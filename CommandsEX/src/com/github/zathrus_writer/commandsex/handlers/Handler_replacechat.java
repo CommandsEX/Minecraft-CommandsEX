@@ -12,7 +12,11 @@ import org.bukkit.event.player.PlayerChatEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
-import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.scripting.ReplacementPair;
+import com.github.zathrus_writer.commandsex.helpers.scripting.ScriptEnvironment;
+
+import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Handler_replacechat implements Listener {
 
@@ -28,12 +32,14 @@ public class Handler_replacechat implements Listener {
 		// load replacement values from config file
 		File playerChatFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("chatReplaceFile"));
 		FileListHelper.checkListFile(playerChatFile, "playerchat.txt");
-		pairs = FileListHelper.loadListFromFile(playerChatFile);
+		addReplacementPairs(FileListHelper.loadListFromFile(playerChatFile, FileListHelper.MatchingContext.Chat));
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
-	public static void addReplacementPair(ReplacementPair pair) {
-		pairs.add(pair);
+	public static void addReplacementPairs(List<ReplacementPair> pair) {
+		for (ReplacementPair rp : pair) {
+			pairs.add(rp);
+		}
 	}
 	
 	public static void clearReplacementPairs() {
@@ -48,21 +54,64 @@ public class Handler_replacechat implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void replaceChat(PlayerChatEvent e) {
 		if (e.isCancelled()) return;
-		for (ReplacementPair rp : pairs) {
-			StringBuffer sb = new StringBuffer();
-			Matcher m = rp.getRegex().matcher(e.getMessage());
-			if (!m.find()) continue;
-			//loop through with find/replace
-			do { //use do while, due to the find() invocation above
-				// test if it is all upper, and replace with all upper (if we have this set up in the regex itself - in config file)
-				if (rp.getSameOutputCase() && allUpper && m.group().toUpperCase().equals(m.group())) {
-					m.appendReplacement(sb, rp.getReplacement().toUpperCase());
-				} else {
-					m.appendReplacement(sb, rp.getReplacement());
+		
+		try {
+			ScriptEnvironment env = new ScriptEnvironment(); {
+				env.setCommandSender(e.getPlayer());
+				env.setServer(e.getPlayer().getServer());
+			}
+			ArrayList<ReplacementPair> preparedEffects = new ArrayList<ReplacementPair>(); //holds all effects until all replacements done
+
+			for (ReplacementPair rp : pairs) {
+				StringBuffer sb = new StringBuffer();
+				Matcher m = rp.getRegex().matcher(e.getMessage());
+				if (!m.find()) continue;
+				env.setMatcher(m);
+
+				if (rp.playerWillVanish()) { //the player will vanish as a result of this, special handling
+					int cutlen = CommandsEX.plugin.getConfig().getInt("replacements.cutoff.length", 1);
+					String cuttext = CommandsEX.plugin.getConfig().getString("replacements.cutoff.indicator", "--*");
+	
+					String rep = m.group().substring(0, cutlen).concat(cuttext);
+					m.appendReplacement(sb, rep);
+					e.setMessage(sb.toString());
+					//e.setCancelled(true);
+					//e.getPlayer().chat(sb.toString()); //chat first
+	
+					rp.executeEffects(env); //then execute the replacement
+					return;
 				}
-			} while (m.find());
-			m.appendTail(sb);
-			e.setMessage(sb.toString());
+
+				//loop through with find/replace
+				do { //use do while, due to the find() invocation above
+					// test if it is all upper, and replace with all upper (if we have this set up in the regex itself - in config file)
+					if (rp.getSameOutputCase() && allUpper && m.group().toUpperCase().equals(m.group())) {
+						m.appendReplacement(sb, rp.executeString(env).toUpperCase());
+					} else {
+						m.appendReplacement(sb, rp.executeString(env));
+					}
+				} while (m.find());
+				m.appendTail(sb);
+
+				if (!preparedEffects.contains(rp)) {
+					preparedEffects.add(rp);
+				}
+				e.setMessage(sb.toString());
+			}
+			
+			//after all replacements are in: execute the effects
+			if (!preparedEffects.isEmpty()) {
+				//e.setCancelled(true);
+				//e.getPlayer().chat(sb.toString()); //chat first
+	
+				env.setMatcher(null);
+				for (ReplacementPair rp : preparedEffects){
+					rp.executeEffects(env);
+				}
+			}
+		} catch (Exception ex){
+			LogHelper.logSevere("[CommandsEX] " + _("cmdOrChatreplacementFailed", ""));
+			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
 	}
 	

@@ -83,9 +83,19 @@ maxWarpsPerPlayer: 10
 maxIPholdTime: 120
 
 # number of bans for the player to have in history before the system will suggest
-# to ban this player permanently (which admins can accept or refuse)
+# to ban this player permanently
 minTempBansWarn: 5
 
 # set this to false if you want everyone on the server see when a player gets banned
 # and the reason why this happened, otherwise set it to true
 silentBans: false
+
+# unidentified (yet) config options from Commander
+replacements:
+    default-echo: true
+    match-uppercase: true
+    commands:
+        echo: true
+    cutoff:
+        length: 1
+        indicator: --*

@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,12 +14,15 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.ReplacementPair;
+import com.github.zathrus_writer.commandsex.helpers.scripting.ReplacementPair;
+import com.github.zathrus_writer.commandsex.helpers.scripting.ScriptEnvironment;
+
+import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Handler_replaceplayercommand implements Listener {
 
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
-	
+
 	/***
 	 * Tells our main class which function we want to execute on PlayerChatEvent
 	 * and loads existing chat replacements from the config file.
@@ -28,12 +32,14 @@ public class Handler_replaceplayercommand implements Listener {
 		// load replacement values from config file
 		File playerCommandsFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("playerCommandsReplaceFile"));
 		FileListHelper.checkListFile(playerCommandsFile, "playercmd.txt");
-		pairs = FileListHelper.loadListFromFile(playerCommandsFile);
+		addReplacementPairs(FileListHelper.loadListFromFile(playerCommandsFile, FileListHelper.MatchingContext.Command));
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
-	public static void addReplacementPair(ReplacementPair pair) {
-		pairs.add(pair);
+	public static void addReplacementPairs(List<ReplacementPair> pair) {
+		for (ReplacementPair rp : pair) {
+			pairs.add(rp);
+		}
 	}
 	
 	public static void clearReplacementPairs() {
@@ -48,19 +54,25 @@ public class Handler_replaceplayercommand implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public static void replaceCommand(PlayerCommandPreprocessEvent e) {
 		if (e.isCancelled()) return;
-		for (ReplacementPair rp : pairs) {
-			Matcher m = rp.getRegex().matcher(e.getMessage().substring(1));
-			if (m.matches()){
-				String rps = m.replaceFirst(replacementString(rp.getReplacement(), e));
-				e.setCancelled(true);
-				LogHelper.logDebug("[CommandsEX] "+e.getPlayer().getName()+": "+e.getMessage()+" ==> "+rps);
-				e.getPlayer().performCommand(rps);
-				return;
+		
+		try {
+			ScriptEnvironment env = new ScriptEnvironment(); {
+				env.setCommandSender(e.getPlayer());
+				env.setServer(e.getPlayer().getServer());
 			}
+
+			for (ReplacementPair rp : pairs) {
+				Matcher m = rp.getRegex().matcher(e.getMessage().substring(1));
+				if (m.matches()){
+					env.setMatcher(m);
+					rp.executeEffects(env);
+					e.setCancelled(true);
+					return;
+				}
+			}
+		} catch (Exception ex){
+			LogHelper.logSevere("[CommandsEX] " + _("cmdOrChatreplacementFailed", ""));
+			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
-	}
-	
-	private static String replacementString(String rep, PlayerCommandPreprocessEvent e){
-		return rep.replaceAll("\\$p", e.getPlayer().getName());
 	}
 }
