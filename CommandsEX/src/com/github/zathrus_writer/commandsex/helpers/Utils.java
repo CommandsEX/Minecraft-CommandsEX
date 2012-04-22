@@ -66,7 +66,7 @@ public class Utils {
 	* @param glueString String between each array element
 	* @return String containing all array elements seperated by glue string
 	*/
-	public static String implode(List<Object> listInputArray, String glueString) {
+	public static String implode(List<?> listInputArray, String glueString) {
 		/** Output variable */
 		Object[] inputArray = listInputArray.toArray();
 		return implode(inputArray, glueString);

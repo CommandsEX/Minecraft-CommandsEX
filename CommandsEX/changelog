@@ -1,0 +1,5 @@
+Beta 1.35
+---------
+
+- updated chat/console replacements code to reflect latest Commander code updates
+- added join/leave chat messages grouping support

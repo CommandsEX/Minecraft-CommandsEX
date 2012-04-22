@@ -99,3 +99,6 @@ replacements:
     cutoff:
         length: 1
         indicator: --*
+
+# number of seconds to be silent about join/leave messages and then show them all together
+joinSilentTime: 25

@@ -24,9 +24,7 @@ public class Handler_replaceplayercommand implements Listener {
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 
 	/***
-	 * Tells our main class which function we want to execute on PlayerChatEvent
-	 * and loads existing chat replacements from the config file.
-	 * @param plugin
+	 * Loads existing chat replacements from the config file and activates event listeners.
 	 */
 	public Handler_replaceplayercommand() {
 		// load replacement values from config file

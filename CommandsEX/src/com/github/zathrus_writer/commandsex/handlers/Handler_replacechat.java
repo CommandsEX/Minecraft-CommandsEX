@@ -24,9 +24,7 @@ public class Handler_replacechat implements Listener {
 	public static boolean allUpper = true;
 	
 	/***
-	 * Tells our main class which function we want to execute on PlayerChatEvent
-	 * and loads existing chat replacements from the config file.
-	 * @param plugin
+	 * Loads existing chat replacements from the config file and activates event listeners.
 	 */
 	public Handler_replacechat() {
 		// load replacement values from config file

@@ -154,6 +154,12 @@ permissions:
   cex.online:
     default: op
     description: Allows player to list all players online or checks for a single player online status.
+  cex.seejoins:
+    default: true
+    description: Allows player to see condensed join messages.
+  cex.seeleaves:
+    default: true
+    description: Allows player to see condensed leave messages.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -166,6 +172,9 @@ permissions:
   Listener.replaceconsolecommand:
     default: true
     description: Placeholder for event function that allows server (console) command replacements.
+  Listener.condensejoins:
+    default: true
+    description: Placeholder for event function that condenses join/leave messages and shows them once in a while only.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

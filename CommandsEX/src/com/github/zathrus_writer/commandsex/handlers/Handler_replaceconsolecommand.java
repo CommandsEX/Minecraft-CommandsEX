@@ -23,9 +23,7 @@ public class Handler_replaceconsolecommand implements Listener {
 	public static List<ReplacementPair> pairs = new ArrayList<ReplacementPair>();
 	
 	/***
-	 * Tells our main class which function we want to execute on PlayerChatEvent
-	 * and loads existing chat replacements from the config file.
-	 * @param plugin
+	 * Loads existing chat replacements from the config file and activates event listeners.
 	 */
 	public Handler_replaceconsolecommand() {
 		// load replacement values from config file
