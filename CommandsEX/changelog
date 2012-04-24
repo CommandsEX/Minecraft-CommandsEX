@@ -3,3 +3,4 @@ Beta 1.35
 
 - updated chat/console replacements code to reflect latest Commander code updates
 - added join/leave chat messages grouping support
+- added XMPP (Jabber) chat relay (you can see what's being blabbered on your server in a Jabber room and vice-versa now)

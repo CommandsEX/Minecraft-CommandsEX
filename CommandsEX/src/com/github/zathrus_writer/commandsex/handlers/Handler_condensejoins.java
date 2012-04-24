@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
+import com.github.zathrus_writer.commandsex.helpers.XMPPer;
 
 public class Handler_condensejoins implements Listener {
 
@@ -29,21 +30,13 @@ public class Handler_condensejoins implements Listener {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
-	/***
-	 * Stores player's name that joined the game and outputs all stored joins
-	 * if configured timeout has passed.
-	 * @param e
-	 * @return
-	 */
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void condenseJoins(PlayerJoinEvent e) {
+	public static void handleJoin(String pName) {
 		if (lastJoinTime == 0) {
 			lastJoinTime = Utils.getUnixTimestamp(0L);
 			return;
 		}
 
 		// get player's name and store it
-		String pName = e.getPlayer().getName();
 		if (!joins.contains(pName)) {
 			joins.add(pName);
 		}
@@ -59,9 +52,23 @@ public class Handler_condensejoins implements Listener {
 			if (jSize > 1) {
 				String lName = (String) joins.get(jSize - 1);
 				joins.remove(jSize - 1);
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + _("chatJoins", ""), "cex.seejoins");
+				String msg = Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + _("chatJoins", "");
+				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seejoins");
+				// forward the broadcast to XMPP connector, if present
+				try {
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+				} catch (Throwable e) {
+					// nothing bad happens if we don't have XMPP module present :)
+				}
 			} else {
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + (String) joins.get(0) + " " + _("chatJoins", ""), "cex.seejoins");
+				String msg = (String) joins.get(0) + " " + _("chatJoins", "");
+				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seejoins");
+				// forward the broadcast to XMPP connector, if present
+				try {
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+				} catch (Throwable e) {
+					// nothing bad happens if we don't have XMPP module present :)
+				}
 			}
 			
 			// empty joins array
@@ -70,27 +77,28 @@ public class Handler_condensejoins implements Listener {
 			// save the time when last join message was shown
 			lastJoinTime = stamp;
 		}
-		
-		// prevent join message to show up
-		e.setJoinMessage("");
 	}
 	
-	
 	/***
-	 * Stores player's name that left the game and outputs all stored leaves
+	 * Stores player's name that joined the game and outputs all stored joins
 	 * if configured timeout has passed.
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void condenseLeaves(PlayerQuitEvent e) {
+	@EventHandler(priority = EventPriority.LOW)
+	public void condenseJoins(PlayerJoinEvent e) {
+		handleJoin(e.getPlayer().getName());
+		// prevent join message to show up
+		e.setJoinMessage("");
+	}
+	
+	public static void handleLeave(String pName) {
 		if (lastLeaveTime == 0) {
 			lastLeaveTime = Utils.getUnixTimestamp(0L);
 			return;
 		}
 
 		// get player's name and store it
-		String pName = e.getPlayer().getName();
 		if (!leaves.contains(pName)) {
 			leaves.add(pName);
 		}
@@ -106,9 +114,23 @@ public class Handler_condensejoins implements Listener {
 			if (lSize > 1) {
 				String lName = (String) leaves.get(lSize - 1);
 				leaves.remove(lSize - 1);
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + _("chatLeaves", ""), "cex.seeleaves");
+				String msg = Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + _("chatLeaves", "");
+				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seeleaves");
+				// forward the broadcast to XMPP connector, if present
+				try {
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+				} catch (Throwable e) {
+					// nothing bad happens if we don't have XMPP module present :)
+				}
 			} else {
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + (String) leaves.get(0) + " " + _("chatLeaves", ""), "cex.seeleaves");
+				String msg = (String) leaves.get(0) + " " + _("chatLeaves", "");
+				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seeleaves");
+				// forward the broadcast to XMPP connector, if present
+				try {
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+				} catch (Throwable e) {
+					// nothing bad happens if we don't have XMPP module present :)
+				}
 			}
 			
 			// empty leaves array
@@ -117,7 +139,17 @@ public class Handler_condensejoins implements Listener {
 			// save the time when last leave message was shown
 			lastLeaveTime = stamp;
 		}
-		
+	}
+	
+	/***
+	 * Stores player's name that left the game and outputs all stored leaves
+	 * if configured timeout has passed.
+	 * @param e
+	 * @return
+	 */
+	@EventHandler(priority = EventPriority.LOW)
+	public void condenseLeaves(PlayerQuitEvent e) {
+		handleLeave(e.getPlayer().getName());		
 		// prevent quit message to show up
 		e.setQuitMessage("");
 	}

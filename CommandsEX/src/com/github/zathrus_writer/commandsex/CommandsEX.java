@@ -61,6 +61,9 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	protected Integer playTimesFlushTime = 180;
 	// number of seconds a player must stay on the server before his playTime is storable
 	protected Integer minTimeToSavePlayTime = 45;
+	// functions contained in this list will get executed on plugin disable,
+	// so we can handle things like DB or XMPP disconnects correctly
+	public static List<String> onDisableFunctions = new ArrayList<String>();
 
 	/***
 	 * Class constructor.
@@ -197,8 +200,26 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public void onDisable() {
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
+		
+		// execute everything that should be executed on disable
+		if (onDisableFunctions.size() > 0) {
+			Class<?>[] proto = new Class[] {this.getClass()};
+			Object[] params = new Object[] {this};
+			
+			for (String s : onDisableFunctions) {
+				try {
+					String[] ss = s.split("#####");
+					Class<?> c = Class.forName(ss[0]);
+					Method method = c.getDeclaredMethod(ss[1], proto);
+					method.invoke(null, params);
+				} catch (Throwable e) {
+					LogHelper.logSevere("[CommandsEX] " + _("errorFunctionOnDisableExecute", "") + s);
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				}
+			}
+		}
+		
 		// close all database connections
-		SQLManager.close();
 		LogHelper.logInfo("[" + this.getDescription().getName() + "] " + _("disableMsg", ""));
 	}
 

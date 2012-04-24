@@ -90,7 +90,7 @@ minTempBansWarn: 5
 # and the reason why this happened, otherwise set it to true
 silentBans: false
 
-# unidentified (yet) config options from Commander
+# these replacement options are not in use yet
 replacements:
     default-echo: true
     match-uppercase: true
@@ -102,3 +102,26 @@ replacements:
 
 # number of seconds to be silent about join/leave messages and then show them all together
 joinSilentTime: 25
+
+
+# information required to create XMPP (Jabber) connection from your Minecraft server to XMPP server's room
+# - xmppUser: name of the user under which we'll log in to the XMPP (Jabber) service itself
+# - xmppHost: the XMPP (Jabber) server, e.g. jabber.com (so when your username is john@jabber.com, user = john, host = jabber.com)
+# - xmppPassword: password to use to log the user into the server
+# - xmppRoom: name of the room where all chat will happen. This is REQUIRED.
+#             You may need to find a service which provides Jabber rooms. I use conf.netlab.cz
+#             Therefore my room name is "myroom@conf.netlab.cz" - myroom being the room name, conf.netlab.cz the hostname
+# - xmppRoom.password: if the room requires a password to join it, set it up here
+# - xmppBotNick: this is the nickname for the plugin. All chat will originate from this nickname.
+                 You will, however see who has each chat message originated from.
+# - xmppCommandPrefix: when a person from the Jabber room starts line with this character, it will be passed through to the Bukkit server
+#                      and executed as if it was an ordinary command from the CONSOLE! Therefore be sure to only add players to xmppAdmins you really trust!
+# - xmppAdmins: list of XMPP (Jabber) users who have the right to send commands to Bukkit server. Example = xmppAdmins: [zathrus_writer, johny_cash]
+xmppUser: ""
+xmppHost: localhost 
+xmppPassword: ""
+xmppRoom.name: ""
+xmppRoom.password: ""
+xmppBotNick: CommandsEX
+xmppCommandPrefix: "#"
+xmppAdmins: []

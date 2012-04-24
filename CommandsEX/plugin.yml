@@ -175,6 +175,9 @@ permissions:
   Listener.condensejoins:
     default: true
     description: Placeholder for event function that condenses join/leave messages and shows them once in a while only.
+  Listener.xmpp:
+    default: true
+    description: Placeholder for event function that will connect to XMPP server and allow MC-XMPP communication.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
