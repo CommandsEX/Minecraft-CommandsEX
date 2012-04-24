@@ -6,6 +6,7 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.ClasspathHacker;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.XMPPer;
+import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Handler_xmpp {
 
@@ -19,7 +20,7 @@ public class Handler_xmpp {
 			ClasspathHacker.addFile(CommandsEX.plugin.getDataFolder() + "/smack.jar");
 			ClasspathHacker.addFile(CommandsEX.plugin.getDataFolder() + "/smackx.jar");
 		} catch (IOException e) {
-			LogHelper.logSevere("ok, this will dissappear... but smack components are not there!");
+			LogHelper.logSevere("[CommandsEX] " + _("xmppDownloadSmack", ""));
 		}
 		
 		// now initialize the actual XMPP communication handling class
