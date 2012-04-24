@@ -135,6 +135,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configMinTempBansWarn", sender.getName()) + p.getConfig().getString("minTempBansWarn"));
 					} else if (v.equals("silentbans")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configSilentBans", sender.getName()) + (!p.getConfig().getBoolean("silentBans") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("joinsilenttime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("joinSilentTime", sender.getName()) + p.getConfig().getString("joinSilentTime"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -255,6 +257,19 @@ public class CexCommands {
 								p.getConfig().set("minTempBansWarn", args[2]);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("minTempBansWarn"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("joinsilenttime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("joinSilentTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("joinSilentTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
