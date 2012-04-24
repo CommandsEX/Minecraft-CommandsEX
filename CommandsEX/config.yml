@@ -113,7 +113,7 @@ joinSilentTime: 25
 #             Therefore my room name is "myroom@conf.netlab.cz" - myroom being the room name, conf.netlab.cz the hostname
 # - xmppRoom.password: if the room requires a password to join it, set it up here
 # - xmppBotNick: this is the nickname for the plugin. All chat will originate from this nickname.
-                 You will, however see who has each chat message originated from.
+                 You will, however see who did each chat message originate from.
 # - xmppCommandPrefix: when a person from the Jabber room starts line with this character, it will be passed through to the Bukkit server
 #                      and executed as if it was an ordinary command from the CONSOLE! Therefore be sure to only add players to xmppAdmins you really trust!
 # - xmppAdmins: list of XMPP (Jabber) users who have the right to send commands to Bukkit server. Example = xmppAdmins: [zathrus_writer, johny_cash]
