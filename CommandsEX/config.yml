@@ -125,3 +125,6 @@ xmppRoom.password: ""
 xmppBotNick: CommandsEX
 xmppCommandPrefix: "#"
 xmppAdmins: []
+
+# area around jail location (in blocks) to be still considered a jail, so when people teleport there, they won't be stuck on each other
+jailArea: 5

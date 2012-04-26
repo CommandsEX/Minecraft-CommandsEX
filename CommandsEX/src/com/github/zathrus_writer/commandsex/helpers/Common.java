@@ -52,12 +52,13 @@ public class Common implements Listener {
 	 * @param alias
 	 * @return
 	 */
-	public static Boolean freeze(CommandSender sender, String[] args, String command, String alias) {
+	public static Boolean freeze(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
 		// create Freeze class instance, if not instantiated yet to allow for events listening
 		if (plugin == null) {
 			new Common();
 		}
-				
+
+		Boolean showMessages = (omitMessage.length == 0);
 		// check if requested player is online
 		Player p = Bukkit.getServer().getPlayer(args[0]);
 		String pName = "";
@@ -72,9 +73,11 @@ public class Common implements Listener {
 			// unfreeze player
 			frozenPlayers.remove(pName);
 			// inform the command sender and the player
-			LogHelper.showInfo("[" + pName + " #####freezePlayerUnfrozen", sender);
-			if (p != null) {
-				LogHelper.showInfo("freezeYouAreUnfrozen", p);
+			if (showMessages) {
+				LogHelper.showInfo("[" + pName + " #####freezePlayerUnfrozen", sender);
+				if (p != null) {
+					LogHelper.showInfo("freezeYouAreUnfrozen", p);
+				}
 			}
 			
 			// if there are no more frozen players left, we don't need our event listeners, so unregister them
@@ -96,10 +99,13 @@ public class Common implements Listener {
 		if (frozenPlayers.size() == 1) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
-		// inform both players
-		LogHelper.showInfo("[" + pName + " #####freezePlayerFrozen", sender);
-		LogHelper.showInfo("freezeYouAreFrozen1", p);
-		LogHelper.showInfo("freezeYouAreFrozen2", p);
+		
+		if (showMessages) {
+			// inform both players
+			LogHelper.showInfo("[" + pName + " #####freezePlayerFrozen", sender);
+			LogHelper.showInfo("freezeYouAreFrozen1", p);
+			LogHelper.showInfo("freezeYouAreFrozen2", p);
+		}
 		
 		return true;
 	}

@@ -1,3 +1,9 @@
+Beta 1.36
+---------
+- added /jail and /setjail commands
+- fixed error for players leaving the server when no SQL database is being used
+- added missing language elements
+
 Beta 1.35
 ---------
 - source code is no longer being stored in the plugin JAR file to save download bandwidth (it's still available on GitHub)

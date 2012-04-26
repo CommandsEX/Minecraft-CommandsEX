@@ -28,6 +28,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -242,10 +243,18 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void pJoin(PlayerJoinEvent e) {
-		playerIPs.put(e.getPlayer().getName().toLowerCase(), e.getPlayer().getAddress().getAddress().getHostAddress());
+		String pName = e.getPlayer().getName();
+		playerIPs.put(pName.toLowerCase(), e.getPlayer().getAddress().getAddress().getHostAddress());
+
+		// check if player is not jailed
+		try {
+			if (Jails.jailedPlayers.containsKey(pName)) {
+				LogHelper.showInfo("jailsStillJailed", e.getPlayer());
+			}
+		} catch (Throwable ex) {}
+		
 		if (sqlEnabled) {
 			// add -1 to playtimes, so our Runnable function will know to look the player up after the delay has passed
-			String pName = e.getPlayer().getName();
 			playTimes.put(pName, -1);
 			joinTimes.put(pName, Utils.getUnixTimestamp(0L));
 
@@ -339,39 +348,41 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public void pQuit(PlayerQuitEvent e) {
 		String pName = e.getPlayer().getName();
 		Integer stamp = Utils.getUnixTimestamp(0L);
-		Integer played = (stamp - joinTimes.get(pName));
-		
+
 		// schedule player's IP removal
 		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedIpRemoval(pName), (20 * getConf().getInt("maxIPholdTime")));
 		
 		// save player's playtime
-		if (sqlEnabled && (played >= minTimeToSavePlayTime)) {
-			// player was online for more than minTimeToSavePlayTime seconds, count this visit
-			if (playTimes.containsKey(pName) && (playTimes.get(pName) > -1)) {
-				// update playtime directly if we have previous time loaded
-				playTimes.put(pName, (playTimes.get(pName) + played));
-			} else {
-				// get total playtime from database, since we don't have it loaded yet
-				try {
-					// first, reset the time, so we don't add to -1 later
-					Integer pTime = 0;
-					ResultSet res = SQLManager.query_res("SELECT seconds_played FROM " + SQLManager.prefix + "playtime WHERE player_name = ?", pName);
-					while (res.next()) {
-						pTime = res.getInt("seconds_played");
+		if (sqlEnabled) {
+			Integer played = (stamp - joinTimes.get(pName));
+			if (played >= minTimeToSavePlayTime) {
+				// player was online for more than minTimeToSavePlayTime seconds, count this visit
+				if (playTimes.containsKey(pName) && (playTimes.get(pName) > -1)) {
+					// update playtime directly if we have previous time loaded
+					playTimes.put(pName, (playTimes.get(pName) + played));
+				} else {
+					// get total playtime from database, since we don't have it loaded yet
+					try {
+						// first, reset the time, so we don't add to -1 later
+						Integer pTime = 0;
+						ResultSet res = SQLManager.query_res("SELECT seconds_played FROM " + SQLManager.prefix + "playtime WHERE player_name = ?", pName);
+						while (res.next()) {
+							pTime = res.getInt("seconds_played");
+						}
+						res.close();
+						playTimes.put(pName, (pTime + played));
+					} catch (Throwable ex) {
+						// something went wrong...
+						LogHelper.logSevere("[CommandsEX] " + _("dbTotalPlayTimeGetError", ""));
+						LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 					}
-					res.close();
-					playTimes.put(pName, (pTime + played));
-				} catch (Throwable ex) {
-					// something went wrong...
-					LogHelper.logSevere("[CommandsEX] " + _("dbTotalPlayTimeGetError", ""));
-					LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 				}
+				// update DB with new value
+				played = playTimes.get(pName);
+				SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "playtime VALUES (?, ?)"+ (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE seconds_played = VALUES(seconds_played)" : ""), pName, played);
 			}
-			// update DB with new value
-			played = playTimes.get(pName);
-			SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "playtime VALUES (?, ?)"+ (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE seconds_played = VALUES(seconds_played)" : ""), pName, played);
+			joinTimes.remove(pName);
+			playTimes.remove(pName);
 		}
-		joinTimes.remove(pName);
-		playTimes.remove(pName);
 	}
 }

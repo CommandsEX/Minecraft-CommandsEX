@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Beta 1.35'
+version: 'Beta 1.36'
 website: http://dev.bukkit.org/server-mods/commandsex
 permissions:
   cex.allowspamcommands:
@@ -160,6 +160,12 @@ permissions:
   cex.seeleaves:
     default: true
     description: Allows player to see condensed leave messages.
+  cex.jail:
+    default: op
+    description: Allows player to jail or unjail other players.
+  cex.setjail:
+    default: op
+    description: Allows player to set jail points.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -187,6 +193,9 @@ permissions:
   Init.Bans:
     default: true
     description: Placeholder for initialization function used to import BanHammer database file into CommandsEX.
+  Init.Jails:
+    default: true
+    description: Placeholder for initialization function used to check and create jails database.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -361,3 +370,15 @@ commands:
     permission: cex.online
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [online]
+  cex_jail:
+    description: Sends a player to jail, while preventing him from world interaction. Use this command again to set the player free.
+    usage: /<command> <Player>
+    permission: cex.jail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [jail]
+  cex_setjail:
+    description: Sets jail location for the current world.
+    usage: /<command>
+    permission: cex.setjail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setjail]

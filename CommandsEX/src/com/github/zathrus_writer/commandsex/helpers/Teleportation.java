@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.handlers.Handler_savebackposition;
 
 /***
  * Contains set of commands to be executed for teleportation purposes.
@@ -92,22 +93,33 @@ public class Teleportation {
      * @param p
      * @param l
      */
-    public static void delayedTeleport(Player p, Location l) {
+    public static void delayedTeleport(Player p, Location l, Runnable... r) {
     	refreshMapChunk(l);
-    	CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedTeleport(p, l), 2);
+    	CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedTeleport(p, l, r), 2);
     }
 
     public static class DelayedTeleport implements Runnable {
     	private Player p;
     	private Location l;
+    	private Runnable r;
     	
-    	public DelayedTeleport(Player p, Location l) {
+    	public DelayedTeleport(Player p, Location l, Runnable... r) {
     		this.p = p;
     		this.l = l;
+    		this.r = ((r.length > 0) ? r[0] : null);
     	}
     	
     	public void run() {
     		p.teleport(l);
+
+    		// try to remove this player from omitted players list in back position saver
+    		try {Handler_savebackposition.omittedPlayers.remove(p.getName());} catch (Throwable e) {}
+    		
+    		// check if we should not call a post-teleport function and call it with a delay, since teleporting takes time
+    		// and the result would not be pretty (like being frozen/jailed in the air and kicked for flying)
+    		if (this.r != null) {
+    			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, r, (20 * 2));
+    		}
     	}
     }
 }

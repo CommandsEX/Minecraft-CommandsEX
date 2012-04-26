@@ -1,5 +1,8 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -9,6 +12,10 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.commands.Command_cex_back;
 
 public class Handler_savebackposition implements Listener {
+	
+	// contains a list of players whose positions should not be stored
+	// ... this is used for instance when putting people into jails and such
+	public static List<String> omittedPlayers = new ArrayList<String>();
 	
 	/***
 	 * Tells our main class which function we want to execute on PlayerTeleportEvent.
@@ -29,8 +36,9 @@ public class Handler_savebackposition implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void saveBackPosition(PlayerTeleportEvent e) {
-		if (e.isCancelled()) return;
-		Command_cex_back.lastLocations.put(e.getPlayer().getName(), e.getFrom());
+		String pName = e.getPlayer().getName();
+		if (e.isCancelled() || omittedPlayers.contains(pName)) return;
+		Command_cex_back.lastLocations.put(pName, e.getFrom());
 	}
 	
 }
