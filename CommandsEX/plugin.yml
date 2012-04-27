@@ -166,6 +166,12 @@ permissions:
   cex.setjail:
     default: op
     description: Allows player to set jail points.
+  cex.tnt.kamikaze:
+    default: false
+    description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is set on fire.
+  cex.tnt.kamikaze.from.damage:
+    default: false
+    description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is effected by a nearby explosion.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -184,6 +190,9 @@ permissions:
   Listener.xmpp:
     default: true
     description: Placeholder for event function that will connect to XMPP server and allow MC-XMPP communication.
+  Listener.tntkamikaze:
+    default: true
+    description: Placeholder for event function that checks whether a player has TNT in their inventory when they catch fire (or are damaged in explosion).
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

@@ -24,7 +24,7 @@ public class Handler_condensejoins implements Listener {
 	public static Integer lastLeaveTime = 0;
 	
 	/***
-	 * Loads existing chat replacements from the config file and activates event listeners.
+	 * Activate event listeners.
 	 */
 	public Handler_condensejoins() {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);

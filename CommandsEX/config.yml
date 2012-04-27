@@ -128,3 +128,10 @@ xmppAdmins: []
 
 # area around jail location (in blocks) to be still considered a jail, so when people teleport there, they won't be stuck on each other
 jailArea: 5
+
+# set true to instantly kill a player who carries TNT block in the inventory and is caught on fire (or damaged from explosion)
+# set this to false to leave TNT explosion effect to take over instead and do predefined amount of damage
+kamikazeInstaKill: false
+
+# time (in seconds) after which TNT will explode in player's inventory
+kamikazeTimeout: 3
