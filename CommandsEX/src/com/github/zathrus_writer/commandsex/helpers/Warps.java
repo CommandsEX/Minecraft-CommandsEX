@@ -49,13 +49,13 @@ public class Warps {
 				// check if we have enough parameters
 				if (args.length >= 2) {
 					// if the player is trying to create a public warp, check his permissions
-					if ((args.length > 2) && args[2].equals("public") && !player.hasPermission("cex.warp.public")) {
+					if ((args.length > 2) && args[2].equals("public") && !Permissions.checkPermEx(player, "cex.warp.public")) {
 						LogHelper.showWarning("warpNoPublicPerms", sender);
 						return true;
 					}
 					
 					// check how many warps this player has created, if limit is imposed
-					if ((CommandsEX.getConf().getInt("maxWarpsPerPlayer") > 0) && !player.hasPermission("cex.warp.bypasslimits")) {
+					if ((CommandsEX.getConf().getInt("maxWarpsPerPlayer") > 0) && !Permissions.checkPermEx(player, "cex.warp.bypasslimits")) {
 						try {
 							ResultSet res = SQLManager.query_res("SELECT Count(*) as Total FROM " + SQLManager.prefix + "warps WHERE owner_name = ?", pName);
 							Integer numWarps = 0;

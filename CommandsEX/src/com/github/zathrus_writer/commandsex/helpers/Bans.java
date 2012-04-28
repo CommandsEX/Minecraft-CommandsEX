@@ -416,12 +416,8 @@ public class Bans {
 							c = new Date(res.getTimestamp("creation_date").getTime());
 						}
 						Integer timeAll = (int) ((d.getTime() - c.getTime()) / 1000); // total ban time
-					
-						Integer days = (int) Math.floor(timeAll / 86400);
-						Integer hours = (int) Math.floor((timeAll - (days * 86400)) / 3600);
-						Integer minutes = (int) Math.floor((timeAll - (days * 86400) - (hours * 3600)) / 60);
-						Integer seconds = (timeAll - (days * 86400) - (hours * 3600) - (minutes * 60));
-						LogHelper.showInfo("bansLength#####[" + (days + " #####days#####[, ") + (hours + " #####hours#####[, ") + (minutes + " #####minutes#####[, ") + (seconds + " #####seconds"), sender, ChatColor.YELLOW);
+						Map<String, Integer> m = Utils.parseTimeStamp(timeAll);
+						LogHelper.showInfo("bansLength#####[" + (m.get("days") + " #####days#####[, ") + (m.get("hours") + " #####hours#####[, ") + (m.get("minutes") + " #####minutes#####[, ") + (m.get("seconds") + " #####seconds"), sender, ChatColor.YELLOW);
 						LogHelper.showInfo("bansExpires#####[" + expiration_date, sender, ChatColor.YELLOW);
 					}
 					

@@ -3,8 +3,9 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Beta 1.36'
+version: 'Beta 1.40'
 website: http://dev.bukkit.org/server-mods/commandsex
+softdepend: [Vault]
 permissions:
   cex.allowspamcommands:
     default: op
@@ -172,6 +173,15 @@ permissions:
   cex.tnt.kamikaze.from.damage:
     default: false
     description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is effected by a nearby explosion.
+  cex.playtime:
+    default: true
+    description: Allows player to see how long has he been on the server.
+  cex.playtime.all:
+    default: op
+    description: Allows player to see how long has any player been on the server.
+  cex.time2rank:
+    default: true
+    description: Allows player to see how much time is left until they get auto-promoted.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -193,6 +203,9 @@ permissions:
   Listener.tntkamikaze:
     default: true
     description: Placeholder for event function that checks whether a player has TNT in their inventory when they catch fire (or are damaged in explosion).
+  Listener.playtimepromote:
+    default: true
+    description: Placeholder for a timed function that will automatically promote players based on amount of time played on the server.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -391,3 +404,15 @@ commands:
     permission: cex.setjail
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [setjail]
+  cex_playtime:
+    description: Shows playtime for the given player or for yourself.
+    usage: /<command> [Player]
+    permission: cex.playtime
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [playtime]
+  cex_time2rank:
+    description: Shows how much time is left until player's next auto-promotion.
+    usage: /<command>
+    permission: cex.time2rank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [time2rank]

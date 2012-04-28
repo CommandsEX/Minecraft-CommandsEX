@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
 public class Handler_tntkamikaze implements Listener {
 
@@ -92,9 +93,9 @@ public class Handler_tntkamikaze implements Listener {
 				!explodingPlayers.contains(p.getName())
 				&&
 				(
-					((dc == DamageCause.FIRE) && p.hasPermission("cex.tnt.kamikaze"))
+					((dc == DamageCause.FIRE) && Permissions.checkPermEx(p, "cex.tnt.kamikaze"))
 					||
-					((dc == DamageCause.BLOCK_EXPLOSION) && p.hasPermission("cex.tnt.kamikaze.from.damage"))
+					((dc == DamageCause.BLOCK_EXPLOSION) && Permissions.checkPermEx(p, "cex.tnt.kamikaze.from.damage"))
 				)
 		) {
 			// tell the player he's about to explode :P

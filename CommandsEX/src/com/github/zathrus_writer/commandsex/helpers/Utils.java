@@ -82,7 +82,7 @@ public class Utils {
 	 */
 	public static Boolean checkCommandSpam(Player player, String commandName, Integer... minTimeout) {
 		// bypass checking if a player has the right permissions
-		if (player.hasPermission("cex.allowspamcommands")) return false;
+		if (Permissions.checkPermEx(player, "cex.allowspamcommands")) return false;
 
 		// first of all, create a periodic cleanup task that will remove all players
 		// that are not logged-in anymore from the spam checking map to free up memory
@@ -204,5 +204,29 @@ public class Utils {
 		}
 		
 		return ret;
+	}
+	
+	/***
+	 * Parses given Unix Timestamp and returns hashmap with days, hours, minutes and seconds.
+	 * @param stamp
+	 * @return
+	 */
+	public static Map<String, Integer> parseTimeStamp(Long stamp) {
+		Map<String, Integer> m = new HashMap<String, Integer>();
+		Integer days = (int) Math.floor(stamp / 86400);
+		Integer hours = (int) Math.floor((stamp - (days * 86400)) / 3600);
+		Integer minutes = (int) Math.floor((stamp - (days * 86400) - (hours * 3600)) / 60);
+		Integer seconds = (int) (stamp - (days * 86400) - (hours * 3600) - (minutes * 60));
+		
+		m.put("days", days);
+		m.put("hours", hours);
+		m.put("minutes", minutes);
+		m.put("seconds", seconds);
+		
+		return m;
+	}
+	
+	public static Map<String, Integer> parseTimeStamp(Integer stamp) {
+		return parseTimeStamp(new Long(stamp));
 	}
 }

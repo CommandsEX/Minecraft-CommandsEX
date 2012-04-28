@@ -59,12 +59,14 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	// minimum number of seconds from player's last logout to pass before his playtime is loaded from DB
 	public static Integer minTimeFromLogout = 30;
 	// number of seconds after which we flush playTimes into database
-	protected Integer playTimesFlushTime = 180;
+	public static Integer playTimesFlushTime = 180;
 	// number of seconds a player must stay on the server before his playTime is storable
 	protected Integer minTimeToSavePlayTime = 45;
 	// functions contained in this list will get executed on plugin disable,
 	// so we can handle things like DB or XMPP disconnects correctly
 	public static List<String> onDisableFunctions = new ArrayList<String>();
+	// true if Vault plugin was found in the server installation
+	public static Boolean vaultPresent = false;
 
 	/***
 	 * Class constructor.
@@ -82,7 +84,13 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
 		saveConfig();
-
+		
+		// check for Vault plugin presence
+		try {
+			new Vault();
+			vaultPresent = true;
+		} catch (Throwable e) {}
+		
 		// set up commands listener
 		cListener = new Commands(this);
 
@@ -177,7 +185,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 						SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "playtime "+ Utils.implode(insertParts, " UNION ") + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE seconds_played = VALUES(seconds_played)" : ""), insertValues);
 					}
 			    }
-			}, (20 * this.playTimesFlushTime), (20 * this.playTimesFlushTime));
+			}, (20 * playTimesFlushTime), (20 * playTimesFlushTime));
 			
 			// tell Bukkit we have some event handling to do in this class :-)
 			this.getServer().getPluginManager().registerEvents(this, this);

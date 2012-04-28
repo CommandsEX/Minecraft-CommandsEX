@@ -2,7 +2,19 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.Vault;
+
 public class Permissions {
+	
+	public static Boolean checkPermEx(Player player, String perm) {
+		if (CommandsEX.vaultPresent) {
+			return Vault.checkPerm(player, perm);
+		} else {
+			return player.hasPermission(perm);
+		}
+	}
+	
 	/***
 	 * Check whether given player has required permission.
 	 * @param player
@@ -19,12 +31,12 @@ public class Permissions {
 		int cLength = customPerm.length;
 		if (cLength == 1) {
 			// only a single node is being checked
-			hasPerms = player.hasPermission(customPerm[0]);
+			hasPerms = checkPermEx(player, customPerm[0]);
 		} else if (cLength > 1) {
 			// multiple nodes check
 			if (customPerm[0].equals("OR") || customPerm[0].equals("AND")) {
 				for (int i = 1; i < cLength; i++) {
-					hasPerms = player.hasPermission(customPerm[i]);
+					hasPerms = checkPermEx(player, customPerm[i]);
 
 					// only 1 permission node must be present, check if this one can pull it off
 					if (customPerm[0].equals("OR") && hasPerms) {

@@ -21,7 +21,7 @@ public class Command_cex_warp extends Warps {
 			// check permissions and call to action
 			if (args.length > 0) {
 				Boolean hasPerms = true;
-				if ((args.length >= 1) && args[0].toLowerCase().equals("list") && ((hasPerms = player.hasPermission("cex.warp.listpublic")) || (hasPerms = player.hasPermission("cex.warp.listprivate")))) {
+				if ((args.length >= 1) && args[0].toLowerCase().equals("list") && ((hasPerms = Permissions.checkPerms(player, "cex.warp.listpublic")) || (hasPerms = Permissions.checkPerms(player, "cex.warp.listprivate")))) {
 					/***
 					 * WARP LIST, LISTWARPS
 					 */

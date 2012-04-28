@@ -43,7 +43,7 @@ public class Command_cex_lang {
 							player.sendMessage(ChatColor.YELLOW + _("availableLangs", pName) + ChatColor.WHITE + CommandsEX.getConf().getList("availableLangs").toString());
 						}
 					}
-				} else {
+				} else if (Permissions.checkPerms(player, "cex.lang")) {
 					// show all available lanaguages
 					String pName = player.getName();
 					player.sendMessage(ChatColor.YELLOW + _("langYourLang", pName) + ChatColor.WHITE + (Language.perUserLocale.containsKey(pName) ? Language.perUserLocale.get(pName) : CommandsEX.getConf().getString("defaultLang")));

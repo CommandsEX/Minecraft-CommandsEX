@@ -135,3 +135,17 @@ kamikazeInstaKill: false
 
 # time (in seconds) after which TNT will explode in player's inventory
 kamikazeTimeout: 3
+
+# time (in seconds) after which the plugins should periodically check how much time players played on the server
+# and promote them based on these findings
+timedPromoteTaskTime: 180
+
+# configure how much time must a player played on the server before auto-promoted to each group
+# syntax...
+#   timedpromote:
+#       group_name: amount of seconds to play on server to belong here
+timedPromote:
+    default: 0
+
+# users in the following groups will be excluded from timed auto-promotions (admins, moderators, ...)
+timedPromoteExclude: [admin]

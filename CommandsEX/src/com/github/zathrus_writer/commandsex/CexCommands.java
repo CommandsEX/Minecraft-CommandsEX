@@ -136,9 +136,13 @@ public class CexCommands {
 					} else if (v.equals("silentbans")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configSilentBans", sender.getName()) + (!p.getConfig().getBoolean("silentBans") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("joinsilenttime")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configJoinSilentTime", sender.getName()) + p.getConfig().getString("joinSilentTime"));
+						sender.sendMessage(ChatColor.YELLOW + _("configJoinSilentTime", sender.getName()) + p.getConfig().getString("joinSilentTime") + " " + _("seconds", sender.getName()));
 					} else if (v.equals("jailarea")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configJailArea", sender.getName()) + p.getConfig().getString("jailArea"));
+						sender.sendMessage(ChatColor.YELLOW + _("configJailArea", sender.getName()) + p.getConfig().getString("jailArea") + " " + _("blocks", sender.getName()));
+					} else if (v.equals("kamikazeinstakill")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configkamikazeInstaKill", sender.getName()) + (p.getConfig().getBoolean("kamikazeInstaKill") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("kamikazetimeout")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configkamikazeTimeout", sender.getName()) + p.getConfig().getString("kamikazeTimeout") + " " + _("seconds", sender.getName()));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -292,6 +296,19 @@ public class CexCommands {
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("kamikazetimeout")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("kamikazeTimeout", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("kamikazeTimeout"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
 					} else if (v.equals("allowmultiworldhomes")) {
 						p.getConfig().set("allowMultiworldHomes", !p.getConfig().getBoolean("allowMultiworldHomes"));
 						p.saveConfig();
@@ -304,6 +321,10 @@ public class CexCommands {
 						p.getConfig().set("silentBans", !p.getConfig().getBoolean("silentBans"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("silentBans") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("kamikazeinstakill")) {
+						p.getConfig().set("kamikazeInstaKill", !p.getConfig().getBoolean("kamikazeInstaKill"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("kamikazeInstaKill") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("debugmode")) {
 						p.getConfig().set("debugMode", !p.getConfig().getBoolean("debugMode"));
 						p.saveConfig();

@@ -2,8 +2,11 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +28,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.SQLManager;
 
 /***
  * Contains set of functions and event listeners used to handle the freeze command.
@@ -119,7 +123,7 @@ public class Common implements Listener {
 	 * @return
 	 */
 	public static Boolean kick(CommandSender sender, String[] args, String command, String alias) {
-		// // check if requested player is online
+		// check if requested player is online
 		Player p = Bukkit.getServer().getPlayer(args[0]);
 		String pName = "";
 		String leaveReason = "";
@@ -142,6 +146,83 @@ public class Common implements Listener {
 		p.kickPlayer(leaveReason.equals("") ? _("kickGenericReason", "") : leaveReason);
 		if (!CommandsEX.getConf().getBoolean("silentKicks")) {
 			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!leaveReason.equals("") ? (pName + " " + _("kickBeingKickedForMessage", "") + leaveReason) : pName + " " + _("kickBeingKickedMessage", "")));
+		}
+		
+		return true;
+	}
+	
+	/***
+	 * PLAYTIME - tells a player or admin how long they played on the server
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean playtime(CommandSender sender, String[] args, String command, String alias) {
+		if (!CommandsEX.sqlEnabled) {
+			LogHelper.showWarning("playTimeNoSQL", sender);
+			return false;
+		}
+		
+		// check who we want to see the playtime for
+		String pName;
+		Boolean online = false;
+		if (args.length > 0) {
+			pName = args[0];
+			if (Bukkit.getServer().getPlayer(pName) != null) {
+				online = true;
+			}
+		} else {
+			pName = sender.getName();
+		}
+		
+		// load playtime from database if the player is not online, otherwise load it from stored values in main class
+		Integer playtime = 0;
+		if (online) {
+			playtime = CommandsEX.playTimes.get(pName);
+		} else {
+			String playerForSQL = pName.toLowerCase();
+			String foundPlayerName = "";
+			Integer numPlayers = 0;
+			ResultSet res = SQLManager.query_res("SELECT * FROM " + SQLManager.prefix + "playtime WHERE (player_name = ? OR player_name LIKE ?)", playerForSQL, playerForSQL + "%");
+			
+			try {
+				while (res.next()) {
+					numPlayers++;
+					foundPlayerName = res.getString("player_name");
+	
+					// if the name matches exactly what we've been looking for, just exit the loop
+					if (foundPlayerName.toLowerCase().equals(playerForSQL)) {
+						numPlayers = 1;
+						playtime = res.getInt("seconds_played");
+						break;
+					}
+				}
+				res.close();
+				
+				if (numPlayers > 1) {
+					// too many players match the selection
+					numPlayers = 0;
+					foundPlayerName = pName;
+				} else if (numPlayers == 1) {
+					// show playtime
+					Map<String, Integer> m = Utils.parseTimeStamp(playtime);
+					LogHelper.showInfo("playTimeIs#####[" + (m.get("days") + " #####days#####[, ") + (m.get("hours") + " #####hours#####[, ") + (m.get("minutes") + " #####minutes#####[, ") + (m.get("seconds") + " #####seconds"), sender);
+					return true;
+				}
+				
+				// if player's playtime was not found, show message
+				if (numPlayers == 0) {
+					LogHelper.showInfo("playTimeNotFound", sender, ChatColor.YELLOW);
+				}
+			} catch (Throwable e) {
+				// unable to load players' playtime
+				LogHelper.showWarning("internalError", sender);
+				LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				return false;
+			}
 		}
 		
 		return true;
