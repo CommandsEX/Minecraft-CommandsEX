@@ -5,7 +5,6 @@ import static com.github.zathrus_writer.commandsex.Language._;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,22 +58,6 @@ public class Handler_playtimepromote extends Promotions implements Listener {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
-	// single-purpose class to check single player's promotion upon him leaving the server
-	public static class DelayedPromoCheck implements Runnable {
-		
-		private Player p;
-		
-		public DelayedPromoCheck(Player p) {
-			this.p = p;
-		}
-		
-		@Override
-		public void run() {
-			Handler_playtimepromote.checkTimedPromotions(this.p);
-		}
-		
-	}
-	
 	/***
 	 * When a player quits, check and update his rank according to his playtime.
 	 * Note: this needs to be at low priority, so we still have player's play time in stored
@@ -84,10 +67,7 @@ public class Handler_playtimepromote extends Promotions implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOW)
 	public void quitPromote(PlayerQuitEvent e) {
-		// create ExecutorService to manage threads
-		ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
-		threadExecutor.execute(new DelayedPromoCheck(e.getPlayer()));
-		threadExecutor.shutdown(); // shutdown worker threads
+		Handler_playtimepromote.checkTimedPromotions(e.getPlayer());
 	}
 	
 }

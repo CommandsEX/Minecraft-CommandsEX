@@ -28,7 +28,7 @@ public class Handler_replacechat implements Listener {
 	 */
 	public Handler_replacechat() {
 		// load replacement values from config file
-		File playerChatFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("chatReplaceFile"));
+		File playerChatFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.getConf().getString("chatReplaceFile"));
 		FileListHelper.checkListFile(playerChatFile, "playerchat.txt");
 		addReplacementPairs(FileListHelper.loadListFromFile(playerChatFile, FileListHelper.MatchingContext.Chat));
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
@@ -67,8 +67,8 @@ public class Handler_replacechat implements Listener {
 				env.setMatcher(m);
 
 				if (rp.playerWillVanish()) { //the player will vanish as a result of this, special handling
-					int cutlen = CommandsEX.plugin.getConfig().getInt("replacements.cutoff.length", 1);
-					String cuttext = CommandsEX.plugin.getConfig().getString("replacements.cutoff.indicator", "--*");
+					int cutlen = CommandsEX.getConf().getInt("replacements.cutoff.length", 1);
+					String cuttext = CommandsEX.getConf().getString("replacements.cutoff.indicator", "--*");
 	
 					String rep = m.group().substring(0, cutlen).concat(cuttext);
 					m.appendReplacement(sb, rep);

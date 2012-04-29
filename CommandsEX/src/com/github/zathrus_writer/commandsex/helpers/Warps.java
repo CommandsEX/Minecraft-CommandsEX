@@ -5,6 +5,8 @@ import static com.github.zathrus_writer.commandsex.Language._;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -54,6 +56,24 @@ public class Warps {
 						return true;
 					}
 					
+					// if the player is trying to create a warp for another player, check for permissions
+					Boolean createForOther = false;
+					if ((args.length > 2) && !args[2].equals("public") && !args[2].equals("private") && !Permissions.checkPermEx(player, "cex.warp.create.others")) {
+						LogHelper.showWarning("warpNoOthersCreatePerms", sender);
+						return true;
+					} else if ((args.length > 2) && !args[2].equals("public") && !args[2].equals("private")) {
+						// check if we have Vault present, otherwise we cannot give permissions to players
+						if (!CommandsEX.vaultPresent) {
+							LogHelper.showWarning("warpCreateForOtherFailed", sender);
+							return true;
+						}
+						
+						// give this player permission to warp to his own warps
+						Permissions.addPerm(player.getWorld().getName(), args[2], "cex.warp.own");
+						Permissions.addPerm(player.getWorld().getName(), args[2], "cex.warp.listprivate");
+						createForOther = true;
+					}
+					
 					// check how many warps this player has created, if limit is imposed
 					if ((CommandsEX.getConf().getInt("maxWarpsPerPlayer") > 0) && !Permissions.checkPermEx(player, "cex.warp.bypasslimits")) {
 						try {
@@ -79,9 +99,18 @@ public class Warps {
 					}
 					
 					Location l = player.getLocation();
-					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, is_public) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), is_public = VALUES(is_public)" : ""), pName, player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
+					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, is_public) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), is_public = VALUES(is_public)" : ""), (createForOther ? args[2] : pName), player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
 						// warp successfuly created
 						LogHelper.showInfo("warpCreated#####[" + args[1], sender);
+						
+						if (createForOther) {
+							// send message to the new proud warp owner :)
+							Player px = Bukkit.getServer().getPlayer(args[2]);
+							if (px != null) {
+								LogHelper.showInfo("warpCreatedForYou1#####[" + args[1], px);
+								LogHelper.showInfo("warpCreatedForYou2#####[" + args[1], px);
+							}
+						}
 					} else {
 						// an error has occured...
 						LogHelper.showWarning("internalError", sender);
@@ -129,6 +158,10 @@ public class Warps {
 							// check if player is allowed to go to this warp
 							if (!player.hasPermission("cex.warp.any") && !res.getBoolean("is_public") && !res.getString("owner_name").equals(pName)) {
 								// player is not allowed in
+								LogHelper.showWarning("warpNotAllowed", sender);
+								return true;
+							} else if (res.getString("owner_name").equals(pName) && !Permissions.checkPermEx(player, "cex.warp.own")) {
+								// the player is trying to warp to his own warp but doesn't have permissions
 								LogHelper.showWarning("warpNotAllowed", sender);
 								return true;
 							}

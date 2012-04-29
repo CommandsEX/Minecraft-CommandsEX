@@ -111,7 +111,7 @@ public class Home {
 			if (!Utils.checkCommandSpam(player, "sethome")) {
 				String pName = player.getName();
 				// check if the player has been on the server long enough
-				Integer hTime = CommandsEX.plugin.getConfig().getInt("homeQualifyTime");
+				Integer hTime = CommandsEX.getConf().getInt("homeQualifyTime");
 				if (Permissions.checkPermEx(player, "cex.bypasshomequalify") || (CommandsEX.playTimes.containsKey(pName) && (CommandsEX.playTimes.get(pName) >= hTime))) {
 					// all ok, let's save our home
 					Location l = player.getLocation();

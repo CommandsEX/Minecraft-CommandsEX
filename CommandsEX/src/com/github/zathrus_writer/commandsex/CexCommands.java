@@ -3,7 +3,10 @@ package com.github.zathrus_writer.commandsex;
 import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,10 +14,12 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.commands.Command_cex_tpa;
 import com.github.zathrus_writer.commandsex.commands.Command_cex_tpahere;
+import com.github.zathrus_writer.commandsex.handlers.Handler_economypromote;
 import com.github.zathrus_writer.commandsex.handlers.Handler_playtimepromote;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CexCommands {
 	
@@ -145,7 +150,15 @@ public class CexCommands {
 					} else if (v.equals("kamikazetimeout")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configKamikazeTimeout", sender.getName()) + p.getConfig().getString("kamikazeTimeout") + " " + _("seconds", sender.getName()));
 					} else if (v.equals("timedpromotetasktime")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configTimedPromoteTaskTime", sender.getName()) + p.getConfig().getString("timedpromotetasktime") + " " + _("seconds", sender.getName()));
+						sender.sendMessage(ChatColor.YELLOW + _("configTimedPromoteTaskTime", sender.getName()) + p.getConfig().getString("timedPromoteTaskTime") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("ecopromotetasktime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configEcoPromoteTaskTime", sender.getName()) + p.getConfig().getString("ecoPromoteTaskTime") + " " + _("seconds", sender.getName()));
+					}  else if (v.equals("ecopromoteautodemote")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configEcoPromoteAutoDemote", sender.getName()) + (p.getConfig().getBoolean("ecoPromoteAutoDemote") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("ecopromoteexclude")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configEcoPromoteExclude", sender.getName()) + Utils.implode(p.getConfig().getList("ecoPromoteTaskTime"), ", "));
+					} else if (v.equals("timedpromoteexclude")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configTimedPromoteExclude", sender.getName()) + Utils.implode(p.getConfig().getList("timedPromoteTaskTime"), ", "));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -324,13 +337,55 @@ public class CexCommands {
 									Handler_playtimepromote.promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
 										@Override
 										public void run() {
-											Handler_playtimepromote.checkTimedPromotions();
+											// create ExecutorService to manage threads                        
+											ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+											threadExecutor.execute(new Runnable() {
+												@Override
+												public void run() {
+													Handler_playtimepromote.checkTimedPromotions();
+												}
+											});
+											threadExecutor.shutdown(); // shutdown worker threads
 										}
 									}, (20 * Integer.parseInt(args[2])), (20 * Integer.parseInt(args[2])));
 								} catch (Throwable ex) {}
 								
 								// show message
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("timedPromoteTaskTime"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("ecopromotetasktime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("ecoPromoteTaskTime", args[2]);
+								p.saveConfig();
+
+								// cancel old task and create a new one with this new timeout value
+								try {
+									CommandsEX.plugin.getServer().getScheduler().cancelTask(Handler_economypromote.promotionTaskID);
+									Handler_economypromote.promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+										@Override
+										public void run() {
+											// create ExecutorService to manage threads                        
+											ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+											threadExecutor.execute(new Runnable() {
+												@Override
+												public void run() {
+													Handler_economypromote.checkTimedPromotions();
+												}
+											});
+											threadExecutor.shutdown(); // shutdown worker threads
+										}
+									}, (20 * Integer.parseInt(args[2])), (20 * Integer.parseInt(args[2])));
+								} catch (Throwable ex) {}
+								
+								// show message
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("ecoPromoteTaskTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -358,6 +413,54 @@ public class CexCommands {
 						p.getConfig().set("debugMode", !p.getConfig().getBoolean("debugMode"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("debugMode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("timedpromoteexclude")) {
+						if (args[3].equals("add") || args[2].equals("add")) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("timedPromoteExclude");
+							String toAdd = args[2].equals("add") ? args[3] : args[4];
+							if (!l.contains(toAdd)) {
+								l.add(args[2].equals("add") ? args[3] : args[4]);
+								p.getConfig().set("timedPromoteExclude", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("timedPromoteExclude").toString());
+						} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("timedPromoteExclude");
+							String toRemove = args[2].equals("remove") ? args[3] : args[4];
+							if (l.contains(toRemove)) {
+								l.remove(args[2].equals("remove") ? args[3] : args[4]);
+								p.getConfig().set("timedPromoteExclude", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("timedPromoteExclude").toString());
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("ecopromoteexclude")) {
+						if (args[3].equals("add") || args[2].equals("add")) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("ecoPromoteExclude");
+							String toAdd = args[2].equals("add") ? args[3] : args[4];
+							if (!l.contains(toAdd)) {
+								l.add(args[2].equals("add") ? args[3] : args[4]);
+								p.getConfig().set("ecoPromoteExclude", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("ecoPromoteExclude").toString());
+						} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("ecoPromoteExclude");
+							String toRemove = args[2].equals("remove") ? args[3] : args[4];
+							if (l.contains(toRemove)) {
+								l.remove(args[2].equals("remove") ? args[3] : args[4]);
+								p.getConfig().set("ecoPromoteExclude", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("ecoPromoteExclude").toString());
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

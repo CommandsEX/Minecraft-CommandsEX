@@ -62,7 +62,7 @@ public class Handler_tntkamikaze implements Listener {
     		p.getWorld().createExplosion(l, 4F);
 
     		// check if we should insta-kill the player
-    		if (CommandsEX.plugin.getConfig().getBoolean("kamikazeInstaKill")) {
+    		if (CommandsEX.getConf().getBoolean("kamikazeInstaKill")) {
     			p.setHealth(0);
     		}
     		
@@ -99,10 +99,10 @@ public class Handler_tntkamikaze implements Listener {
 				)
 		) {
 			// tell the player he's about to explode :P
-			Integer timeToExplode = CommandsEX.plugin.getConfig().getInt("kamikazeTimeout", 3);
+			Integer timeToExplode = CommandsEX.getConf().getInt("kamikazeTimeout", 3);
 			LogHelper.showWarning("kamikazeTNTYouWillExplode#####[" + timeToExplode + " #####seconds", p);
 			explodingPlayers.add(p.getName());
-			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.plugin.getConfig().getInt("kamikazeTimeout", 3)));
+			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.getConf().getInt("kamikazeTimeout", 3)));
 		}
 	}
 	

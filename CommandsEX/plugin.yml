@@ -110,9 +110,19 @@ permissions:
   cex.warp.create:
     default: op
     description: Allows player to create warps.
+    children:
+      cex.warp.create.others: true
+  cex.warp.create.others:
+    default: op
+    description: Allows player to create warps for other players (i.e. other player will be the owner).
   cex.warp:
     default: true
     description: Allows player to use warps (i.e. teleport to them).
+    children:
+      cex.warp.own: true
+  cex.warp.own:
+    default: true
+    description: Allows player to warp to their own warps.
   cex.warp.any:
     default: op
     description: Allows player to visit both private and public warps.

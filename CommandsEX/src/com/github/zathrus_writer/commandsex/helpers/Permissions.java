@@ -66,4 +66,26 @@ public class Permissions {
 		
 		return hasPerms;
 	}
+	
+	/***
+	 * Gives permission to the player in question.
+	 * @param p
+	 * @param perm
+	 * @return
+	 */
+	public static Boolean addPerm(Player p, String perm) {
+		if (CommandsEX.vaultPresent) {
+			Vault.perms.playerAdd(p, perm);
+		}
+		
+		return true;
+	}
+	
+	public static Boolean addPerm(String world, String player, String perm) {
+		if (CommandsEX.vaultPresent) {
+			Vault.perms.playerAdd(world, player, perm);
+		}
+		
+		return true;
+	}
 }

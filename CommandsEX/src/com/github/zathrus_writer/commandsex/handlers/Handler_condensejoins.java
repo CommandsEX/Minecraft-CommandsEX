@@ -43,7 +43,7 @@ public class Handler_condensejoins implements Listener {
 		
 		// check if we haven't reached our flush interval
 		Integer stamp = Utils.getUnixTimestamp(0L);
-		Integer flushTime = CommandsEX.plugin.getConfig().getInt("joinSilentTime");
+		Integer flushTime = CommandsEX.getConf().getInt("joinSilentTime");
 		
 		// flush joins if interval is reached
 		if ((stamp - lastJoinTime) >= flushTime) {
@@ -72,6 +72,7 @@ public class Handler_condensejoins implements Listener {
 			}
 			
 			// empty joins array
+			lastJoinTime = Utils.getUnixTimestamp(0L);
 			joins.clear();
 			
 			// save the time when last join message was shown
@@ -105,7 +106,7 @@ public class Handler_condensejoins implements Listener {
 		
 		// check if we haven't reached our flush interval
 		Integer stamp = Utils.getUnixTimestamp(0L);
-		Integer flushTime = CommandsEX.plugin.getConfig().getInt("joinSilentTime");
+		Integer flushTime = CommandsEX.getConf().getInt("joinSilentTime");
 		
 		// flush leaves if interval is reached
 		if ((stamp - lastLeaveTime) >= flushTime) {
@@ -134,6 +135,7 @@ public class Handler_condensejoins implements Listener {
 			}
 			
 			// empty leaves array
+			lastLeaveTime = Utils.getUnixTimestamp(0L);
 			leaves.clear();
 			
 			// save the time when last leave message was shown

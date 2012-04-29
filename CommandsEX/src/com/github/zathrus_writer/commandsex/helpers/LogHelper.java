@@ -23,7 +23,7 @@ public class LogHelper {
 	}
 	
 	public static void logDebug(String msg) {
-		if (CommandsEX.plugin.getConfig().getBoolean("debugMode")) {
+		if (CommandsEX.getConf().getBoolean("debugMode")) {
 			LOGGER.info(msg);
 		}
 	}

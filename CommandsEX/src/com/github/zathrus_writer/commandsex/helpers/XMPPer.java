@@ -41,7 +41,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 
 	public XMPPer() {
 		LogHelper.logInfo("[CommandsEX] " + _("xmppConnecting", ""));
-		FileConfiguration cnf = CommandsEX.plugin.getConfig();
+		FileConfiguration cnf = CommandsEX.getConf();
 		cmdPrefix = cnf.getString("xmppCommandPrefix", "#");
 		participantNicks = new HashMap<String, String>();
 		xmppConnection = new XMPPConnection(cnf.getString("xmppHost", "localhost"));
@@ -131,7 +131,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 				Message message = (Message)packet;
 				if (message.getBody().startsWith(cmdPrefix)) {
 					// execute command on the server as Console when this command comes from a trusted person
-					if (CommandsEX.plugin.getConfig().getList("xmppAdmins").contains(chatRoom.getOccupant(message.getFrom()).getNick())) {
+					if (CommandsEX.getConf().getList("xmppAdmins").contains(chatRoom.getOccupant(message.getFrom()).getNick())) {
 						String cmd = message.getBody().substring(cmdPrefix.length());
 						CommandsEX.plugin.getServer().dispatchCommand(ccs, cmd);
 					}

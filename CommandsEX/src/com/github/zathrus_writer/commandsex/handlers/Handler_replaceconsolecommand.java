@@ -27,7 +27,7 @@ public class Handler_replaceconsolecommand implements Listener {
 	 */
 	public Handler_replaceconsolecommand() {
 		// load replacement values from config file
-		File playerCommandsFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.plugin.getConfig().getString("consoleCommandsReplaceFile"));
+		File playerCommandsFile = new File(CommandsEX.plugin.getDataFolder(), CommandsEX.getConf().getString("consoleCommandsReplaceFile"));
 		FileListHelper.checkListFile(playerCommandsFile, "consolecmd.txt");
 		addReplacementPairs(FileListHelper.loadListFromFile(playerCommandsFile, FileListHelper.MatchingContext.Command));
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
