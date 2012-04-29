@@ -79,7 +79,7 @@ public class Promotions {
 			if (!promotedTo.equals("")) {
 				Vault.perms.playerAddGroup(p, promotedTo);
 				LogHelper.showInfo("timedPromoteMessage1", p, ChatColor.GREEN);
-				LogHelper.showInfo("timedPromoteMessage2#####[" + promotedTo, p, ChatColor.GREEN);
+				LogHelper.showInfo("timedPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
 			}
 			
 			// exit here if we requested a single player
@@ -144,13 +144,13 @@ public class Promotions {
 			if (!promotedTo.equals("")) {
 				Vault.perms.playerAddGroup(p, promotedTo);
 				LogHelper.showInfo("ecoPromoteMessage1", p, ChatColor.GREEN);
-				LogHelper.showInfo("ecoPromoteMessage2#####[" + promotedTo, p, ChatColor.GREEN);
+				LogHelper.showInfo("ecoPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
 			}
 			
 			// for demotions, do the same
 			if (demotions.size() > 0) {
 				LogHelper.showInfo("ecoDemoteMessage1", p);
-				LogHelper.showInfo("ecoDemoteMessage2#####[" + Utils.implode(demotions, ", "), p);
+				LogHelper.showInfo("ecoDemoteMessage2#####[" + ChatColor.AQUA + Utils.implode(demotions, ", "), p);
 			}
 			
 			// exit here if we requested a single player
