@@ -2,6 +2,7 @@ Beta 1.40
 ---------
 - fixed permission checking for back, hyes and lang commands
 - fixed join/leave messages grouping message timeout
+- fixed builder page (plugin no longer generates errors when you enable XMPP Chat Relay)
 - added Vault support
 - added playtime-based rank changes
 - added money-based rank changes
