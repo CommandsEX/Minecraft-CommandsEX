@@ -25,7 +25,7 @@ import com.github.zathrus_writer.commandsex.Vault;
 public class Promotions {
 	
 	/***
-	 * The actual delayed task to check for promotions and promote as needed.
+	 * The actual delayed task to check for timed promotions and promote as needed.
 	 * Used in 2 places - delayed task and Quit event.
 	 */
 	public static void checkTimedPromotions(Player...players) {
@@ -80,6 +80,77 @@ public class Promotions {
 				Vault.perms.playerAddGroup(p, promotedTo);
 				LogHelper.showInfo("timedPromoteMessage1", p, ChatColor.GREEN);
 				LogHelper.showInfo("timedPromoteMessage2#####[" + promotedTo, p, ChatColor.GREEN);
+			}
+			
+			// exit here if we requested a single player
+			if (players.length > 0) {
+				return;
+			}
+		}
+	}
+	
+	/***
+	 * The actual delayed task to check for economy-based promotions and promote as needed.
+	 * Used in 2 places - delayed task and Quit event.
+	 */
+	public static void checkEcoPromotions(Player...players) {
+		// load up settings from config file
+		FileConfiguration f = CommandsEX.getConf();
+		ConfigurationSection configGroups = f.getConfigurationSection("ecoPromote");
+		Map<String, Double> settings = new HashMap<String, Double>();
+		List<?> exclusions = CommandsEX.getConf().getList("ecoPromoteExclude", new ArrayList<String>());
+		Boolean checkDemotions = f.getBoolean("ecoPromoteAutoDemote");
+		for (String s : configGroups.getKeys(true)) {
+			// ignore default group with wealth of 0, since that one is an example record
+			if (s.equals("default") && (f.getInt("ecoPromote." + s) == 0)) continue;
+			settings.put(s, f.getDouble("ecoPromote." + s));
+		}
+		
+		// run through all online players and check their wealth
+		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+			String pName = p.getName();
+			Double balance = Vault.econ.getBalance(pName);
+			String promotedTo = "";
+			String[] tPlayerGroups = Vault.perms.getPlayerGroups(p);
+			List<String> playerGroups = new ArrayList<String>();
+			List<String> demotions = new ArrayList<String>();
+
+			// if the player belongs to at least one excluded group, stop here
+			for (String s : tPlayerGroups) {
+				if (exclusions.contains(s)) {
+					return;
+				} else {
+					playerGroups.add(s);
+				}
+			}
+			// check player's playtime against config settings
+			Iterator<Entry<String, Double>> it2 = settings.entrySet().iterator();
+			while (it2.hasNext()) {
+				Map.Entry<String, Double> configPairs = (Map.Entry<String, Double>)it2.next();
+				
+				// check for promotions
+				if ((balance >= configPairs.getValue()) && !playerGroups.contains(configPairs.getKey())) {
+					promotedTo = configPairs.getKey();
+				}
+				
+				//check for demotions
+				if (checkDemotions && playerGroups.contains(configPairs.getKey()) && (balance < configPairs.getValue())) {
+					demotions.add(configPairs.getKey());
+					Vault.perms.playerRemoveGroup(p, configPairs.getKey());
+				}
+			}
+			
+			// if we have a promotion to deliver, do it here
+			if (!promotedTo.equals("")) {
+				Vault.perms.playerAddGroup(p, promotedTo);
+				LogHelper.showInfo("ecoPromoteMessage1", p, ChatColor.GREEN);
+				LogHelper.showInfo("ecoPromoteMessage2#####[" + promotedTo, p, ChatColor.GREEN);
+			}
+			
+			// for demotions, do the same
+			if (demotions.size() > 0) {
+				LogHelper.showInfo("ecoDemoteMessage1", p);
+				LogHelper.showInfo("ecoDemoteMessage2#####[" + Utils.implode(demotions, ", "), p);
 			}
 			
 			// exit here if we requested a single player

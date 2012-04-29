@@ -11,13 +11,14 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.commands.Command_cex_tpa;
 import com.github.zathrus_writer.commandsex.commands.Command_cex_tpahere;
+import com.github.zathrus_writer.commandsex.handlers.Handler_playtimepromote;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
 public class CexCommands {
 	
-	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile"};
+	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile", "replacements", "xmppUser", "xmppHost", "xmppPassword", "xmppRoom.name", "xmppRoom.password", "xmppBotNick", "xmppCommandPrefix", "xmppAdmins", "timedPromote"};
 	
 	/***
 	 * Handles reactions on the /cex command.
@@ -140,9 +141,11 @@ public class CexCommands {
 					} else if (v.equals("jailarea")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configJailArea", sender.getName()) + p.getConfig().getString("jailArea") + " " + _("blocks", sender.getName()));
 					} else if (v.equals("kamikazeinstakill")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configkamikazeInstaKill", sender.getName()) + (p.getConfig().getBoolean("kamikazeInstaKill") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+						sender.sendMessage(ChatColor.YELLOW + _("configKamikazeInstaKill", sender.getName()) + (p.getConfig().getBoolean("kamikazeInstaKill") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("kamikazetimeout")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configkamikazeTimeout", sender.getName()) + p.getConfig().getString("kamikazeTimeout") + " " + _("seconds", sender.getName()));
+						sender.sendMessage(ChatColor.YELLOW + _("configKamikazeTimeout", sender.getName()) + p.getConfig().getString("kamikazeTimeout") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("timedpromotetasktime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configTimedPromoteTaskTime", sender.getName()) + p.getConfig().getString("timedpromotetasktime") + " " + _("seconds", sender.getName()));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -302,6 +305,32 @@ public class CexCommands {
 								p.getConfig().set("kamikazeTimeout", args[2]);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("kamikazeTimeout"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("timedpromotetasktime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("timedPromoteTaskTime", args[2]);
+								p.saveConfig();
+
+								// cancel old task and create a new one with this new timeout value
+								try {
+									CommandsEX.plugin.getServer().getScheduler().cancelTask(Handler_playtimepromote.promotionTaskID);
+									Handler_playtimepromote.promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+										@Override
+										public void run() {
+											Handler_playtimepromote.checkTimedPromotions();
+										}
+									}, (20 * Integer.parseInt(args[2])), (20 * Integer.parseInt(args[2])));
+								} catch (Throwable ex) {}
+								
+								// show message
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("timedPromoteTaskTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);

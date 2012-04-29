@@ -149,3 +149,19 @@ timedPromote:
 
 # users in the following groups will be excluded from timed auto-promotions (admins, moderators, ...)
 timedPromoteExclude: [admin]
+
+# time (in seconds) after which the plugins should periodically check players' wealth and promote them based on these findings
+ecoPromoteTaskTime: 180
+
+# configure how much currency must a player have before auto-promoting him to each group
+# syntax...
+#   ecopromote:
+#       group_name: amount of currency to have to belong here
+ecoPromote:
+    default: 0
+
+# users in the following groups will be excluded from economy-based auto-promotions (admins, moderators, ...)
+ecoPromoteExclude: [admin]
+
+# if this is true, players that drop below treshold of their own group will be removed from this group (i.e. demoted)
+ecoPromoteAutoDemote: true

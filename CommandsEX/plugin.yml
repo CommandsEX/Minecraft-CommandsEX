@@ -206,6 +206,9 @@ permissions:
   Listener.playtimepromote:
     default: true
     description: Placeholder for a timed function that will automatically promote players based on amount of time played on the server.
+  Listener.economypromote:
+    default: true
+    description: Placeholder for a timed function that will automatically promote and demote players based on their wealth.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

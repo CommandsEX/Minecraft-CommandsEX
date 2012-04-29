@@ -3,7 +3,7 @@ Beta 1.40
 - fixed permission checking for back, hyes and lang commands
 - added Vault support
 - added playtime-based rank changes
-- added money-bases rank changes
+- added money-based rank changes
 - added /timeplayed command to check how long did a player play on the server for
 - expanded warping to allow admins create warps for other players. These players can then warp to private warps prepared directly for them (but not delete or update those).
 - added missing configuration options into /cex config
