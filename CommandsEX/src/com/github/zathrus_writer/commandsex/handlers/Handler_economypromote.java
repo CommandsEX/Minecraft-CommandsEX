@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Promotions;
 
@@ -24,7 +25,7 @@ public class Handler_economypromote extends Promotions implements Listener {
 	 */
 	public Handler_economypromote() {
 		// check if we have Vault present
-		if (!CommandsEX.vaultPresent) {
+		if (!CommandsEX.vaultPresent || !Vault.permsEnabled() || !Vault.ecoEnabled()) {
 			LogHelper.logSevere(_("ecoPromoteNoVault", ""));
 			return;
 		}
@@ -58,7 +59,9 @@ public class Handler_economypromote extends Promotions implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void quitPromote(PlayerQuitEvent e) {
-		Handler_economypromote.checkEcoPromotions(e.getPlayer());
+		if (CommandsEX.vaultPresent && Vault.permsEnabled() && Vault.ecoEnabled()) {
+			Handler_economypromote.checkEcoPromotions(e.getPlayer());
+		}
 	}
 	
 }

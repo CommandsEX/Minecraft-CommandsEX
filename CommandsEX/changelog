@@ -8,6 +8,7 @@ Beta 1.40
 - added /timeplayed command to check how long did a player play on the server for
 - expanded warping to allow admins create warps for other players. These players can then warp to private warps prepared directly for them (but not delete or update those).
 - added missing configuration options into /cex config
+- added 2 excellent Select All and Deselect All options to the CommandsEX Builder page :-)
 
 
 Beta 1.36k

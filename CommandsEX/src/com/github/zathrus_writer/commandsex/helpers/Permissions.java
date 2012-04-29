@@ -74,7 +74,7 @@ public class Permissions {
 	 * @return
 	 */
 	public static Boolean addPerm(Player p, String perm) {
-		if (CommandsEX.vaultPresent) {
+		if (CommandsEX.vaultPresent && Vault.permsEnabled()) {
 			Vault.perms.playerAdd(p, perm);
 		}
 		
@@ -82,7 +82,7 @@ public class Permissions {
 	}
 	
 	public static Boolean addPerm(String world, String player, String perm) {
-		if (CommandsEX.vaultPresent) {
+		if (CommandsEX.vaultPresent && Vault.permsEnabled()) {
 			Vault.perms.playerAdd(world, player, perm);
 		}
 		

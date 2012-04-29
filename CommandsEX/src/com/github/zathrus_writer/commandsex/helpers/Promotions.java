@@ -174,9 +174,9 @@ public class Promotions {
 			return true;
 		}
 		
-		if (!CommandsEX.vaultPresent) {
+		if (!CommandsEX.vaultPresent || !Vault.permsEnabled()) {
 			// don't show anything when Vault is not present, except for a debug message in console
-			LogHelper.logDebug("[CommandsEX] time2rank could not be invoked because Vault is not present");
+			LogHelper.logDebug("[CommandsEX] time2rank could not be invoked because Vault or at least 1 permission plugin is not present");
 			return true;
 		}
 		

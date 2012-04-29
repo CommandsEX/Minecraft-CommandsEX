@@ -51,6 +51,22 @@ public class Vault {
     }
     
     public static Boolean checkPerm(Player p, String perm) {
-    	return perms.has(p, perm);
+    	if (perms != null) {
+    		return perms.has(p, perm);
+    	} else {
+    		return p.hasPermission(perm);
+    	}
+    }
+    
+    public static Boolean permsEnabled() {
+    	return (perms != null);
+    }
+    
+    public static Boolean ecoEnabled() {
+    	return (econ != null);
+    }
+    
+    public static Boolean chatEnabled() {
+    	return (chat != null);
     }
 }
