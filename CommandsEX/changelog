@@ -1,3 +1,9 @@
+Beta 1.40a
+----------
+- fixed new warp functionality that creates warps for other players
+- fix for message translations
+- added chat spying
+
 Beta 1.40
 ---------
 - fixed permission checking for back, hyes and lang commands
@@ -6,10 +12,11 @@ Beta 1.40
 - added Vault support
 - added playtime-based rank changes
 - added money-based rank changes
-- added /timeplayed command to check how long did a player play on the server for
+- added /playtime command to check how long did a player play on the server for
 - expanded warping to allow admins create warps for other players. These players can then warp to private warps prepared directly for them (but not delete or update those).
 - added missing configuration options into /cex config
 - added 2 excellent Select All and Deselect All options to the CommandsEX Builder page :-)
+- added links to Wiki pages to the CommandsEX Builder page
 
 
 Beta 1.36k
@@ -26,5 +33,5 @@ Beta 1.35
 ---------
 - source code is no longer being stored in the plugin JAR file to save download bandwidth (it's still available on GitHub)
 - updated chat/console replacements code to reflect latest Commander code updates
-- added join/leave chat messages grouping support
+- added join/leave chat messages grouping support (would not work if other plugins ignore join/leave message being cancelled)
 - added XMPP (Jabber) chat relay (you can see what's being blabbered on your server in a Jabber room and vice-versa now)

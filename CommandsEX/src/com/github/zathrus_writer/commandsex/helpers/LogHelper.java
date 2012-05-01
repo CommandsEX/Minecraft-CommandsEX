@@ -35,14 +35,14 @@ public class LogHelper {
 			String[] s = msg.split("#####");
 			for (String sx : s) {
 				if (sx.startsWith("[")) {
-					buildup = buildup + sx.replace("[", "");
+					buildup = buildup + sx.substring(1);
 				} else {
 					buildup = buildup + _(sx, sender.getName());
 				}
 			}
 			sender.sendMessage(((altColor.length > 0) ? altColor[0] : ChatColor.AQUA) + buildup);
 		} else {
-			sender.sendMessage(((altColor.length > 0) ? altColor[0] : ChatColor.AQUA) + _(msg, sender.getName()));
+			sender.sendMessage(((altColor.length > 0) ? altColor[0] : ChatColor.AQUA) + (msg.startsWith("[") ? msg.substring(1) : _(msg, sender.getName())));
 		}
 	}
 	
@@ -59,14 +59,14 @@ public class LogHelper {
 			String[] s = msg.split("#####");
 			for (String sx : s) {
 				if (sx.startsWith("[")) {
-					buildup = buildup + sx.replace("[", "");
+					buildup = buildup + sx.substring(1);
 				} else {
 					buildup = buildup + _(sx, sender.getName());
 				}
 			}
 			sender.sendMessage(ChatColor.RED + buildup);
 		} else {
-			sender.sendMessage(ChatColor.RED + _(msg, sender.getName()));
+			sender.sendMessage(ChatColor.RED + (msg.startsWith("[") ? msg.substring(1) : _(msg, sender.getName())));
 		}
 	}
 	

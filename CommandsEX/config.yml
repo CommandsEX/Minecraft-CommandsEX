@@ -133,21 +133,21 @@ jailArea: 5
 # set this to false to leave TNT explosion effect to take over instead and do predefined amount of damage
 kamikazeInstaKill: false
 
-# time (in seconds) after which TNT will explode in player's inventory
+# time (in seconds) after which TNT will explode in player's inventory from the moment they catch fire (or are effected by an explosion)
 kamikazeTimeout: 3
 
 # time (in seconds) after which the plugins should periodically check how much time players played on the server
 # and promote them based on these findings
 timedPromoteTaskTime: 180
 
-# configure how much time must a player played on the server before auto-promoted to each group
+# configure how much time must a player play on the server before auto-promoted to each group
 # syntax...
 #   timedpromote:
 #       group_name: amount of seconds to play on server to belong here
 timedPromote:
     default: 0
 
-# users in the following groups will be excluded from timed auto-promotions (admins, moderators, ...)
+# players in the following groups will be excluded from timed auto-promotions (admins, moderators, ...)
 timedPromoteExclude: [admin]
 
 # time (in seconds) after which the plugins should periodically check players' wealth and promote them based on these findings
@@ -160,8 +160,12 @@ ecoPromoteTaskTime: 180
 ecoPromote:
     default: 0
 
-# users in the following groups will be excluded from economy-based auto-promotions (admins, moderators, ...)
+# players in the following groups will be excluded from economy-based auto-promotions (admins, moderators, ...)
 ecoPromoteExclude: [admin]
 
 # if this is true, players that drop below treshold of their own group will be removed from this group (i.e. demoted)
 ecoPromoteAutoDemote: true
+
+# list of all commands that are used for private messaging, so CommandsEX can intercept them
+# IMPORTANT: PLEASE USE LOWERCASE LETTERS FOR THESE COMMANDS OR SPY MODE WILL NOT WORK FOR THEM!
+privateMsgCommands: [tell,msg]

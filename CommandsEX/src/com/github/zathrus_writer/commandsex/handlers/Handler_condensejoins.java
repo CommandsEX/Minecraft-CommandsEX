@@ -52,8 +52,8 @@ public class Handler_condensejoins implements Listener {
 			if (jSize > 1) {
 				String lName = (String) joins.get(jSize - 1);
 				joins.remove(jSize - 1);
-				String msg = Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + _("chatJoins", "");
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seejoins");
+				String msg = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
+				CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
 				// forward the broadcast to XMPP connector, if present
 				try {
 					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
@@ -61,8 +61,8 @@ public class Handler_condensejoins implements Listener {
 					// nothing bad happens if we don't have XMPP module present :)
 				}
 			} else {
-				String msg = (String) joins.get(0) + " " + _("chatJoins", "");
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seejoins");
+				String msg = ChatColor.WHITE + (String) joins.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
+				CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
 				// forward the broadcast to XMPP connector, if present
 				try {
 					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
@@ -115,8 +115,8 @@ public class Handler_condensejoins implements Listener {
 			if (lSize > 1) {
 				String lName = (String) leaves.get(lSize - 1);
 				leaves.remove(lSize - 1);
-				String msg = Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + _("chatLeaves", "");
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seeleaves");
+				String msg = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
+				CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
 				// forward the broadcast to XMPP connector, if present
 				try {
 					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
@@ -124,8 +124,8 @@ public class Handler_condensejoins implements Listener {
 					// nothing bad happens if we don't have XMPP module present :)
 				}
 			} else {
-				String msg = (String) leaves.get(0) + " " + _("chatLeaves", "");
-				CommandsEX.plugin.getServer().broadcast(ChatColor.YELLOW + msg, "cex.seeleaves");
+				String msg = ChatColor.WHITE + (String) leaves.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", "");
+				CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
 				// forward the broadcast to XMPP connector, if present
 				try {
 					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));

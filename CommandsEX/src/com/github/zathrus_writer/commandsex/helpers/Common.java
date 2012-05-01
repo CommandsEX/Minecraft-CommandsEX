@@ -179,8 +179,11 @@ public class Common implements Listener {
 		
 		// load playtime from database if the player is not online, otherwise load it from stored values in main class
 		Integer playtime = 0;
-		if (online) {
+		if (online && CommandsEX.playTimes.containsKey(pName) && (CommandsEX.playTimes.get(pName) > -1)) {
 			playtime = CommandsEX.playTimes.get(pName);
+			Map<String, Integer> m = Utils.parseTimeStamp(playtime);
+			LogHelper.showInfo("playTimeIs#####[" + (m.get("days") + " #####days#####[, ") + (m.get("hours") + " #####hours#####[, ") + (m.get("minutes") + " #####minutes#####[, ") + (m.get("seconds") + " #####seconds"), sender);
+			return true;
 		} else {
 			String playerForSQL = pName.toLowerCase();
 			String foundPlayerName = "";
@@ -191,6 +194,7 @@ public class Common implements Listener {
 				while (res.next()) {
 					numPlayers++;
 					foundPlayerName = res.getString("player_name");
+					playtime = res.getInt("seconds_played");
 	
 					// if the name matches exactly what we've been looking for, just exit the loop
 					if (foundPlayerName.toLowerCase().equals(playerForSQL)) {
