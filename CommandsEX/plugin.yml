@@ -435,3 +435,9 @@ commands:
     permission: cex.time2rank
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [time2rank]
+  cex_spy:
+    description: Activates chat spy mode, showing the player all chat messages, local and private included.
+    usage: /<command>
+    permission: cex.chatspy
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spy]

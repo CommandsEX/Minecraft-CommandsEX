@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
 import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,8 +12,8 @@ import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Chat;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
 public class Handler_chatspy implements Listener {
 	
@@ -41,7 +42,7 @@ public class Handler_chatspy implements Listener {
 				}
 			}
 			
-			if (!sender.equals(p) && !playerReceiving && Permissions.checkPermEx(p, "cex.chatspy")) {
+			if (!sender.equals(p) && !playerReceiving && Chat.spyActivePlayers.contains(p.getName())) {
 				LogHelper.showInfo("[" + ChatColor.GREEN + "(" + sender.getName()+")" + ChatColor.WHITE + ": " + e.getMessage(), p);
 			}
 		}
@@ -66,7 +67,7 @@ public class Handler_chatspy implements Listener {
 				if (s.length >= 3) {
 					for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 						String pName = p.getName();
-						if (!pName.equals(sName) && !pName.equalsIgnoreCase(s[1])) {
+						if (!pName.equals(sName) && !pName.equalsIgnoreCase(s[1]) && Chat.spyActivePlayers.contains(pName)) {
 							LogHelper.showInfo("[" + ChatColor.GREEN + "(" + sName +" -> " + s[1] + ")" + ChatColor.WHITE + ": " + e.getMessage().replace(s[0] + " " + s[1], ""), p);
 						}
 					}

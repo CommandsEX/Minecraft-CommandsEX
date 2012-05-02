@@ -27,6 +27,7 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 public class Chat implements Listener {
 	
 	public static Map<String, String> mutedPlayers = new HashMap<String, String>();
+	public static List<String> spyActivePlayers = new ArrayList<String>();
 	public static Chat plugin = null;
 
 	/***
