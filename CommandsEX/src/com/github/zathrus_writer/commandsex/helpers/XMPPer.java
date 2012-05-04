@@ -40,44 +40,46 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	public static final CommanderCommandSender ccs = new CommanderCommandSender();
 
 	public XMPPer() {
-		LogHelper.logInfo("[CommandsEX] " + _("xmppConnecting", ""));
 		FileConfiguration cnf = CommandsEX.getConf();
-		cmdPrefix = cnf.getString("xmppCommandPrefix", "#");
-		participantNicks = new HashMap<String, String>();
-		xmppConnection = new XMPPConnection(cnf.getString("xmppHost", "localhost"));
-		try {
-			xmppConnection.connect();
-			if (cnf.getString("xmppUser", "").equals("")) {
-				LogHelper.logInfo(_("xmppAnonymousLogin", ""));
-				xmppConnection.loginAnonymously();
-			} else {
-				xmppConnection.login(cnf.getString("xmppUser"), cnf.getString("xmppPassword", ""));
-			}
-			// Only do this if the connection didn't fail
-			DiscussionHistory history = new DiscussionHistory();
-			history.setMaxStanzas(0);
-			chatRoom = new MultiUserChat(xmppConnection, cnf.getString("xmppRoom.name"));
-			chatRoom.addMessageListener(this);
-			chatRoom.addParticipantStatusListener(this);
-			chatRoom.addSubjectUpdatedListener(this);
-			chatRoom.addUserStatusListener(this);
+		if (cnf.getBoolean("xmppEnabled")) {
+			LogHelper.logInfo("[CommandsEX] " + _("xmppConnecting", ""));
+			cmdPrefix = cnf.getString("xmppCommandPrefix", "#");
+			participantNicks = new HashMap<String, String>();
+			xmppConnection = new XMPPConnection(cnf.getString("xmppHost", "localhost"));
 			try {
-				chatRoom.join(cnf.getString("xmppBotNick", "CommandsEX"), cnf.getString("xmppRoom.password", ""), history, SmackConfiguration.getPacketReplyTimeout());
-				for (Occupant occupant : chatRoom.getParticipants()) {
-					participantNicks.put(occupant.getJid(), occupant.getNick());
+				xmppConnection.connect();
+				if (cnf.getString("xmppUser", "").equals("")) {
+					LogHelper.logInfo(_("xmppAnonymousLogin", ""));
+					xmppConnection.loginAnonymously();
+				} else {
+					xmppConnection.login(cnf.getString("xmppUser"), cnf.getString("xmppPassword", ""));
 				}
-			} catch(XMPPException e) {
-				LogHelper.logSevere("[CommandsEX] " + _("xmppUnableToJoinRoom", ""));
+				// Only do this if the connection didn't fail
+				DiscussionHistory history = new DiscussionHistory();
+				history.setMaxStanzas(0);
+				chatRoom = new MultiUserChat(xmppConnection, cnf.getString("xmppRoom.name"));
+				chatRoom.addMessageListener(this);
+				chatRoom.addParticipantStatusListener(this);
+				chatRoom.addSubjectUpdatedListener(this);
+				chatRoom.addUserStatusListener(this);
+				try {
+					chatRoom.join(cnf.getString("xmppBotNick", "CommandsEX"), cnf.getString("xmppRoom.password", ""), history, SmackConfiguration.getPacketReplyTimeout());
+					for (Occupant occupant : chatRoom.getParticipants()) {
+						participantNicks.put(occupant.getJid(), occupant.getNick());
+					}
+				} catch(XMPPException e) {
+					LogHelper.logSevere("[CommandsEX] " + _("xmppUnableToJoinRoom", ""));
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				}
+			} catch (XMPPException e) {
+				LogHelper.logSevere("[CommandsEX] " + _("xmppConnectionFailed", ""));
 				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
 			}
-		} catch (XMPPException e) {
-			LogHelper.logSevere("[CommandsEX] " + _("xmppConnectionFailed", ""));
-			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			// disconnect on plugin disable
+			CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.handlers.Handler_xmpp#####onDisable");
+			// listen to chat events in this class
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 		}
-		// disconnect on plugin disable
-		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.handlers.Handler_xmpp#####onDisable");
-		// listen to chat events in this class
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
 	/***

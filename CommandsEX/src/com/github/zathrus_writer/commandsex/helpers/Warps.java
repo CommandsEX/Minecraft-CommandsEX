@@ -70,7 +70,6 @@ public class Warps {
 						
 						// give this player permission to warp to his own warps
 						Permissions.addPerm(player.getWorld().getName(), args[2], "cex.warp.own");
-						Permissions.addPerm(player.getWorld().getName(), args[2], "cex.warp.listprivate");
 						createForOther = true;
 					}
 					

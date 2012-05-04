@@ -361,7 +361,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedIpRemoval(pName), (20 * getConf().getInt("maxIPholdTime")));
 		
 		// save player's playtime
-		if (sqlEnabled) {
+		if (sqlEnabled && joinTimes.containsKey(pName)) {
 			Integer played = (stamp - joinTimes.get(pName));
 			if (played >= minTimeToSavePlayTime) {
 				// player was online for more than minTimeToSavePlayTime seconds, count this visit

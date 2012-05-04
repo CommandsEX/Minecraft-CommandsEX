@@ -1,8 +1,10 @@
 Beta 1.40a
 ----------
-- fixed new warp functionality that creates warps for other players
+- fixed permissions in warp functionality that creates warps for other players
 - fix for message translations
-- added chat spying
+- added chat spying and /spy command
+- added option to turn off XAMPP (Jabber) if it's not being used
+- added quizzes. Yey! Now your players can expand their knowledge while enjoying the rewards you prepared for them :)
 
 Beta 1.40
 ---------

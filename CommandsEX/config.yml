@@ -105,6 +105,7 @@ joinSilentTime: 25
 
 
 # information required to create XMPP (Jabber) connection from your Minecraft server to XMPP server's room
+# - xmppEnabled: if true, the XMPP connection will be enabled, otherwise no connection will be made
 # - xmppUser: name of the user under which we'll log in to the XMPP (Jabber) service itself
 # - xmppHost: the XMPP (Jabber) server, e.g. jabber.com (so when your username is john@jabber.com, user = john, host = jabber.com)
 # - xmppPassword: password to use to log the user into the server
@@ -117,6 +118,7 @@ joinSilentTime: 25
 # - xmppCommandPrefix: when a person from the Jabber room starts line with this character, it will be passed through to the Bukkit server
 #                      and executed as if it was an ordinary command from the CONSOLE! Therefore be sure to only add players to xmppAdmins you really trust!
 # - xmppAdmins: list of XMPP (Jabber) users who have the right to send commands to Bukkit server. Example = xmppAdmins: [zathrus_writer, johny_cash]
+xmppEnabled: false
 xmppUser: ""
 xmppHost: localhost 
 xmppPassword: ""
@@ -169,3 +171,56 @@ ecoPromoteAutoDemote: true
 # list of all commands that are used for private messaging, so CommandsEX can intercept them
 # IMPORTANT: PLEASE USE LOWERCASE LETTERS FOR THESE COMMANDS OR SPY MODE WILL NOT WORK FOR THEM!
 privateMsgCommands: [tell,msg]
+
+# time (in seconds) after which to start a periodic quiz, set to 0 to disable timer
+# ... if 0, admins can still force a new quiz by issuing command /quiz start
+quizRepeatTime: 90
+
+# time (in seconds) between the quiz is announced and it actually starts (to leave players time to prepare)
+quizDelay: 10
+
+# time (in seconds) how long will one quiz question remain valid
+quizDuration: 60
+
+# quiz difficulties and rewards - each difficulty has its own rewards set which is cycled through
+# one reward will not be repeated twice in a row
+# syntax:
+#   quizDiff:
+#       easy:
+#           caseSentisive : 0 (1 for case sensitive, 0 for case insensitive)
+#           reward1:
+#               2      : 4 (5x grass block)
+#               298    : 1 (1x leather helmet)
+#			    "35:5" : 8 (8x lime wool block)
+quizDiff:
+    easy:
+        caseSentisive : 0
+        reward1:
+            2      : 5
+            298    : 1
+            "35:5" : 10
+        reward2:
+            1      : 50
+            299    : 1
+            "35:0" : 10
+
+# set up your quizzes here (quiz names can be arbitrary)
+# syntax...
+#   quizzes:
+#       quiz_name:
+#           question: How long does it take for a baby to be born?
+#           difficulty: easy (must be one from quizDiff section above)
+#           answers:
+#           - 9 months
+#           - 9 mnths
+#           - 9m
+#           - nine months
+quizzes:
+    babyBorn:
+        question: How long does it take for a baby to be born?
+        difficulty: easy
+        answers:
+        - 9 months
+        - 9 mnts
+        - nine months
+        - nine mnts

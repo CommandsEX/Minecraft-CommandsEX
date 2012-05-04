@@ -195,6 +195,18 @@ permissions:
   cex.chatspy:
     default: op
     description: Allows player to see all chat (even private messages and local chat while being in global).
+  cex.quiz.version:
+    default: true
+    description: Allows player to see version of the quizzes module.
+  cex.quiz.start:
+    default: op
+    description: Allows player to force start a new quiz on the server.
+  cex.quiz.status:
+    default: true
+    description: Allows player to see when the next quiz is scheduled to begin.
+  cex.quiz.claim:
+    default: true
+    description: Allows player to claim their reward after winnig the quiz.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -237,6 +249,9 @@ permissions:
   Init.Jails:
     default: true
     description: Placeholder for initialization function used to check and create jails database.
+  Init.Quizzes:
+    default: true
+    description: Placeholder for initialization function used to activate automatic quizzes.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -441,3 +456,9 @@ commands:
     permission: cex.chatspy
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [spy]
+  cex_quiz:
+    description: Displays various information about quizzes and also allows for rewards claiming and forcing a quiz start.
+    usage: /<command>
+    permission: cex.quiz.status
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [quiz]

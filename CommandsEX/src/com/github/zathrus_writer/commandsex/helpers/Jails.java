@@ -16,7 +16,7 @@ import com.github.zathrus_writer.commandsex.SQLManager;
 import com.github.zathrus_writer.commandsex.handlers.Handler_savebackposition;
 
 /***
- * Contains set of functions and event listeners used to handle the freeze command.
+ * Contains set of functions and event listeners used to handle the jail command.
  * @author zathrus-writer
  *
  */
