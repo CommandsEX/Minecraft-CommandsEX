@@ -83,7 +83,9 @@ public class Quizzes implements Listener {
 	 * @return
 	 */
 	public static Boolean quiz(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
-		LogHelper.showInfo("quiz#####[, #####version#####[ " + version, sender);
+		if (!Utils.checkCommandSpam((Player) sender, "quiz-version")) {
+			LogHelper.showInfo("quiz#####[, #####version#####[ " + version, sender);
+		}
 		return true;
 	}
 	
@@ -96,27 +98,29 @@ public class Quizzes implements Listener {
 	 * @return
 	 */
 	public static Boolean qremain(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
-		if (CommandsEX.getConf().getInt("quizRepeatTime", 0) > 0) {
-			Integer stamp = Utils.getUnixTimestamp(0L);
-			Integer timeRemaining = (lastQuizTime + CommandsEX.getConf().getInt("quizRepeatTime", 0) - stamp);
-			if (timeRemaining < 120) {
-				// seconds remaining
-				LogHelper.showInfo("quizTimeToNext#####[" + timeRemaining + " #####seconds", sender);
-			} else if (timeRemaining < 7200) {
-				// minutes remaining
-				LogHelper.showInfo("quizTimeToNext#####[" + ((int) (timeRemaining / 60)) + " #####minutes", sender);
-			} else if (timeRemaining < 172800) {
-				// hours remaining
-				LogHelper.showInfo("quizTimeToNext#####[" + ((int) ((timeRemaining / 60) / 60)) + " #####hours", sender);
+		if (!Utils.checkCommandSpam((Player) sender, "quiz-status")) {
+			if (CommandsEX.getConf().getInt("quizRepeatTime", 0) > 0) {
+				Integer stamp = Utils.getUnixTimestamp(0L);
+				Integer timeRemaining = (lastQuizTime + CommandsEX.getConf().getInt("quizRepeatTime", 0) - stamp);
+				if (timeRemaining < 120) {
+					// seconds remaining
+					LogHelper.showInfo("quizTimeToNext#####[" + timeRemaining + " #####seconds", sender);
+				} else if (timeRemaining < 7200) {
+					// minutes remaining
+					LogHelper.showInfo("quizTimeToNext#####[" + ((int) (timeRemaining / 60)) + " #####minutes", sender);
+				} else if (timeRemaining < 172800) {
+					// hours remaining
+					LogHelper.showInfo("quizTimeToNext#####[" + ((int) ((timeRemaining / 60) / 60)) + " #####hours", sender);
+				} else {
+					// days remaining
+					LogHelper.showInfo("quizTimeToNext#####[" + ((int) (((timeRemaining / 60) / 60) / 24)) + " #####days", sender);
+				}
 			} else {
-				// days remaining
-				LogHelper.showInfo("quizTimeToNext#####[" + ((int) (((timeRemaining / 60) / 60) / 24)) + " #####days", sender);
-			}
-		} else {
-			if (quizRunning) {
-				LogHelper.showInfo("quizRunning", sender);
-			} else {
-				LogHelper.showInfo("quizNotPlanned", sender);
+				if (quizRunning) {
+					LogHelper.showInfo("quizRunning", sender);
+				} else {
+					LogHelper.showInfo("quizNotPlanned", sender);
+				}
 			}
 		}
 		return true;
@@ -131,65 +135,67 @@ public class Quizzes implements Listener {
 	 * @return
 	 */
 	public static Boolean claim(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
-		// check if the player won anything
-		Player p = (Player) sender;
-		String pName = p.getName();
-		if (quizWinners.containsKey(pName)) {
-			// load all items for this player's reward
-			FileConfiguration f = CommandsEX.getConf();
-			ConfigurationSection configGroups = f.getConfigurationSection("quizDiff." + quizWinners.get(pName));
-			Set<String> s = configGroups.getKeys(false);
-			
-			// first of all, count all rewards and see if they'd fit into player's inventory
-			Integer allBlocks = 0;
-			Inventory pi = p.getInventory();
-			Integer maxStackSize = pi.getMaxStackSize();
-			for (String reward : s) {
-				Integer blockCount = f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward);
-				if (blockCount > maxStackSize) {
-					allBlocks = (int) (allBlocks + Math.ceil(blockCount / maxStackSize));
-				} else {
-					allBlocks++;
-				}
-			}
-			
-			// calculate available slots
-			Integer fullSlots = 0;
-			for (ItemStack istack : p.getInventory().getContents()) {
-				if ((istack != null) && istack.getAmount() > 0) {
-					fullSlots++;
-				}
-			}
-
-			if ((pi.getSize() - fullSlots) >= allBlocks) {
-				// fill player's inventory with the reward
+		if (!Utils.checkCommandSpam((Player) sender, "quiz-claim")) {
+			// check if the player won anything
+			Player p = (Player) sender;
+			String pName = p.getName();
+			if (quizWinners.containsKey(pName)) {
+				// load all items for this player's reward
+				FileConfiguration f = CommandsEX.getConf();
+				ConfigurationSection configGroups = f.getConfigurationSection("quizDiff." + quizWinners.get(pName));
+				Set<String> s = configGroups.getKeys(false);
+				
+				// first of all, count all rewards and see if they'd fit into player's inventory
+				Integer allBlocks = 0;
+				Inventory pi = p.getInventory();
+				Integer maxStackSize = pi.getMaxStackSize();
 				for (String reward : s) {
-					try {
-						if (reward.contains(":")) {
-							String[] expl = reward.split(":");
-							pi.addItem(new ItemStack(Integer.parseInt(expl[0]), f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward), (short) 0, Byte.parseByte(expl[1])));
-						} else {
-							pi.addItem(new ItemStack(Integer.parseInt(reward), f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward)));
-						}
-					} catch (Throwable e) {
-						// unable to add item into inventory, inform server owner
-						LogHelper.logSevere("[CommandsEX] " + _("quizUnableToAddItem", "") + reward + ":" + f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward));
-						LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					Integer blockCount = f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward);
+					if (blockCount > maxStackSize) {
+						allBlocks = (int) (allBlocks + Math.ceil(blockCount / maxStackSize));
+					} else {
+						allBlocks++;
 					}
 				}
 				
-				// tell player to check inventory for rewards
-				LogHelper.showInfo("quizRewardsInYourInventory", p);
-				
-				// remove rewarded player from winners list
-				quizWinners.remove(pName);
+				// calculate available slots
+				Integer fullSlots = 0;
+				for (ItemStack istack : p.getInventory().getContents()) {
+					if ((istack != null) && istack.getAmount() > 0) {
+						fullSlots++;
+					}
+				}
+	
+				if ((pi.getSize() - fullSlots) >= allBlocks) {
+					// fill player's inventory with the reward
+					for (String reward : s) {
+						try {
+							if (reward.contains(":")) {
+								String[] expl = reward.split(":");
+								pi.addItem(new ItemStack(Integer.parseInt(expl[0]), f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward), (short) 0, Byte.parseByte(expl[1])));
+							} else {
+								pi.addItem(new ItemStack(Integer.parseInt(reward), f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward)));
+							}
+						} catch (Throwable e) {
+							// unable to add item into inventory, inform server owner
+							LogHelper.logSevere("[CommandsEX] " + _("quizUnableToAddItem", "") + reward + ":" + f.getInt("quizDiff." + quizWinners.get(pName) + "." + reward));
+							LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+						}
+					}
+					
+					// tell player to check inventory for rewards
+					LogHelper.showInfo("quizRewardsInYourInventory", p);
+					
+					// remove rewarded player from winners list
+					quizWinners.remove(pName);
+				} else {
+					// not sure if we could fit reward in, better let player empty their inventory
+					LogHelper.showInfo("quizInsufficientSpace", sender);
+				}
 			} else {
-				// not sure if we could fit reward in, better let player empty their inventory
-				LogHelper.showInfo("quizInsufficientSpace", sender);
+				// not a winner
+				LogHelper.showInfo("quizNotAWinner", sender);
 			}
-		} else {
-			// not a winner
-			LogHelper.showInfo("quizNotAWinner", sender);
 		}
 		return true;
 	}
