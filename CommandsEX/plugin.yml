@@ -213,6 +213,28 @@ permissions:
   cex.clear.all:
     default: op
     description: Allows player to clear any player's inventory.
+  cex.broadcast:
+    default: op
+    description: Allows player to broadcast a message to everyone on the server like the /say command does - with player's name at the start of this message instead of [Server].
+  cex.gm.self:
+    default: op
+    description: Allows player to change their own game mode. This setting is INDEPENDENT on Bukkit's own bukkit.command.gamemode permission!
+  cex.ping:
+    default: op
+    description: Answers PONG. Useful for lag checking.
+  cex.weather:
+    default: op
+    description: Allows player to manipulate weather in the current world.
+  cex.weather.rain:
+    default: op
+    description: Toggles rain/snow in the current world.
+    children:
+      cex.weather: true
+  cex.weather.storm:
+    default: op
+    description: Toggles storm in the current world.
+    children:
+      cex.weather: true
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -243,6 +265,9 @@ permissions:
   Listener.chatspy:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
+  Listener.motd:
+    default: true
+    description: Placeholder for event function that welcomes players to your server.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -475,7 +500,9 @@ commands:
   cex_gm:
     description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
     usage: /<command>
-    aliases: [gm,creative,creativemode]
+    permission: cex.gm.self
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [gm,creative,creativemode,gswitch]
   cex_suicide:
     description: Wrapper function for Bukkit's /kill command.
     usage: /<command>
@@ -485,4 +512,34 @@ commands:
     usage: /<command> <Player> (all|backpack|quick|armor)
     permission: cex.clear
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [clear]
+    aliases: [clearinventory,clear,clearinvent,ci]
+  cex_broadcast:
+    description: Broadcasts a message from player to everyone on the server in the /say way.
+    usage: /<command> <Message>
+    permission: cex.broadcast
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [broadcast,bcast]
+  cex_ping:
+    description: Answers PONG. Useful for lag checking.
+    usage: /<command>
+    permission: cex.ping
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ping]
+  cex_rain:
+    description: Toggles rain/snow in the current world.
+    usage: /<command>
+    permission: cex.rain
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [rain]
+  cex_storm:
+    description: Toggles storm in the current world.
+    usage: /<command>
+    permission: cex.storm
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [storm]
+  cex_weather:
+    description: Allows player to change weather in the current world.
+    usage: /<command> (rain,thunder/storm,sun/sunny)
+    permission: cex.weather
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [weather]

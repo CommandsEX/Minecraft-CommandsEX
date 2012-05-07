@@ -224,3 +224,18 @@ quizzes:
         - 9 mnts
         - nine months
         - nine mnts
+
+# Message Of The Day (MOTD) - displayed each time a player joins the server.
+# This message will NOT be displayed to NEW players, i.e. those who's never been to your server before. See next config option for that.
+# You can use the following placeholders in your text:
+#     {playername} -> gets replaced by name of the joining player
+#     {newline}    -> gets replaced by a new line
+#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: XXXXXXXXXXXXXXXXXX
+motd: "&aWelcome back, we were hoping to see you again!{newline}&eHave fun and if you need anything, just ask :)"
+
+# Welcome message for all NEW players - i.e. playes who's never been on your server before.
+# You can use the following placeholders in your text:
+#     {playername} -> gets replaced by name of the joining player
+#     {newline}    -> gets replaced by a new line
+#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: XXXXXXXXXXXXXXXXXX
+motdNewPlayer: "&aWelcome to this wonderful amazing server, &f{playername}!{newline}&ePlease don't grief, spam or curse otherwise feel like home :)"

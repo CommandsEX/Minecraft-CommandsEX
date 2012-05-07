@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -228,5 +229,18 @@ public class Utils {
 	
 	public static Map<String, Integer> parseTimeStamp(Integer stamp) {
 		return parseTimeStamp(new Long(stamp));
+	}
+	
+	/***
+	 * Replaces all chat color codes in the given text by their real ChatColor counterparts.
+	 */
+	public static String replaceChatColors(String s) {
+		ChatColor[] cc = ChatColor.values();
+		
+		for (ChatColor c : cc) {
+			s = s.replaceAll("&" + c.getChar(), ChatColor.getByChar(c.getChar()) + "");
+		}
+		
+		return s;
 	}
 }

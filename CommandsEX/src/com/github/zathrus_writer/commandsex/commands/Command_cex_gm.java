@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.scripting.CommanderCommandSender;
 
 public class Command_cex_gm {
@@ -20,6 +21,7 @@ public class Command_cex_gm {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		String pName;
 		Player p;
+		Boolean selfGM = false;
 		// check if we have any parameters
 		if (args.length > 0) {
 			// we have a player name to change game mode for 
@@ -32,6 +34,11 @@ public class Command_cex_gm {
 				pName = p.getName();
 			}
 		} else {
+			// check if we have permissions
+			if ((sender instanceof Player) && !Permissions.checkPerms((Player)sender, "cex.gm.self")) {
+				return true;
+			}
+			selfGM = true;
 			pName = sender.getName();
 		}
 		
@@ -45,9 +52,17 @@ public class Command_cex_gm {
 		
 		if (sender instanceof Player) {
 			if (p.getGameMode() == GameMode.CREATIVE) {
-				((Player) sender).performCommand("gamemode " + pName + " 0");
+				if (selfGM) {
+					((Player)sender).setGameMode(GameMode.SURVIVAL);
+				} else {
+					((Player) sender).performCommand("gamemode " + pName + " 0");
+				}
 			} else {
-				((Player) sender).performCommand("gamemode " + pName + " 1");
+				if (selfGM) {
+					((Player)sender).setGameMode(GameMode.CREATIVE);
+				} else {
+					((Player) sender).performCommand("gamemode " + pName + " 1");
+				}
 			}
 		} else {
 			final CommanderCommandSender ccs = new CommanderCommandSender();
