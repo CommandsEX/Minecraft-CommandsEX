@@ -207,6 +207,12 @@ permissions:
   cex.quiz.claim:
     default: true
     description: Allows player to claim their reward after winnig the quiz.
+  cex.clear:
+    default: op
+    description: Allows player to clear their inventory.
+  cex.clear.all:
+    default: op
+    description: Allows player to clear any player's inventory.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -462,3 +468,21 @@ commands:
     permission: cex.quiz.status
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [quiz]
+  cex_item:
+    description: Wrapper function for Bukkit's /give command, automatically using current player as item receiver.
+    usage: /<command>
+    aliases: [item,i]
+  cex_gm:
+    description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
+    usage: /<command>
+    aliases: [gm,creative,creativemode]
+  cex_suicide:
+    description: Wrapper function for Bukkit's /kill command.
+    usage: /<command>
+    aliases: [suicide]
+  cex_clear:
+    description: Clears player's inventory or its part, based on parameters.
+    usage: /<command> <Player> (all|backpack|quick|armor)
+    permission: cex.clear
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [clear]
