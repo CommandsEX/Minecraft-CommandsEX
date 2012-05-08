@@ -244,6 +244,12 @@ permissions:
   cex.time.notify:
     default: op
     description: Players with this permission will be notified of a time change by another player as it happens, including the player's name.
+  cex.kits.use:
+    default: true
+    description: Players with this permission will be allowed to use at least common kits from the * group.
+  cex.kits.cooldown.bypass:
+    default: op
+    description: Players with this permission will bypass cooldowns of kits recieving.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -295,6 +301,9 @@ permissions:
   Init.Weather:
     default: true
     description: Placeholder for initialization function used for automatic weather forecast broadcasts.
+  Init.Kits:
+    default: true
+    description: Placeholder for initialization function used to check and create kits database.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -561,3 +570,9 @@ commands:
     permission: cex.time.set
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [time]
+  cex_kit:
+    description: Allows player to obtain a predefined kit (group of items).
+    usage: /<command> <Kit_Name>
+    permission: cex.kits.use
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kit]

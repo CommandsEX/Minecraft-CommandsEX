@@ -189,7 +189,7 @@ quizDuration: 60
 #       easy:
 #           caseSentisive : 0 (1 for case sensitive, 0 for case insensitive)
 #           reward1:
-#               2      : 4 (5x grass block)
+#               2      : 4 (4x grass block)
 #               298    : 1 (1x leather helmet)
 #			    "35:5" : 8 (8x lime wool block)
 quizDiff:
@@ -245,3 +245,30 @@ weatherNotifyTime: 15
 
 # set this to false if you want to disable upcomming weather notifications for your players
 weatherNotifyEnabled: true
+
+# set up kits that will be available to your players - kits can be divided into player groups, where * means a group of kits available to everyone
+# ... so far, kits cannot be purchased, although this functionality is planned for the future ;)
+#
+# syntax (first line with the asterisk * is a group of kits available to everyone):
+#   "*":
+#       starter:
+#           onetime: true (if true, this kit can only be obtained by a player once)
+#           2      : 4 (4x grass block)
+#           298    : 1 (1x leather helmet)
+#		    "35:5" : 8 (8x lime wool block)
+#   boneheads:
+#       supplies:
+#           352     : 50 (50x bone)
+#           cooldown: 120 (players will not be able to obtain this kit sooner than after this timeout - in seconds)
+kits:
+    "*":
+        starter:
+            onetime: true
+            269    : 1
+            270    : 1
+            271    : 1
+            260    : 10
+    admin:
+        music:
+            2266    : 1
+            cooldown: 10

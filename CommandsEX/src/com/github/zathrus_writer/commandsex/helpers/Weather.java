@@ -43,11 +43,12 @@ public class Weather implements Listener {
 		// run through all worlds and set up a warning broadcast for each of them some time before the weather changes
 		for (World w : worlds) {
 			Integer duration = w.getWeatherDuration();
-			Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
-			LogHelper.logDebug("timeout for " + w.getName() + ": " + timeout);
-			
-			// set up a delayed task
-			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+			if (duration > 0) {
+				Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
+				
+				// set up a delayed task
+				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+			}
 		}
 		
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(Weather.plugin, CommandsEX.plugin);
@@ -91,12 +92,13 @@ public class Weather implements Listener {
     	public void run() {
     		Integer notifyTimer = (CommandsEX.getConf().getInt("weatherNotifyTime", 15) * 20);
     		Integer duration = w.getWeatherDuration();
-    		LogHelper.logDebug("new duration for " + w.getName() + ": " + duration);
-    		Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
-    		LogHelper.logDebug("new timeout for " + w.getName() + ": " + timeout);
     		
-    		// set up a delayed task
-    		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+    		if (duration > 0) {
+	    		Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
+	    		
+	    		// set up a delayed task
+	    		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+    		}
     	}
     }
 	

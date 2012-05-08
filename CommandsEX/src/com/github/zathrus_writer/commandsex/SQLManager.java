@@ -26,8 +26,9 @@ public class SQLManager {
 	public static CommandsEX plugin;
 	public transient static Connection conn;
 	public transient static Connection altConn; // used for sqlite to MySQL conversions
-	public transient static String prefix = "cex_";
-	public transient static String sqlType;
+	public static String prefix = "cex_";
+	public static String sqlType;
+	public static Boolean omitErrorLogs = false;
 	
 	/***
 	 * Constructor, sets the main plugin class locally and initiates a connection
@@ -188,9 +189,11 @@ public class SQLManager {
 				prep.close();
 				prep = null;
 			} catch (Throwable e) {
-				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
-				LogHelper.logDebug("Query: " + query + ", parameters: " + Utils.implode(params, ", "));
-				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				if (!omitErrorLogs) {
+					LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+					LogHelper.logDebug("Query: " + query + ", parameters: " + Utils.implode(params, ", "));
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				}
 				return false;
 			}
 		}
@@ -266,9 +269,11 @@ public class SQLManager {
 				}
 				return prep.executeQuery();
 			} catch (Throwable e) {
-				LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
-				LogHelper.logDebug("Query: " + query);
-				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				if (!omitErrorLogs) {
+					LogHelper.logSevere("[CommandsEX] " + _("dbWriteError", ""));
+					LogHelper.logDebug("Query: " + query);
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				}
 			}
 		}
 
