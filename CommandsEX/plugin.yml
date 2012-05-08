@@ -235,6 +235,15 @@ permissions:
     description: Toggles storm in the current world.
     children:
       cex.weather: true
+  cex.weather.notify:
+    default: op
+    description: Players with this permission will be notified of a weather change by another player as it happens, including the player's name.
+  cex.time.set:
+    default: op
+    description: Allows player to change world time.
+  cex.time.notify:
+    default: op
+    description: Players with this permission will be notified of a time change by another player as it happens, including the player's name.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -283,6 +292,9 @@ permissions:
   Init.Quizzes:
     default: true
     description: Placeholder for initialization function used to activate automatic quizzes.
+  Init.Weather:
+    default: true
+    description: Placeholder for initialization function used for automatic weather forecast broadcasts.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -543,3 +555,9 @@ commands:
     permission: cex.weather
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [weather]
+  cex_time:
+    description: Allows player to change time in the current world.
+    usage: /<command> (value/dawn/morning/noon/evening/night)
+    permission: cex.time.set
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [time]

@@ -2,15 +2,104 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 
-public class Weather {
+public class Weather implements Listener {
 
+	private static Weather plugin = null;
+	
+	public Weather() {
+		plugin = this;
+	}
+	
+	/***
+	 * INIT - initialization function, called when plugin is enabled to make periodic checks of weather conditions and warn players before it's about to rain
+	 * @return
+	 */
+	public static void init(CommandsEX p) {
+		if (!CommandsEX.getConf().getBoolean("weatherNotifyEnabled", false)) {
+			return;
+		} else {
+			if (plugin == null) {
+				new Weather();
+			}
+		}
+
+		List<World> worlds = Bukkit.getWorlds();
+		Integer notifyTimer = (CommandsEX.getConf().getInt("weatherNotifyTime", 15) * 20);
+		
+		// run through all worlds and set up a warning broadcast for each of them some time before the weather changes
+		for (World w : worlds) {
+			Integer duration = w.getWeatherDuration();
+			Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
+			LogHelper.logDebug("timeout for " + w.getName() + ": " + timeout);
+			
+			// set up a delayed task
+			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+		}
+		
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(Weather.plugin, CommandsEX.plugin);
+	}
+	
+	public static class WeatherWarning implements Runnable {
+		private String worldName;
+		
+    	public WeatherWarning(String wName) {
+    		this.worldName = wName;
+    	}
+    	
+    	public void run() {
+    		// broadcast weather change message to all players in the world
+    		for (Player p : Bukkit.getOnlinePlayers()) {
+    			if (p.getWorld().getName() == worldName) {
+    				LogHelper.showInfo("weatherChangePlayerNotify", p);
+    			}
+    		}
+    	}
+    }
+	
+	/***
+	 * Resets weather change broadcast on each weather change.
+	 * @param e
+	 * @return
+	 */
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void setNewForecast(WeatherChangeEvent e) {
+		// allow for 30 seconds timeout before we set up a new forecast delayed task for this world, since the weather duration in this event would be 0
+		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedForecast(e.getWorld()), (20 * 30));
+	}
+	
+	public static class DelayedForecast implements Runnable {
+    	private World w;
+    	
+    	public DelayedForecast(World w) {
+    		this.w = w;
+    	}
+    	
+    	public void run() {
+    		Integer notifyTimer = (CommandsEX.getConf().getInt("weatherNotifyTime", 15) * 20);
+    		Integer duration = w.getWeatherDuration();
+    		LogHelper.logDebug("new duration for " + w.getName() + ": " + duration);
+    		Integer timeout = ((duration < notifyTimer) ? 0 : (duration - notifyTimer));
+    		LogHelper.logDebug("new timeout for " + w.getName() + ": " + timeout);
+    		
+    		// set up a delayed task
+    		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new WeatherWarning(w.getName()), timeout);
+    	}
+    }
+	
 	public static class DelayedStorm implements Runnable {
     	private Player p;
     	
@@ -19,7 +108,14 @@ public class Weather {
     	}
     	
     	public void run() {
+    		String pName = p.getName();
 			p.getWorld().setThundering(!p.getWorld().isThundering());
+			
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (!player.equals(p) && Permissions.checkPermEx(player, "cex.weather.notify")) {
+					LogHelper.showInfo("weatherChangedBy#####[" + pName, player);
+				}
+			}
     	}
     }
 	
@@ -33,7 +129,14 @@ public class Weather {
     	}
     	
     	public void run() {
-			p.getWorld().setStorm((forceSun ? false : !p.getWorld().hasStorm()));
+    		String pName = p.getName();
+    		p.getWorld().setStorm((forceSun ? false : !p.getWorld().hasStorm()));
+			
+    		for (Player player : Bukkit.getOnlinePlayers()) {
+				if (!player.equals(p) && Permissions.checkPermEx(player, "cex.weather.notify")) {
+					LogHelper.showInfo("weatherChangedBy#####[" + pName, player);
+				}
+			}
     	}
     }
 	

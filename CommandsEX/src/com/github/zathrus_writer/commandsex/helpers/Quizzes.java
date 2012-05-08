@@ -264,9 +264,11 @@ public class Quizzes implements Listener {
 						@Override
 						public void run() {
 							// cancel the quiz
-				        	HandlerList.unregisterAll(Quizzes.p);
-				        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
-				        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
+							if (Quizzes.quizRunning) {
+					        	HandlerList.unregisterAll(Quizzes.p);
+					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
+					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
+							}
 						}
 					}, (20 * CommandsEX.getConf().getInt("quizDuration", 60)));
 				}

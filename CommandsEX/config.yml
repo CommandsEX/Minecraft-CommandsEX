@@ -174,7 +174,7 @@ privateMsgCommands: [tell,msg]
 
 # time (in seconds) after which to start a periodic quiz, set to 0 to disable timer
 # ... if 0, admins can still force a new quiz by issuing command /quiz start
-quizRepeatTime: 90
+quizRepeatTime: 500
 
 # time (in seconds) between the quiz is announced and it actually starts (to leave players time to prepare)
 quizDelay: 10
@@ -239,3 +239,9 @@ motd: "&aWelcome back, we were hoping to see you again!{newline}&eHave fun and i
 #     {newline}    -> gets replaced by a new line
 #     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: XXXXXXXXXXXXXXXXXX
 motdNewPlayer: "&aWelcome to this wonderful amazing server, &f{playername}!{newline}&ePlease don't grief, spam or curse otherwise feel like home :)"
+
+# time (in seconds) to notify players about a weather change prior to it taking place
+weatherNotifyTime: 15
+
+# set this to false if you want to disable upcomming weather notifications for your players
+weatherNotifyEnabled: true
