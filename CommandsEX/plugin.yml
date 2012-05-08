@@ -247,6 +247,9 @@ permissions:
   cex.kits.use:
     default: true
     description: Players with this permission will be allowed to use at least common kits from the * group.
+  cex.kits.use.others:
+    default: op
+    description: Players with this permission will be allowed to give kits to other players.
   cex.kits.cooldown.bypass:
     default: op
     description: Players with this permission will bypass cooldowns of kits recieving.
@@ -572,7 +575,7 @@ commands:
     aliases: [time]
   cex_kit:
     description: Allows player to obtain a predefined kit (group of items).
-    usage: /<command> <Kit_Name>
+    usage: /<command> <Kit_Name> [Player]
     permission: cex.kits.use
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [kit]
+    aliases: [kit,k]
