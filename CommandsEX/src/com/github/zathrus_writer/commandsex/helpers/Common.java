@@ -10,6 +10,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +20,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -40,6 +42,7 @@ public class Common implements Listener {
 	public static List<String> frozenPlayers = new ArrayList<String>();
 	public static Common plugin = null;
 	public static Boolean ignoreTpEvent = false;
+	public static List<String> godPlayers = new ArrayList<String>();
 
 	/***
 	 * simply tell Bukkit we want to listen
@@ -57,7 +60,7 @@ public class Common implements Listener {
 	 * @return
 	 */
 	public static Boolean freeze(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
-		// create Freeze class instance, if not instantiated yet to allow for events listening
+		// create Common class instance, if not instantiated yet to allow for events listening
 		if (plugin == null) {
 			new Common();
 		}
@@ -85,7 +88,9 @@ public class Common implements Listener {
 			}
 			
 			// if there are no more frozen players left, we don't need our event listeners, so unregister them
-			HandlerList.unregisterAll(Common.plugin);
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0)) {
+				HandlerList.unregisterAll(Common.plugin);
+			}
 			
 			return true;
 		}
@@ -100,7 +105,7 @@ public class Common implements Listener {
 		// insert player's name into frozen players' list
 		frozenPlayers.add(pName);
 		// if we have only this player, add activate event listeners, since they're not active yet
-		if (frozenPlayers.size() == 1) {
+		if ((frozenPlayers.size() == 1) && (godPlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -233,6 +238,80 @@ public class Common implements Listener {
 	}
 	
 	/***
+	 * GOD - makes player invincible to damage
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean god(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
+		// create Common class instance, if not instantiated yet to allow for events listening
+		if (plugin == null) {
+			new Common();
+		}
+
+		// if we have a player to make god, check if he's online
+		Player p;
+		if (args.length > 0) {
+			p = Bukkit.getServer().getPlayer(args[0]);
+
+			if (p == null) {
+				// requested player not found
+				LogHelper.showWarning("invalidPlayer", sender);
+				return true;
+			}
+		} else {
+			p = (Player)sender;
+		}
+		
+		String pName = p.getName();
+		Boolean showMessages = (omitMessage.length == 0);
+				
+		// check if requested player is in god mode now
+		if ((godPlayers.size() > 0) && godPlayers.contains(pName)) {
+			// cancel god mode for the player
+			godPlayers.remove(pName);
+			// inform the command sender and the player
+			if (showMessages) {
+				if (pName.equals(sender.getName())) {
+					LogHelper.showInfo("godModeCancelledForYou", sender);
+				} else {
+					LogHelper.showInfo("godModeCancelledForYou", p);
+					LogHelper.showInfo("[" + pName + " #####godModeCancelled", sender);
+				}
+			}
+			
+			// if there are no more frozen or god players left, we don't need our event listeners, so unregister them
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0)) {
+				HandlerList.unregisterAll(Common.plugin);
+			}
+			
+			return true;
+		}
+
+		// we are trying to set a god mode to a player
+		// insert player's name into god players' list
+		godPlayers.add(pName);
+		// if we have only this player, activate event listeners, since they're not active yet
+		if ((frozenPlayers.size() == 0) && (godPlayers.size() == 1)) {
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
+		}
+		
+		if (showMessages) {
+			// inform both players
+			if (pName.equals(sender.getName())) {
+				LogHelper.showInfo("godModeEnabledForYou", sender);
+			} else {
+				LogHelper.showInfo("godModeEnabledForYou", p);
+				LogHelper.showInfo("[" + pName + " #####godModeEnabled", sender);
+			}
+		}
+		
+		return true;
+	}
+	
+	/***
 	 * Functions below listen to all events that should be prevented when a player is frozen.
 	 * @param e
 	 * @return
@@ -337,6 +416,15 @@ public class Common implements Listener {
 		}
 		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
+			e.setCancelled(true);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void checkGodState(EntityDamageEvent e) {
+		if (e.isCancelled() || !e.getEntityType().equals(EntityType.PLAYER)) return;
+		
+		if ((Common.godPlayers.size() > 0) && Common.godPlayers.contains(((Player)e.getEntity()).getName())) {
 			e.setCancelled(true);
 		}
 	}

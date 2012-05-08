@@ -256,6 +256,12 @@ permissions:
   cex.mob.spawn:
     default: op
     description: Allows to spawn mobs.
+  cex.god:
+    default: op
+    description: Allows player to ignore received damage.
+  cex.god.others:
+    default: op
+    description: Allows player to make other players ignore received damage.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -588,3 +594,9 @@ commands:
     permission: cex.mob.spawn
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [mob,spawnmob]
+  cex_god:
+    description: Makes a player invincible to incomming damage.
+    usage: /<command> [Player]
+    permission: cex.god
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [g,god,godmode,tgm]

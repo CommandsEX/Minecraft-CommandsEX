@@ -2,9 +2,22 @@ Beta 1.40a
 ----------
 - fixed permissions in warp functionality that creates warps for other players
 - fix for message translations
+- fix for remaining frozen players check when using the /freeze command to unfreeze a player
 - added chat spying and /spy command
 - added option to turn off XAMPP (Jabber) if it's not being used
 - added quizzes. Yey! Now your players can expand their knowledge while enjoying the rewards you prepared for them :)
+- added broadcast command, allowing to broadcast message in similar way that /say command does it, but with your name instead of [Server]
+- added ping command, outputs PONG, useful for checking server lag
+- added give command
+- added item command
+- added clear command, clears out player inventory - either full inventory (including armor) or just quick bar, backpack or armor section
+- added suicide command
+- added gm command, allowing for game mode changes
+- added Message Of The Day (MOTD)
+- added weather and time commands
+- added kits
+- added mob spawning command
+- added god command
 
 Beta 1.40
 ---------
