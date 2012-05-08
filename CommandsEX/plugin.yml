@@ -262,6 +262,9 @@ permissions:
   cex.god.others:
     default: op
     description: Allows player to make other players ignore received damage.
+  cex.chunk.refresh:
+    default: op
+    description: Allows player to refresh 5 chunks around him.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -600,3 +603,9 @@ commands:
     permission: cex.god
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [g,god,godmode,tgm]
+  cex_chunk:
+    description: Refreshes 5 chunks around a player to fix rendering errors.
+    usage: /<command>
+    permission: cex.chunk.refresh
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [chunk,regenerate]
