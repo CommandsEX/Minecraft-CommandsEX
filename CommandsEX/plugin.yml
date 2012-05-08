@@ -249,10 +249,13 @@ permissions:
     description: Players with this permission will be allowed to use at least common kits from the * group.
   cex.kits.use.others:
     default: op
-    description: Players with this permission will be allowed to give kits to other players.
+    description: Allows player to give kits to other players.
   cex.kits.cooldown.bypass:
     default: op
-    description: Players with this permission will bypass cooldowns of kits recieving.
+    description: Allows to bypass cooldowns for kits recieving.
+  cex.mob.spawn:
+    default: op
+    description: Allows to spawn mobs.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -578,4 +581,10 @@ commands:
     usage: /<command> <Kit_Name> [Player]
     permission: cex.kits.use
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [kit,k]
+    aliases: [kit,kits,k]
+  cex_mob:
+    description: Allows player to spawn mobs.
+    usage: /<command> <Mob_Name> [amount]
+    permission: cex.mob.spawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [mob,spawnmob]
