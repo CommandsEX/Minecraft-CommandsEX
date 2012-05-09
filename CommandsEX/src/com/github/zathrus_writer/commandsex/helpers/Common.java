@@ -47,6 +47,7 @@ public class Common implements Listener {
 	public static List<String> godPlayers = new ArrayList<String>();
 	public static List<String> slappedPlayers = new ArrayList<String>();
 	public static Map<String, Location> slappedLastLocations = new HashMap<String, Location>();
+	public static Map<String, Integer> slappedUnslapTasks = new HashMap<String, Integer>();
 
 	/***
 	 * simply tell Bukkit we want to listen
@@ -397,7 +398,7 @@ public class Common implements Listener {
 		p.teleport(loc);
 		
 		// insure player's safe return home even if they fall into deep water and no damage is done
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(p, pName), (20 * 25));
+		slappedUnslapTasks.put(pName,  Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(p, pName), (20 * 25)));
 		
 		if (showMessages) {
 			// inform both players
@@ -528,6 +529,10 @@ public class Common implements Listener {
 		}
 		
 		if ((Common.slappedPlayers.size() > 0) && Common.slappedPlayers.contains(pName)) {
+			// remove UnSlap task for this player
+			Bukkit.getServer().getScheduler().cancelTask(slappedUnslapTasks.get(pName));
+			slappedUnslapTasks.remove(pName);
+			
 			if (CommandsEX.getConf().getBoolean("slapPreventDamage", true)) {
 				e.setCancelled(true);
 			}
