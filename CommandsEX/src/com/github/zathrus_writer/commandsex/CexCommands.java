@@ -23,7 +23,7 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CexCommands {
 	
-	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile", "replacements", "xmppUser", "xmppHost", "xmppPassword", "xmppRoom.name", "xmppRoom.password", "xmppBotNick", "xmppCommandPrefix", "xmppAdmins", "timedPromote", "ecoPromote"};
+	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile", "replacements", "xmppUser", "xmppHost", "xmppPassword", "xmppRoom.name", "xmppRoom.password", "xmppBotNick", "xmppCommandPrefix", "xmppAdmins", "timedPromote", "ecoPromote", "quizDiff", "quizzes", "kits", "deathGroupChanges"};
 	
 	/***
 	 * Handles reactions on the /cex command.
@@ -133,6 +133,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configAllowMultiworlds", sender.getName()) + (p.getConfig().getBoolean("allowMultiworldHomes") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("silentkicks")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configSilentKicks", sender.getName()) + (!p.getConfig().getBoolean("silentKicks") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("weathernotifyenabled")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configWeatherNotifyEnabled", sender.getName()) + (p.getConfig().getBoolean("weatherNotifyEnabled") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("maxwarpsperplayer")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configMaxWarpsPerPlayer", sender.getName()) + p.getConfig().getString("maxWarpsPerPlayer"));
 					} else if (v.equals("maxipholdtime")) {
@@ -141,6 +143,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configMinTempBansWarn", sender.getName()) + p.getConfig().getString("minTempBansWarn"));
 					} else if (v.equals("silentbans")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configSilentBans", sender.getName()) + (!p.getConfig().getBoolean("silentBans") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("slappreventdamage")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configSlapPreventDamage", sender.getName()) + (p.getConfig().getBoolean("slapPreventDamage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("joinsilenttime")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configJoinSilentTime", sender.getName()) + p.getConfig().getString("joinSilentTime") + " " + _("seconds", sender.getName()));
 					} else if (v.equals("jailarea")) {
@@ -159,6 +163,24 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configEcoPromoteExclude", sender.getName()) + Utils.implode(p.getConfig().getList("ecoPromoteTaskTime"), ", "));
 					} else if (v.equals("timedpromoteexclude")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configTimedPromoteExclude", sender.getName()) + Utils.implode(p.getConfig().getList("timedPromoteTaskTime"), ", "));
+					} else if (v.equals("privatemsgcommands")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configPrivateMsgCommands", sender.getName()) + Utils.implode(p.getConfig().getList("privateMsgCommands"), ", "));
+					} else if (v.equals("quizrepeattime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configQuizRepeatTime", sender.getName()) + p.getConfig().getInt("quizRepeatTime") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("quizdelay")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configQuizDelay", sender.getName()) + p.getConfig().getInt("quizDelay") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("quizduration")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configQuizDuration", sender.getName()) + p.getConfig().getInt("quizDuration") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("weathernotifytime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configWeatherNotifyTime", sender.getName()) + p.getConfig().getInt("weatherNotifyTime") + " " + _("seconds", sender.getName()));
+					} else if (v.equals("defaultslapheight")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configDefaultSlapHeight", sender.getName()) + p.getConfig().getInt("defaultSlapHeight") + " " + _("blocks", sender.getName()));
+					} else if (v.equals("deathgroupscleanuptime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathGroupsCleanupTime", sender.getName()) + p.getConfig().getInt("deathGroupsCleanupTime") + " " + _("days", sender.getName()));
+					} else if (v.equals("motd")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configMotd", sender.getName()) + p.getConfig().getString("motd"));
+					} else if (v.equals("motdnewplayer")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configMotdNewPlayer", sender.getName()) + p.getConfig().getString("motdNewPlayer"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -247,6 +269,71 @@ public class CexCommands {
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("quizrepeattime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizRepeatTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizRepeatTime"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("quizdelay")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDelay", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDelay"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("quizduration")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDuration", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDuration"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("weathernotifytime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("weatherNotifyTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("weatherNotifyTime"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("defaultslapheight")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("defaultSlapHeight", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultSlapHeight"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
 					} else if (v.equals("maxwarpsperplayer")) {
 						if ((aLength > 2) && args[2] != null) {
 							if (args[2].matches(CommandsEX.intRegex)) {
@@ -318,6 +405,19 @@ public class CexCommands {
 								p.getConfig().set("kamikazeTimeout", args[2]);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("kamikazeTimeout"));
+							} else {
+								// timeout not numeric
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("deathgroupscleanuptime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("deathGroupsCleanupTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathGroupsCleanupTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -409,6 +509,14 @@ public class CexCommands {
 						p.getConfig().set("kamikazeInstaKill", !p.getConfig().getBoolean("kamikazeInstaKill"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("kamikazeInstaKill") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("weathernotifyenabled")) {
+						p.getConfig().set("weatherNotifyEnabled", !p.getConfig().getBoolean("weatherNotifyEnabled"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("weatherNotifyEnabled") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("slappreventdamage")) {
+						p.getConfig().set("slapPreventDamage", !p.getConfig().getBoolean("slapPreventDamage"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("slapPreventDamage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("debugmode")) {
 						p.getConfig().set("debugMode", !p.getConfig().getBoolean("debugMode"));
 						p.saveConfig();
@@ -458,6 +566,46 @@ public class CexCommands {
 								p.saveConfig();
 							}
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("ecoPromoteExclude").toString());
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("privatemsgcommands")) {
+						if (args[3].equals("add") || args[2].equals("add")) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("privateMsgCommands");
+							String toAdd = args[2].equals("add") ? args[3] : args[4];
+							if (!l.contains(toAdd)) {
+								l.add(args[2].equals("add") ? args[3] : args[4]);
+								p.getConfig().set("privateMsgCommands", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("privateMsgCommands").toString());
+						} else if (args[3].equals("remove") || (args[2].equals("remove"))) {
+							@SuppressWarnings("unchecked")
+							List<String> l = (List<String>) p.getConfig().getList("privateMsgCommands");
+							String toRemove = args[2].equals("remove") ? args[3] : args[4];
+							if (l.contains(toRemove)) {
+								l.remove(args[2].equals("remove") ? args[3] : args[4]);
+								p.getConfig().set("privateMsgCommands", l);
+								p.saveConfig();
+							}
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + p.getConfig().getList("privateMsgCommands").toString());
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("motd")) {
+						if ((aLength > 2) && args[2] != null) {
+							p.getConfig().set("motd", args[2]);
+							p.saveConfig();
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motd")));
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("motdnewplayer")) {
+						if ((aLength > 2) && args[2] != null) {
+							p.getConfig().set("motdNewPlayer", args[2]);
+							p.saveConfig();
+							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motdNewPlayer")));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
