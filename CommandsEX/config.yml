@@ -272,3 +272,9 @@ kits:
         music:
             2266    : 1
             cooldown: 10
+
+# default height (in blocks) a player should be ejected into when slapped and no height is provided via parameter
+defaultSlapHeight: 20
+
+# set this to true if you want to disable damage to slapped player as they drop down, otherwise set it to false
+slapPreventDamage: true

@@ -265,6 +265,9 @@ permissions:
   cex.chunk.refresh:
     default: op
     description: Allows player to refresh 5 chunks around him.
+  cex.slap:
+    default: op
+    description: Allows player to slap other player, sending them into air.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -609,3 +612,9 @@ commands:
     permission: cex.chunk.refresh
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [chunk,regenerate]
+  cex_slap:
+    description: Slaps a player, sending them to air. Fall damage can be disabled in the config file.
+    usage: /<command> <Player> [blocks]
+    permission: cex.slap
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [slap]

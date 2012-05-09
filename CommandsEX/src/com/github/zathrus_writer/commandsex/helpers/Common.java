@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -43,6 +44,7 @@ public class Common implements Listener {
 	public static Common plugin = null;
 	public static Boolean ignoreTpEvent = false;
 	public static List<String> godPlayers = new ArrayList<String>();
+	public static List<String> slappedPlayers = new ArrayList<String>();
 
 	/***
 	 * simply tell Bukkit we want to listen
@@ -88,7 +90,7 @@ public class Common implements Listener {
 			}
 			
 			// if there are no more frozen players left, we don't need our event listeners, so unregister them
-			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0)) {
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
 				HandlerList.unregisterAll(Common.plugin);
 			}
 			
@@ -105,7 +107,7 @@ public class Common implements Listener {
 		// insert player's name into frozen players' list
 		frozenPlayers.add(pName);
 		// if we have only this player, add activate event listeners, since they're not active yet
-		if ((frozenPlayers.size() == 1) && (godPlayers.size() == 0)) {
+		if ((frozenPlayers.size() == 1) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -283,7 +285,7 @@ public class Common implements Listener {
 			}
 			
 			// if there are no more frozen or god players left, we don't need our event listeners, so unregister them
-			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0)) {
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
 				HandlerList.unregisterAll(Common.plugin);
 			}
 			
@@ -294,7 +296,7 @@ public class Common implements Listener {
 		// insert player's name into god players' list
 		godPlayers.add(pName);
 		// if we have only this player, activate event listeners, since they're not active yet
-		if ((frozenPlayers.size() == 0) && (godPlayers.size() == 1)) {
+		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 0) && (godPlayers.size() == 1)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -306,6 +308,65 @@ public class Common implements Listener {
 				LogHelper.showInfo("godModeEnabledForYou", p);
 				LogHelper.showInfo("[" + pName + " #####godModeEnabled", sender);
 			}
+		}
+		
+		return true;
+	}
+	
+	/***
+	 * SLAP - slaps a player, making him fly up in the air and then fall back down
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean slap(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
+		// create Common class instance, if not instantiated yet to allow for events listening
+		if (plugin == null) {
+			new Common();
+		}
+
+		// if we have a player to make god, check if he's online
+		Player p = Bukkit.getServer().getPlayer(args[0]);
+		if (p == null) {
+			// requested player not found
+			LogHelper.showWarning("invalidPlayer", sender);
+			return true;
+		}
+		
+		String pName = p.getName();
+		Boolean showMessages = (omitMessage.length == 0);
+
+		// insert player's name into slapped players' list
+		slappedPlayers.add(pName);
+		// if we have only this player, activate event listeners, since they're not active yet
+		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 1) && (godPlayers.size() == 0)) {
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
+		}
+		
+		// now slap him! :)
+		Integer slapHeight = CommandsEX.getConf().getInt("defaultSlapHeight", 20);
+		if (args.length > 1) {
+			try {
+				slapHeight = Integer.parseInt(args[1]);
+			} catch (Throwable e) {}
+		}
+		
+		// adjust slap height if player would end up in a block
+		Location loc = p.getLocation();
+		loc.setY(loc.getY() + slapHeight);
+		if (!p.getWorld().getBlockAt(loc).isEmpty()) {
+			loc.setY(300D);
+		} else {
+			loc.setY(loc.getY() + slapHeight);
+		}
+		p.teleport(loc);
+		
+		if (showMessages) {
+			// inform both players
+			LogHelper.showInfo("playerSlapped#####[" + pName, sender);
+			LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), p, ChatColor.YELLOW);
 		}
 		
 		return true;
@@ -421,11 +482,24 @@ public class Common implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void checkGodState(EntityDamageEvent e) {
+	public void checkDamage(EntityDamageEvent e) {
 		if (e.isCancelled() || !e.getEntityType().equals(EntityType.PLAYER)) return;
-		
-		if ((Common.godPlayers.size() > 0) && Common.godPlayers.contains(((Player)e.getEntity()).getName())) {
+
+		String pName = ((Player)e.getEntity()).getName();
+		if ((Common.godPlayers.size() > 0) && Common.godPlayers.contains(pName)) {
 			e.setCancelled(true);
+		}
+		
+		if ((Common.slappedPlayers.size() > 0) && Common.slappedPlayers.contains(pName)) {
+			if (CommandsEX.getConf().getBoolean("slapPreventDamage", true)) {
+				e.setCancelled(true);
+			}
+			Common.slappedPlayers.remove(pName);
+
+			// stop listening if nobody else is frozen, god or slapped
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
+				HandlerList.unregisterAll(Common.plugin);
+			}
 		}
 	}
 }
