@@ -279,8 +279,9 @@ defaultSlapHeight: 20
 # set this to true if you want to disable damage to slapped player as they drop down, otherwise set it to false
 slapPreventDamage: true
 
-# here you can define into which player to move a player once they die
+# here you can define into which group  to move a player once they die
 # ... as you can see in the syntax example, you can use color codes in your commands as well (explained at XXXXXXXXXXXXXXXXXX)
+# ... also, you can use $p as a placeholder for name of the player who just died
 #
 # syntax:
 #   knight:

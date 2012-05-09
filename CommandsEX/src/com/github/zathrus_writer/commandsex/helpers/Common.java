@@ -4,6 +4,7 @@ import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class Common implements Listener {
 	public static Boolean ignoreTpEvent = false;
 	public static List<String> godPlayers = new ArrayList<String>();
 	public static List<String> slappedPlayers = new ArrayList<String>();
+	public static Map<String, Location> slappedLastLocations = new HashMap<String, Location>();
 
 	/***
 	 * simply tell Bukkit we want to listen
@@ -52,6 +54,34 @@ public class Common implements Listener {
 	public Common() {
 		plugin = this;
 	}
+	
+	/***
+	 * Insurance that will teleport a slapped player back to their original position if a damage event does not occur in 25 seconds.
+	 */
+	public static class Unslap implements Runnable {
+    	private Player p;
+    	private String pName;
+    	
+    	public Unslap(Player p, String pName) {
+    		this.p = p;
+    		this.pName = pName;
+    	}
+    	
+    	public void run() {
+    		if (!Common.slappedPlayers.contains(pName)) return;
+    		try {
+	    		// restore player's original position
+				p.teleport(Common.slappedLastLocations.get(pName));
+				LogHelper.showInfo("playerSlapReturned", p);
+    		} catch (Throwable e) {
+    			// player might log out, so our teleport request may fail with error, which can be safely ignored here
+    		}
+			
+			// remove records
+    		Common.slappedPlayers.remove(pName);
+    		Common.slappedLastLocations.remove(pName);
+    	}
+    }
 	
 	/***
 	 * FREEZE - freezes a player, making him unable to perform physical actions on the server
@@ -353,8 +383,11 @@ public class Common implements Listener {
 			} catch (Throwable e) {}
 		}
 		
-		// adjust slap height if player would end up in a block
+		// store player's original position, so we can return him safely back (in case he's underground and another player slaps him to heavens)
 		Location loc = p.getLocation();
+		slappedLastLocations.put(pName, p.getLocation());
+		
+		// adjust slap height if player would end up in a block
 		loc.setY(loc.getY() + slapHeight);
 		if (!p.getWorld().getBlockAt(loc).isEmpty()) {
 			loc.setY(300D);
@@ -362,6 +395,9 @@ public class Common implements Listener {
 			loc.setY(loc.getY() + slapHeight);
 		}
 		p.teleport(loc);
+		
+		// insure player's safe return home even if they fall into deep water and no damage is done
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(p, pName), (20 * 25));
 		
 		if (showMessages) {
 			// inform both players
@@ -485,7 +521,8 @@ public class Common implements Listener {
 	public void checkDamage(EntityDamageEvent e) {
 		if (e.isCancelled() || !e.getEntityType().equals(EntityType.PLAYER)) return;
 
-		String pName = ((Player)e.getEntity()).getName();
+		Player p = (Player)e.getEntity();
+		String pName = p.getName();
 		if ((Common.godPlayers.size() > 0) && Common.godPlayers.contains(pName)) {
 			e.setCancelled(true);
 		}
@@ -494,7 +531,13 @@ public class Common implements Listener {
 			if (CommandsEX.getConf().getBoolean("slapPreventDamage", true)) {
 				e.setCancelled(true);
 			}
-			Common.slappedPlayers.remove(pName);
+			
+			// restore player's original position
+			p.teleport(slappedLastLocations.get(pName));
+			
+			// remove records
+			slappedPlayers.remove(pName);
+			slappedLastLocations.remove(pName);
 
 			// stop listening if nobody else is frozen, god or slapped
 			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
