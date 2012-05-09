@@ -278,3 +278,21 @@ defaultSlapHeight: 20
 
 # set this to true if you want to disable damage to slapped player as they drop down, otherwise set it to false
 slapPreventDamage: true
+
+# here you can define into which player to move a player once they die
+# ... as you can see in the syntax example, you can use color codes in your commands as well (explained at XXXXXXXXXXXXXXXXXX)
+#
+# syntax:
+#   knight:
+#       toGroup: translucent
+#       command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
+deathGroupChanges:
+    citizen:
+        toGroup: default
+        command: say &eAw, snap! &f$p &ehas just left the world of mortals and became a nameless wanderer again.
+
+# this sets time (in days) after which we delete old records of player groups from database
+# ... every time a player dies, his previous group is stored in database, so they can switch back to it via command.
+# ... for players that die and do not play on the server anymore, this time is used for cleanup purposes, so the database does not grow too large
+# ... set to 0 to disable (not recommended)
+deathGroupsCleanupTime: 14

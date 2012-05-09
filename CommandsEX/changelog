@@ -1,5 +1,5 @@
-Beta 1.40a
-----------
+Beta 1.50
+---------
 - fixed permissions in warp functionality that creates warps for other players
 - fix for message translations
 - fix for remaining frozen players check when using the /freeze command to unfreeze a player
@@ -18,6 +18,7 @@ Beta 1.40a
 - added kits
 - added mob spawning command
 - added god command
+- added possibility to change player's group upon death and execute a predefined command
 
 Beta 1.40
 ---------

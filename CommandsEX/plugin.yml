@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Beta 1.40'
+version: 'Beta 1.50'
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault]
 permissions:
@@ -266,8 +266,14 @@ permissions:
     default: op
     description: Allows player to refresh 5 chunks around him.
   cex.slap:
-    default: op
+    default: false
     description: Allows player to slap other player, sending them into air.
+  cex.deathgroup.reset:
+    default: op
+    description: Allows player to use the /greset command which will switch this player's group back to previous one after he died and lost it.
+  cex.deathgroup.ignore:
+    default: op
+    description: Players with this permission don't get their group changed after they die.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -301,6 +307,9 @@ permissions:
   Listener.motd:
     default: true
     description: Placeholder for event function that welcomes players to your server.
+  Listener.deathgroup:
+    default: true
+    description: Placeholder for event function that check for database of old pre-death groups for players and assigns them new group upon their death.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -618,3 +627,9 @@ commands:
     permission: cex.slap
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [slap]
+  cex_greset:
+    description: Returns player whose group has been changed upon death to his previous group.
+    usage: /<command> [Player]
+    permission: cex.deathgroup.reset
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [greset]
