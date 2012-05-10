@@ -8,7 +8,6 @@ Beta 1.50
 - added quizzes. Yey! Now your players can expand their knowledge while enjoying the rewards you prepared for them :)
 - added broadcast command, allowing to broadcast message in similar way that /say command does it, but with your name instead of [Server]
 - added ping command, outputs PONG, useful for checking server lag
-- added give command
 - added item command
 - added clear command, clears out player inventory - either full inventory (including armor) or just quick bar, backpack or armor section
 - added suicide command
@@ -18,7 +17,11 @@ Beta 1.50
 - added kits
 - added mob spawning command
 - added god command
+- added chunk command that refreshes 5 chunks around a player to fix rendering errors
+- added slap command!
 - added possibility to change player's group upon death and execute a predefined command
+- fixed a stupid Builder page mistake where config.yml file was not being added into CommandsEX folder in the ZIP archive
+- all features on the Builder page are now unselected, so you can start choosing what you want instead of trashing everything you don't :)
 
 Beta 1.40
 ---------
