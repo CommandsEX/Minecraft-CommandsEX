@@ -89,6 +89,6 @@ public class CommanderCommandSender implements CommandSender {
 	}
 
 	@Override public String getName() {
-		return "CommandsEX OP";
+		return "Server";
 	}
 }

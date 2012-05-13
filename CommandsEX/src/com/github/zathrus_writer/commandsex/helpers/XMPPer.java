@@ -5,6 +5,7 @@ import static com.github.zathrus_writer.commandsex.Language._;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,6 +39,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	public static Map<String, String> participantNicks;
 	public static String cmdPrefix;
 	public static final CommanderCommandSender ccs = new CommanderCommandSender();
+	public static Integer lastMessageStamp = Utils.getUnixTimestamp(0L);
 
 	public XMPPer() {
 		FileConfiguration cnf = CommandsEX.getConf();
@@ -70,11 +72,34 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 				} catch(XMPPException e) {
 					LogHelper.logSevere("[CommandsEX] " + _("xmppUnableToJoinRoom", ""));
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					return;
 				}
 			} catch (XMPPException e) {
 				LogHelper.logSevere("[CommandsEX] " + _("xmppConnectionFailed", ""));
 				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+				return;
 			}
+			
+			// set up a recurrent task simply sending a keep-alive message, since keep-alive requests don't seem to do the trick
+			if (CommandsEX.getConf().getBoolean("xmppEnablePing", true)) {
+				Integer pingTime = CommandsEX.getConf().getInt("xmppEnablePingTime", 45);
+				Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+					@Override
+					public void run () {
+						
+						if ((Utils.getUnixTimestamp(0L) - XMPPer.lastMessageStamp) > 300) {
+							try {
+								chatRoom.sendMessage(filterOutgoing("(ping)"));
+								XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
+							} catch(XMPPException ex) {
+								LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
+							}
+						}
+	
+					}
+				}, (20 * 60 * pingTime), (20 * 60 * pingTime));
+			}
+			
 			// disconnect on plugin disable
 			CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.handlers.Handler_xmpp#####onDisable");
 			// listen to chat events in this class
@@ -104,6 +129,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	public void sendJoinMessage(PlayerJoinEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(e.getJoinMessage()));
+			XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
 		} catch(XMPPException ex) {
 			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
@@ -113,6 +139,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	public void interceptChat(PlayerChatEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(String.format(e.getFormat(), e.getPlayer().getName(), e.getMessage())));
+			XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
 		} catch(XMPPException ex) {
 			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
@@ -122,6 +149,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	public void sendLeaveMessage(PlayerQuitEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(e.getQuitMessage()));
+			XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
 		} catch(XMPPException ex) {
 			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
