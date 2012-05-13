@@ -118,6 +118,8 @@ joinSilentTime: 25
 # - xmppCommandPrefix: when a person from the Jabber room starts line with this character, it will be passed through to the Bukkit server
 #                      and executed as if it was an ordinary command from the CONSOLE! Therefore be sure to only add players to xmppAdmins you really trust!
 # - xmppAdmins: list of XMPP (Jabber) users who have the right to send commands to Bukkit server. Example = xmppAdmins: [zathrus_writer, johny_cash]
+# - xmppEnablePing: if true and nobody sends any message on the server for configurable number of minutes, the bot will simply say (ping) to keep the connection alive
+# - xmppEnablePingTime: timeout (in minutes) for the previous setting
 xmppEnabled: false
 xmppUser: ""
 xmppHost: localhost 
@@ -127,6 +129,8 @@ xmppRoom.password: ""
 xmppBotNick: CommandsEX
 xmppCommandPrefix: "#"
 xmppAdmins: []
+xmppEnablePing: true
+xmppEnablePingTime: 45
 
 # area around jail location (in blocks) to be still considered a jail, so when people teleport there, they won't be stuck on each other
 jailArea: 5
@@ -192,17 +196,7 @@ quizDuration: 60
 #               2      : 4 (4x grass block)
 #               298    : 1 (1x leather helmet)
 #			    "35:5" : 8 (8x lime wool block)
-quizDiff:
-    easy:
-        caseSentisive : 0
-        reward1:
-            2      : 5
-            298    : 1
-            "35:5" : 10
-        reward2:
-            1      : 50
-            299    : 1
-            "35:0" : 10
+
 
 # set up your quizzes here (quiz names can be arbitrary)
 # syntax...
@@ -215,29 +209,21 @@ quizDiff:
 #           - 9 mnths
 #           - 9m
 #           - nine months
-quizzes:
-    babyBorn:
-        question: How long does it take for a baby to be born?
-        difficulty: easy
-        answers:
-        - 9 months
-        - 9 mnts
-        - nine months
-        - nine mnts
+
 
 # Message Of The Day (MOTD) - displayed each time a player joins the server.
 # This message will NOT be displayed to NEW players, i.e. those who's never been to your server before. See next config option for that.
 # You can use the following placeholders in your text:
 #     {playername} -> gets replaced by name of the joining player
 #     {newline}    -> gets replaced by a new line
-#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: XXXXXXXXXXXXXXXXXX
+#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes
 motd: "&aWelcome back, we were hoping to see you again!{newline}&eHave fun and if you need anything, just ask :)"
 
 # Welcome message for all NEW players - i.e. playes who's never been on your server before.
 # You can use the following placeholders in your text:
 #     {playername} -> gets replaced by name of the joining player
 #     {newline}    -> gets replaced by a new line
-#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: XXXXXXXXXXXXXXXXXX
+#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes
 motdNewPlayer: "&aWelcome to this wonderful amazing server, &f{playername}!{newline}&ePlease don't grief, spam or curse otherwise feel like home :)"
 
 # time (in seconds) to notify players about a weather change prior to it taking place
@@ -260,18 +246,7 @@ weatherNotifyEnabled: true
 #       supplies:
 #           352     : 50 (50x bone)
 #           cooldown: 120 (players will not be able to obtain this kit sooner than after this timeout - in seconds)
-kits:
-    "*":
-        starter:
-            onetime: true
-            269    : 1
-            270    : 1
-            271    : 1
-            260    : 10
-    admin:
-        music:
-            2266    : 1
-            cooldown: 10
+
 
 # default height (in blocks) a player should be ejected into when slapped and no height is provided via parameter
 defaultSlapHeight: 20
@@ -279,18 +254,15 @@ defaultSlapHeight: 20
 # set this to true if you want to disable damage to slapped player as they drop down, otherwise set it to false
 slapPreventDamage: true
 
-# here you can define into which group  to move a player once they die
-# ... as you can see in the syntax example, you can use color codes in your commands as well (explained at XXXXXXXXXXXXXXXXXX)
+# here you can define into which group to move a player once they die
+# ... as you can see in the syntax example, you can use color codes in your commands as well (explained at http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes)
 # ... also, you can use $p as a placeholder for name of the player who just died
 #
 # syntax:
 #   knight:
 #       toGroup: translucent
 #       command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
-deathGroupChanges:
-    citizen:
-        toGroup: default
-        command: say &eAw, snap! &f$p &ehas just left the world of mortals and became a nameless wanderer again.
+
 
 # this sets time (in days) after which we delete old records of player groups from database
 # ... every time a player dies, his previous group is stored in database, so they can switch back to it via command.
