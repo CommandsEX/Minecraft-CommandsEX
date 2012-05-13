@@ -557,7 +557,7 @@ commands:
     aliases: [suicide]
   cex_clear:
     description: Clears player's inventory or its part, based on parameters.
-    usage: /<command> <Player> (all|backpack|quick|armor)
+    usage: /<command> [Player] (all|backpack|quick|armor)
     permission: cex.clear
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [clearinventory,clear,clearinvent,ci]
@@ -576,13 +576,13 @@ commands:
   cex_rain:
     description: Toggles rain/snow in the current world.
     usage: /<command>
-    permission: cex.rain
+    permission: cex.weather.rain
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [rain]
   cex_storm:
     description: Toggles storm in the current world.
     usage: /<command>
-    permission: cex.storm
+    permission: cex.weather.storm
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [storm]
   cex_weather:
