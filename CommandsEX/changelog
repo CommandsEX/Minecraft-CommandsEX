@@ -1,3 +1,10 @@
+Beta 1.60
+---------
+- fixed permission nodes for rain and storm commands (they are now cex.weather.rain and cex.weather.storm instead of cex.rain and cex.storm)
+- fixed URL leading to explanation about Chat Color Codes
+- fixed startup of CommandsEX, so it doesn't add all default values into config (like kits and such) every time it does not find it there... annoying internal Bukkit functionality :P
+- added keep-alive messages into XMPP (Jabber) chat bridge, so in case nobody is on the server for configurable amount of time, the bot will send a (ping) message to keep the connection alive
+
 Beta 1.50
 ---------
 - fixed permissions in warp functionality that creates warps for other players
