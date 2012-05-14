@@ -207,13 +207,17 @@ public class Kits {
 									} else {
 										// not sure if we could fit reward in, better let player empty their inventory
 										LogHelper.showInfo("kitsInsufficientSpace", sendingPlayer);
+										
+										// reverse one-time kit data insert
+										if (CommandsEX.sqlEnabled) {
+											SQLManager.query("DELETE FROM "+ SQLManager.prefix +"kits_usage WHERE player_name = ? AND kit_name = ?", pName, kit);
+											usedOneTimeKits.remove(pName);
+										}
 									}
 								}
 							}
 						}
 					}
-				} else {
-					LogHelper.showWarning("kitsNoPermission", sendingPlayer);
 				}
 			}
 			
