@@ -242,13 +242,15 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	}
 
 	public void left(String participant) {
-		String actorNick = chatPrefix + participantNicks.get(participant);
-		try {
-			// try to condense this leave if we have this plugin part available
-			Handler_condensejoins.handleLeave(actorNick);
-		} catch (Throwable e) {
-			CommandsEX.plugin.getServer().broadcastMessage(actorNick + " " + _("xmppLeave", ""));
-			participantNicks.remove(participant);
+		if (participantNicks.get(participant) != null) {
+			String actorNick = chatPrefix + participantNicks.get(participant);
+			try {
+				// try to condense this leave if we have this plugin part available
+				Handler_condensejoins.handleLeave(actorNick);
+			} catch (Throwable e) {
+				CommandsEX.plugin.getServer().broadcastMessage(actorNick + " " + _("xmppLeave", ""));
+				participantNicks.remove(participant);
+			}
 		}
 	}
 
