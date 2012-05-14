@@ -23,10 +23,10 @@ public class Command_cex_spy extends Chat {
 			// check permissions and call to action
 			if (Permissions.checkPerms(player, "cex.chatspy")) {
 				if (Chat.spyActivePlayers.contains(player.getName())) {
-					LogHelper.showInfo("chatSpyOn", sender);
+					LogHelper.showInfo("chatSpyOff", sender);
 					Chat.spyActivePlayers.remove(player.getName());
 				} else {
-					LogHelper.showInfo("chatSpyOff", sender);
+					LogHelper.showInfo("chatSpyOn", sender);
 					Chat.spyActivePlayers.add(player.getName());
 				}
 			}
