@@ -216,6 +216,7 @@ public class Quizzes implements Listener {
         	HandlerList.unregisterAll(Quizzes.p);
         	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
         	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
+        	quizRunning = false;
         }
 		
 		// start new quiz
@@ -268,6 +269,7 @@ public class Quizzes implements Listener {
 					        	HandlerList.unregisterAll(Quizzes.p);
 					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
 					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
+					        	quizRunning = false;
 							}
 						}
 					}, (20 * CommandsEX.getConf().getInt("quizDuration", 60)));
