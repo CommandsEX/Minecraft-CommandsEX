@@ -283,7 +283,7 @@ public class Home {
 
 					while (res.next()) {
 						String allowedPlayers;
-						if (!res.getString("allowed_players").equals("") && !res.wasNull()) {
+						if ((res.getString("allowed_players") != null) && !res.getString("allowed_players").equals("") && !res.wasNull()) {
 							allowedPlayers = res.getString("allowed_players");
 							if (!allowedPlayers.equals(args[1]) && !allowedPlayers.contains("," + args[1]) && !allowedPlayers.contains(args[1] + ",")) {
 								allowedPlayers = allowedPlayers + "," + args[1];
@@ -369,7 +369,7 @@ public class Home {
 					while (res.next()) {
 						List<Object> newAllowedPlayers = new ArrayList<Object>();
 						Boolean playerFound = false;
-						if (!res.getString("allowed_players").equals("") && !res.wasNull()) {
+						if ((res.getString("allowed_players") != null) && !res.getString("allowed_players").equals("") && !res.wasNull()) {
 							String[] allowedPlayers = res.getString("allowed_players").split(",");
 							for (String s : allowedPlayers) {
 								if (!s.equals(args[1])) {
