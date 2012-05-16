@@ -23,7 +23,7 @@ public class Command_cex_kit extends Kits {
 				||
 				((args.length > 1) && (((sender instanceof Player) && Permissions.checkPerms((Player)sender, "cex.kits.use.others")) || !(sender instanceof Player)) )
 		) {
-			give(sender, args);
+			give(sender, args, false);
 		}
         return true;
 	}

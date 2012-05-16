@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
 
@@ -31,11 +32,10 @@ public class Chat implements Listener {
 	public static Chat plugin = null;
 
 	/***
-	 * simply tell Bukkit we want to listen
+	 * store our plugin instance to handle events listening
 	 */
 	public Chat() {
 		plugin = this;
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
 	/***
@@ -118,6 +118,9 @@ public class Chat implements Listener {
 		// create Chat class instance, if not instantiated yet to allow for event listening
 		if (plugin == null) {
 			new Chat();
+		} else {
+			// activate listener, we have new players to mute
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Chat.plugin, CommandsEX.plugin);
 		}
 		
 		// inform muted player and command sender
@@ -145,6 +148,11 @@ public class Chat implements Listener {
 			}
 			mutedPlayers.remove(args[0]);
 			LogHelper.showInfo("[" + args[0] + " #####chatPlayerUnmuted", sender);
+			
+			// unregister listener if we don't need it anymore
+			if (mutedPlayers.size() == 0) {
+				HandlerList.unregisterAll(Chat.plugin);
+			}
 		} else {
 			// player is not muted
 			LogHelper.showInfo("[" + args[0] + " #####chatPlayerNotMuted", sender);

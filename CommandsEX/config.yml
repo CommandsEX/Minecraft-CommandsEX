@@ -234,6 +234,9 @@ weatherNotifyTime: 15
 # set this to false if you want to disable upcomming weather notifications for your players
 weatherNotifyEnabled: true
 
+# if this is true, a message will be broadcasted each time a player give a kit to another player
+kitsBroadcastGifts: true
+
 # set up kits that will be available to your players - kits can be divided into player groups, where * means a group of kits available to everyone
 # ... to give a player or group permission to access a kit group (like boneheads below), you need to add a permission of "cex.kits.KIT_GROUP_NAME" to them (e.g. cex.kits.boneheads)
 # ... so far, kits cannot be purchased, although this functionality is planned for the future ;)
@@ -242,6 +245,7 @@ weatherNotifyEnabled: true
 #   "*":
 #       starter:
 #           onetime: true (if true, this kit can only be obtained by a player once)
+#           onjoin : true (if true, new players automatically start with items from this kit in their inventory as they join the server)
 #           2      : 4 (4x grass block)
 #           298    : 1 (1x leather helmet)
 #		    "35:5" : 8 (8x lime wool block)
