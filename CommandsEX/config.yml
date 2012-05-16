@@ -120,6 +120,7 @@ joinSilentTime: 25
 # - xmppAdmins: list of XMPP (Jabber) users who have the right to send commands to Bukkit server. Example = xmppAdmins: [zathrus_writer, johny_cash]
 # - xmppEnablePing: if true and nobody sends any message on the server for configurable number of minutes, the bot will simply say (ping) to keep the connection alive
 # - xmppEnablePingTime: timeout (in minutes) for the previous setting
+# - xmppNotifyChatJoin: if true, players on MC server will see when someone joins Jabber chat, if set to false, they won't
 xmppEnabled: false
 xmppUser: ""
 xmppHost: localhost 
@@ -131,6 +132,7 @@ xmppCommandPrefix: "#"
 xmppAdmins: []
 xmppEnablePing: true
 xmppEnablePingTime: 45
+xmppNotifyChatJoin: true
 
 # area around jail location (in blocks) to be still considered a jail, so when people teleport there, they won't be stuck on each other
 jailArea: 5
@@ -233,6 +235,7 @@ weatherNotifyTime: 15
 weatherNotifyEnabled: true
 
 # set up kits that will be available to your players - kits can be divided into player groups, where * means a group of kits available to everyone
+# ... to give a player or group permission to access a kit group (like boneheads below), you need to add a permission of "cex.kits.KIT_GROUP_NAME" to them (e.g. cex.kits.boneheads)
 # ... so far, kits cannot be purchased, although this functionality is planned for the future ;)
 #
 # syntax (first line with the asterisk * is a group of kits available to everyone):
