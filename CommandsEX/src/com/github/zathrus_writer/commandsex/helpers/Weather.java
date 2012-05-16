@@ -181,7 +181,7 @@ public class Weather implements Listener {
 			return;
 		}
 		
-		LogHelper.showInfo((player.getWorld().isThundering() ? "rainOff" : "rainOn"), sender);
+		LogHelper.showInfo((player.getWorld().hasStorm() ? "rainOff" : "rainOn"), sender);
 		// check when should the switch occur
 		Integer timeToSwitch = 0;
 		if (args.length > 0) {
