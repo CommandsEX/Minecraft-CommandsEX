@@ -232,25 +232,33 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		String joiner = chatPrefix + actor.getNick();
 		try {
 			// try to condense this join if we have this plugin part available
-			Handler_condensejoins.handleJoin(joiner);
+			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+				Handler_condensejoins.handleJoin(joiner);
+			}
+			participantNicks.put(participant, actor.getNick());
 		} catch (Throwable e) {
 			if (!participantNicks.containsKey(participant)) {
-				CommandsEX.plugin.getServer().broadcastMessage(joiner + " " + _("xmppJoin", ""));
+				if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+					CommandsEX.plugin.getServer().broadcastMessage(joiner + " " + _("xmppJoin", ""));
+				}
 				participantNicks.put(participant, actor.getNick());
 			}
 		}
 	}
 
 	public void left(String participant) {
-		if (participantNicks.get(participant) != null) {
-			String actorNick = chatPrefix + participantNicks.get(participant);
-			try {
-				// try to condense this leave if we have this plugin part available
+		String actorNick = chatPrefix + participantNicks.get(participant);
+		try {
+			// try to condense this leave if we have this plugin part available
+			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
 				Handler_condensejoins.handleLeave(actorNick);
-			} catch (Throwable e) {
-				CommandsEX.plugin.getServer().broadcastMessage(actorNick + " " + _("xmppLeave", ""));
-				participantNicks.remove(participant);
 			}
+			participantNicks.remove(participant);
+		} catch (Throwable e) {
+			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+				CommandsEX.plugin.getServer().broadcastMessage(actorNick + " " + _("xmppLeave", ""));
+			}
+			participantNicks.remove(participant);
 		}
 	}
 
