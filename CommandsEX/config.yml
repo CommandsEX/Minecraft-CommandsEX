@@ -152,8 +152,12 @@ timedPromoteTaskTime: 180
 # syntax...
 #   timedpromote:
 #       group_name: amount of seconds to play on server to belong here
-timedPromote:
-    default: 0
+#
+# Example:
+#   timedpromote:
+#     default: 0
+#     rich: 1800
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 # players in the following groups will be excluded from timed auto-promotions (admins, moderators, ...)
 timedPromoteExclude: [admin]
@@ -165,8 +169,12 @@ ecoPromoteTaskTime: 180
 # syntax...
 #   ecopromote:
 #       group_name: amount of currency to have to belong here
-ecoPromote:
-    default: 0
+#
+# Example:
+#   ecopromote:
+#     default: 0
+#     rich: 1000
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 # players in the following groups will be excluded from economy-based auto-promotions (admins, moderators, ...)
 ecoPromoteExclude: [admin]
@@ -198,6 +206,7 @@ quizDuration: 60
 #               2      : 4 (4x grass block)
 #               298    : 1 (1x leather helmet)
 #			    "35:5" : 8 (8x lime wool block)
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 
 # set up your quizzes here (quiz names can be arbitrary)
@@ -211,6 +220,7 @@ quizDuration: 60
 #           - 9 mnths
 #           - 9m
 #           - nine months
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 
 # Message Of The Day (MOTD) - displayed each time a player joins the server.
@@ -253,6 +263,7 @@ kitsBroadcastGifts: true
 #       supplies:
 #           352     : 50 (50x bone)
 #           cooldown: 120 (players will not be able to obtain this kit sooner than after this timeout - in seconds)
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 
 # default height (in blocks) a player should be ejected into when slapped and no height is provided via parameter
@@ -269,6 +280,7 @@ slapPreventDamage: true
 #   knight:
 #       toGroup: translucent
 #       command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
+# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
 
 # this sets time (in days) after which we delete old records of player groups from database
