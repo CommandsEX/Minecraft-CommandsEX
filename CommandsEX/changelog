@@ -3,13 +3,16 @@ Beta 1.55
 - fixed permission nodes for rain and storm commands (they are now cex.weather.rain and cex.weather.storm instead of cex.rain and cex.storm)
 - fixed URL leading to explanation about Chat Color Codes
 - fixed startup of CommandsEX, so it doesn't add all default values into config (like kits and such) every time it does not find it there... annoying internal Bukkit functionality :P
-- fixed description of kits and their permissions
 - fixed error in invite and uninvite commands in homes
 - fixed on/off message for chat spying
-- optimized muting when there are no players muted
+- fixed quiz errors for answers that were purely numeric
+- fixed description of kits and their permissions in the config file
+- optimized muting when there are no players muted anymore
+- added invisibility toggle command (inv)
 - added keep-alive messages into XMPP (Jabber) chat bridge, so in case nobody is on the server for configurable amount of time, the bot will send a (ping) message to keep the connection alive
 - added join/leave notification bypass in XMPP (Jabber) chat bridge when a user enters the Jabber chat room (i.e. no join/leave message in MC chat)
 - added possibility to create kits that are automatically given to a player upon joining the server for the first time
+- added NanoSuit functionality! Equip a chainmail armor to blast away with super-natural-powers!
 
 Beta 1.50
 ---------

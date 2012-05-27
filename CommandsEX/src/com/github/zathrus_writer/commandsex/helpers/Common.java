@@ -46,6 +46,7 @@ public class Common implements Listener {
 	public static Boolean ignoreTpEvent = false;
 	public static List<String> godPlayers = new ArrayList<String>();
 	public static List<String> slappedPlayers = new ArrayList<String>();
+	public static List<String> invisiblePlayers = new ArrayList<String>();
 	public static Map<String, Location> slappedLastLocations = new HashMap<String, Location>();
 	public static Map<String, Integer> slappedUnslapTasks = new HashMap<String, Integer>();
 
@@ -121,7 +122,7 @@ public class Common implements Listener {
 			}
 			
 			// if there are no more frozen players left, we don't need our event listeners, so unregister them
-			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
 				HandlerList.unregisterAll(Common.plugin);
 			}
 			
@@ -138,7 +139,7 @@ public class Common implements Listener {
 		// insert player's name into frozen players' list
 		frozenPlayers.add(pName);
 		// if we have only this player, add activate event listeners, since they're not active yet
-		if ((frozenPlayers.size() == 1) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
+		if ((frozenPlayers.size() == 1) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -316,7 +317,7 @@ public class Common implements Listener {
 			}
 			
 			// if there are no more frozen or god players left, we don't need our event listeners, so unregister them
-			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
 				HandlerList.unregisterAll(Common.plugin);
 			}
 			
@@ -327,7 +328,7 @@ public class Common implements Listener {
 		// insert player's name into god players' list
 		godPlayers.add(pName);
 		// if we have only this player, activate event listeners, since they're not active yet
-		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 0) && (godPlayers.size() == 1)) {
+		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 0) && (godPlayers.size() == 1) && (invisiblePlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -372,7 +373,7 @@ public class Common implements Listener {
 		// insert player's name into slapped players' list
 		slappedPlayers.add(pName);
 		// if we have only this player, activate event listeners, since they're not active yet
-		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 1) && (godPlayers.size() == 0)) {
+		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 1) && (godPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
 		}
 		
@@ -404,6 +405,58 @@ public class Common implements Listener {
 			// inform both players
 			LogHelper.showInfo("playerSlapped#####[" + pName, sender);
 			LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), p, ChatColor.YELLOW);
+		}
+		
+		return true;
+	}
+	
+	/***
+	 * INV - makes a player invisible
+	 * @param sender
+	 * @param args
+	 * @param command
+	 * @param alias
+	 * @return
+	 */
+	public static Boolean inv(CommandSender sender, String[] args, String command, String alias, Boolean... omitMessage) {
+		// create Common class instance, if not instantiated yet to allow for events listening
+		if (plugin == null) {
+			new Common();
+		}
+
+		Boolean showMessages = (omitMessage.length == 0);
+		Player player = (Player) sender;
+		String pName = player.getName();
+		Boolean isInvisible = invisiblePlayers.contains(pName);
+		
+		if (!isInvisible) {
+			invisiblePlayers.add(pName);
+		} else {
+			invisiblePlayers.remove(pName);
+		}
+		
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (isInvisible) {
+				p.showPlayer(player);
+			} else {
+				p.hidePlayer(player);
+			}
+		}
+		
+		// if there are no more frozen players left, we don't need our event listeners, so unregister them
+		if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
+			HandlerList.unregisterAll(Common.plugin);
+		} else {
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
+		}
+
+		if (showMessages) {
+			// inform the player
+			if (isInvisible) {
+				LogHelper.showInfo("invYouAreVisible", sender);
+			} else {
+				LogHelper.showInfo("invYouAreInvisible", sender);
+			}
 		}
 		
 		return true;
@@ -479,6 +532,17 @@ public class Common implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void checkFrozenState(PlayerJoinEvent e) {
+		// make all invisible players invisible to our joining player as well
+		for (String p : Common.invisiblePlayers) {
+			Player player = Bukkit.getPlayer(p);
+			LogHelper.logDebug("checking " + p);
+			LogHelper.logDebug("list: " + Utils.implode(invisiblePlayers, ", "));
+			if (player != null) {
+				LogHelper.logDebug("hiding " + p + ", " + e.getPlayer().getName());
+				e.getPlayer().hidePlayer(player);
+			}
+		}
+		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			// if the player is frozen, remind them
 			Player p = e.getPlayer();

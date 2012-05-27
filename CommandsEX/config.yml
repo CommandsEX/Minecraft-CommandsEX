@@ -276,3 +276,26 @@ slapPreventDamage: true
 # ... for players that die and do not play on the server anymore, this time is used for cleanup purposes, so the database does not grow too large
 # ... set to 0 to disable (not recommended)
 deathGroupsCleanupTime: 14
+
+# if this is true, nanosuit will get activated once player equips full chain armor (without helmet) + pumpkin head
+# otherwise a full chain armor with its own helmet would mean a nanosuit activation
+nanoSuitPumpkin: true
+
+# speed multiplier when nanosuit is activated
+# ... this will apply a SPEED potion effect on player where number 0 will apply Speed I, 1 will apply Speed II, 2 will apply Speed III and so on
+# CAUTION! Speed potions apply disortion, so with high enough number player's viewpoint can get very narrow!
+nanoSuitSpeed: 2
+
+# jump height multiplier when nanosuit is activated
+# ... this will apply a JUMP potion effect on player where number 0 will apply Jump I, 1 will apply Jump II, 2 will apply Jump III and so on
+nanoSuitJump: 2
+
+# damage multiplier when nanosuit is activated... 2 means double damage (200%), 1.5 means 150% damage and so on
+nanoSuitDamage: 2
+
+# how long (in seconds) will the NanoSuit be operational after putting it on
+# WARNING: after this time, armor is automatically destroyed and all powers are cancelled
+nanoSuitTime: 180
+
+# how long (in seconds) must a player wait before putting on another NanoSuit
+nanoSuitRechargeTime: 500

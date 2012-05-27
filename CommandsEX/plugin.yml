@@ -274,6 +274,12 @@ permissions:
   cex.deathgroup.ignore:
     default: op
     description: Players with this permission don't get their group changed after they die.
+  cex.nanosuit:
+    default: false
+    description: Players with this permission will get access to NanoSuit powers.
+  cex.inv:
+    default: op
+    description: Allows player to become invisible to other players.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -310,6 +316,9 @@ permissions:
   Listener.deathgroup:
     default: true
     description: Placeholder for event function that check for database of old pre-death groups for players and assigns them new group upon their death.
+  Listener.nanosuit:
+    default: true
+    description: Placeholder for event function that bring out chainmail armor nanosuit commands functionality!
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -633,3 +642,39 @@ commands:
     permission: cex.deathgroup.reset
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [greset]
+  cex_armor:
+    description: Makes player invincible to incomming damage while NanoSuit powers hold.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [armor]
+  cex_cloak:
+    description: Makes player invisible while NanoSuit powers hold.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cloak]
+  cex_strength:
+    description: Multiplies player's damage against living entities while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [strength]
+  cex_speed:
+    description: Multiplies player's speed while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [speed]
+  cex_jump:
+    description: Multiplies player's jump height while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [jump]
+  cex_inv:
+    description: Makes player invisible.
+    usage: /<command>
+    permission: cex.inv
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [inv]
