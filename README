@@ -15,9 +15,10 @@ If a person needs to exclude some functionality from the plugin, they can do it 
 
 Permissions and Economy support?
 
-CommandsEX makes use of Bukkit's built-in permissions model (SuperPerms), therefore allowing you to use any of the permission plugins that support this (PermissionsEx, bPermissions, ...)
-As for Economy, this is certainly planned right after a few first common functions have been implemented. CommandsEX will support Economy plugins that work with Vault.
-For more information on how we're progressing on this, check out the Project RoadMap at http://sourceforge.net/userapps/trac/zathrus-writer
+CommandsEX makes use of Bukkit's built-in permissions model (SuperPerms) for basic permission checks (such as if a player has access to a certain action).
+From version 1.40, CommandsEX also supports Vault plugin, which allows for extended permission checks (e.g. checking user groups etc.). This allows for the use of any plugin that Vault supports (such as PermissionsEx, bPermissions, ...)
+For list of permissions, check out the "What is included" section on the SourceForge Wiki (https://sourceforge.net/p/commandsex/wiki/CommandsEX%20CraftBukkit%20plugin%20Wiki/) - each command set uses its own permissions. There are also a few Global Permissions that you can use for various admin bypasses and such.
+Thanks to the recent Vault inclusion, CommandsEX is now also able to support all types of economies that this plugin supports as well, such as iConomy, BOSEconomy and more.
 
 
 Databases
