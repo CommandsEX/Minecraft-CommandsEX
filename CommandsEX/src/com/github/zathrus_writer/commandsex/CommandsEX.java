@@ -83,7 +83,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public void onEnable() {
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
-		saveDefaultConfig();
+		saveConfig();
 		
 		// check for Vault plugin presence
 		try {
