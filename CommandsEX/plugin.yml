@@ -280,9 +280,6 @@ permissions:
   cex.inv:
     default: op
     description: Allows player to become invisible to other players.
-  cex.kill:
-    default: false
-    description: Allows player to use /kill [player] which kills the player specified.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -681,9 +678,3 @@ commands:
     permission: cex.inv
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [inv,invisible,invisibility]
-  cex_kill:
-    description: Kills the player specified.
-    usage: /<command> <player>
-    permission: cex.kill
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [kill]
