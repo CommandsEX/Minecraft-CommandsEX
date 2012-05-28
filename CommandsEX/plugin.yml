@@ -677,4 +677,4 @@ commands:
     usage: /<command>
     permission: cex.inv
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [inv]
+    aliases: [inv,invisible,invisibility]
