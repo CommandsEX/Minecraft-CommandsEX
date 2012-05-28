@@ -203,9 +203,7 @@ public class Handler_nanosuit implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void checkExpiredSuit(EntityDamageByEntityEvent e) {
 		if (e.getDamager().getType().equals(EntityType.PLAYER) && powered.contains(((Player) e.getDamager()).getName()) && e.getEntityType().isAlive()) {
-			LogHelper.logDebug("old dmg: " + e.getDamage());
 			e.setDamage((int) (e.getDamage() * CommandsEX.getConf().getDouble("nanoSuitDamage")));
-			LogHelper.logDebug("new dmg: " + e.getDamage());
 		}
 	}
 }
