@@ -232,13 +232,13 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		String joiner = chatPrefix + actor.getNick();
 		try {
 			// try to condense this join if we have this plugin part available
-			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+			if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
 				Handler_condensejoins.handleJoin(joiner);
 			}
 			participantNicks.put(participant, actor.getNick());
 		} catch (Throwable e) {
 			if (!participantNicks.containsKey(participant)) {
-				if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+				if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
 					CommandsEX.plugin.getServer().broadcastMessage(joiner + " " + _("xmppJoin", ""));
 				}
 				participantNicks.put(participant, actor.getNick());
@@ -250,12 +250,12 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		String actorNick = chatPrefix + participantNicks.get(participant);
 		try {
 			// try to condense this leave if we have this plugin part available
-			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+			if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
 				Handler_condensejoins.handleLeave(actorNick);
 			}
 			participantNicks.remove(participant);
 		} catch (Throwable e) {
-			if (CommandsEX.getConf().getBoolean("xmppEnablePingTime", true)) {
+			if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
 				CommandsEX.plugin.getServer().broadcastMessage(actorNick + " " + _("xmppLeave", ""));
 			}
 			participantNicks.remove(participant);
@@ -313,7 +313,9 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 
 	public void nicknameChanged(String participant, String newNickname) {
 		String message = participantNicks.get(participant) + " " + _("xmppNameChange", "") + newNickname;
-		CommandsEX.plugin.getServer().broadcastMessage(chatPrefix + message);
+		if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
+			CommandsEX.plugin.getServer().broadcastMessage(chatPrefix + message);
+		}
 		participantNicks.put(participant, newNickname);
 	}
 }
