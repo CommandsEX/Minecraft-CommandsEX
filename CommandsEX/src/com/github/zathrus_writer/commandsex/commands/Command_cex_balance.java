@@ -19,15 +19,10 @@ public class Command_cex_balance {
 		
 		if(Vault.ecoEnabled() != true) {
 			 LogHelper.logSevere(_("economyNotFound", ""));
-			 LogHelper.showInfo("economyNotFound#####", sender);
+			 LogHelper.showInfo("economyNotFound", sender);
 		}
-		
-		String player = sender.getName();
-		
-		double balance = Vault.econ.getBalance(player);
-		
-		LogHelper.showInfo("economyBalance#####" + balance, sender);
-		
+
+		LogHelper.showInfo("economyBalance#####[" + Vault.econ.getBalance(sender.getName()), sender);
 		return true;
 	}
 }

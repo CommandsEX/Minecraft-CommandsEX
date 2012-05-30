@@ -2,7 +2,6 @@ package com.github.zathrus_writer.commandsex.commands;
 
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -34,7 +33,7 @@ public class Command_cex_ban extends Bans {
 			
 			// permissions ok
 			if (hasBypass) {
-				LogHelper.showInfo("[" + beingBanned + " #####bansBanBypassMessage", sender, ChatColor.RED);
+				LogHelper.showWarning("[" + beingBanned + " #####bansBanBypassMessage", sender);
 				return true;
 			}
 			if (hasPerms) {
