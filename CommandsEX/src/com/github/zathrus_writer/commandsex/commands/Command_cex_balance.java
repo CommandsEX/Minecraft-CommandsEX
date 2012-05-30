@@ -22,7 +22,7 @@ public class Command_cex_balance {
 			 LogHelper.showInfo("economyNotFound", sender);
 		}
 
-		LogHelper.showInfo("economyBalance#####[" + Vault.econ.getBalance(sender.getName()), sender);
+		LogHelper.showInfo("economyBalance#####[" + Vault.econ.getBalance(sender.getName()) + "#####[ " + Vault.econ.currencyNamePlural(), sender);
 		return true;
 	}
 }
