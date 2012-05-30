@@ -7,6 +7,14 @@ import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import static com.github.zathrus_writer.commandsex.Language._;
 
 public class Command_cex_balance {
+	
+	/***
+	 * BALANCE - displays a players balance
+	 * @param sender
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		
 		if(Vault.ecoEnabled() != true) {

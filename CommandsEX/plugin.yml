@@ -283,6 +283,14 @@ permissions:
   cex.balance
     default: true
     description: Grants use to /balance command
+  cex.bypass.*:
+    default: false
+    description: Player cannot be banned, kicked, muted, frozen ect
+    children:
+      cex.bypass.ban: true
+   cex.bypass.ban:
+     default: false
+     description: Player cannot be banned
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
