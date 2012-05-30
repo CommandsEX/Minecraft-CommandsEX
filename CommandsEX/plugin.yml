@@ -280,6 +280,9 @@ permissions:
   cex.inv:
     default: op
     description: Allows player to become invisible to other players.
+  cex.balance
+    default: true
+    description: Grants use to /balance command
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -678,3 +681,9 @@ commands:
     permission: cex.inv
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [inv,invisible,invisibility]
+  cex_balance:
+    description: Checks a players balance. Requires Vault/Economy
+    usage: /<command>
+    permission: cex.balance
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bal,balance,b] 
