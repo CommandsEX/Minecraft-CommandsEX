@@ -280,7 +280,7 @@ permissions:
   cex.inv:
     default: op
     description: Allows player to become invisible to other players.
-  cex.balance
+  cex.balance:
     default: true
     description: Grants use to /balance command
   cex.bypass.*:
