@@ -288,7 +288,7 @@ permissions:
     description: Player cannot be banned, kicked, muted, frozen ect
     children:
       cex.bypass.ban: true
-   cex.bypass.ban:
+  cex.bypass.ban:
      default: false
      description: Player cannot be banned
   Listener.replacechat:
