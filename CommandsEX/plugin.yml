@@ -291,6 +291,9 @@ permissions:
   cex.bypass.ban:
      default: false
      description: Player cannot be banned
+  cex.smite:
+     default: op
+     description: Kills a player with lightning
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -695,3 +698,9 @@ commands:
     permission: cex.balance
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [bal,balance,b] 
+  cex_smite:
+    description: Kills a player with lightning
+    usage: /<command> <Player>
+    permission: cex.smite
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [smite, thor, lightning, strike, bolt]
