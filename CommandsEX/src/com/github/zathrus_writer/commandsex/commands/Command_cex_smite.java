@@ -1,7 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,14 +29,14 @@ public class Command_cex_smite {
 			smited.setHealth(0);
 		
 			// show the sender a message
-			LogHelper.showInfo("smitePlayer#####[" + smited, sender, ChatColor.AQUA);
+			LogHelper.showInfo("smitePlayer#####[" + smited.getName(), sender);
 			
 			// config variable
 			Boolean showMessageOnSmite = CommandsEX.getConf().getBoolean("showMessageOnSmite");
 			
 			// show who smited the smitee (is that a word)
 			if(showMessageOnSmite == true) {
-				LogHelper.showInfo("smiteRecieveSmite#####[" + sender, smited, ChatColor.RED);
+				LogHelper.showWarning("smiteRecieveSmite#####[" + sender.getName(), smited);
 			}
 			
 		} else {
