@@ -9,10 +9,10 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 
-public class Command_cex_smite {
+public class Command_cex_explode {
 	
 	/***
-	 * SMITE - kills a player with LIGHTNING
+	 * EXPLODE - kills a player with EXPLOSIONS
 	 * @param sender
 	 * @param args
 	 * @return
@@ -21,26 +21,26 @@ public class Command_cex_smite {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		if(args.length > 0) {
 			// get variables about the player 
-			Player smited = Bukkit.getServer().getPlayer(args[0]);
-			Location loc = smited.getLocation();
-		
+			Player exploded = Bukkit.getServer().getPlayer(args[0]);
+			Location loc = exploded.getLocation();
+			
 			// smite the player
-			smited.getWorld().strikeLightningEffect(loc);
-			smited.setHealth(0);
-		
+			exploded.getWorld().createExplosion(loc, -1);
+			exploded.setHealth(0);
+			
 			// show the sender a message
-			LogHelper.showInfo("smitePlayer#####[" + smited, sender);
+			LogHelper.showInfo("explodePlayer#####[" + exploded, sender);
 			
 			// config variable
-			Boolean showMessageOnSmite = CommandsEX.getConf().getBoolean("showMessageOnSmite");
+			Boolean showMessageOnExplode = CommandsEX.getConf().getBoolean("showMessageOnExplode");
 			
 			// show who smited the smitee (is that a word)
-			if(showMessageOnSmite == true) {
-				LogHelper.showWarning("smiteRecieveSmite#####[" + sender, smited);
+			if(showMessageOnExplode == true) {
+				LogHelper.showWarning("explodeRecieveExplode#####[" + sender, exploded);
 			}
 			
 		} else {
-			Commands.showCommandHelpAndUsage(sender, "cex_smite", alias);
+			Commands.showCommandHelpAndUsage(sender, "cex_explode", alias);
 		}
 		return true;
 	}

@@ -294,6 +294,9 @@ permissions:
   cex.smite:
      default: op
      description: Kills a player with lightning
+  cex.explode:
+     default: op
+     description: Kills a player with explosion
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -704,3 +707,10 @@ commands:
     permission: cex.smite
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [smite, thor, lightning, strike, bolt]
+  cex_explode:
+    description: Kills a player with explosions
+    usage: /<command> <Player>
+    permission: cex.explode
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [explode]
+  

@@ -315,3 +315,7 @@ nanoSuitRechargeTime: 500
 # If the player that is smited with /smite should be told who smited them
 # set this to true
 showMessageOnSmite: false
+
+# If the player that is exploded with /explode should be told who exploded them
+# set this to true
+showMessageOnExplode: false
