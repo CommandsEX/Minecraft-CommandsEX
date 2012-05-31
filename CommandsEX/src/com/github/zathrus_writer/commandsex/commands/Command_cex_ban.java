@@ -21,7 +21,7 @@ public class Command_cex_ban extends Bans {
 		// check if we have any parameters
 		if (args.length > 0) {
 			
-			Player beingBanned = Bukkit.getServer().getPlayerExact(args[0]);
+			Player beingBanned = Bukkit.getServer().getPlayer(args[0]);
 			
 			// check permissions and roll it :)
 			Boolean hasPerms = true;
