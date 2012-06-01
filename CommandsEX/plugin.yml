@@ -311,6 +311,21 @@ permissions:
   cex.info:
      default: true
      description: Allows access to /info
+  cex.motd.1:
+     default: true
+     description: Shows the first MOTD on join
+  cex.motd.2:
+     default: false
+     description: Shows the second MOTD on join
+  cex.motd.3:
+     default: false
+     description: Shows the third MOTD on join
+  cex.motd.4:
+     default: false
+     description: Shows the fourth MOTD on join
+  cex.motd.5:
+     default: false
+     description: Shows the fifth MOTD on join
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.

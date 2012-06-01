@@ -29,10 +29,38 @@ public class Handler_motd implements Listener {
 		Player p = e.getPlayer();
 		ChatColor.getByChar("a");
 		if (p.hasPlayedBefore()) {
-			String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", p.getName()).split("\\{newline\\}");
-			for (String s : msg) {
-				p.sendMessage(Utils.replaceChatColors(s));
+			if(p.hasPermission("cex.motd.1")) {
+				String[] msg = CommandsEX.getConf().getString("motd.motd1").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s : msg) {
+					p.sendMessage(Utils.replaceChatColors(s));
+				}
 			}
+			if (p.hasPermission("cex.motd.2")) {
+				String[] msg = CommandsEX.getConf().getString("motd.motd.2").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s : msg) {
+					p.sendMessage(Utils.replaceChatColors(s));
+				}
+			}
+			if (p.hasPermission("cex.motd.3")) {
+				String[] msg = CommandsEX.getConf().getString("motd.motd.3").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s : msg) {
+					p.sendMessage(Utils.replaceChatColors(s));
+				}
+			}
+			if (p.hasPermission("cex.motd.4")) {
+				String[] msg = CommandsEX.getConf().getString("motd.motd.4").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s : msg) {
+					p.sendMessage(Utils.replaceChatColors(s));
+				}
+			}
+			if (p.hasPermission("cex.motd.5")) {
+				String[] msg = CommandsEX.getConf().getString("motd.motd.5").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s : msg) {
+					p.sendMessage(Utils.replaceChatColors(s));
+				}
+		}
+		
+			
 		} else {
 			String[] msg = CommandsEX.getConf().getString("motdNewPlayer").replace("{playername}", p.getName()).split("\\{newline\\}");
 			for (String s : msg) {
