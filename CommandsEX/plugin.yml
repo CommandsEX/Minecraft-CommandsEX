@@ -306,7 +306,7 @@ permissions:
      children:
        cex.setmyrank: true
   cex.setmyrank:
-     default: true
+     default: op
      description: Allows a player to set their own rank. WILL REQUIRE cex.setmyrank.<groupname>
   Listener.replacechat:
     default: true

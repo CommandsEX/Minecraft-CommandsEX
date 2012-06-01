@@ -35,9 +35,13 @@ public class Command_cex_setrank {
 		
 		// Command variables
 		Player player = Bukkit.getServer().getPlayerExact(args[0]);
-		String group = args[1];
-		
+		if (player == null) {
+			LogHelper.showWarning("invalidPlayer", sender);
+			return true;
+		}
+
 		// Set group
+		String group = args[1];
 		Vault.perms.playerAddGroup(player, group);
 		
 		// Notify sender and player

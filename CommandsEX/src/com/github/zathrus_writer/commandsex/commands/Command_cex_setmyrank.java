@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 
 public class Command_cex_setmyrank {
 	
@@ -19,44 +20,31 @@ public class Command_cex_setmyrank {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		
-		// Check that they are not the console
-		if(!(sender instanceof Player)) {
-            LogHelper.logSevere(_("isConsole", ""));
-            return true;
-        }
-		
-		// Command Variables
-		Player player = (Player)sender;
-		String rank = args[0];
-		
-		// Check for Vault/Permissions
-	    if(Vault.permsEnabled() != true) {
-			LogHelper.logSevere(_("permissionsNotFound", ""));
-			LogHelper.showWarning("permissionsNotFound", sender);
-	    }
-	    
-	    // Check for a group
-	    if(args.length != 1) {
-			Commands.showCommandHelpAndUsage(sender, "cex_setmyrank", alias);
-			return true;
-	    }
-	    
-	    // First check for star permission
-	    if(Vault.perms.has(sender, "cex.setmyrank.*")) {
-			Vault.perms.playerAddGroup(player, rank);
-			LogHelper.showInfo("setmyrankSucess#####[" + rank, sender);
-			return true;
-	    }
-	    
-	    // Then for group permission
-		if(Vault.perms.has(sender, "cex.setmyrank." + rank)) {
-			Vault.perms.playerAddGroup(player, rank);
-			LogHelper.showInfo("setmyrankSucess#####[" + rank, sender);
-			return true;
+		if (PlayerHelper.checkIsPlayer(sender)) {
+			if(args.length == 1) {
+				// Command Variables
+				Player player = (Player)sender;
+				String rank = args[0];
+				
+				// Check for Vault/Permissions
+			    if(Vault.permsEnabled() != true) {
+					LogHelper.logSevere(_("permissionsNotFound", ""));
+					LogHelper.showWarning("permissionsNotFound", sender);
+					return true;
+			    }
+			    
+			    // First check for star permission, then for group permission
+			    if(Vault.perms.has(sender, "cex.setmyrank.*") || Vault.perms.has(sender, "cex.setmyrank." + rank)) {
+					Vault.perms.playerAddGroup(player, rank);
+					LogHelper.showInfo("setmyrankSucess#####[" + rank, sender);
+					return true;
+			    }
+			} else {
+				// show usage
+				Commands.showCommandHelpAndUsage(sender, "cex_setmyrank", alias);
+			}
 		}
-	    
-	    
+
 		return true;
 	}
 }
