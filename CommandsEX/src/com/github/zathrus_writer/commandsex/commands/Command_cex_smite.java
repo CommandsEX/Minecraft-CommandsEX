@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_smite {
 	
@@ -19,28 +21,34 @@ public class Command_cex_smite {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if(args.length > 0) {
-			// get variables about the player 
-			Player smited = Bukkit.getServer().getPlayer(args[0]);
-			Location loc = smited.getLocation();
-		
-			// smite the player
-			smited.getWorld().strikeLightningEffect(loc);
-			smited.setHealth(0);
-		
-			// show the sender a message
-			LogHelper.showInfo("smitePlayer#####[" + smited.getName(), sender);
+		if (!Utils.checkCommandSpam((Player) sender, "smite") && (!(sender instanceof Player) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.smite")))) {
+			if(args.length > 0) {
+				// get variables about the player 
+				Player smited = Bukkit.getServer().getPlayer(args[0]);
+				if (smited == null) {
+					LogHelper.showWarning("invalidPlayer", sender);
+					return true;
+				}
+				
+				Location loc = smited.getLocation();
+				// smite the player
+				smited.getWorld().strikeLightningEffect(loc);
+				smited.setHealth(0);
 			
-			// config variable
-			Boolean showMessageOnSmite = CommandsEX.getConf().getBoolean("showMessageOnSmite");
-			
-			// show who smited the smitee (is that a word)
-			if(showMessageOnSmite == true) {
-				LogHelper.showWarning("smiteRecieveSmite#####[" + sender.getName(), smited);
+				// show the sender a message
+				LogHelper.showInfo("smitePlayer#####[" + smited.getName(), sender);
+				
+				// config variable
+				Boolean showMessageOnSmite = CommandsEX.getConf().getBoolean("showMessageOnSmite");
+				
+				// show who smited the smitee (is that a word)
+				if(showMessageOnSmite == true) {
+					LogHelper.showWarning("smiteRecieveSmite#####[" + sender.getName(), smited);
+				}
+				
+			} else {
+				Commands.showCommandHelpAndUsage(sender, "cex_smite", alias);
 			}
-			
-		} else {
-			Commands.showCommandHelpAndUsage(sender, "cex_smite", alias);
 		}
 		return true;
 	}
