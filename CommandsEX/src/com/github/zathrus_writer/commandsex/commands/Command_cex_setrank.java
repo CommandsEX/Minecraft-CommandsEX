@@ -28,8 +28,9 @@ public class Command_cex_setrank {
 		}
 		
 		// Check they have specified a player
-		if(args.length==0) {
+		if(args.length != 2) {
 			Commands.showCommandHelpAndUsage(sender, "cex_setrank", alias);
+			return true;
 		}
 		
 		// Command variables
