@@ -288,13 +288,9 @@ permissions:
     description: Player cannot be banned, kicked, muted, frozen ect
     children:
       cex.bypass.ban: true
-      cex.bypass.openinv: true
   cex.bypass.ban:
      default: false
      description: Player cannot be banned
-  cex.bypass.openinv:
-     default: false
-     description: Player's inventory cannot be opened with /cex_openinv
   cex.smite:
      default: op
      description: Kills a player with lightning
