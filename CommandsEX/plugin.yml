@@ -308,6 +308,9 @@ permissions:
   cex.setmyrank:
      default: op
      description: Allows a player to set their own rank. WILL REQUIRE cex.setmyrank.<groupname>
+  cex.info:
+     default: true
+     description: Allows access to /info
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -736,4 +739,10 @@ commands:
     permission: cex.setmyrank
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [setmyrank, smr, setmygroup, smg]
+  cex_info:
+    description: Shows the text in the config under Info
+    usage: /<command>
+    permission: cex.info
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases : [info]
   

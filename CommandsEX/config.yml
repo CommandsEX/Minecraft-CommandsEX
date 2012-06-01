@@ -319,3 +319,9 @@ showMessageOnSmite: false
 # If the player that is exploded with /explode should be told who exploded them
 # set this to true
 showMessageOnExplode: false
+
+# INFO COMMAND
+# This will be text displayed in the /info command
+# You can use all the color and style codes
+# You can use /n for a new line (maybe)
+Info: &4Welcome to our &bServer!
