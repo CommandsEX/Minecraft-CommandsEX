@@ -297,6 +297,9 @@ permissions:
   cex.explode:
      default: op
      description: Kills a player with explosion
+  cex.setrank:
+     default: op
+     description: Allows player to set the rank/group of another player. Uses Vault
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -713,4 +716,10 @@ commands:
     permission: cex.explode
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [explode]
+  cex_setrank:
+    description: Sets a players group/rank
+    usage: /<command> <player> <group>
+    permission: cex.setrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setrank, sr]
   
