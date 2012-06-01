@@ -300,6 +300,14 @@ permissions:
   cex.setrank:
      default: op
      description: Allows player to set the rank/group of another player. Uses Vault
+  cex.setmyrank.*:
+     default: op
+     description: Allows a player to set their own rank
+     children:
+       cex.setmyrank: true
+  cex.setmyrank:
+     default: true
+     description: Allows a player to set their own rank. WILL REQUIRE cex.setmyrank.<groupname>
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -722,4 +730,10 @@ commands:
     permission: cex.setrank
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [setrank, sr]
+  cex_setmyrank:
+    description: Sets your own rank
+    usage: /<command> <group>
+    permission: cex.setmyrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setmyrank, smr, setmygroup, smg]
   
