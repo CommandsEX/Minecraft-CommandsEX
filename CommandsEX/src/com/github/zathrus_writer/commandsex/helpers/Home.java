@@ -41,7 +41,32 @@ public class Home {
 		if (!CommandsEX.sqlEnabled) return;
 		
 		// next create homes table if it's not present yet
-		SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"homes (id_home integer " + (SQLManager.sqlType.equals("mysql") ? "unsigned " : "") +"NOT NULL" + (SQLManager.sqlType.equals("mysql") ? " AUTO_INCREMENT" : "") +", player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", world_name varchar(32) NOT NULL, x double NOT NULL, y double NOT NULL, z double NOT NULL, is_public BOOLEAN NOT NULL DEFAULT '0', allowed_players text NULL DEFAULT NULL, PRIMARY KEY (id_home), UNIQUE " + (SQLManager.sqlType.equals("mysql") ? "KEY player_name " : "") +"(player_name,world_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores home locations and permissions for players' AUTO_INCREMENT=1" : ""));
+		SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"homes (id_home integer " + (SQLManager.sqlType.equals("mysql") ? "unsigned " : "") +"NOT NULL" + (SQLManager.sqlType.equals("mysql") ? " AUTO_INCREMENT" : "") +", player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", world_name varchar(32) NOT NULL, x double NOT NULL, y double NOT NULL, z double NOT NULL, yaw double NOT NULL, pitch double NOT NULL, is_public BOOLEAN NOT NULL DEFAULT '0', allowed_players text NULL DEFAULT NULL, PRIMARY KEY (id_home), UNIQUE " + (SQLManager.sqlType.equals("mysql") ? "KEY player_name " : "") +"(player_name,world_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores home locations and permissions for players' AUTO_INCREMENT=1" : ""));
+		
+		// upgrade to yaw and pitch-aware, if not upgraded yet
+		try {
+			Boolean upgradedToYaw = false;
+			ResultSet res = SQLManager.query_res((SQLManager.sqlType.equals("mysql") ? "DESCRIBE "+ SQLManager.prefix +"homes" : "PRAGMA table_info("+ SQLManager.prefix +"homes)"));
+			while (res.next()) {
+				if (res.getString(SQLManager.sqlType.equals("mysql") ? "Field" : "name").equals("yaw")) {
+					res.close();
+					upgradedToYaw = true;
+					break;
+				}
+			}
+			res.close();
+			
+			if (!upgradedToYaw) {
+				// not upgraded yet, upgrade here
+				SQLManager.query("ALTER TABLE "+ SQLManager.prefix +"homes ADD COLUMN yaw double NOT NULL DEFAULT 0");
+				SQLManager.query("ALTER TABLE "+ SQLManager.prefix +"homes ADD COLUMN pitch double NOT NULL DEFAULT 0");
+			}
+		} catch (Throwable e) {
+			LogHelper.logSevere("[CommandsEX] " + _("dbErrorModuleUnavailable", "") + "homes");
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			return;
+		}
+		
 		
 		// check for homes.db file, which is a MyHome sqlite file and if found, start conversion
 		File myHomes = new File(plugin.getDataFolder(), "homes.db");
@@ -122,7 +147,7 @@ public class Home {
 					}
 					
 					// all done :-)
-					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "homes (player_name, world_name, x, y, z) VALUES(?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z)" : ""), pName, player.getWorld().getName(), l.getX(), l.getY(), l.getZ())) {
+					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "homes (player_name, world_name, x, y, z, yaw, pitch) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch)" : ""), pName, player.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch())) {
 						// home successfuly created
 						LogHelper.showInfo("homeSetComplete#####[" + pName + "!", sender);
 					} else {
@@ -200,7 +225,7 @@ public class Home {
 						}
 
 						// assemble location for the home
-						l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"));
+						l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
 						
 						// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
 						if (foundPlayerName.toLowerCase().equals(homePlayerForSQL)) {
@@ -901,7 +926,7 @@ public class Home {
 				}
 				
 				try {
-					ResultSet res = SQLManager.query_res("SELECT player_name, world_name, x, y, z FROM " + SQLManager.prefix + "homes");
+					ResultSet res = SQLManager.query_res("SELECT player_name, world_name, x, y, z, yaw, pitch FROM " + SQLManager.prefix + "homes");
 					// convert days into seconds
 					Integer daysInSeconds = (Integer.parseInt(args[1]) * 24 * 60 * 60);
 					// get current Unix timestamp
@@ -915,7 +940,7 @@ public class Home {
 						// compare last join time with our requested number of days to past
 						if ((stamp - lastJoinTime) >= daysInSeconds) {
 							// match found, teleport player
-							Teleportation.delayedTeleport(player, new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getInt("x"), res.getInt("y"), res.getInt("z")) );
+							Teleportation.delayedTeleport(player, new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getInt("x"), res.getInt("y"), res.getInt("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch")) );
 							// tell player where he is
 							LogHelper.showInfo("homeWelcomeTo#####[" + res.getString("player_name") + "#####homePlayersHome", sender);
 							res.close();

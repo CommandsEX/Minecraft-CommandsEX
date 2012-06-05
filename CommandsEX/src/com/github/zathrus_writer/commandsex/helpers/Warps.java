@@ -30,6 +30,30 @@ public class Warps {
 		
 		// next create warps table if it's not present yet
 		SQLManager.query((SQLManager.sqlType.equals("mysql") ? "" : "BEGIN; ") + "CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"warps (id_warp integer " + (SQLManager.sqlType.equals("mysql") ? "unsigned " : "") +"NOT NULL" + (SQLManager.sqlType.equals("mysql") ? " AUTO_INCREMENT" : "") +", owner_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", world_name varchar(32) NOT NULL, warp_name varchar(50) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", x double NOT NULL, y double NOT NULL, z double NOT NULL, is_public BOOLEAN NOT NULL DEFAULT '0', PRIMARY KEY (id_warp), UNIQUE " + (SQLManager.sqlType.equals("mysql") ? "KEY warp_name " : "") +"(warp_name)" + (SQLManager.sqlType.equals("mysql") ? ", KEY owner_name (owner_name)" : "") + ")" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores warp points for the server' AUTO_INCREMENT=1" : "") + (SQLManager.sqlType.equals("mysql") ? "" : "; CREATE INDEX IF NOT EXISTS owner_name ON "+ SQLManager.prefix +"warps (owner_name); COMMIT;"));
+		
+		// upgrade to yaw and pitch-aware, if not upgraded yet
+		try {
+			Boolean upgradedToYaw = false;
+			ResultSet res = SQLManager.query_res((SQLManager.sqlType.equals("mysql") ? "DESCRIBE "+ SQLManager.prefix +"warps" : "PRAGMA table_info("+ SQLManager.prefix +"warps)"));
+			while (res.next()) {
+				if (res.getString(SQLManager.sqlType.equals("mysql") ? "Field" : "name").equals("yaw")) {
+					res.close();
+					upgradedToYaw = true;
+					break;
+				}
+			}
+			res.close();
+			
+			if (!upgradedToYaw) {
+				// not upgraded yet, upgrade here
+				SQLManager.query("ALTER TABLE "+ SQLManager.prefix +"warps ADD COLUMN yaw double NOT NULL DEFAULT 0");
+				SQLManager.query("ALTER TABLE "+ SQLManager.prefix +"warps ADD COLUMN pitch double NOT NULL DEFAULT 0");
+			}
+		} catch (Throwable e) {
+			LogHelper.logSevere("[CommandsEX] " + _("dbErrorModuleUnavailable", "") + "homes");
+			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			return;
+		}
 	}
 
 	
@@ -98,7 +122,7 @@ public class Warps {
 					}
 					
 					Location l = player.getLocation();
-					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, is_public) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), is_public = VALUES(is_public)" : ""), (createForOther ? args[2] : pName), player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
+					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, yaw, pitch, is_public) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch), is_public = VALUES(is_public)" : ""), (createForOther ? args[2] : pName), player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
 						// warp successfuly created
 						LogHelper.showInfo("warpCreated#####[" + args[1], sender);
 						
@@ -166,7 +190,7 @@ public class Warps {
 							}
 	
 							// assemble location for the warp point
-							l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"));
+							l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
 							
 							// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
 							if (foundWarpName.toLowerCase().equals(warpForSQL)) {

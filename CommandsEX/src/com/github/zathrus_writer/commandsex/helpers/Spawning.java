@@ -5,6 +5,8 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
+
 /***
  * Contains set of commands to be executed for world's spawn getting/setting purposes.
  * @author zathrus-writer
@@ -25,6 +27,8 @@ public class Spawning {
 		if (!Utils.checkCommandSpam(player, "spawn-go")) {
 			World world = player.getWorld();
 			Location l = world.getSpawnLocation();
+			l.setYaw((float) CommandsEX.getConf().getDouble("spawnYaw"));
+			l.setPitch((float) CommandsEX.getConf().getDouble("spawnPitch"));
 			
 			Teleportation.delayedTeleport(player, l);
 		}
@@ -46,6 +50,9 @@ public class Spawning {
 			Location loc = player.getLocation();
 			World world = player.getWorld();
 	
+			// store pitch and yaw into config
+			CommandsEX.getConf().set("spawnYaw", loc.getYaw());
+			CommandsEX.getConf().set("spawnPitch", loc.getPitch());
 			world.setSpawnLocation((int)loc.getX(), (int)loc.getY(), (int)loc.getZ());
 			LogHelper.showInfo("spawnSet", sender);
 		}
