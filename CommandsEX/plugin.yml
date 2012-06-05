@@ -725,7 +725,7 @@ commands:
     usage: /<command>
     permission: cex.balance
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [bal,balance,b] 
+    aliases: [bal,balance] 
   cex_smite:
     description: Kills a player with lightning
     usage: /<command> <Player>
