@@ -118,10 +118,10 @@ public class Chat implements Listener {
 		// create Chat class instance, if not instantiated yet to allow for event listening
 		if (plugin == null) {
 			new Chat();
-		} else {
-			// activate listener, we have new players to mute
-			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Chat.plugin, CommandsEX.plugin);
 		}
+
+		// activate listener, we have new players to mute
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(Chat.plugin, CommandsEX.plugin);
 		
 		// inform muted player and command sender
 		LogHelper.showInfo("[" + pName + " #####chatPlayerMuted#####" + ((plusValue > 0) ? "for#####" + "[ " + plusValue + "#####[ #####seconds" : "chatPlayerMutedIndefinite"), sender);
@@ -150,12 +150,12 @@ public class Chat implements Listener {
 		// check if requested player is muted
 		if (mutedPlayers.containsKey(pName)) {
 			// remove player's unmute timer as well, if set
-			String[] s = mutedPlayers.get(args[0]).split("-");
+			String[] s = mutedPlayers.get(pName).split("-");
 			if (s[1] != "0") {
 				CommandsEX.plugin.getServer().getScheduler().cancelTask(Integer.parseInt(s[1]));
 			}
-			mutedPlayers.remove(args[0]);
-			LogHelper.showInfo("[" + args[0] + " #####chatPlayerUnmuted", sender);
+			mutedPlayers.remove(pName);
+			LogHelper.showInfo("[" + pName + " #####chatPlayerUnmuted", sender);
 			
 			// unregister listener if we don't need it anymore
 			if (mutedPlayers.size() == 0) {
@@ -163,7 +163,7 @@ public class Chat implements Listener {
 			}
 		} else {
 			// player is not muted
-			LogHelper.showInfo("[" + args[0] + " #####chatPlayerNotMuted", sender);
+			LogHelper.showInfo("[" + pName + " #####chatPlayerNotMuted", sender);
 		}
 	
 		return true;

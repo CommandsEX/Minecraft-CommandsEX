@@ -10,7 +10,7 @@ import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
 public class Command_cex_unmute extends Chat {
 	/***
-	 * MUTE - mutes a player indefinitelly or for a given time period
+	 * UNMUTE - unmutes a player
 	 * @param sender
 	 * @param args
 	 * @return
