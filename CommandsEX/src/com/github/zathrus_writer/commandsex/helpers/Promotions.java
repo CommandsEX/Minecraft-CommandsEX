@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
@@ -32,12 +33,22 @@ public class Promotions {
 		// load up settings from config file
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("timedPromote");
+		
+		// no groups defined
+		if (configGroups == null) {
+			return;
+		}
+		
 		Map<String, Integer> settings = new HashMap<String, Integer>();
 		List<?> exclusions = CommandsEX.getConf().getList("timedPromoteExclude", new ArrayList<String>());
-		for (String s : configGroups.getKeys(true)) {
-			// ignore default group with time 0, since that one is an example record
-			if (s.equals("default") && (f.getInt("timedPromote." + s) == 0)) continue;
-			settings.put(s, f.getInt("timedPromote." + s));
+		Set<String> keys = configGroups.getKeys(true);
+		
+		if (keys.size() > 0) {
+			for (String s : keys) {
+				// ignore default group with time 0, since that one is an example record
+				if (s.equals("default") && (f.getInt("timedPromote." + s) == 0)) continue;
+				settings.put(s, f.getInt("timedPromote." + s));
+			}
 		}
 		
 		// run through all online players and check their playtime
@@ -97,13 +108,23 @@ public class Promotions {
 		// load up settings from config file
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("ecoPromote");
+		
+		// no groups defined
+		if (configGroups == null) {
+			return;
+		}
+		
 		Map<String, Double> settings = new HashMap<String, Double>();
 		List<?> exclusions = CommandsEX.getConf().getList("ecoPromoteExclude", new ArrayList<String>());
 		Boolean checkDemotions = f.getBoolean("ecoPromoteAutoDemote");
-		for (String s : configGroups.getKeys(true)) {
-			// ignore default group with wealth of 0, since that one is an example record
-			if (s.equals("default") && (f.getInt("ecoPromote." + s) == 0)) continue;
-			settings.put(s, f.getDouble("ecoPromote." + s));
+		Set<String> keys = configGroups.getKeys(true);
+		
+		if (keys.size() > 0) {
+			for (String s : configGroups.getKeys(true)) {
+				// ignore default group with wealth of 0, since that one is an example record
+				if (s.equals("default") && (f.getInt("ecoPromote." + s) == 0)) continue;
+				settings.put(s, f.getDouble("ecoPromote." + s));
+			}
 		}
 		
 		// run through all online players and check their wealth
