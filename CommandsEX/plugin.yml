@@ -308,6 +308,17 @@ permissions:
   cex.setmyrank:
      default: op
      description: Allows a player to set their own rank. WILL REQUIRE cex.setmyrank.<groupname>
+  cex.remrank:
+     default: op
+     description: Allows player to remove the rank/group of another player. Uses Vault
+  cex.remmyrank.*:
+     default: op
+     description: Allows a player to remove their own rank
+     children:
+       cex.remmyrank: true
+  cex.remmyrank:
+     default: op
+     description: Allows a player to remove their own rank. WILL REQUIRE cex.remmyrank.<groupname>
   cex.info:
      default: true
      description: Allows access to /info
@@ -760,4 +771,15 @@ commands:
     permission: cex.info
     permission-message: You don't have sufficient permissions to use this command.
     aliases : [info]
-  
+  cex_remrank:
+    description: Removes a player from the given group
+    usage: /<command> <player> <group>
+    permission: cex.remrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [remrank, rr]
+  cex_remmyrank:
+    description: Removes yourself from the given group
+    usage: /<command> <group>
+    permission: cex.remmyrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [remmyrank, rmr, remmygroup, rmg]
