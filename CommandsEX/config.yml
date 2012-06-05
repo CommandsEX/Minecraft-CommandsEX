@@ -225,20 +225,15 @@ quizDuration: 60
 
 # Message Of The Day (MOTD) - displayed each time a player joins the server.
 # This message will NOT be displayed to NEW players, i.e. those who's never been to your server before. See next config option for that.
-# The permission for each MOTD is cex.motd.[motdID] 
-# E.G To have a Donor see MOTD3 when they join, give them the permission node: cex.motd.3
-# Do not add new MOTDs, it won't work.
-# Make a ticket asking someone to add more MOTDs :)
+#  
+# You can set up group-specific messages by using motd_GROUP_NAME like so:
+#    motd_kings: "Welcome, my Lord. We are very glad to see you awake again."
+#
 # You can use the following placeholders in your text:
 #     {playername} -> gets replaced by name of the joining player
 #     {newline}    -> gets replaced by a new line
 #     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: http://v.gd/MCColorCodes
-motd:
-    motd1: "&aWelcome back, we were hoping to see you again!{newline}&eHave fun and if you need anything, just ask :)"
-    motd2: "&aHello regular player! Thanks for playing! :)"
-    motd3: "&aHello Mr. Donor! WE LOVE YOU FOR DONATING! :D"
-    motd4: "&cHello Staff Member. Please check the website for a list of staff things to do"
-    motd5: "&4ADMINS ARE THE BEST! WE LOVE THEM :D"
+motd: "&aWelcome back, we were hoping to see you again!{newline}&eHave fun and if you need anything, just ask :)"
 
 # Welcome message for all NEW players - i.e. playes who's never been on your server before.
 # You can use the following placeholders in your text:

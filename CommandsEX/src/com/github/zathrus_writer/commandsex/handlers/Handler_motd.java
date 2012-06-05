@@ -1,6 +1,6 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
-import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Handler_motd implements Listener {
@@ -25,42 +26,37 @@ public class Handler_motd implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.LOW)
-	public void passChat(PlayerJoinEvent e) {
+	public void passJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		ChatColor.getByChar("a");
 		if (p.hasPlayedBefore()) {
-			if(p.hasPermission("cex.motd.1")) {
-				String[] msg = CommandsEX.getConf().getString("motd.motd1").replace("{playername}", p.getName()).split("\\{newline\\}");
-				for (String s : msg) {
-					p.sendMessage(Utils.replaceChatColors(s));
+			// check if we can use Vault to determine player's group
+			if (Vault.permsEnabled()) {
+				// check if we have extra MOTD for this group set up
+				FileConfiguration conf = CommandsEX.getConf();
+				Boolean privateMOTDsent = false;
+				for (String s : Vault.perms.getPlayerGroups(p)) {
+					if (!conf.getString("motd_" + s, "").equals("")) {
+						privateMOTDsent = true;
+						String[] msg = CommandsEX.getConf().getString("motd_" + s).replace("{playername}", p.getName()).split("\\{newline\\}");
+						for (String s1 : msg) {
+							p.sendMessage(Utils.replaceChatColors(s1));
+						}
+					}
+				}
+				
+				// show generic MOTD in case we did not find a custom one for this player's group
+				if (!privateMOTDsent) {
+					String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", p.getName()).split("\\{newline\\}");
+					for (String s1 : msg) {
+						p.sendMessage(Utils.replaceChatColors(s1));
+					}
+				}
+			} else {
+				String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", p.getName()).split("\\{newline\\}");
+				for (String s1 : msg) {
+					p.sendMessage(Utils.replaceChatColors(s1));
 				}
 			}
-			if (p.hasPermission("cex.motd.2")) {
-				String[] msg = CommandsEX.getConf().getString("motd.motd.2").replace("{playername}", p.getName()).split("\\{newline\\}");
-				for (String s : msg) {
-					p.sendMessage(Utils.replaceChatColors(s));
-				}
-			}
-			if (p.hasPermission("cex.motd.3")) {
-				String[] msg = CommandsEX.getConf().getString("motd.motd.3").replace("{playername}", p.getName()).split("\\{newline\\}");
-				for (String s : msg) {
-					p.sendMessage(Utils.replaceChatColors(s));
-				}
-			}
-			if (p.hasPermission("cex.motd.4")) {
-				String[] msg = CommandsEX.getConf().getString("motd.motd.4").replace("{playername}", p.getName()).split("\\{newline\\}");
-				for (String s : msg) {
-					p.sendMessage(Utils.replaceChatColors(s));
-				}
-			}
-			if (p.hasPermission("cex.motd.5")) {
-				String[] msg = CommandsEX.getConf().getString("motd.motd.5").replace("{playername}", p.getName()).split("\\{newline\\}");
-				for (String s : msg) {
-					p.sendMessage(Utils.replaceChatColors(s));
-				}
-		}
-		
-			
 		} else {
 			String[] msg = CommandsEX.getConf().getString("motdNewPlayer").replace("{playername}", p.getName()).split("\\{newline\\}");
 			for (String s : msg) {
