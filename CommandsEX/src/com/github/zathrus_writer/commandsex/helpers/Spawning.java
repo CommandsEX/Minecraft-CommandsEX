@@ -29,7 +29,7 @@ public class Spawning {
 			Location l = world.getSpawnLocation();
 			l.setYaw((float) CommandsEX.getConf().getDouble("spawnYaw"));
 			l.setPitch((float) CommandsEX.getConf().getDouble("spawnPitch"));
-			
+
 			Teleportation.delayedTeleport(player, l);
 		}
         return true;

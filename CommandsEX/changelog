@@ -6,6 +6,7 @@ Beta 1.60
 - added /setrank and /setmyrank commands to assign groups to players
 - added /remrank and /remmyrank commands to remove players from groups
 - added a simple /info command, which will display message set up in config
+- added /motd command that will re-display the Message Of The Day to player
 - added more aliases to the /inv command, so it does no longer clash with inventory plugins
 - added bypass permission for bans (cex.bypass.ban), disallowing the banning of players with this permission (i.e. admins and staff)
 - added possibility to create Message of the Day (MOTD) per user group

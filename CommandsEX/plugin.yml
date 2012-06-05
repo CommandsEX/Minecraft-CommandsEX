@@ -322,6 +322,9 @@ permissions:
   cex.info:
      default: true
      description: Allows access to /info
+  cex.motd:
+     default: true
+     description: Allows player to display Message Of The Day
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -768,3 +771,9 @@ commands:
     permission: cex.remmyrank
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [remmyrank, rmr, remmygroup, rmg]
+  cex_motd:
+    description: Displays Message Of The Day to the player.
+    usage: /<command>
+    permission: cex.motd
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases : [motd]

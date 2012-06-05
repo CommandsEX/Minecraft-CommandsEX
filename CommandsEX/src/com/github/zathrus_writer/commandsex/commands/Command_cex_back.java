@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.handlers.Handler_savebackposition;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
@@ -32,6 +33,7 @@ public class Command_cex_back {
 				// check if we have last position saved
 				String pName = player.getName();
 				if (lastLocations.containsKey(pName)) {
+					try {Handler_savebackposition.omittedPlayers.add(pName);} catch (Throwable e) {}
 					// teleport player to the location
 					Teleportation.delayedTeleport(player, lastLocations.get(pName));
 			    	// cleanup last location

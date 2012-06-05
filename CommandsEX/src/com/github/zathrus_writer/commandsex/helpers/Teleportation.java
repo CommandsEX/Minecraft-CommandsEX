@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.handlers.Handler_savebackposition;
 
 /***
  * Contains set of commands to be executed for teleportation purposes.
@@ -112,9 +111,6 @@ public class Teleportation {
     	public void run() {
     		p.teleport(l);
 
-    		// try to remove this player from omitted players list in back position saver
-    		try {Handler_savebackposition.omittedPlayers.remove(p.getName());} catch (Throwable e) {}
-    		
     		// check if we should not call a post-teleport function and call it with a delay, since teleporting takes time
     		// and the result would not be pretty (like being frozen/jailed in the air and kicked for flying)
     		if (this.r != null) {
