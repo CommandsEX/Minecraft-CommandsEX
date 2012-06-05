@@ -751,7 +751,7 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [setmyrank, smr, setmygroup, smg]
   cex_info:
-    description: Shows the text in the config under Info
+    description: Shows the text in the config under info
     usage: /<command>
     permission: cex.info
     permission-message: You don't have sufficient permissions to use this command.
