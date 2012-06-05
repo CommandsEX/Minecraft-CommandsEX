@@ -47,7 +47,7 @@ public class Command_cex_setrank {
 			Vault.perms.playerAddGroup(player, group);
 			
 			// Notify sender and player
-			LogHelper.showInfo("[" + player + "setrankToSender#####[" + group, sender);
+			LogHelper.showInfo("[" + player.getName() + " #####setrankToSender#####[" + group, sender);
 			LogHelper.showInfo("setrankToPlayer#####[" + group, player);
 		}
 		

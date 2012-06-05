@@ -34,13 +34,10 @@ public class Command_cex_setmyrank {
 					LogHelper.showWarning("permissionsNotFound", sender);
 					return true;
 			    }
-			    
-			    // First check for star permission, then for group permission
-			    if(Vault.perms.has(sender, "cex.setmyrank.*") || Vault.perms.has(sender, "cex.setmyrank." + rank)) {
-					Vault.perms.playerAddGroup(player, rank);
-					LogHelper.showInfo("setmyrankSucess#####[" + rank, sender);
-					return true;
-			    }
+
+				Vault.perms.playerAddGroup(player, rank);
+				LogHelper.showInfo("setmyrankSucess#####[" + rank, sender);
+				return true;
 			} else if (args.length != 1) {
 				// show usage
 				Commands.showCommandHelpAndUsage(sender, "cex_setmyrank", alias);
