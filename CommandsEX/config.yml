@@ -330,3 +330,9 @@ showMessageOnExplode: false
 #     {newline}    -> gets replaced by a new line
 #     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: http://v.gd/MCColorCodes
 info: "&aWelcome to this wonderful amazing server, &f{playername}!{newline}&ePlease don't grief, spam or curse otherwise feel like home :)"
+
+# If this is set to true, a fake quit message will appear when a player becomes invisible.
+fakeQuitMessage: true
+
+# If this is set to true, a fake join message will appear when a player becomes visible again.
+fakeJoinMessage: true

@@ -4,14 +4,20 @@ import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import net.minecraft.server.Packet201PlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,6 +31,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -431,8 +438,20 @@ public class Common implements Listener {
 		
 		if (!isInvisible) {
 			invisiblePlayers.add(pName);
+			((CraftServer) player.getServer()).getHandle().sendAll(
+					new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, false, 9999));
+			
+			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
+				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", ""));
+			}
 		} else {
 			invisiblePlayers.remove(pName);
+			((CraftServer) player.getServer()).getHandle().sendAll(
+					new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, true, 1000));
+			
+			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
+				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", ""));
+			}
 		}
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -532,13 +551,15 @@ public class Common implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void checkFrozenState(PlayerJoinEvent e) {
+		// if the joining player is invisible, tell them
+		if (invisiblePlayers.contains(e.getPlayer().getName())) {
+			LogHelper.showWarning("invYouAreStillInvisible", e.getPlayer());
+		}
+		
 		// make all invisible players invisible to our joining player as well
 		for (String p : Common.invisiblePlayers) {
 			Player player = Bukkit.getPlayer(p);
-			LogHelper.logDebug("checking " + p);
-			LogHelper.logDebug("list: " + Utils.implode(invisiblePlayers, ", "));
 			if (player != null) {
-				LogHelper.logDebug("hiding " + p + ", " + e.getPlayer().getName());
 				e.getPlayer().hidePlayer(player);
 			}
 		}
@@ -611,6 +632,28 @@ public class Common implements Listener {
 			// stop listening if nobody else is frozen, god or slapped
 			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0)) {
 				HandlerList.unregisterAll(Common.plugin);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void noChatToInvisiblePlayers(PlayerChatEvent e) {
+		if (e.isCancelled() || (Common.invisiblePlayers.size() > 0)) return;
+
+		String pName = e.getPlayer().getName();
+		String msg = e.getMessage();
+		Set<Player> removals = Collections.emptySet();
+		for (Player p : e.getRecipients()) {
+			if (Common.invisiblePlayers.contains(e.getPlayer().getName())) {
+				removals.add(p);
+			}
+		}
+		
+		if (removals.size() > 0) {
+			for (Player p : removals) {
+				// show message to the player, but remove him from recipients, so the sender doesn't know he's online
+				LogHelper.showInfo("chatMessageFrom#####[" + pName + ": " + ChatColor.WHITE + msg, p);
+				e.getRecipients().remove(p);
 			}
 		}
 	}
