@@ -13,6 +13,7 @@ Beta 1.60
 - messages to invisible players will end up as if they were undelivered to the sender
 - players going invisible players will optionally generate a fake quit message and a fake join message when they become visible again
 - invisible players will not appear in list of all players anymore (i.e. the TAB-list)
+- invisible player are now notified of their ongoing invisibility after joining the server
 - fixed unmuting of online player being case-sensitive (is case-insensitive now)
 - fixed XMPP join message bypass
 - fixed errors on player quitting when no Promotions (playtime or economy) are set
