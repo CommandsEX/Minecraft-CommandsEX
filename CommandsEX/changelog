@@ -20,6 +20,7 @@ Beta 1.60
 - fixed errors on player quitting when no Promotions (playtime or economy) are set
 - fixed errors on player join when no startup kits are defined
 - fixed muting of players when first player gets muted (he wasn't being muted first, only on 2nd try)
+- fixed last position saving for the /back command
 - reverted old configuration handling, since the new one did not work as expected
 
 Beta 1.55
