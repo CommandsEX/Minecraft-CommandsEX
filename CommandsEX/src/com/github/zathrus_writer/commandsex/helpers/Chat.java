@@ -139,8 +139,16 @@ public class Chat implements Listener {
 	 * @return
 	 */
 	public static Boolean unmute(CommandSender sender, String[] args, String command, String alias) {
+		// make online player's name lookup, making this command case-insensitive,
+		// fallback to case-sensitive argument from the player if the lookup fails
+		Player p = Bukkit.getPlayer(args[0]);
+		String pName = args[0];
+		if (p != null) {
+			pName = p.getName();
+		}
+
 		// check if requested player is muted
-		if (mutedPlayers.containsKey(args[0])) {
+		if (mutedPlayers.containsKey(pName)) {
 			// remove player's unmute timer as well, if set
 			String[] s = mutedPlayers.get(args[0]).split("-");
 			if (s[1] != "0") {

@@ -10,6 +10,7 @@ Beta 1.60
 - added bypass permission for bans (cex.bypass.ban), disallowing the banning of players with this permission (i.e. admins and staff)
 - added possibility to create Message of the Day (MOTD) per user group
 - homes, spawn and warps now remember pitch and yaw (e.g. where you look at) when you set them
+- fixed unmuting of online player being case-sensitive (is case-insensitive now)
 - fixed XMPP join message bypass
 - fixed errors on player quitting when no Promotions (playtime or economy) are set
 - reverted old configuration handling, since the new one did not work as expected
