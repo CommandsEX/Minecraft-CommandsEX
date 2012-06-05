@@ -325,7 +325,10 @@ showMessageOnSmite: false
 showMessageOnExplode: false
 
 # INFO COMMAND
-# This will be text displayed in the /info command
-# You can use all the color and style codes
-# You can use /n for a new line (maybe)
-Info: &4Welcome to our &bServer!
+# This text will be displayed when player enters /info into chat.
+#
+# You can use the following placeholders in your text:
+#     {playername} -> gets replaced by name of the joining player
+#     {newline}    -> gets replaced by a new line
+#     &0 - &f      -> color codes, values from &0 to &9 and from &a to &f, each one represents a color... see this page for more info: http://v.gd/MCColorCodes
+info: "&aWelcome to this wonderful amazing server, &f{playername}!{newline}&ePlease don't grief, spam or curse otherwise feel like home :)"
