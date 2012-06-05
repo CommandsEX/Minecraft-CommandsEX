@@ -2,6 +2,7 @@ Beta 1.60
 ---------
 - added /balance command to check your balance easily
 - added /explode command to effectivelly kill a player and make a TNT-like mess around him :)
+- added /smite command to kill a player with lightning!
 - added /setrank and /setmyrank commands to assign groups to players
 - added /remrank and /remmyrank commands to remove players from groups
 - added a simple /info command, which will display message set up in config
