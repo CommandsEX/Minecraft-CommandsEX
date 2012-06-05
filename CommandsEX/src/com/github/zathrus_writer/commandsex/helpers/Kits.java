@@ -269,12 +269,14 @@ public class Kits implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void checkMutes(PlayerJoinEvent e) {
+	public void giveInitialKits(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 		if (player.hasPlayedBefore()) return;
 
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection kitConfigGroups = f.getConfigurationSection("kits");
+		if (kitConfigGroups == null) return;
+		
 		Set<String> kitGroups = kitConfigGroups.getKeys(false);
 		
 		for (String group : kitGroups) {
