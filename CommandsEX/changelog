@@ -11,6 +11,7 @@ Beta 1.60
 - added possibility to create Message of the Day (MOTD) per user group
 - homes, spawn and warps now remember pitch and yaw (e.g. where you look at) when you set them
 - fixed XMPP join message bypass
+- fixed errors on player quitting when no Promotions (playtime or economy) are set
 - reverted old configuration handling, since the new one did not work at all
 
 Beta 1.55
