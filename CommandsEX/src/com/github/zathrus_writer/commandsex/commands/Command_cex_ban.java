@@ -25,15 +25,18 @@ public class Command_cex_ban extends Bans {
 			
 			// check permissions and roll it :)
 			Boolean hasPerms = true;
-			Boolean hasBypass = true;
+			Boolean hasBypass = false;
 			if (sender instanceof Player) {
 				hasPerms = Permissions.checkPerms((Player)sender, "cex.ban");
-				hasBypass = Permissions.checkPerms((Player)beingBanned, "cex.bypass.ban");
+				
+				if (beingBanned != null) {
+					hasBypass = Permissions.checkPerms((Player)beingBanned, "cex.bypass.ban");
+				}
 			}
 			
 			// permissions ok
 			if (hasBypass) {
-				LogHelper.showWarning("[" + beingBanned + " #####bansBanBypassMessage", sender);
+				LogHelper.showWarning("[" + beingBanned.getName() + " #####bansBanBypassMessage", sender);
 				return true;
 			}
 			if (hasPerms) {
