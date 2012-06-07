@@ -242,7 +242,8 @@ public class Quizzes implements Listener {
 				ListIterator<String> iterator = quizAnswers.listIterator();
 			    while (iterator.hasNext())
 			    {
-			        iterator.set(("" + iterator.next()).toLowerCase());
+			    	Integer index = iterator.nextIndex();
+			    	quizAnswers.set(index, quizAnswers.get(index).toLowerCase());
 			    }
 			}
 			
