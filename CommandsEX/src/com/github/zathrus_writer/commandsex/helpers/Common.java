@@ -551,9 +551,10 @@ public class Common implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void checkFrozenState(PlayerJoinEvent e) {
-		// if the joining player is invisible, tell them
+		// if the joining player is invisible, tell them and cancel out the join message
 		if (invisiblePlayers.contains(e.getPlayer().getName())) {
 			LogHelper.showWarning("invYouAreStillInvisible", e.getPlayer());
+			e.setJoinMessage("");
 		}
 		
 		// make all invisible players invisible to our joining player as well
