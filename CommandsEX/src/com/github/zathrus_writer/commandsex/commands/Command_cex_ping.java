@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 
 public class Command_cex_ping {
 	/***
