@@ -340,6 +340,9 @@ permissions:
   cex.hat:
      default: op
      description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
+  cex.kittycannon:
+     default: op
+     description: Harmless command to UNLEASE KITTY CANNON FURY!
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -822,3 +825,9 @@ commands:
     permission: cex.hat
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [removehat, rh, removehead, removehelmet]
+  cex_kittycannon:
+    description: FIRE IN THE HOLE! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.kittycannon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kittycannon, kc]
