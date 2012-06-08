@@ -325,6 +325,9 @@ permissions:
   cex.motd:
      default: true
      description: Allows player to display Message Of The Day
+  cex.ownerstatus:
+     default: true
+     description: Allows use of /ownerstatus
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -758,7 +761,7 @@ commands:
     usage: /<command>
     permission: cex.info
     permission-message: You don't have sufficient permissions to use this command.
-    aliases : [info]
+    aliases: [info]
   cex_remrank:
     description: Removes a player from the given group
     usage: /<command> <player> <group>
@@ -776,4 +779,10 @@ commands:
     usage: /<command>
     permission: cex.motd
     permission-message: You don't have sufficient permissions to use this command.
-    aliases : [motd]
+    aliases: [motd]
+  cex_ownerstatus:
+    description: Gets and changes the Owner's Status
+    usage: /<command> [dnd/afk/busy/here/check/help]
+    permission: cex.ownerstatus
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ownerstatus, os, owner]
