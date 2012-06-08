@@ -331,6 +331,12 @@ permissions:
   cex.repair:
      default: op
      description: Allows use of /repair
+  cex.feed:
+     default: op
+     description: Allows use of /feed
+  cex.feed.others:
+     default: op
+     description: Allows you to /feed other people
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -795,3 +801,9 @@ commands:
     permission: cex.repair
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [repair]
+  cex_feed:
+    description: Refills your food level
+    usage: /<command> [player]
+    permission: cex.feed
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [feed]
