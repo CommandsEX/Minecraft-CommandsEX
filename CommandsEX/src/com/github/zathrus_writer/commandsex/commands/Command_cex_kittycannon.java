@@ -32,6 +32,7 @@ public class Command_cex_kittycannon {
 		
 		// Variables
 		Random random = new Random();
+		final int explosionStrength = CommandsEX.getConf().getInt("KittyCannonExplosionStrength");
 		
 		// Complicated stuff... cbb to explain
 		Player player = (Player)sender;
@@ -45,7 +46,7 @@ public class Command_cex_kittycannon {
 			public void run() {
 				final Location loc = ocelot.getLocation();
 				ocelot.remove();
-				loc.getWorld().createExplosion(loc, 0F);
+				loc.getWorld().createExplosion(loc, explosionStrength);
 			}
 		}, 20L);
 		

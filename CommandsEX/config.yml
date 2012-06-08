@@ -339,3 +339,6 @@ fakeJoinMessage: true
 
 # Set this to the server's owner. This is used in /ownerstatus
 ServerOwner: Notch
+
+# This is the strength of the kittycannon explosion. Set to 0 for no block damage and -1 for no person damage.
+KittyCannonExplosionStrength: 5
