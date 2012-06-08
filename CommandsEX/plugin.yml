@@ -337,6 +337,9 @@ permissions:
   cex.feed.others:
      default: op
      description: Allows you to /feed other people
+  cex.hat:
+     default: op
+     description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -807,3 +810,15 @@ commands:
     permission: cex.feed
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [feed, feedme]
+  cex_hat:
+    description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.hat
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [hat, h, head, helmet]
+  cex_removehat:
+    description: Removes the block on your head! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.hat
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [removehat, rh, removehead, removehelmet]
