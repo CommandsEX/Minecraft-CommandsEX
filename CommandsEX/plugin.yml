@@ -328,6 +328,9 @@ permissions:
   cex.ownerstatus:
      default: true
      description: Allows use of /ownerstatus
+  cex.repair:
+     default: op
+     description: Allows use of /repair
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -786,3 +789,9 @@ commands:
     permission: cex.ownerstatus
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [ownerstatus, os, owner]
+  cex_repair:
+    description: Repairs the item in hand
+    usage: /<command>
+    permission: cex.repair
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [repair]
