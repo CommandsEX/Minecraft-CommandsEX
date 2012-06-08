@@ -21,35 +21,33 @@ public class Command_cex_removehat {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		
 		// Check if player
-		if(!(PlayerHelper.checkIsPlayer(sender))) {
-			LogHelper.logWarning("noConsole");
-			return true;
+		if (PlayerHelper.checkIsPlayer(sender)) {
+		
+			// Variables
+			Player player = (Player)sender;
+			PlayerInventory inv = player.getInventory();
+			ItemStack head = inv.getHelmet();
+			int emptySlot = inv.firstEmpty();
+			
+			// If no helmet
+			if(head == null) {
+				LogHelper.showWarning("removehatNoHat", sender);
+				return true;
+			}
+			
+			// If no space for helmet
+			if(emptySlot == -1) {
+				LogHelper.showWarning("removehatNoSpace", sender);
+				return true;
+			}
+			
+			// Remove hat
+			inv.setHelmet(null);
+			inv.setItem(emptySlot, head);
+			
+			// Alert sender
+			LogHelper.showInfo("removehatSucess", sender);
 		}
-		
-		// Variables
-		Player player = (Player)sender;
-		PlayerInventory inv = player.getInventory();
-		ItemStack head = inv.getHelmet();
-		int emptySlot = inv.firstEmpty();
-		
-		// If no helmet
-		if(head == null) {
-			LogHelper.showWarning("removehatNoHat", sender);
-			return true;
-		}
-		
-		// If no space for helmet
-		if(emptySlot == -1) {
-			LogHelper.showWarning("removehatNoSpace", sender);
-			return true;
-		}
-		
-		// Remove hat
-		inv.setHelmet(null);
-		inv.setItem(emptySlot, head);
-		
-		// Alert sender
-		LogHelper.showInfo("removehatSucess", sender);
 		
 		return true;
 	}
