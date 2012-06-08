@@ -19,44 +19,38 @@ public class Command_cex_feed {
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		
-		// Check they are not console
-		if(!(sender instanceof Player)) {
-			LogHelper.logWarning("inWorldCommandOnly");
+		if (!(sender instanceof Player) && (args.length == 0)) {
+			LogHelper.showWarning("playerNameMissing", sender);
 			return true;
 		}
-		
-		// Main variables
-		Player cmdSender = (Player)sender;
-		Player beingFed = (Player)sender;
+
+		Player beingFed;
 		
 		// Check they want to feed someone else
-		if(args.length > 0 && Permissions.checkPerms(cmdSender, "cex.feed.others")) {
-			
+		if ((args.length > 0) && (!(sender instanceof Player) || Permissions.checkPerms((Player) sender, "cex.feed.others"))) {
+
 			// Change player
-			beingFed=Bukkit.getServer().getPlayerExact(args[0]);
+			beingFed = Bukkit.getPlayer(args[0]);
 			
 			// Check they are online
-			if(beingFed==null) {
-				LogHelper.showWarning("noSuchPlayer", cmdSender);
+			if (beingFed==null) {
+				LogHelper.showWarning("invalidPlayer", sender);
 				return true;
 			}
-			
-			// Feed
-			beingFed.setFoodLevel(20);
-			
-			// Alert sender/beingFed
-			LogHelper.showInfo("feedFedBySomeoneElse#####" + "[" + cmdSender.getName(), beingFed);
-			LogHelper.showInfo("feedFedSomeoneElse#####" + "[" + beingFed.getName(), cmdSender);
-			
-			return true;
-			
+		} else {
+			beingFed = (Player) sender;
 		}
-		
+	
 		// Set food level
 		beingFed.setFoodLevel(20);
-		
-		// Send message
-		LogHelper.showInfo("feedFed", beingFed);
+			
+		// Send message(s)
+		if (sender.getName().equals(beingFed.getName())) {
+			LogHelper.showInfo("feedFed", beingFed);
+		} else {
+			LogHelper.showInfo("feedFedBySomeoneElse#####" + "[" + sender.getName(), beingFed);
+			LogHelper.showInfo("feedFedSomeoneElse#####" + "[" + beingFed.getName(), sender);
+		}
 		
 		return true;
 	}
