@@ -325,6 +325,21 @@ permissions:
   cex.motd:
      default: true
      description: Allows player to display Message Of The Day
+  cex.ownerstatus:
+     default: true
+     description: Allows use of /ownerstatus
+  cex.repair:
+     default: op
+     description: Allows use of /repair
+  cex.feed:
+     default: op
+     description: Allows use of /feed
+  cex.feed.others:
+     default: op
+     description: Allows you to /feed other people
+  cex.hat:
+     default: op
+     description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -758,7 +773,7 @@ commands:
     usage: /<command>
     permission: cex.info
     permission-message: You don't have sufficient permissions to use this command.
-    aliases : [info]
+    aliases: [info]
   cex_remrank:
     description: Removes a player from the given group
     usage: /<command> <player> <group>
@@ -776,4 +791,34 @@ commands:
     usage: /<command>
     permission: cex.motd
     permission-message: You don't have sufficient permissions to use this command.
-    aliases : [motd]
+    aliases: [motd]
+  cex_ownerstatus:
+    description: Gets and changes the Owner's Status
+    usage: /<command> [dnd/afk/busy/here/check/help]
+    permission: cex.ownerstatus
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ownerstatus, os, owner]
+  cex_repair:
+    description: Repairs the item in hand
+    usage: /<command>
+    permission: cex.repair
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [repair]
+  cex_feed:
+    description: Refills your food level
+    usage: /<command> [player]
+    permission: cex.feed
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [feed, feedme]
+  cex_hat:
+    description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.hat
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [hat, h, head, helmet]
+  cex_removehat:
+    description: Removes the block on your head! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.hat
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [removehat, rh, removehead, removehelmet]

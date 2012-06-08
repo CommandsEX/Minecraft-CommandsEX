@@ -336,3 +336,6 @@ fakeQuitMessage: true
 
 # If this is set to true, a fake join message will appear when a player becomes visible again.
 fakeJoinMessage: true
+
+# Set this to the server's owner. This is used in /ownerstatus
+ServerOwner: Notch

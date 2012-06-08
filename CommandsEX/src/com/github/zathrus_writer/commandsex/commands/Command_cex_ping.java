@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 
 public class Command_cex_ping {
 	/***
@@ -19,7 +20,7 @@ public class Command_cex_ping {
 		if ((sender instanceof Player) && (Utils.checkCommandSpam((Player)sender, "ping") || !Permissions.checkPerms((Player) sender, "cex.ping"))) {
 			return true;
 		}
-		sender.sendMessage("PONG!");
+		LogHelper.showInfo("PONG!", sender);
 
 		return true;
 	}
