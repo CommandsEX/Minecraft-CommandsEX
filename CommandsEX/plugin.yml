@@ -806,4 +806,4 @@ commands:
     usage: /<command> [player]
     permission: cex.feed
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [feed]
+    aliases: [feed, feedme]
