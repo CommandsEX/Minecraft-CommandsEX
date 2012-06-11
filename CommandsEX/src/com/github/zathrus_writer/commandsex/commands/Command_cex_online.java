@@ -1,11 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,8 +11,6 @@ import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_online {
-	
-	public static Map<String, Location> lastLocations = new HashMap<String, Location>();
 	
 	/***
 	 * ONLINE - displays list of all players that are currently online
