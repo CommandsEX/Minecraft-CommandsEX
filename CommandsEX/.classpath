@@ -9,6 +9,6 @@
 			<attribute name="javadoc_location" value="http://mythcraft.dyndns.org/javadoc/vault/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/craftbukkit-1.2.5-R1.3.jar"/>
+	<classpathentry kind="lib" path="lib/craftbukkit-1.2.5-R4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
