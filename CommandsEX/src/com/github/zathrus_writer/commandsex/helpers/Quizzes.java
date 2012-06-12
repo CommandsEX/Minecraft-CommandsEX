@@ -242,8 +242,8 @@ public class Quizzes implements Listener {
 				ListIterator<String> iterator = quizAnswers.listIterator();
 			    while (iterator.hasNext())
 			    {
-			    	Integer index = iterator.nextIndex();
-			    	quizAnswers.set(index, quizAnswers.get(index).toLowerCase());
+			    	Object o = iterator.next();
+			        iterator.set(("" + o).toLowerCase());
 			    }
 			}
 			
@@ -316,29 +316,38 @@ public class Quizzes implements Listener {
 			
 			// select a random reward
 			FileConfiguration f = CommandsEX.getConf();
-			ConfigurationSection configGroups = f.getConfigurationSection("quizDiff." + quizDifficulty);
-			Set<String> s = configGroups.getKeys(false);
-			s.remove("caseSentisive");
-			Integer len = s.size();
-			String rewardName = null;
 			
-			if (len > 0) {
-				do {
-					Integer pos = (0 + (int)(Math.random() * ((len - 1) + 1)));
-					Object[] quizNames = s.toArray();
-					rewardName = (String) quizNames[pos];
-				} while (((len == 1) ? false : ((lastRewards.get(quizDifficulty) != null) && lastRewards.get(quizDifficulty).equals(rewardName))));
-				
-				// store the reward name and tell player how to pick it up
-				quizWinners.put(pName, quizDifficulty + "." + rewardName);
-				lastRewards.put(quizDifficulty, rewardName);
-				LogHelper.showInfo("quizClaimReward", e.getPlayer());
-			} else {
+			try {
+				ConfigurationSection configGroups = f.getConfigurationSection("quizDiff." + quizDifficulty);
+				Set<String> s = configGroups.getKeys(false);
+				s.remove("caseSentisive");
+				Integer len = s.size();
+				String rewardName = null;
+			
+				if (len > 0) {
+					do {
+						Integer pos = (0 + (int)(Math.random() * ((len - 1) + 1)));
+						Object[] quizNames = s.toArray();
+						rewardName = (String) quizNames[pos];
+					} while (((len == 1) ? false : ((lastRewards.get(quizDifficulty) != null) && lastRewards.get(quizDifficulty).equals(rewardName))));
+					
+					// store the reward name and tell player how to pick it up
+					quizWinners.put(pName, quizDifficulty + "." + rewardName);
+					lastRewards.put(quizDifficulty, rewardName);
+					LogHelper.showInfo("quizClaimReward", e.getPlayer());
+				} else {
+					// tell the player we found and error and that we'll reward him later
+					LogHelper.showInfo("quizCannotReward", e.getPlayer());
+					
+					// log the error to console
+					LogHelper.logSevere("[CommandsEX] " + _("quizNoRewardsError", "") + pName);
+				}
+			} catch (Throwable ex) {
 				// tell the player we found and error and that we'll reward him later
 				LogHelper.showInfo("quizCannotReward", e.getPlayer());
 				
 				// log the error to console
-				LogHelper.logWarning("[CommandsEX] " + _("quizNoRewardsError", "") + pName);
+				LogHelper.logSevere("[CommandsEX] " + _("quizNoRewardsError", "") + pName);
 			}
 		}
 	}

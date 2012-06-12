@@ -5,6 +5,9 @@ Beta 1.65
 - added /hat celebratory command to place block on head
 - added secret 1000th download celebration command ;)
 - Happy 1000th Bukkit Dev download day!
+- fixed setrank, remrank and balance commands when economy or permission plugin is not present
+- final fix for Quizzes where one of the answers was purely numeric
+- fix for Quiz error when no valid reward was found
 
 Beta 1.60
 ---------
