@@ -27,6 +27,7 @@ public class Command_cex_remrank {
 			if(Vault.permsEnabled() != true) {
 				 LogHelper.logSevere(_("permissionsNotFound", ""));
 				 LogHelper.showWarning("permissionsNotFound", sender);
+				 return true;
 			}
 			
 			// Check they have specified a player

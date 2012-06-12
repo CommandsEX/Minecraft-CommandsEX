@@ -25,6 +25,7 @@ public class Command_cex_balance {
 			if(Vault.ecoEnabled() != true) {
 				 LogHelper.logSevere(_("economyNotFound", ""));
 				 LogHelper.showInfo("economyNotFound", sender);
+				 return true;
 			}
 	
 			LogHelper.showInfo("economyBalance#####[" + Vault.econ.getBalance(sender.getName()) + "#####[ " + Vault.econ.currencyNamePlural(), sender);
