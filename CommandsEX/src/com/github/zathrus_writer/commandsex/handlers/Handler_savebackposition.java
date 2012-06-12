@@ -3,13 +3,16 @@ package com.github.zathrus_writer.commandsex.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.commands.Command_cex_back;
+import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
 public class Handler_savebackposition implements Listener {
 	
@@ -46,5 +49,18 @@ public class Handler_savebackposition implements Listener {
 
 		if (e.isCancelled()) return;
 		Command_cex_back.lastLocations.put(pName, e.getFrom());
+	}
+	
+	/***
+	 * When player dies, save their back position, so they can return if they have permissions to do so.
+	 * @param e
+	 * @return
+	 */
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void saveBackPosition(PlayerDeathEvent e) {
+		Player p = e.getEntity();
+		if (!Permissions.checkPermEx(p, "cex.back.deathcoords")) return;
+		String pName = e.getEntity().getName();
+		Command_cex_back.lastLocations.put(pName, e.getEntity().getLocation());
 	}
 }
