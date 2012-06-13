@@ -19,13 +19,15 @@ public class Command_cex_ownerstatus {
 	 * @return
 	 */
 	
+	// Owner status
+	public static String ownerS = CommandsEX.getConf().getString("ServerOwner");
+	public static String ownerStatus = "";
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		
 		// Command Variables
 		Player player = (Player)sender;
-		String ownerS = CommandsEX.getConf().getString("ServerOwner");
 		Player owner = Bukkit.getPlayer(ownerS);
-		String ownerStatus = "";
 		
 		// Is the sender the owner?
 		if(player == owner) {
@@ -58,6 +60,8 @@ public class Command_cex_ownerstatus {
 				ownerStatus="afk";
 			} else if(args[0].equalsIgnoreCase("busy")) {
 				ownerStatus="busy";
+			} else {
+				return false;
 			}
 			
 			// Finally show them what they changed it to

@@ -346,6 +346,30 @@ permissions:
   cex.kittycannon:
      default: op
      description: Harmless command to UNLEASE KITTY CANNON FURY!
+  cex.calculator:
+     default: false
+     description: Use of /calc
+  cex.calculator.*:
+     default: op
+     description: Use of all /calc types
+     children:
+       cex.calculator: true
+       cex.calculator.add: true
+       cex.calculator.subtract: true
+       cex.calculator.divide: true
+       cex.calculator.multiply: true
+  cex.calculator.add:
+     default: false
+     description: Use of add in /calc
+  cex.calculator.subtract:
+     default: false
+     description: Use of subtract in /calc
+  cex.calculator.multiply:
+     default: false
+     description: Use of multiply in /calc
+  cex.calculator.divide:
+     default: false
+     description: Use of divide in /calc
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -834,3 +858,9 @@ commands:
     permission: cex.kittycannon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [kittycannon, kc]
+  cex_calculator:
+    description: A simple calculator
+    usage: /<command> [add/subtract/divide/multiply/help] [number1] [number2]
+    permission: cex.calculator
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [calculator, calc]
