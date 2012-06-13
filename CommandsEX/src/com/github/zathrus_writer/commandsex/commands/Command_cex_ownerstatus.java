@@ -21,13 +21,13 @@ public class Command_cex_ownerstatus {
 	
 	// Owner status
 	public static String ownerS = CommandsEX.getConf().getString("ServerOwner");
-	public static Player owner = Bukkit.getPlayer(ownerS);
 	public static String ownerStatus = "";
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		
 		// Command Variables
 		Player player = (Player)sender;
+		Player owner = Bukkit.getPlayer(ownerS);
 		
 		// Is the sender the owner?
 		if(player == owner) {
