@@ -364,7 +364,7 @@ permissions:
   cex.calculator.multiply:
      default: false
      description: Use of multiply in /calc
-  cex.calculator.divide
+  cex.calculator.divide:
      default: false
      description: Use of divide in /calc
   cex.clock:
