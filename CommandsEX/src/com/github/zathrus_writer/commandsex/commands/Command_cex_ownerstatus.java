@@ -58,6 +58,8 @@ public class Command_cex_ownerstatus {
 				ownerStatus="afk";
 			} else if(args[0].equalsIgnoreCase("busy")) {
 				ownerStatus="busy";
+			} else {
+				return false;
 			}
 			
 			// Finally show them what they changed it to
