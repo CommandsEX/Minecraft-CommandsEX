@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.server.Packet201PlayerInfo;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -62,6 +66,8 @@ public class Handler_nanosuit implements Listener {
 		if (Common.invisiblePlayers.contains(pName)) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.showPlayer(p);
+				((CraftServer) player.getServer()).getHandle().sendAll(
+						new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, true, 1000));
 			}
 		}
 		

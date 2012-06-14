@@ -42,6 +42,9 @@ permissions:
   cex.back:
     default: op
     description: Allows a player to return to his last known location (/back).
+  cex.back.deathcoords:
+    default: op
+    description: Stores player's last position on their death, so they can use /back command to get there after respawning.
   cex.lang:
     default: true
     description: Allows player to change their language and display list of available languages to change to.
