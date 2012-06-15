@@ -376,6 +376,9 @@ permissions:
   cex.calculator.divide:
      default: false
      description: Use of divide in /calc
+  cex.clock:
+     default: op
+     description: Allows use of /clock
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -876,3 +879,9 @@ commands:
     permission: cex.calculator
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [calculator, calc]
+  cex_clock:
+    description: Shows date/time
+    usage: /<command>
+    permission: cex.clock
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [clock, date]
