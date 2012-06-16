@@ -885,3 +885,9 @@ commands:
     permission: cex.clock
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [clock, date]
+  cex_platform:
+    description: Creates a platform below a player, useful for building in the air
+    usage: /<command> [block-id]
+    permission: cex.platform
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [platform, pf]
