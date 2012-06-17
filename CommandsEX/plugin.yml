@@ -900,3 +900,9 @@ commands:
     permission: cex.platform
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [platform, pf]
+  cex_extinguish:
+    description: Extinguishes a player
+    usage: /<command> [player]
+    permission: cex.extinguish
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [extinguish, ext]
