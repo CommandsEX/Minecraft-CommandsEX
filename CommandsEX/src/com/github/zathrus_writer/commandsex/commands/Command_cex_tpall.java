@@ -22,17 +22,27 @@ public class Command_cex_tpall extends Teleportation {
 		
 		if (PlayerHelper.checkIsPlayer(sender)){
 			Player player = (Player) sender;
+			Player tpTo = null;
+			
 			if (args.length == 0){
-				for (Player player2 : Bukkit.getOnlinePlayers()){
-					if (player != player2){
-						String[] newargs = {player.getName(), player2.getName()};
-						tp_common(sender, newargs, "tpto", alias);
-						//LogHelper.showInfo("tpAll" + "#####[" + player.getName(), player2, ChatColor.GREEN);
-						LogHelper.showInfo("[" + player.getName() + " " + "#####tpAll", player2, ChatColor.GREEN);
+				tpTo = player;
+			} else if (args.length == 1){
+				tpTo = Bukkit.getPlayer(args[0]);
+			}
+			
+			if (args.length <= 1){
+				if (tpTo != null){
+					for (Player player2 : Bukkit.getOnlinePlayers()){
+						if (player2 != tpTo){
+							String[] newargs = {tpTo.getName(), player2.getName()};
+							tp_common(sender, newargs, "tpto", alias);
+							LogHelper.showInfo("tpTeleport#####[" + " " + player.getName(), player2, ChatColor.GREEN);
+						}
 					}
+					LogHelper.showInfo("tpAllSuccess", player, ChatColor.GREEN);
+				} else {
+					LogHelper.showInfo("invalidPlayer", player, ChatColor.RED);
 				}
-				
-				LogHelper.showInfo("tpAllSuccess", player, ChatColor.GREEN);
 			}
 		}
 		

@@ -504,7 +504,7 @@ commands:
     aliases: [tpdeny,tpno]
   cex_tpall:
     description: Teleports all players on the server to the player.
-    usage: /<command>
+    usage: /<command> [player]
     permission: cex.tpall
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tpall, tpeveryone]
