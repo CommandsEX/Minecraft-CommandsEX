@@ -27,7 +27,8 @@ public class Command_cex_tpall extends Teleportation {
 					if (player != player2){
 						String[] newargs = {player.getName(), player2.getName()};
 						tp_common(sender, newargs, "tpto", alias);
-						LogHelper.showInfo("tpAll" + "#####[" + player.getName(), player2, ChatColor.GREEN);
+						//LogHelper.showInfo("tpAll" + "#####[" + player.getName(), player2, ChatColor.GREEN);
+						LogHelper.showInfo("[" + player.getName() + " " + "#####tpAll", player2, ChatColor.GREEN);
 					}
 				}
 				
