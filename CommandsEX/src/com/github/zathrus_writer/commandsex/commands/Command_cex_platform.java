@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_platform {
 
@@ -73,7 +74,7 @@ public class Command_cex_platform {
 						
 					// If there are multiple matches then display it to the player
 					} else {
-						LogHelper.showInfo("platformMultipleMatches#####" + "[" + Arrays.toString(list.toArray()).replace("[", "").replace("]", "").toLowerCase().replaceAll("_", ""), player, ChatColor.RED);
+						LogHelper.showInfo("platformMultipleMatches#####" + "[" + Utils.implode(list, ", "), player, ChatColor.RED);
 					}
 					
 				// Check if there is already a block below the player
@@ -85,8 +86,6 @@ public class Command_cex_platform {
 			} else {
 				LogHelper.showInfo("incorrectUsage", player, ChatColor.RED);
 			}
-		} else {
-			// Console, need to find out lang string
 		}
 		return true;
 	}
