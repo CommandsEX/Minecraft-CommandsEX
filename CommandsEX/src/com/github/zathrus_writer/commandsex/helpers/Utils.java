@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -243,4 +245,27 @@ public class Utils {
 		
 		return s;
 	}
+	
+	/***
+	 * Gets the closest material matches  and returns them
+	 * @author iKeirNez
+	 * @param input
+	 * @return
+	 */
+	public static List<Material> closestMatches(String input) {
+        ArrayList<Material> matches = new ArrayList<Material>();
+        
+        for (Material mat : Material.values()){
+        	// Quick fix for stone brick
+        	if (input.equalsIgnoreCase("stonebrick")){
+        		return Arrays.asList(Material.SMOOTH_BRICK);
+        	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
+                return Arrays.asList(mat);
+            } else if (mat.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+            	matches.add(mat);
+            }
+        }
+        
+        return matches;
+    }
 }

@@ -1,7 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -25,22 +23,7 @@ public class Command_cex_platform {
 	 */
 	
 	// Get the closest matches for the string and return them
-	public static List<Material> closestMatches(String input) {
-        ArrayList<Material> matches = new ArrayList<Material>();
-        
-        for (Material mat : Material.values()){
-        	// Quick fix for stone brick
-        	if (input.equalsIgnoreCase("stonebrick")){
-        		return Arrays.asList(Material.SMOOTH_BRICK);
-        	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input)) && mat.isBlock()){
-                return Arrays.asList(mat);
-            } else if (mat.name().replace("_", "").toLowerCase().contains(input.toLowerCase()) && mat.isBlock()){
-            	matches.add(mat);
-            }
-        }
-        
-        return matches;
-    }
+
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		if (PlayerHelper.checkIsPlayer(sender)) {
@@ -61,7 +44,7 @@ public class Command_cex_platform {
 				}
 			} else if (args.length == 1) {
 				if (loc.getBlock().getTypeId() == 0) {
-					List <Material> list = closestMatches(args[0]);
+					List <Material> list = Utils.closestMatches(args[0]);
 					
 					// If the list is empty then display an error messages
 					if (list.size() == 0) {
@@ -69,11 +52,16 @@ public class Command_cex_platform {
 						
 					// If the list has one match then set the block to that
 					} else if (list.size() == 1) {
-						loc.getBlock().setType(list.get(0));
-						LogHelper.showInfo("platformCreated", player, ChatColor.GREEN);
+						if (list.get(0).isBlock()){
+							loc.getBlock().setType(list.get(0));
+							LogHelper.showInfo("platformCreated", player, ChatColor.GREEN);
+						} else {
+							LogHelper.showInfo("platformNotBlock", player, ChatColor.RED);
+						}
 						
 					// If there are multiple matches then display it to the player
 					} else {
+						// Currently this will return non blocks too, we need to add a way to stop it from return non blocks.
 						LogHelper.showInfo("platformMultipleMatches#####" + "[" + Utils.implode(list, ", "), player, ChatColor.RED);
 					}
 					
