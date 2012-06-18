@@ -219,63 +219,67 @@ public class Quizzes implements Listener {
         	quizRunning = false;
         }
 		
-		// start new quiz
-		FileConfiguration f = CommandsEX.getConf();
-		ConfigurationSection configGroups = f.getConfigurationSection("quizzes");
-		Set<String> s = configGroups.getKeys(false);
-		Integer len = s.size();
-		String quizName = null;
-		
-		if (len > 0) {
-			// pick a random one
-			Integer pos = (0 + (int)(Math.random() * ((len - 1) + 1)));
-			Object[] quizNames = s.toArray();
-			quizName = (String) quizNames[pos];
-			quizQuestion = f.getString("quizzes." + quizName + ".question", "Ping");
-			quizDifficulty = f.getString("quizzes." + quizName + ".difficulty", "easy");
-			quizCaseSensitive = f.getBoolean("quizDiff." + quizDifficulty + ".caseSentisive", false);
-			quizAnswers = (List<String>) f.getList("quizzes." + quizName + ".answers");
-			Integer quizDelay = f.getInt("quizDelay", 10);
+		try {
+			// start new quiz
+			FileConfiguration f = CommandsEX.getConf();
+			ConfigurationSection configGroups = f.getConfigurationSection("quizzes");
+			Set<String> s = configGroups.getKeys(false);
+			Integer len = s.size();
+			String quizName = null;
 			
-			// make answers lowecase if the answer we expect does not depend on letters case
-			if (!quizCaseSensitive) {
-				ListIterator<String> iterator = quizAnswers.listIterator();
-			    while (iterator.hasNext())
-			    {
-			    	Object o = iterator.next();
-			        iterator.set(("" + o).toLowerCase());
-			    }
-			}
-			
-			// show information about a quiz starting soon
-			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quisStartsIn", "") + quizDelay + " " + _("seconds", "") + "!");
-			
-			// time the quiz start
-			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
-				@Override
-				public void run() {
-					// ask the question
-					CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizQuestion", "") + Quizzes.quizQuestion);
-					
-					// start listening for chat responses
-					Quizzes.quizRunning = true;
-					CommandsEX.plugin.getServer().getPluginManager().registerEvents(Quizzes.p, CommandsEX.plugin);
-					
-					// schedule quiz end
-					CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
-						@Override
-						public void run() {
-							// cancel the quiz
-							if (Quizzes.quizRunning) {
-					        	HandlerList.unregisterAll(Quizzes.p);
-					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
-					        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
-					        	quizRunning = false;
-							}
-						}
-					}, (20 * CommandsEX.getConf().getInt("quizDuration", 60)));
+			if (len > 0) {
+				// pick a random one
+				Integer pos = (0 + (int)(Math.random() * ((len - 1) + 1)));
+				Object[] quizNames = s.toArray();
+				quizName = (String) quizNames[pos];
+				quizQuestion = f.getString("quizzes." + quizName + ".question", "Ping");
+				quizDifficulty = f.getString("quizzes." + quizName + ".difficulty", "easy");
+				quizCaseSensitive = f.getBoolean("quizDiff." + quizDifficulty + ".caseSentisive", false);
+				quizAnswers = (List<String>) f.getList("quizzes." + quizName + ".answers");
+				Integer quizDelay = f.getInt("quizDelay", 10);
+				
+				// make answers lowecase if the answer we expect does not depend on letters case
+				if (!quizCaseSensitive) {
+					ListIterator<String> iterator = quizAnswers.listIterator();
+				    while (iterator.hasNext())
+				    {
+				    	Object o = iterator.next();
+				        iterator.set(("" + o).toLowerCase());
+				    }
 				}
-			}, (20 * quizDelay));
+				
+				// show information about a quiz starting soon
+				CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quisStartsIn", "") + quizDelay + " " + _("seconds", "") + "!");
+				
+				// time the quiz start
+				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
+					@Override
+					public void run() {
+						// ask the question
+						CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizQuestion", "") + Quizzes.quizQuestion);
+						
+						// start listening for chat responses
+						Quizzes.quizRunning = true;
+						CommandsEX.plugin.getServer().getPluginManager().registerEvents(Quizzes.p, CommandsEX.plugin);
+						
+						// schedule quiz end
+						CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
+							@Override
+							public void run() {
+								// cancel the quiz
+								if (Quizzes.quizRunning) {
+						        	HandlerList.unregisterAll(Quizzes.p);
+						        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd1", ""));
+						        	CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + _("quizEnd2", ""));
+						        	quizRunning = false;
+								}
+							}
+						}, (20 * CommandsEX.getConf().getInt("quizDuration", 60)));
+					}
+				}, (20 * quizDelay));
+			}
+		} catch (Throwable ex) {
+			// no quizzes
 		}
 	}
 	
