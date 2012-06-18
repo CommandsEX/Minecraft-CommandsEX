@@ -101,6 +101,11 @@ permissions:
   cex.kick:
     default: op
     description: Allows player to kick other players from the server.
+    children:
+      cex.kick.excempt: true
+  cex_kick.excempt:
+   default: op
+   description: Blocks kicking of this player in kick's and kickall's.
   cex.mute:
     default: op
     description: Allows player to mute other players.
@@ -906,3 +911,9 @@ commands:
     permission: cex.extinguish
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [extinguish, ext]
+  cex_kickall:
+    description: Kicks everyone who does not have the kick excempt permission
+    usage: /<command> [kick-message]
+    permission: cex.kickall
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kickall, kickeveryone]
