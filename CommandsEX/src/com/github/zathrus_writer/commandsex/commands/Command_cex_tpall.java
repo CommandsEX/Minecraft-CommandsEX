@@ -12,7 +12,7 @@ import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 public class Command_cex_tpall extends Teleportation {
 
 	/***
-	 * TPA - Asks another player for permission to teleport yourself to this player.
+	 * TPALL - Teleports all players on the server to the given player.
 	 * @param sender
 	 * @param args
 	 * @return
