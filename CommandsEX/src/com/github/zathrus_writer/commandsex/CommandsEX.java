@@ -14,10 +14,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -207,6 +209,11 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onDisable() {
+		
+		// kicks all players when the plugin is disabled (server is shutdown)
+		for (Player player : Bukkit.getOnlinePlayers()){
+			player.kickPlayer(ChatColor.RED + _("shutdownKickMessage", player.getName()));
+		}
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
 		
