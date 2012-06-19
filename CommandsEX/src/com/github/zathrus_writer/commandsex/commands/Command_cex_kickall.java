@@ -24,7 +24,7 @@ public class Command_cex_kickall {
 		if (!(sender instanceof Player) || sender.hasPermission("cex.kickall")){
 			if (args.length == 0){
 				for (Player player : Bukkit.getOnlinePlayers()){
-					if (!player.hasPermission("cex.kick.excempt") && player != sender){
+					if (!player.hasPermission("cex.bypass.kick") && player != sender){
 						player.kickPlayer(_("kickGenericReason", player.getName()));
 					}
 				}
@@ -34,7 +34,7 @@ public class Command_cex_kickall {
 				String kickMessage = StringUtils.join(args, ' ');
 				
 				for (Player player : Bukkit.getOnlinePlayers()){
-					if (!player.hasPermission("cex.kick.excempt") && player != sender){
+					if (!player.hasPermission("cex.bypass.kick") && player != sender){
 						player.kickPlayer(kickMessage);
 					}
 				}

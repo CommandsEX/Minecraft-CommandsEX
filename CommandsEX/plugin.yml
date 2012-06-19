@@ -101,11 +101,6 @@ permissions:
   cex.kick:
     default: op
     description: Allows player to kick other players from the server.
-    children:
-      cex.kick.excempt: true
-  cex_kick.excempt:
-   default: op
-   description: Blocks kicking of this player in kick's and kickall's.
   cex.mute:
     default: op
     description: Allows player to mute other players.
@@ -299,9 +294,13 @@ permissions:
     description: Player cannot be banned, kicked, muted, frozen ect
     children:
       cex.bypass.ban: true
+      cex.bypass.kick: true
   cex.bypass.ban:
      default: false
      description: Player cannot be banned
+  cex.bypass.kick:
+     default: op
+     description: Player cannot be kicked
   cex.smite:
      default: op
      description: Kills a player with lightning
