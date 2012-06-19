@@ -917,3 +917,9 @@ commands:
     permission: cex.kickall
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [kickall, kickeveryone]
+  cex_launch:
+    description: Launches a player into the air.
+    usage: /<command> [player]
+    permission: cex.launch
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [launch, catapult]
