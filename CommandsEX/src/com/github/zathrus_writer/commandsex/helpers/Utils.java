@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -268,4 +269,13 @@ public class Utils {
         
         return matches;
     }
+	
+	/***
+	 * Takes a value e.g. a material name and makes it look more user friendly. E.g. GLASS_PANE would become Glass Pane
+	 */
+	
+	public static String userFriendlyNames(String name){
+		String formattedName = WordUtils.capitalize(name.replaceAll("_", " ").toLowerCase());
+		return formattedName;
+	}
 }
