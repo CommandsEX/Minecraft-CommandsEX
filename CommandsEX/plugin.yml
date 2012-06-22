@@ -34,10 +34,10 @@ permissions:
     default: op
     description: Player may ask another player to teleport to him (/tpahere).
   cex.tpaccept:
-    default: op
+    default: true
     description: Player may accept a teleport request from another player (/tpaccept).
   cex.tpdeny:
-    default: op
+    default: true
     description: Player may reject a teleport request from another player (/tpdeny).
   cex.tpall:
     default: op
