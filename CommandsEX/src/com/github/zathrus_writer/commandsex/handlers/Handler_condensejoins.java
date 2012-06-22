@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 import com.github.zathrus_writer.commandsex.helpers.XMPPer;
 
@@ -38,7 +39,9 @@ public class Handler_condensejoins implements Listener {
 
 		// get player's name and store it
 		if (!joins.contains(pName)) {
-			joins.add(pName);
+			if (!Common.invisiblePlayers.contains(pName)){
+				joins.add(pName);
+			}
 		}
 		
 		// check if we haven't reached our flush interval

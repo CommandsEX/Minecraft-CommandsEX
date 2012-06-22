@@ -562,6 +562,9 @@ public class Common implements Listener {
 			Player player = Bukkit.getPlayer(p);
 			if (player != null) {
 				e.getPlayer().hidePlayer(player);
+				// Hide the player from the player list
+				((CraftServer) player.getServer()).getHandle().sendAll(
+						new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, false, 9999));
 			}
 		}
 		
