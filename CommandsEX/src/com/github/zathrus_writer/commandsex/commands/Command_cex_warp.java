@@ -51,11 +51,11 @@ public class Command_cex_warp extends Warps {
 					 * WARP HELP
 					 */
 					help(sender, args, "warp", alias);
-				} else if ((args.length > 1) && args[0].toLowerCase().equals("delete")) {
+				} else if ((args.length > 1) && (args[0].toLowerCase().equals("delete") || (args[0].toLowerCase().equals("remove")))) {
 					/***
 					 * WARP DELETE
 					 */
-					if ((args.length > 1) && args[0].toLowerCase().equals("delete") && (hasPerms = Permissions.checkPerms(player, "cex.warp.delete"))) {
+					if ((hasPerms = Permissions.checkPerms(player, "cex.warp.delete"))) {
 						delete(sender, args, "warp", alias);
 					}
 				} else if ((args.length == 1) && (Permissions.checkPerms(player, "cex.warp.own") || Permissions.checkPerms(player, "cex.warp")) && hasPerms) {
