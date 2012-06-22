@@ -1,4 +1,4 @@
-Beta 1.65
+Beta 1.70
 ---------
 - prep for /ownerstatus command
 - added /feed command to refill your food level
@@ -10,6 +10,11 @@ Beta 1.65
 - fixed setrank, remrank and balance commands when economy or permission plugin is not present
 - final fix for Quizzes where one of the answers was purely numeric
 - fix for Quiz error when no valid reward was found
+- added /heal command
+- added /kickall command, supports custom kick reason
+- added /platform command
+- added /smelt command which will smelt the item in your hand without the need for a furnace
+- added /tpall command to teleport the whole server to you
 
 Beta 1.60
 ---------
