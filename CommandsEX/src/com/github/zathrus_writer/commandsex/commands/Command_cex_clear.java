@@ -96,7 +96,7 @@ public class Command_cex_clear {
 				ItemStack[] inventory = p.getInventory().getContents();
 				Integer iLength = inventory.length;
 				for (Integer i = 0; i < iLength; i++) {
-					if ((i < 8) && (inventory[i] != null)) {
+					if ((i < 9) && (inventory[i] != null)) {
 						inventory[i].setType(Material.AIR);
 					}
 				}
