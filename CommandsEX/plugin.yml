@@ -922,3 +922,9 @@ commands:
     permission: cex.launch
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [launch, catapult]
+  cex_smelt:
+    description: Smelts the item in the players hand without the need of a furnace.
+    usage: /<command> [amount-to-smelt]
+    permission: cex.smelt
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [smelt, cook, furnace]
