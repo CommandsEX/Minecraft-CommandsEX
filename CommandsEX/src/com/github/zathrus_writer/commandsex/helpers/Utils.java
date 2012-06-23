@@ -170,9 +170,9 @@ public class Utils {
 							ret.put("days", v);
 						} else if (RegexMatcher.group(2).startsWith("h")) {
 							ret.put("hours", v);
-						}  else if (RegexMatcher.group(2).startsWith("m")) {
+						} else if (RegexMatcher.group(2).startsWith("m")) {
 							ret.put("minutes", v);
-						}  else if (RegexMatcher.group(2).startsWith("s")) {
+						} else if (RegexMatcher.group(2).startsWith("s")) {
 							ret.put("seconds", v);
 						} else {
 							throw new Throwable("Invalid time parameter: " + RegexMatcher.group(2));
