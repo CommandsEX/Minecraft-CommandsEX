@@ -16,6 +16,11 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 
 public class Handler_explosions implements Listener {
 	
+	/***
+	 * Explosion Handler - Blocks certain types of explosions, options in the config
+	 * @author iKeirNez
+	 */
+	
 	public Handler_explosions() {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}

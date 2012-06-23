@@ -16,6 +16,8 @@ Beta 1.70
 - added /smelt command which will smelt the item in your hand without the need for a furnace
 - added /tpall command to teleport the whole server to you
 - added /healall command to heal all players.
+- added /feedall command to feed all players
+- added options in the config to disable certain explosions
 - private messages now get forwarded to XMPP (Jabber)
 - fixed join and quit messages being sent when invisible
 - fixed players still showing in the TAB list when invisible
