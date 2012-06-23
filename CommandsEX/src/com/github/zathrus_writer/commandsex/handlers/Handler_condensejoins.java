@@ -58,25 +58,28 @@ public class Handler_condensejoins implements Listener {
 			
 			// save the last name, as we put it to the end of list after an "and"
 			Integer jSize = joins.size();
-			if (jSize > 1) {
-				String lName = (String) joins.get(jSize - 1);
-				joins.remove(jSize - 1);
-				String msg = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
-				// forward the broadcast to XMPP connector, if present
-				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
-				}
-			} else {
-				String msg = ChatColor.WHITE + (String) joins.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
-				// forward the broadcast to XMPP connector, if present
-				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+			// make sure the list is not empty
+			if (jSize != 0){
+				if (jSize > 1) {
+					String lName = (String) joins.get(jSize - 1);
+					joins.remove(jSize - 1);
+					String msg = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
+					CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
+					// forward the broadcast to XMPP connector, if present
+					try {
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
+				} else {
+					String msg = ChatColor.WHITE + (String) joins.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
+					CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
+					// forward the broadcast to XMPP connector, if present
+					try {
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			}
 			
@@ -129,25 +132,28 @@ public class Handler_condensejoins implements Listener {
 			
 			// save the last name, as we put it to the end of list after an "and"
 			Integer lSize = leaves.size();
-			if (lSize > 1) {
-				String lName = (String) leaves.get(lSize - 1);
-				leaves.remove(lSize - 1);
-				String msg = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
-				// forward the broadcast to XMPP connector, if present
-				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
-				}
-			} else {
-				String msg = ChatColor.WHITE + (String) leaves.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
-				// forward the broadcast to XMPP connector, if present
-				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+			// make sure the list is not empty
+			if (lSize != 0){
+				if (lSize > 1) {
+					String lName = (String) leaves.get(lSize - 1);
+					leaves.remove(lSize - 1);
+					String msg = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
+					CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
+					// forward the broadcast to XMPP connector, if present
+					try {
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
+				} else {
+					String msg = ChatColor.WHITE + (String) leaves.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", "");
+					CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
+					// forward the broadcast to XMPP connector, if present
+					try {
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			}
 			
