@@ -10,6 +10,14 @@ import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 
 public class Command_cex_healall {
 
+	/***
+	 * Healall - Heals all players on the server.
+	 * @author iKeirNez
+	 * @param sender
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		
 		String healedBy;
