@@ -342,3 +342,10 @@ ServerOwner: Notch
 
 # This is the strength of the kittycannon explosion. Set to 0 for no block damage and -1 for no person damage.
 KittyCannonExplosionStrength: 5
+
+# Enable and disable explosions (true enables, false disables)
+explosions:
+    blockMobDamage: true
+    creeper: true
+    tnt: true
+    ghast-fireball: true

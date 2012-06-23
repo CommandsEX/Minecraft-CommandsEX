@@ -437,6 +437,9 @@ permissions:
   Listener.nanosuit:
     default: true
     description: Placeholder for event function that bring out chainmail armor nanosuit commands functionality!
+  Listener.explosions:
+    default: true
+    descriptions: Placeholder for event function to stop all types of explosion damage
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
