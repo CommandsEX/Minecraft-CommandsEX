@@ -15,6 +15,14 @@ Beta 1.70
 - added /platform command
 - added /smelt command which will smelt the item in your hand without the need for a furnace
 - added /tpall command to teleport the whole server to you
+- added /healall command to heal all players.
+- private messages now get forwarded to XMPP (Jabber)
+- fixed join and quit messages being sent when invisible
+- fixed players still showing in the TAB list when invisible
+- fixed an IndexOutOfBounds exception when an invisible player leaves the server
+- tpaccept and tpdeny are available to everyone by default (can be overridden with permissions)
+- added /warp delete synonym, /warp remove
+- fixed clear inventory not clearing the last item in the hotbar
 
 Beta 1.60
 ---------
