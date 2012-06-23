@@ -619,7 +619,7 @@ commands:
     usage: /<command> (Player/IP)
     permission: cex.pardon
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [pardon]
+    aliases: [pardon, unban]
   cex_online:
     description: Shows list of all online players or checks player's online status.
     usage: /<command> [Player]
