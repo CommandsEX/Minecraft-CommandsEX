@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jivesoftware.smack.Connection;
@@ -146,6 +147,28 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
+	public void sendPrivate(PlayerCommandPreprocessEvent e) {
+		String cmd = e.getMessage();
+		String[] s = cmd.split(" ");
+		if (s.length >= 3) {
+			String sName = e.getPlayer().getName();
+	
+			if (CommandsEX.getConf().getList("privateMsgCommands").contains(s[0].substring(1))) {
+				if (s.length >= 3) {
+					try {
+						// Don't send if the reciever is offline
+						if (Bukkit.getPlayer(s[1]) != null){
+							chatRoom.sendMessage(filterOutgoing("(" + sName +" -> " + s[1] + "): " + e.getMessage().replace(s[0] + " " + s[1], "")));
+						}
+					} catch (XMPPException ex){
+						LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void sendLeaveMessage(PlayerQuitEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(e.getQuitMessage()));
@@ -154,7 +177,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
 		}
 	}
-
+	
 	public void processPacket(Packet packet) {
 		if (packet instanceof Message) {
 			if (!chatRoom.getOccupant(packet.getFrom()).getNick().equals(chatRoom.getNickname())) {
