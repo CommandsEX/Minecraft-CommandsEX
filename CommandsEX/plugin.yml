@@ -171,6 +171,11 @@ permissions:
   cex.online:
     default: op
     description: Allows player to list all players online or checks for a single player online status.
+    children:
+      cex.online.hidden: false
+  cex.online.hidden:
+    default: op
+    description: Allows the player to see hidden users in /online
   cex.seejoins:
     default: true
     description: Allows player to see condensed join messages.

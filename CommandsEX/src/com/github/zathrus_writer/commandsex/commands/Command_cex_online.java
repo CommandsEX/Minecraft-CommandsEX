@@ -1,11 +1,13 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -27,14 +29,28 @@ public class Command_cex_online {
 		// permissions ok, list players
 		if (hasPerms) {
 			if (args.length == 0) {
-				// list all players
-				int playersOnline = CommandsEX.plugin.getServer().getOnlinePlayers().length;
-				String[] players = new String[playersOnline];
-				for(int i = 0; i < playersOnline; i++){
-				    players[i] = CommandsEX.plugin.getServer().getOnlinePlayers()[i].getName();
+				
+				ArrayList<String> players = new ArrayList<String>();
+				for (Player player : Bukkit.getOnlinePlayers()){
+					// Determine whether or not to show the player
+					boolean addPlayer;
+					if (Common.invisiblePlayers.contains(player.getName())){
+						if (sender.hasPermission("cex.online.hidden")){
+							addPlayer = true;
+						} else {
+							addPlayer = false;
+						}
+					} else {
+						addPlayer = true;
+					}
+					
+					// Using the method above, choose whether or not to add the player
+					if (addPlayer){
+						players.add(player.getName());
+					}
 				}
-
-				LogHelper.showInfo("onlinePlayers#####[" + Utils.implode(players, ","), sender);
+				
+				LogHelper.showInfo("onlinePlayers#####[" + Utils.implode(players, ", "), sender);
 			} else {
 				// check if a given player is online
 				Player p = Bukkit.getServer().getPlayer(args[0]);
