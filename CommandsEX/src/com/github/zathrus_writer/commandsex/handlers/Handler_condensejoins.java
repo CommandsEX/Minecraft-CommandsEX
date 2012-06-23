@@ -50,6 +50,12 @@ public class Handler_condensejoins implements Listener {
 		
 		// flush joins if interval is reached
 		if ((stamp - lastJoinTime) >= flushTime) {
+			
+			// remove a player if they are invisible
+			if (Common.invisiblePlayers.contains(pName)){
+				joins.remove(pName);
+			}
+			
 			// save the last name, as we put it to the end of list after an "and"
 			Integer jSize = joins.size();
 			if (jSize > 1) {
@@ -115,6 +121,12 @@ public class Handler_condensejoins implements Listener {
 		
 		// flush leaves if interval is reached
 		if ((stamp - lastLeaveTime) >= flushTime) {
+			
+			// remove a player if they are invisible
+			if (Common.invisiblePlayers.contains(pName)){
+				leaves.remove(pName);
+			}
+			
 			// save the last name, as we put it to the end of list after an "and"
 			Integer lSize = leaves.size();
 			if (lSize > 1) {
