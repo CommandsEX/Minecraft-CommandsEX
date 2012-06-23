@@ -177,6 +177,9 @@ public class Common implements Listener {
 			// requested player not found
 			LogHelper.showWarning("invalidPlayer", sender);
 			return true;
+		} else if (p.hasPermission("cex.bypass.kick")){
+			LogHelper.showInfo("kickCannotKick", sender, ChatColor.RED);
+			return true;
 		} else {
 			pName = p.getName();
 		}
