@@ -346,9 +346,13 @@ permissions:
      description: Allows use of /feed
      children:
        cex.feed.others: true
+       cex.feed.all: true
   cex.feed.others:
      default: op
      description: Allows you to /feed other people
+  cex.feed.all:
+     default: op
+     description: Allows use of /feedall
   cex.heal:
       default: op
       description: Allows use of /heal
@@ -357,10 +361,10 @@ permissions:
         cex.heal.all: true
   cex.heal.others:
       default: op
-      description: Allows you to /heal other people
+      description: Allows use of /heal
   cex.heal.all:
       default: op
-      description: Allows you to use /healall
+      description: Allows use of /healall
   cex.hat:
      default: op
      description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
@@ -870,6 +874,12 @@ commands:
     permission: cex.feed
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [feed, feedme]
+  cex_feedall:
+    description: Feeds all players on the server
+    usage: /<command>
+    permission: cex.feed.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [feedall, feedeveryone, feedserver]
   cex_heal:
     description: Refills you health level
     usage: /<command> [player]
