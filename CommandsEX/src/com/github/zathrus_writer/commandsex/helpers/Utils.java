@@ -154,7 +154,7 @@ public class Utils {
 		for (String s : args) {
 			if (s.startsWith("t:")) {
 				dateNotFound = false;
-				Pattern Regex = Pattern.compile("(\\d+)(days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
+				Pattern Regex = Pattern.compile("(\\d+)(weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
 						Pattern.CANON_EQ | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 					Matcher RegexMatcher = Regex.matcher(s.substring(2, s.length()));
 					while (RegexMatcher.find()) {
@@ -165,7 +165,9 @@ public class Utils {
 							v = 0;
 						}
 						
-						if (RegexMatcher.group(2).startsWith("d")) {
+						if (RegexMatcher.group(2).startsWith("w")) {
+							ret.put("weeks", v);
+						} else if (RegexMatcher.group(2).startsWith("d")) {
 							ret.put("days", v);
 						} else if (RegexMatcher.group(2).startsWith("h")) {
 							ret.put("hours", v);
@@ -190,6 +192,10 @@ public class Utils {
 		}
 		
 		// fill NULL values with zeroes
+		if (ret.get("weeks") == null) {
+			ret.put("weeks", 0);
+		}
+		
 		if (ret.get("days") == null) {
 			ret.put("days", 0);
 		}
@@ -216,11 +222,13 @@ public class Utils {
 	 */
 	public static Map<String, Integer> parseTimeStamp(Long stamp) {
 		Map<String, Integer> m = new HashMap<String, Integer>();
+		Integer weeks = (int) Math.floor(stamp / 604800);
 		Integer days = (int) Math.floor(stamp / 86400);
 		Integer hours = (int) Math.floor((stamp - (days * 86400)) / 3600);
 		Integer minutes = (int) Math.floor((stamp - (days * 86400) - (hours * 3600)) / 60);
 		Integer seconds = (int) (stamp - (days * 86400) - (hours * 3600) - (minutes * 60));
 		
+		m.put("weeks", weeks);
 		m.put("days", days);
 		m.put("hours", hours);
 		m.put("minutes", minutes);
