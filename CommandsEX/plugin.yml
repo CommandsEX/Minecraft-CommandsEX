@@ -447,7 +447,7 @@ permissions:
     description: Placeholder for event function to stop all types of explosion damage
   Listener.invisibility:
     default: true
-    description: Placeholder for even function for invisibility releated things
+    description: Placeholder for event function for invisibility releated things
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
