@@ -688,7 +688,15 @@ commands:
   cex_item:
     description: Gives the sender an item
     usage: /<command> <item-name>:[damage-value] [amount]
+    permission: cex.item
+    permission-message: You don't have sufficient permissions to use this command.
     aliases: [item,i]
+  cex_give:
+    description: Gives a player an item
+    usage: /<command> <player> <item-name>:[damage-value] [amount]
+    permission: cex.give
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [give, giveto]
   cex_gm:
     description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
     usage: /<command>

@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +18,7 @@ public class ItemSpawning {
 	 * @param damage
 	 */
 	
-	public static void giveItem(Player sender, Player target, Material material, int amount, short damage){
+	public static void giveItem(CommandSender sender, Player target, Material material, int amount, short damage){
 		ItemStack stack = new ItemStack(material);
 		
 		stack.setDurability(damage);
@@ -27,7 +28,7 @@ public class ItemSpawning {
 		
 		if (sender != target){
 			LogHelper.showInfo("itemYouGave#####[" + target.getName() + " " + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
-			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": "") + "]#####itemFrom#####[" + sender.getName(), target, ChatColor.AQUA);
+			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": "") + " #####itemFrom#####[" + sender.getName(), target, ChatColor.AQUA);
 		} else {
 			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
 		}
