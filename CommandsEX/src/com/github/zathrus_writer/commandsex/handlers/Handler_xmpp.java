@@ -23,7 +23,7 @@ public class Handler_xmpp {
 				ClasspathHacker.addFile(CommandsEX.plugin.getDataFolder() + "/smack.jar");
 				ClasspathHacker.addFile(CommandsEX.plugin.getDataFolder() + "/smackx.jar");
 			} catch (IOException e){
-				e.printStackTrace();
+				LogHelper.logSevere(_("xmppSmackReadError", ""));
 			}
 
 			// now initialize the actual XMPP communication handling class if smack is installed
