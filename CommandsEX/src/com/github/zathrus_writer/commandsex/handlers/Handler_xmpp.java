@@ -8,6 +8,8 @@ import com.github.zathrus_writer.commandsex.helpers.ClasspathHacker;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.XMPPer;
 
+import static com.github.zathrus_writer.commandsex.Language._;
+
 public class Handler_xmpp {
 
 	/***
@@ -27,7 +29,7 @@ public class Handler_xmpp {
 			// now initialize the actual XMPP communication handling class if smack is installed
 			new XMPPer();
 		} else {
-			LogHelper.logSevere("xmppDownloadSmack");
+			LogHelper.logSevere(_("xmppDownloadSmack", ""));
 		}
 	}
 
