@@ -26,6 +26,7 @@ Beta 1.70
 - fixed join and quit messages being sent when invisible
 - fixed players still showing in the TAB list when invisible
 - fixed invisible players showing in /online
+- fixed death messages showing while a player is invisible
 - fixed an IndexOutOfBounds exception when an invisible player leaves the server
 - fixed NullPointerException when no quizzes exist
 - fixed clear inventory not clearing the last item in the hotbar
