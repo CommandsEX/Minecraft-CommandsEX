@@ -20,19 +20,10 @@ public class Command_cex_feedall {
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		
-		String fedBy;
-		
-		if (sender instanceof Player){
-			Player player = (Player) sender;
-			fedBy = player.getName();
-		} else {
-			fedBy = "*CONSOLE*";
-		}
-		
 		if (args.length == 0){
 			for (Player p : Bukkit.getOnlinePlayers()){
 				p.setFoodLevel(20);
-				LogHelper.showInfo("feedFedBySomeoneElse#####[" + fedBy, p, ChatColor.AQUA);
+				LogHelper.showInfo("feedFedBySomeoneElse#####[" + sender.getName(), p, ChatColor.AQUA);
 			}
 			LogHelper.showInfo("feedAllSuccess", sender, ChatColor.GREEN);
 		} else {
