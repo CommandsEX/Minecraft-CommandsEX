@@ -557,7 +557,7 @@ public class Home {
 						LogHelper.showInfo("homeInvotedToYourHome" + (multiHomesEnabled ? "[ #####homeInCurrentWorld" : "") + "#####[: " + players, sender);
 					} else {
 						// the player is not invited into anybody's home
-						LogHelper.showInfo("homeNoPlayersInvited1" + (multiHomesEnabled ? "[ #####homeInCurrentWorld#####[ " : "") + "#####homeNoPlayersInvited2", sender);
+						LogHelper.showInfo("homeNoPlayersInvited1" + (multiHomesEnabled ? "#####homeInCurrentWorld#####[ " : "") + "#####homeNoPlayersInvited2", sender);
 					}
 				} catch (Throwable e) {
 					// something went wrong with our SQL...
