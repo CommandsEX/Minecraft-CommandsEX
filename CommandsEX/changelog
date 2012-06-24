@@ -15,9 +15,10 @@ Beta 1.70
 - added /healall command to heal all players.
 - added /feedall command to feed all players
 - added /ext command to extinguish a player
+- added /warp delete synonym, /warp remove
+
 - added secret 1000th download celebration command ;)
 - added options in the config to disable certain explosions
-- added /warp delete synonym, /warp remove
 
 - improved XMPP by forwarding private messages to it
 - improved XMPP in General
@@ -33,6 +34,7 @@ Beta 1.70
 - fixed setrank, remrank and balance commands when economy or permission plugin is not present
 - fixed Quizzes where one of the answers was purely numeric
 - fixed Quiz error when no valid reward was found
+- fixed errors on startup if XMPP is enabled but Smack is not found.
 
 - perm change, tpaccept and tpdeny are available to everyone by default
 
