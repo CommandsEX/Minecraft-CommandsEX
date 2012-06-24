@@ -18,7 +18,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-
 public class Utils {
 
 	// used for simple checking of commands spamming
@@ -261,7 +260,7 @@ public class Utils {
         	if (input.equalsIgnoreCase("stonebrick")){
         		return Arrays.asList(Material.SMOOTH_BRICK);
         	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
-                return Arrays.asList(mat);
+        		return Arrays.asList(mat);
             } else if (mat.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(mat);
             }

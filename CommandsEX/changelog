@@ -23,6 +23,7 @@ Beta 1.70
 - improved XMPP by forwarding private messages to it
 - improved XMPP in General
 - improved /tpall command, you can now make the whole server teleport to someone other than yourself, /tpall [player]
+- improved /item command, it now works very Essentials like, /item <item-name>:[damage-value] [amount]
 
 - fixed join and quit messages being sent when invisible
 - fixed players still showing in the TAB list when invisible

@@ -686,8 +686,8 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [quiz]
   cex_item:
-    description: Wrapper function for Bukkit's /give command, automatically using current player as item receiver.
-    usage: /<command>
+    description: Gives the sender an item
+    usage: /<command> <item-name>:[damage-value] [amount]
     aliases: [item,i]
   cex_gm:
     description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
