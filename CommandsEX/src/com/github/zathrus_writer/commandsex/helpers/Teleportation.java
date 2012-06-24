@@ -94,6 +94,7 @@ public class Teleportation {
      */
     public static void delayedTeleport(Player p, Location l, Runnable... r) {
     	refreshMapChunk(l);
+    	
     	CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedTeleport(p, l, r), 2);
     }
 

@@ -1,5 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,7 +42,7 @@ public class Command_cex_tploc extends Teleportation {
 			        if (args.length <= 0) {
 			        	// no coordinates
 			        	Commands.showCommandHelpAndUsage(sender, "cex_tploc", alias);
-			        } else if (args.length != 3) {
+			        } else if (!(args.length == 3 || args.length == 4)) {
 			        	// too few or too many arguments
 			        	LogHelper.showWarning("tpMissingCoords", sender);
 			        	return false;
@@ -48,13 +50,30 @@ public class Command_cex_tploc extends Teleportation {
 			        	// one of the coordinates is not a number
 			        	LogHelper.showWarning("tpCoordsMustBeNumeric", sender);
 			        } else {
-			        	// all ok here, we can TP the player
 			        	try {
-			        		delayedTeleport(player, new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
+			        		Player target = null;
+			        		if (args.length == 4){
+			        			if (Bukkit.getPlayer(args[3]) != null){
+				        			target = Bukkit.getPlayer(args[3]);
+				        		} else {
+				        			LogHelper.showInfo("invalidPlayer", player, ChatColor.RED);
+				        			return true;
+				        		}
+			        		} else {
+			        			target = player;
+			        		}
+
+			        		delayedTeleport(target, new Location(player.getWorld(), new Double(args[0]), new Double(args[1]), new Double(args[2])));
+			        		
+			        		LogHelper.showInfo("tpLocMsgToTarget#####[" + args[0].toString() + " " + args[1].toString() + " " + args[2].toString(), sender, ChatColor.AQUA);
+			        		if (player != target){
+			        			LogHelper.showInfo("tpLocSuccess#####[" + target.getName() + " #####tpLocToCoords#####[" + args[0].toString() + " " + args[1].toString() + " " + args[2].toString(), sender, ChatColor.GREEN);
+			        		}
 			        	} catch (Throwable e) {
 			        		LogHelper.showWarning("internalError", sender);
 			        		LogHelper.logSevere("[CommandsEX]: TPLOC returned an unexpected error for player " + player.getName() + ".");
 			        		LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			        		e.printStackTrace();
 			        		return false;
 			        	}
 			        }
