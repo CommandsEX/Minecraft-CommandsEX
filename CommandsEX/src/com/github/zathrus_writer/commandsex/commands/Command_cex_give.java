@@ -36,7 +36,7 @@ public class Command_cex_give extends ItemSpawning {
 			System.out.println("Incorrect args");
 			Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
 		} else {
-			String item = args[1].split(":")[0];
+			String item;
 			short damage = 0;
 			int amount = 64;
 		
@@ -47,6 +47,9 @@ public class Command_cex_give extends ItemSpawning {
 			}
 			
 			if (args[1].contains(":")){
+				String[] data = args[1].split(":");
+				item = data[0];
+				
 				try {
 					damage = Short.valueOf(args[1].split(":")[1]);
 				} catch (Exception e) {
@@ -54,6 +57,8 @@ public class Command_cex_give extends ItemSpawning {
 					Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
 					return true;
 				}
+			} else {
+				item = args[1];
 			}
 			
 			if (args.length == 3){

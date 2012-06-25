@@ -29,11 +29,14 @@ public class Command_cex_item extends ItemSpawning {
 				if (args.length == 0 || args.length > 2){
 					Commands.showCommandHelpAndUsage(player, "cex_item", alias);
 				} else {
-					String item = args[0].split(":")[0];
+					String item;
 					short damage = 0;
 					int amount = 64;
-				
+					
 					if (args[0].contains(":")){
+						String[] data = args[0].split(":");
+						item = data[0];
+
 						try {
 							damage = Short.valueOf(args[0].split(":")[1]);
 						} catch (Exception e) {
@@ -41,6 +44,8 @@ public class Command_cex_item extends ItemSpawning {
 							Commands.showCommandHelpAndUsage(player, "cex_item", alias);
 							return true;
 						}
+					} else {
+						item = args[0];
 					}
 					
 					if (args.length == 2){
@@ -52,7 +57,7 @@ public class Command_cex_item extends ItemSpawning {
 							return true;
 						}
 					}
-					
+				
 					if (Utils.closestMatches(item).size() > 0){
 						List<Material> matches = Utils.closestMatches(item);
 						giveItem(sender, player, matches.get(0), amount, damage);
