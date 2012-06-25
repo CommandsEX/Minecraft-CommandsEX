@@ -777,7 +777,7 @@ commands:
     usage: /<command> <Player> [blocks]
     permission: cex.slap
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [slap]
+    aliases: [slap, launch, catapult]
   cex_greset:
     description: Returns player whose group has been changed upon death to his previous group.
     usage: /<command> [Player]
@@ -958,12 +958,6 @@ commands:
     permission: cex.kickall
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [kickall, kickeveryone]
-  cex_launch:
-    description: Launches a player into the air.
-    usage: /<command> [player]
-    permission: cex.launch
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [launch, catapult]
   cex_smelt:
     description: Smelts the item in the players hand without the need of a furnace.
     usage: /<command> [amount-to-smelt]
