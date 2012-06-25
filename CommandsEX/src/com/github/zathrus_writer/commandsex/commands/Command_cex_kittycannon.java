@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_kittycannon {
 	
@@ -28,6 +29,13 @@ public class Command_cex_kittycannon {
 		
 		if(!(PlayerHelper.checkIsPlayer(sender))) {
 			return true;
+		}
+		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_kittycannon")){
+				return true;
+			}
 		}
 		
 		// Variables

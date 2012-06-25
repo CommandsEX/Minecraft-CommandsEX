@@ -25,48 +25,52 @@ public class Command_cex_item extends ItemSpawning {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player) sender;
-			
-				if (args.length == 0 || args.length > 2){
-					Commands.showCommandHelpAndUsage(player, "cex_item", alias);
-				} else {
-					String item;
-					short damage = 0;
-					int amount = 64;
-					
-					if (args[0].contains(":")){
-						String[] data = args[0].split(":");
-						item = data[0];
 
-						try {
-							damage = Short.valueOf(args[0].split(":")[1]);
-						} catch (Exception e) {
-							LogHelper.showInfo("itemIncorrectDamageValue", player, ChatColor.RED);
-							Commands.showCommandHelpAndUsage(player, "cex_item", alias);
-							return true;
-						}
-					} else {
-						item = args[0];
+			if (Utils.checkCommandSpam(player, "cex_item")){
+				return true;
+			}
+
+			if (args.length == 0 || args.length > 2){
+				Commands.showCommandHelpAndUsage(player, "cex_item", alias);
+			} else {
+				String item;
+				short damage = 0;
+				int amount = 64;
+
+				if (args[0].contains(":")){
+					String[] data = args[0].split(":");
+					item = data[0];
+
+					try {
+						damage = Short.valueOf(args[0].split(":")[1]);
+					} catch (Exception e) {
+						LogHelper.showInfo("itemIncorrectDamageValue", player, ChatColor.RED);
+						Commands.showCommandHelpAndUsage(player, "cex_item", alias);
+						return true;
 					}
-					
-					if (args.length == 2){
-						try {
-							amount = Integer.valueOf(args[1]);
-						} catch (Exception e){
-							LogHelper.showInfo("itemIncorrectDamageValue", player, ChatColor.RED);
-							Commands.showCommandHelpAndUsage(player, "cex_item", alias);
-							return true;
-						}
-					}
-				
-					if (Utils.closestMatches(item).size() > 0){
-						List<Material> matches = Utils.closestMatches(item);
-						giveItem(sender, player, matches.get(0), amount, damage);
-					} else {
-						LogHelper.showInfo("itemNotFound", player, ChatColor.RED);
+				} else {
+					item = args[0];
+				}
+
+				if (args.length == 2){
+					try {
+						amount = Integer.valueOf(args[1]);
+					} catch (Exception e){
+						LogHelper.showInfo("itemIncorrectDamageValue", player, ChatColor.RED);
+						Commands.showCommandHelpAndUsage(player, "cex_item", alias);
+						return true;
 					}
 				}
-				//player.performCommand("give " + player.getName() + " " + Utils.implode(args, " "));
+
+				if (Utils.closestMatches(item).size() > 0){
+					List<Material> matches = Utils.closestMatches(item);
+					giveItem(sender, player, matches.get(0), amount, damage);
+				} else {
+					LogHelper.showInfo("itemNotFound", player, ChatColor.RED);
+				}
 			}
-        return true;
+			//player.performCommand("give " + player.getName() + " " + Utils.implode(args, " "));
+		}
+		return true;
 	}
 }

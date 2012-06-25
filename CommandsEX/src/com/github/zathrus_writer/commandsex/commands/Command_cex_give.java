@@ -32,6 +32,13 @@ public class Command_cex_give extends ItemSpawning {
 			}
 		}
 		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_give")){
+				return true;
+			}
+		}
+		
 		if (args.length < 2 || args.length > 3){
 			System.out.println("Incorrect args");
 			Commands.showCommandHelpAndUsage(sender, "cex_give", alias);

@@ -19,10 +19,14 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 public class Command_cex_smelt {
 
 	public static Boolean run(CommandSender sender, String alias, String[] args){
-		
+
 		if (PlayerHelper.checkIsPlayer(sender)){
 			Player player = (Player) sender;
-			
+
+			if (Utils.checkCommandSpam(player, "cex_smelt")){
+				return true;
+			}
+
 			if (args.length == 0){
 				smeltItems(player, player.getItemInHand().getAmount());
 			} else if (args.length == 1){
@@ -36,7 +40,7 @@ public class Command_cex_smelt {
 				Commands.showCommandHelpAndUsage(player, "cex_smelt", alias);
 			}
 		}
-		
+
 		return true;
 	}
 	

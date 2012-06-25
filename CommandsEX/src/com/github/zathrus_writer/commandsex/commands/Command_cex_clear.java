@@ -24,9 +24,17 @@ public class Command_cex_clear {
 		String clearArgument = null;
 		Player p;
 		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_clear")){
+				return true;
+			}
+		}
+		
 		// get name of the player to clear inventory for
 		if ((args.length > 0) && !args[0].equalsIgnoreCase("all") && !args[0].equalsIgnoreCase("backpack") && !args[0].equalsIgnoreCase("quick") && !args[0].equalsIgnoreCase("armor")) {
 			// check permissions first
+			
 			if ((sender instanceof Player) && !Permissions.checkPerms((Player) sender, "cex.clear.all")) {
 				return true;
 			}

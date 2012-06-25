@@ -23,9 +23,13 @@ public class Command_cex_online {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		Boolean hasPerms = true;
 		if (sender instanceof Player) {
-			hasPerms = Permissions.checkPerms((Player)sender, "cex.online");
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_online")){
+				return true;
+			}
+			hasPerms = Permissions.checkPerms(player, "cex.online");
 		}
-		
+
 		// permissions ok, list players
 		if (hasPerms) {
 			if (args.length == 0) {
