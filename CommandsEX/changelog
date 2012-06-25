@@ -26,6 +26,7 @@ Beta 1.70
 
 - improved XMPP by forwarding private messages to it
 - improved XMPP in General
+- improved condensing of joins and leaves, the plugin will now check every set amount of seconds for joins and leaves and display them to the server, set the time in the config at joinSilentTime
 - improved /tpall command, you can now make the whole server teleport to someone other than yourself, /tpall [player]
 - improved /tploc command, you can now teleport another player to a location
 - improved /item command, it now works very Essentials like, /item <item-name>:[damage-value] [amount]
