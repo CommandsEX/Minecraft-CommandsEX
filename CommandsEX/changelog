@@ -31,7 +31,6 @@ Beta 1.70
 - improved /item command, it now works very Essentials like, /item <item-name>:[damage-value] [amount]
 - improved /slap command, players are now launched into the air rather than teleported
 
-- fixed join and quit messages being sent when invisible
 - fixed players still showing in the TAB list when invisible
 - fixed invisible players showing in /online
 - fixed death messages showing while a player is invisible
