@@ -51,8 +51,6 @@ public class Handler_replacechat implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void replaceChat(PlayerChatEvent e) {
-		if (e.isCancelled()) return;
-		
 		try {
 			ScriptEnvironment env = new ScriptEnvironment(); {
 				env.setCommandSender(e.getPlayer());

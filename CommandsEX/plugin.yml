@@ -277,8 +277,11 @@ permissions:
     default: op
     description: Allows player to refresh 5 chunks around him.
   cex.slap:
-    default: op
+    default: false
     description: Allows player to slap other player, sending them into air.
+  cex.slap.all:
+    default: false
+    description: Allows player to slap all players on the server, sending them into air.
   cex.deathgroup.reset:
     default: op
     description: Allows player to use the /greset command which will switch this player's group back to previous one after he died and lost it.

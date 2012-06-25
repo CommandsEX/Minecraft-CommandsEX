@@ -80,7 +80,6 @@ public class Handler_condensejoins implements Listener {
 
 		// save the last name, as we put it to the end of list after an "and"
 		Integer jSize = joins.size();
-		System.out.println(jSize + " size");
 		// make sure the list is not empty
 		if (jSize != 0){
 			if (jSize > 1) {
