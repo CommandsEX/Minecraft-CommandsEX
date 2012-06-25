@@ -20,7 +20,7 @@ public class Command_cex_ping {
 		if ((sender instanceof Player) && (Utils.checkCommandSpam((Player)sender, "ping") || !Permissions.checkPerms((Player) sender, "cex.ping"))) {
 			return true;
 		}
-		LogHelper.showInfo("PONG!", sender);
+		LogHelper.showInfo("pingReply", sender);
 
 		return true;
 	}
