@@ -29,7 +29,7 @@ public class Handler_explosions implements Listener {
 	public void onEntityExplode(EntityExplodeEvent e){
 		Entity entity = e.getEntity();
 		
-		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("explosions.creeper")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("explosions.tnt")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("explosions.ghast-fireball"))){
+		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("explosions.creeper")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("explosions.tnt")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("explosions.fireball"))){
 			e.setYield(0);
 			entity.remove();
 			e.setCancelled(true);

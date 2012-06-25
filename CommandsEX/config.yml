@@ -348,4 +348,4 @@ explosions:
     blockMobDamage: true
     creeper: true
     tnt: true
-    ghast-fireball: true
+    fireball: true
