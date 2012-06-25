@@ -222,7 +222,6 @@ quizDuration: 60
 #           - nine months
 # NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
 
-
 # Message Of The Day (MOTD) - displayed each time a player joins the server.
 # This message will NOT be displayed to NEW players, i.e. those who's never been to your server before. See next config option for that.
 #  
@@ -349,3 +348,6 @@ explosions:
     creeper: true
     tnt: true
     fireball: true
+
+# Blocks the op command to the console only    
+block-op-command: true

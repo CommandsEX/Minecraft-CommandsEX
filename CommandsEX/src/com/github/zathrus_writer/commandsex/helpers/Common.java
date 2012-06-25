@@ -36,7 +36,9 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.util.Vector;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -370,18 +372,18 @@ public class Common implements Listener {
 		}
 
 		// if we have a player to make god, check if he's online
-		Player p = Bukkit.getServer().getPlayer(args[0]);
-		if (p == null) {
+		Player target = Bukkit.getServer().getPlayer(args[0]);
+		if (target == null) {
 			// requested player not found
 			LogHelper.showWarning("invalidPlayer", sender);
 			return true;
 		}
 		
-		String pName = p.getName();
+		String tName = target.getName();
 		Boolean showMessages = (omitMessage.length == 0);
 
 		// insert player's name into slapped players' list
-		slappedPlayers.add(pName);
+		slappedPlayers.add(tName);
 		// if we have only this player, activate event listeners, since they're not active yet
 		if ((frozenPlayers.size() == 0) && (slappedPlayers.size() == 1) && (godPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
 			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
@@ -396,25 +398,24 @@ public class Common implements Listener {
 		}
 		
 		// store player's original position, so we can return him safely back (in case he's underground and another player slaps him to heavens)
-		Location loc = p.getLocation();
-		slappedLastLocations.put(pName, p.getLocation());
+		Location loc = target.getLocation();
+		slappedLastLocations.put(tName, loc);
 		
-		// adjust slap height if player would end up in a block
-		loc.setY(loc.getY() + slapHeight);
-		if (!p.getWorld().getBlockAt(loc).isEmpty()) {
-			loc.setY(300D);
-		} else {
-			loc.setY(loc.getY() + slapHeight);
-		}
-		p.teleport(loc);
+		target.setVelocity(new Vector(0, slapHeight, 0));
 		
 		// insure player's safe return home even if they fall into deep water and no damage is done
-		slappedUnslapTasks.put(pName,  Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(p, pName), (20 * 25)));
+		slappedUnslapTasks.put(tName,  Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(target, tName), (20 * 25)));
 		
 		if (showMessages) {
 			// inform both players
-			LogHelper.showInfo("playerSlapped#####[" + pName, sender);
-			LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), p, ChatColor.YELLOW);
+			if (sender instanceof Player){
+				Player player = (Player) sender;
+				LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), target, ChatColor.YELLOW);
+				if (player == target){
+					return true;
+				}
+				LogHelper.showInfo("playerSlapped#####[" + tName, sender);
+			}
 		}
 		
 		return true;
@@ -482,6 +483,22 @@ public class Common implements Listener {
 		}
 		
 		return true;
+	}
+	
+	/***
+	 * Function to teleport a player to their original slap location if they leave while being slapped
+	 * @param e
+	 */
+	
+	@EventHandler (priority = EventPriority.LOW)
+	public void slapPlayerQuit(PlayerQuitEvent e){
+		Player p = e.getPlayer();
+		if (slappedPlayers.contains(p.getName())){
+			p.teleport(slappedLastLocations.get(p.getName()));
+			
+			slappedLastLocations.remove(p.getName());
+			slappedPlayers.remove(p.getName());
+		}
 	}
 	
 	/***
@@ -592,7 +609,7 @@ public class Common implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void checkDamage(EntityDamageEvent e) {
 		if (!e.getEntityType().equals(EntityType.PLAYER)) return;
 
