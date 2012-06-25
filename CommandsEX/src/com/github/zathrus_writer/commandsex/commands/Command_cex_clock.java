@@ -43,7 +43,7 @@ public class Command_cex_clock {
 		String sname = sender.getName();
 		String months[] = {_("monthJanuary", sname), _("monthFebruary", sname), _("monthMarch", sname), _("monthApril", sname), _("monthMay", sname), _("monthJune", sname), _("monthJuly", sname), _("monthAugust", sname), _("monthSeptember", sname), _("monthOctober", sname), _("monthNovember", sname), _("monthDecember", sname)};
 		GregorianCalendar gcalendar = new GregorianCalendar();				      
-		LogHelper.showInfo("clockTime#####[" + months[gcalendar.get(Calendar.MONTH)] + " " + gcalendar.get(Calendar.DATE) + " " + gcalendar.get(Calendar.YEAR) + ", " + gcalendar.get(Calendar.HOUR) + ":" + gcalendar.get(Calendar.MINUTE), sender);
+		LogHelper.showInfo("clockTime#####[" + gcalendar.get(Calendar.DATE) + " " + months[gcalendar.get(Calendar.MONTH)] + " " + gcalendar.get(Calendar.YEAR) + ", " + (String.valueOf(gcalendar.get(Calendar.HOUR)).length() != 2 ? "0" + gcalendar.get(Calendar.HOUR) : gcalendar.get(Calendar.HOUR)) + ":" + (String.valueOf(gcalendar.get(Calendar.MINUTE)).length() != 2 ? "0" + gcalendar.get(Calendar.MINUTE) : gcalendar.get(Calendar.MINUTE)) + (gcalendar.get(Calendar.AM_PM) == 0 ? "AM" : "PM"), sender);
 		
 		return true;
 	}
