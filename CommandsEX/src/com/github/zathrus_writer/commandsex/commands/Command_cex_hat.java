@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +40,13 @@ public class Command_cex_hat {
 				LogHelper.showWarning("hatHeadFull", sender);
 				return true;
 			}
-			
+
+			// Make sure the block going onto the players head is a block
+			if(!forHead.getType().isBlock()){
+				LogHelper.showInfo("hatNotBlock", sender, ChatColor.RED);
+				return true;
+			}
+
 			// Check for item in hand
 			if(hand.getTypeId() == 0) {
 				LogHelper.showWarning("hatHandEmpty", sender);
