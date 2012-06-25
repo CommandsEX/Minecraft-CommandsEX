@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_healall {
 
@@ -20,6 +21,13 @@ public class Command_cex_healall {
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_healall")){
+				return true;
+			}
+		}
+		
 		if (args.length == 0){
 			for (Player p : Bukkit.getOnlinePlayers()){
 				p.setHealth(20);

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_tpto extends Teleportation {
 	/***
@@ -19,11 +20,15 @@ public class Command_cex_tpto extends Teleportation {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
 
+			if (Utils.checkCommandSpam(player, "cex_calculator")){
+				return true;
+			}
+
 			// check permissions and call to action
 			if (Permissions.checkPerms(player, "OR", "cex.tp", "cex.tpto")) {
 				tp_common(sender, args, "tp", alias);
 			}
 		}
-        return true;
+		return true;
 	}
 }

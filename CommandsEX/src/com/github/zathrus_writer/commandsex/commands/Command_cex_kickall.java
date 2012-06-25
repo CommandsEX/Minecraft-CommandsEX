@@ -19,6 +19,13 @@ public class Command_cex_kickall {
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_kickall")){
+				return true;
+			}
+		}
+		
 		if (!(sender instanceof Player) || sender.hasPermission("cex.kickall")){
 			String kickMsg = "kickAllSuccess";
 			if (args.length > 0) {

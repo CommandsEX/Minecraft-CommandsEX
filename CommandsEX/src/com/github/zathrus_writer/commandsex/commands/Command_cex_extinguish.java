@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_extinguish {
 	
@@ -18,6 +19,13 @@ public class Command_cex_extinguish {
 	 */
 
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_extinguish")){
+				return true;
+			}
+		}
 		
 		if (args.length == 0){
 			if (sender instanceof Player){

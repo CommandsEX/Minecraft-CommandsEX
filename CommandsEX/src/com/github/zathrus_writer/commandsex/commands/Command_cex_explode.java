@@ -9,6 +9,7 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_explode {
 	
@@ -20,6 +21,14 @@ public class Command_cex_explode {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
+		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_explode")){
+				return true;
+			}
+		}
+		
 		if (!(sender instanceof Player) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.explode"))) {
 			if(args.length > 0) {
 				// get variables about the player 

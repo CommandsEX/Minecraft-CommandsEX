@@ -24,15 +24,20 @@ public class Command_cex_platform {
 	
 	// Get the closest matches for the string and return them
 
-	
+
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player) sender;
+
+			if (Utils.checkCommandSpam(player, "cex_platform")){
+				return true;
+			}
+
 			Location loc = (player.getLocation());
-			
+
 			// Subtract the Y coords by 1 to get the block at the players feet
 			loc.setY(loc.getY() - 1);
-			
+
 			// If there are no args then set the block below to stone
 			if (args.length == 0) {
 				// Check if there is already a block below the player
@@ -45,12 +50,12 @@ public class Command_cex_platform {
 			} else if (args.length == 1) {
 				if (loc.getBlock().getTypeId() == 0) {
 					List <Material> list = Utils.closestMatches(args[0]);
-					
+
 					// If the list is empty then display an error messages
 					if (list.size() == 0) {
 						LogHelper.showInfo("platformBlockNotFound", player, ChatColor.RED);
-						
-					// If the list has one match then set the block to that
+
+						// If the list has one match then set the block to that
 					} else if (list.size() == 1) {
 						if (list.get(0).isBlock()){
 							loc.getBlock().setType(list.get(0));

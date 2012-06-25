@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_tpall extends Teleportation {
 
@@ -19,17 +20,22 @@ public class Command_cex_tpall extends Teleportation {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
-		
+
 		if (PlayerHelper.checkIsPlayer(sender)){
 			Player player = (Player) sender;
+
+			if (Utils.checkCommandSpam(player, "cex_calculator")){
+				return true;
+			}
+
 			Player tpTo = null;
-			
+
 			if (args.length == 0){
 				tpTo = player;
 			} else if (args.length == 1){
 				tpTo = Bukkit.getPlayer(args[0]);
 			}
-			
+
 			if (args.length <= 1){
 				if (tpTo != null){
 					for (Player player2 : Bukkit.getOnlinePlayers()){

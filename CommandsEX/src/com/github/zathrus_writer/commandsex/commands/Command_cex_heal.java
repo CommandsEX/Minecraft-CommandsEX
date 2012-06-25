@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_heal {
 
@@ -18,6 +19,13 @@ public class Command_cex_heal {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_heal")){
+				return true;
+			}
+		}
 		
 		if (!(sender instanceof Player) && (args.length == 0)) {
 			LogHelper.showWarning("playerNameMissing", sender);

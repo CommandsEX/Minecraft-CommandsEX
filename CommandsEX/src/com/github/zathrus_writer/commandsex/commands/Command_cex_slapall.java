@@ -12,6 +12,14 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 public class Command_cex_slapall extends Common {
 
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		
+		if (sender instanceof Player){
+			Player player = (Player) sender;
+			if (Utils.checkCommandSpam(player, "cex_slapall")){
+				return true;
+			}
+		}
+		
 		if (!(sender instanceof Player) || (!Utils.checkCommandSpam((Player) sender, "slap"))) {
 			if (args.length > 1){
 				// Incorrect args
