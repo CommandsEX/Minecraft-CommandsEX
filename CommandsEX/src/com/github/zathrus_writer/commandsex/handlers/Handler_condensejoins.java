@@ -116,9 +116,12 @@ public class Handler_condensejoins implements Listener {
 
 		// get player's name and store it
 		if (!leaves.contains(pName)) {
-			if (!Common.invisiblePlayers.contains(pName)){
-				leaves.add(pName);
-			}
+			leaves.add(pName);
+		}
+		
+		// make sure the player is removed from the joins list
+		if (joins.contains(pName)){
+			joins.remove(pName);
 		}
 		
 		// check if we haven't reached our flush interval
