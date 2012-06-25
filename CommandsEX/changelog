@@ -42,6 +42,8 @@ Beta 1.70
 - fixed no permission node for /item
 - fixed players blowing up from TNT Kamikaze if they already died from the tnt/fire explosion
 
+- possibly fixed some issues with events
+
 - perm change, tpaccept and tpdeny are available to everyone by default
 
 - new perm cex.heal
