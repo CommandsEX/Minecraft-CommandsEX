@@ -277,7 +277,7 @@ permissions:
     default: op
     description: Allows player to refresh 5 chunks around him.
   cex.slap:
-    default: false
+    default: op
     description: Allows player to slap other player, sending them into air.
   cex.deathgroup.reset:
     default: op
@@ -389,16 +389,16 @@ permissions:
        cex.calculator.divide: true
        cex.calculator.multiply: true
   cex.calculator.add:
-     default: false
+     default: op
      description: Use of add in /calc
   cex.calculator.subtract:
-     default: false
+     default: op
      description: Use of subtract in /calc
   cex.calculator.multiply:
-     default: false
+     default: op
      description: Use of multiply in /calc
   cex.calculator.divide:
-     default: false
+     default: op
      description: Use of divide in /calc
   cex.clock:
      default: op
