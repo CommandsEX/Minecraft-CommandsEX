@@ -277,7 +277,7 @@ permissions:
     default: op
     description: Allows player to refresh 5 chunks around him.
   cex.slap:
-    default: op
+    default: false
     description: Allows player to slap other player, sending them into air.
   cex.deathgroup.reset:
     default: op
