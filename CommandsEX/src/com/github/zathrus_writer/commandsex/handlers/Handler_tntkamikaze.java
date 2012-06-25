@@ -77,7 +77,7 @@ public class Handler_tntkamikaze implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void kamikaze(EntityDamageEvent e) {
 		Player p;
 		if (e.getEntityType() != EntityType.PLAYER) {
@@ -98,11 +98,14 @@ public class Handler_tntkamikaze implements Listener {
 					((dc == DamageCause.BLOCK_EXPLOSION) && Permissions.checkPermEx(p, "cex.tnt.kamikaze.from.damage"))
 				)
 		) {
-			// tell the player he's about to explode :P
-			Integer timeToExplode = CommandsEX.getConf().getInt("kamikazeTimeout", 3);
-			LogHelper.showWarning("kamikazeTNTYouWillExplode#####[" + timeToExplode + " #####seconds", p);
-			explodingPlayers.add(p.getName());
-			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.getConf().getInt("kamikazeTimeout", 3)));
+			// Only blow up the player if they didn't already die from the explosion
+			if (!(e.getDamage() >= p.getHealth())){
+				// tell the player he's about to explode :P
+				Integer timeToExplode = CommandsEX.getConf().getInt("kamikazeTimeout", 3);
+				LogHelper.showWarning("kamikazeTNTYouWillExplode#####[" + timeToExplode + " #####seconds", p);
+				explodingPlayers.add(p.getName());
+				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.getConf().getInt("kamikazeTimeout", 3)));
+			}
 		}
 	}
 	

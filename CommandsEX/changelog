@@ -40,6 +40,7 @@ Beta 1.70
 - fixed Quiz error when no valid reward was found
 - fixed errors on startup if XMPP is enabled but Smack is not found.
 - fixed no permission node for /item
+- fixed players blowing up from TNT Kamikaze if they already died from the tnt/fire explosion
 
 - perm change, tpaccept and tpdeny are available to everyone by default
 
