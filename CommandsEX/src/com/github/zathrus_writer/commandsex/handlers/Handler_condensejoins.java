@@ -42,6 +42,11 @@ public class Handler_condensejoins implements Listener {
 			joins.add(pName);
 		}
 		
+		// make sure the player is removed from the leaves
+		if (leaves.contains(pName)){
+			leaves.remove(pName);
+		}
+		
 		// check if we haven't reached our flush interval
 		Integer stamp = Utils.getUnixTimestamp(0L);
 		Integer flushTime = CommandsEX.getConf().getInt("joinSilentTime");
