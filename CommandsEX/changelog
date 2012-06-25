@@ -16,6 +16,7 @@ Beta 1.70
 - added /feedall command to feed all players
 - added /ext command to extinguish a player
 - added /give command to spawn items for other players
+- added /slapall command
 - added /warp delete synonym, /warp remove
 - added some /slap aliases, /launch /catapult
 
@@ -66,6 +67,7 @@ Beta 1.70
 - new perm cex.give
 - new perm cex.calculator
 - new perm cex.hat
+- new perm cex.slap.all
 
 Beta 1.60
 ---------

@@ -405,22 +405,22 @@ public class Common implements Listener {
 		
 		// insure player's safe return home even if they fall into deep water and no damage is done
 		slappedUnslapTasks.put(tName,  Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Unslap(target, tName), (20 * 25)));
-		
+
 		if (showMessages) {
 			// inform both players
-			if (sender instanceof Player){
-				Player player = (Player) sender;
+			if (!sender.getName().equalsIgnoreCase(target.getName())){
 				LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), target, ChatColor.YELLOW);
-				if (player == target){
-					return true;
-				}
+			}
+
+			// Only do this if the command was slap
+			if (command.equalsIgnoreCase("slap")){
 				LogHelper.showInfo("playerSlapped#####[" + tName, sender);
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/***
 	 * INV - makes a player invisible
 	 * @param sender

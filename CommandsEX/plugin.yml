@@ -778,6 +778,12 @@ commands:
     permission: cex.slap
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [slap, launch, catapult]
+  cex_slapall:
+    description: Slaps the whole server, sending them into the air. Fall damage can be disabled in the config file.
+    usage: /<command> [blocks]
+    permission: cex.slap.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [slapall, launchall, catapultall]
   cex_greset:
     description: Returns player whose group has been changed upon death to his previous group.
     usage: /<command> [Player]
