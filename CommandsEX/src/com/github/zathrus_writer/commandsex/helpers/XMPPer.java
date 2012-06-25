@@ -136,7 +136,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void interceptChat(PlayerChatEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(String.format(e.getFormat(), e.getPlayer().getName(), e.getMessage())));
@@ -146,7 +146,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void sendPrivate(PlayerCommandPreprocessEvent e) {
 		String cmd = e.getMessage();
 		String[] s = cmd.split(" ");

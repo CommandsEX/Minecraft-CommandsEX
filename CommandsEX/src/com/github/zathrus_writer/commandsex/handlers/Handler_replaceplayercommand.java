@@ -51,8 +51,6 @@ public class Handler_replaceplayercommand implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public static void replaceCommand(PlayerCommandPreprocessEvent e) {
-		if (e.isCancelled()) return;
-		
 		try {
 			ScriptEnvironment env = new ScriptEnvironment(); {
 				env.setCommandSender(e.getPlayer());

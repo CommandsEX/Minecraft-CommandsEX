@@ -37,7 +37,7 @@ public class Handler_savebackposition implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void saveBackPosition(PlayerTeleportEvent e) {
 		String pName = e.getPlayer().getName();
 		
@@ -56,7 +56,7 @@ public class Handler_savebackposition implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void saveBackPosition(PlayerDeathEvent e) {
 		Player p = e.getEntity();
 		if (!Permissions.checkPermEx(p, "cex.back.deathcoords")) return;

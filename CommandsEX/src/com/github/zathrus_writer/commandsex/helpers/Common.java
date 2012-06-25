@@ -489,64 +489,50 @@ public class Common implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(BlockBreakEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(BlockDamageEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(BlockIgniteEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(BlockPlaceEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(PlayerBucketEmptyEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(PlayerDropItemEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(PlayerInteractEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
@@ -579,27 +565,23 @@ public class Common implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(InventoryOpenEvent e) {
-		if (e.isCancelled()) return;
-		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(PlayerMoveEvent e) {
-		if (e.isCancelled()) return;
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			Common.ignoreTpEvent = true;
 			e.setTo(e.getFrom());
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(PlayerTeleportEvent e) {
-		if (e.isCancelled()) return;
 		if (Common.ignoreTpEvent) {
 			Common.ignoreTpEvent = false;
 			return;
@@ -610,9 +592,9 @@ public class Common implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void checkDamage(EntityDamageEvent e) {
-		if (e.isCancelled() || !e.getEntityType().equals(EntityType.PLAYER)) return;
+		if (!e.getEntityType().equals(EntityType.PLAYER)) return;
 
 		Player p = (Player)e.getEntity();
 		String pName = p.getName();
@@ -643,9 +625,9 @@ public class Common implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void noChatToInvisiblePlayers(PlayerChatEvent e) {
-		if (e.isCancelled() || (Common.invisiblePlayers.size() > 0)) return;
+		if (Common.invisiblePlayers.size() > 0) return;
 
 		String pName = e.getPlayer().getName();
 		String msg = e.getMessage();

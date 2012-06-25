@@ -174,10 +174,8 @@ public class Chat implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkMutes(PlayerChatEvent e) {
-		if (e.isCancelled()) return;
-
 		if (Chat.mutedPlayers.containsKey(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}

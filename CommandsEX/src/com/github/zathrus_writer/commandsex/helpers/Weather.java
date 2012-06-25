@@ -76,7 +76,7 @@ public class Weather implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void setNewForecast(WeatherChangeEvent e) {
 		// allow for 30 seconds timeout before we set up a new forecast delayed task for this world, since the weather duration in this event would be 0
 		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedForecast(e.getWorld()), (20 * 30));

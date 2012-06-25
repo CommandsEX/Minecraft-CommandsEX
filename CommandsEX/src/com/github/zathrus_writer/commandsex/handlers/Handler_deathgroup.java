@@ -80,7 +80,7 @@ public class Handler_deathgroup implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void passChat(PlayerDeathEvent e) {
 		// load groups information from config and check if our player belongs to any of them, then change his group
 		Player p = (Player) e.getEntity();

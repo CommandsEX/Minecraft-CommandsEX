@@ -49,7 +49,7 @@ public class Handler_replacechat implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.LOWEST)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void replaceChat(PlayerChatEvent e) {
 		if (e.isCancelled()) return;
 		

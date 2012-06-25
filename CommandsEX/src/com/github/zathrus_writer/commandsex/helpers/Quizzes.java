@@ -301,7 +301,7 @@ public class Quizzes implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void checkChat(PlayerChatEvent e) {
 		if (!quizRunning || (e.getRecipients().size() == 0)) return;
 		
