@@ -61,8 +61,8 @@ public class Command_cex_hat {
 				inv.setItemInHand(null);
 			}
 			
-			// Check for wool or slabs or stairs or anything that changes
-			if (hand.getTypeId() == 17 || hand.getTypeId() == 18 || hand.getTypeId() == 35 || hand.getTypeId() == 44) {
+			// Check for anything that has a damage value (durability)
+			if (hand.getDurability() != 0) {
 	            short handDurability = hand.getDurability();
 	            forHead = new ItemStack(handID, 1, handDurability);
 	        }
