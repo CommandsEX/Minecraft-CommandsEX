@@ -10,6 +10,8 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
+import static com.github.zathrus_writer.commandsex.Language._;
+
 public class Command_cex_clock {
 	
 	/***
@@ -38,7 +40,8 @@ public class Command_cex_clock {
 			return true;
 		}
 		
-		String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+		String sname = sender.getName();
+		String months[] = {_("monthJanuary", sname), _("monthFebruary", sname), _("monthMarch", sname), _("monthApril", sname), _("monthMay", sname), _("monthJune", sname), _("monthJuly", sname), _("monthAugust", sname), _("monthSeptember", sname), _("monthOctober", sname), _("monthNovember", sname), _("monthDecember", sname)};
 		GregorianCalendar gcalendar = new GregorianCalendar();				      
 		LogHelper.showInfo("clockTime#####[" + months[gcalendar.get(Calendar.MONTH)] + " " + gcalendar.get(Calendar.DATE) + " " + gcalendar.get(Calendar.YEAR) + ", " + gcalendar.get(Calendar.HOUR) + ":" + gcalendar.get(Calendar.MINUTE), sender);
 		
