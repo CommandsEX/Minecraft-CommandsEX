@@ -2,6 +2,8 @@ Beta 1.75
 ---------
 - perm change cex.bypass.kick is now set to false by default
 
+- new command alias added for /clock, /time
+
 Beta 1.70
 ---------
 - Happy 1000th Bukkit Dev download day!
