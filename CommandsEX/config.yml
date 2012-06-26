@@ -348,6 +348,3 @@ explosions:
     creeper: true
     tnt: true
     fireball: true
-
-# Blocks the op command to the console only    
-block-op-command: true
