@@ -316,7 +316,7 @@ permissions:
      default: false
      description: Player cannot be banned
   cex.bypass.kick:
-     default: op
+     default: false
      description: Player cannot be kicked
   cex.smite:
      default: op
