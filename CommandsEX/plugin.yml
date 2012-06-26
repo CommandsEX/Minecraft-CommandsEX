@@ -354,7 +354,6 @@ permissions:
      description: Allows use of /feed
      children:
        cex.feed.others: true
-       cex.feed.all: true
   cex.feed.others:
      default: op
      description: Allows you to /feed other people
@@ -366,7 +365,6 @@ permissions:
       description: Allows use of /heal
       children:
         cex.heal.others: true
-        cex.heal.all: true
   cex.heal.others:
       default: op
       description: Allows use of /heal
