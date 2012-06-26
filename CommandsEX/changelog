@@ -4,6 +4,8 @@ Beta 1.70
 
 - prep for /ownerstatus command
 
+- /tploc <X,Y,Z> no longer works, you must do /tploc <X> <Y> <Z> [player]
+
 - added /feed command to refill your food level
 - added /hat celebratory command to place block on head
 - added /calc command, a simple calculator with this syntax: /calc [add/subtract/divive/multiply/help] [number1] [number2]
