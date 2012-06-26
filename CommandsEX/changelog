@@ -49,7 +49,6 @@ Beta 1.70
 - possibly fixed some issues with events
 
 - perm change, tpaccept and tpdeny are available to everyone by default
-- perm change cex.setspawn has been replaced with cex.spawn.set
 
 - new perm cex.heal
 - new perm cex.heal.others
