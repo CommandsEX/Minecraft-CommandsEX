@@ -935,12 +935,6 @@ commands:
     permission: cex.hat
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [hat, h, head, helmet]
-  cex_removehat:
-    description: Removes the block on your head! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
-    usage: /<command>
-    permission: cex.hat
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [removehat, rh, removehead, removehelmet]
   cex_kittycannon:
     description: FIRE IN THE HOLE! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
     usage: /<command>

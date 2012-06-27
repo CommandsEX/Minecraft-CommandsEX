@@ -5,6 +5,8 @@ Beta 1.75
 - new command /nanosuit, info about NanoSuit
 - new command alias added for /clock, /time
 
+- removed command /removehat, it was a useless command and had too many problems
+
 - added help messages for NanoSuit commands if NanoSuit is not active
 
 Beta 1.70
