@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -35,6 +36,8 @@ public class Command_cex_jump extends Common {
 					Handler_nanosuit.jumps.add(pName);
 				}
 				LogHelper.showInfo("nanoSuitJumpMode", sender);
+			} else {
+				LogHelper.showInfo("nanoSuitNotActivated", sender, ChatColor.RED);
 			}
 		}
         return true;

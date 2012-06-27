@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -29,6 +30,8 @@ public class Command_cex_strength extends Common {
 					Handler_nanosuit.powered.add(pName);
 				}
 				LogHelper.showInfo("nanoSuitStrengthMode", sender);
+			} else {
+				LogHelper.showInfo("nanoSuitNotActivated", sender, ChatColor.RED);
 			}
 		}
         return true;

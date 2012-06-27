@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,6 +26,8 @@ public class Command_cex_cloak extends Common {
 			if (Handler_nanosuit.suitedPlayers.containsKey(pName)) {
 				inv(sender, args, "cloak", "cloak", true);
 				LogHelper.showInfo("nanoSuitInvisibleMode", sender);
+			} else {
+				LogHelper.showInfo("nanoSuitNotActivated", sender, ChatColor.RED);
 			}
 		}
         return true;

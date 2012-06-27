@@ -3,6 +3,7 @@ package com.github.zathrus_writer.commandsex.commands;
 
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,6 +32,8 @@ public class Command_cex_armor extends Common {
 				
 				god(sender, new String[] {}, "god", alias, true);
 				LogHelper.showInfo("nanoSuitGodMode", sender);
+			} else {
+				LogHelper.showInfo("nanoSuitNotActivated", sender, ChatColor.RED);
 			}
 		}
         return true;
