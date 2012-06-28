@@ -20,8 +20,19 @@ public class Calculator {
 		LogHelper.showInfo("calculatorHelpDivision", sender, ChatColor.YELLOW);
 	}
 	
-	public static void calulation(CommandSender sender, String function, String number1, String number2){
+	public static String calulation(CommandSender sender, String function, int int1, int int2){
+		String sum = null;
 		
+		if (function.equalsIgnoreCase("add")){
+			sum = int1 + " + " + int2 + " = " + (int1 + int2);
+		} else if (function.equalsIgnoreCase("subtract")){
+			sum = int1 + " - " + int2 + " = " + (int1 - int2);
+		} else if (function.equalsIgnoreCase("multiply")){
+			sum = int1 + " * " + int2 + " = " + (int1 * int2);
+		} else if (function.equalsIgnoreCase("divide")){
+			sum = int1 + " / " + int2 + " = " + (int1 / int2);
+		}
+		
+		return sum;
 	}
-	
 }

@@ -36,67 +36,33 @@ public class Command_cex_calculator extends Calculator {
 		
 		String function = args[0];
 		
-		String no1 = null;
-		String no2 = null;
-		
-		if (args.length == 3){
-			no1 = args[1];
-			no2 = args[2];
-		}
-		
-		if (function.equalsIgnoreCase("add")){
-			if (args.length != 3){
-				LogHelper.showInfo("calculatorHelpAddition", sender, ChatColor.AQUA);
-			} else {
-				String answer = add(sender, no1, no2);
-				if (answer != null) {
-					LogHelper.showInfo("calculatorAnswer#####[" + no1 + " + " + no2 + " #####calculatorWordsIs#####[ " + ChatColor.BOLD + answer, sender, ChatColor.AQUA);
-				} else {
-					LogHelper.showInfo("calculatorErrorNumber", sender, ChatColor.RED);
-				}
-			}
-		} else if (function.equalsIgnoreCase("subtract")){
-			if (args.length != 3){
-				LogHelper.showInfo("calculatorHelpSubtraction", sender, ChatColor.AQUA);
-			} else {
-				String answer = subtract(sender, no1, no2);
-				if (answer != null) {
-					LogHelper.showInfo("calculatorAnswer#####[" + no1 + " - " + no2 + " #####calculatorWordsIs#####[ " + ChatColor.BOLD + answer, sender, ChatColor.AQUA);
-				} else {
-					LogHelper.showInfo("calculatorErrorNumber", sender, ChatColor.RED);
-				}
-			}
-		} else if (function.equalsIgnoreCase("multiply")){
-			if (args.length != 3){
-				LogHelper.showInfo("calculatorHelpDivision", sender, ChatColor.AQUA);
-			} else {
-				String answer = multiply(sender, no1, no2);
-				if (answer != null) {
-					LogHelper.showInfo("calculatorAnswer#####[" + no1 + " \u00D7 " + no2 + " #####calculatorWordsIs#####[ " + ChatColor.BOLD + answer, sender, ChatColor.AQUA);
-				} else {
-					LogHelper.showInfo("calculatorErrorNumber", sender, ChatColor.RED);
-				}
-			}
-		} else if (function.equalsIgnoreCase("divide")){
-			if (args.length != 3){
-				LogHelper.showInfo("calculatorHelpDivision", sender, ChatColor.AQUA);
-			} else {
-				String answer = divide(sender, no1, no2);
-				if (answer != null) {
-					LogHelper.showInfo("calculatorAnswer#####[" + no1 + " \u00F7 " + no2 + " #####calculatorWordsIs#####[ " + ChatColor.BOLD + answer, sender, ChatColor.AQUA);
-				} else {
-					LogHelper.showInfo("calculatorErrorNumber", sender, ChatColor.RED);
-				}
-			}
-		} else if (function.equalsIgnoreCase("help")){
-			if (args.length != 2){
-				Commands.showCommandHelpAndUsage(sender, "cex_calculator", alias);
-			} else {
-				help(sender);
-			}
-		} else {
+		if (args.length != 3 && !function.equalsIgnoreCase("help")){
 			Commands.showCommandHelpAndUsage(sender, "cex_calculator", alias);
+			return true;
 		}
+		
+		int int1;
+		int int2;
+		
+		try {
+			int1 = Integer.parseInt(args[1]);
+			int2 = Integer.parseInt(args[2]);
+		} catch (Exception e) {
+			LogHelper.showInfo("calculatorErrorNumber", sender, ChatColor.RED);
+			return true;
+		}
+		
+		if (function.equalsIgnoreCase("help")){
+			help(sender);
+			return true;
+		}
+		
+		if (!function.equalsIgnoreCase("add") && !function.equalsIgnoreCase("subtract") && !function.equalsIgnoreCase("multiply") && !function.equalsIgnoreCase("divide")){
+			Commands.showCommandHelpAndUsage(sender, "cex_calculator", alias);
+			return true;
+		}
+		
+		LogHelper.showInfo("calculatorAnswer#####[" + calulation(sender, function, int1, int2), sender, ChatColor.AQUA);
 		
 		return true;
 	}
