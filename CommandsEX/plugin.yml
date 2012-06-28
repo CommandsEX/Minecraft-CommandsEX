@@ -422,6 +422,9 @@ permissions:
   cex.smelt:
      default: op
      description: Allows the player to use /smelt
+  cex.authentication:
+     default: op
+     description: Players with this permissions node are required to enter an additional password for extra security
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -977,3 +980,45 @@ commands:
     permission: cex.smelt
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [smelt, cook, furnace]
+  cex_register:
+    description: Used to register an email and password
+    usage: /<command> <email-address> <password> <password>
+    permission: cex.authentication.register
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [register, signup]
+  cex_login:
+    description: Used to login a player
+    usage: /<command> <password>
+    permission: cex.authentication.login
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [login, signin]
+  cex_changepass:
+    description: Used to change a players password
+    usage: /<command> <old-password> <new-password> <new-password>
+    permission: cex.authentication.changepass
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [changepass, changepassword]
+  cex_changeemail:
+    description: Used to change a players email address
+    usage: /<command> <new-email-address>
+    permission: cex.authentication.changeemail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [changeemail, changeemailaddress]
+  cex_forcepass:
+    description: Changes any players password
+    usage: /<command> <player> <new-password>
+    permission: cex.authentication.forcepass
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [forcepass, forcepassword]
+  cex_forceemail:
+    description: Changes any players email address
+    usage: /<command> <player> <email-address>
+    permission: cex.authentication.forceemail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [forceemail, forceemailaddress]
+  cex_reset:
+    description: Resets a players account, forcing them to signup again
+    usage: /<command> <player>
+    permission: cex.authentication.reset
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [reset, resetaccount, resetplayer]

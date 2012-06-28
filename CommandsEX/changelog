@@ -1,5 +1,8 @@
 Beta 1.75
 ---------
+
+- added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX
+
 - perm change cex.bypass.kick is now set to false by default
 
 - new command /nanosuit, info about NanoSuit

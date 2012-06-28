@@ -3,6 +3,7 @@ package com.github.zathrus_writer.commandsex;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Metrics;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CommandsEX extends JavaPlugin implements Listener {
@@ -191,6 +193,13 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			
 			// tell Bukkit we have some event handling to do in this class :-)
 			this.getServer().getPluginManager().registerEvents(this, this);
+		}
+		
+		try {
+		    Metrics metrics = new Metrics(plugin);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
 		}
 	}
 
