@@ -1,7 +1,8 @@
 Beta 1.75
 ---------
-- added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX
-- Added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>" (Replace the "0ms" with what time you got! ;)
+- added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsE
+X
+- added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer
 - Changed a tiny XXMP thing in the lang.properties
 
 - perm change cex.bypass.kick is now set to false by default

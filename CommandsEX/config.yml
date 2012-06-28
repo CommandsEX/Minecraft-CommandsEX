@@ -43,6 +43,9 @@ defaultLang: en
 # should you decide to allow them to change their language on per-user basis
 availableLangs: [en, sk]
 
+# Whether or not the time it took to load CommandsEx should be displayed
+startupTimer: false
+
 # chat replacements config file name
 chatReplaceFile: playerchat.txt
 

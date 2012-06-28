@@ -71,6 +71,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static List<String> onDisableFunctions = new ArrayList<String>();
 	// true if Vault plugin was found in the server installation
 	public static Boolean vaultPresent = false;
+	// reference our plugin timer
+	private long startTime, stopTime, finalTime;
 
 	/***
 	 * Class constructor.
@@ -85,6 +87,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onEnable() {
+		startTimer();
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
 		saveConfig();
@@ -199,7 +202,21 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		    Metrics metrics = new Metrics(plugin);
 		    metrics.start();
 		} catch (IOException e) {
-		    // Failed to submit the stats :-(
+
+		}
+		stopTimer();
+	}
+	
+	// Timer Methods
+	public void startTimer(){
+		startTime = System.currentTimeMillis();
+	}
+	
+	public void stopTimer(){
+		stopTime = System.currentTimeMillis();
+		finalTime = stopTime - startTime;
+		if (getConf().getBoolean("startupTimer")){
+			LogHelper.logInfo("[CommandsEx] " + _("startupTime", "") + finalTime + "ms");
 		}
 	}
 
