@@ -6,8 +6,7 @@ import org.bukkit.command.CommandSender;
 public class Calculator {
 
 	/***
-	 * Help - Simple method to send help messages to the sender, so I don't have to type it twice
-	 * @author iKeirNez
+	 * Calculation Help - Displays help and usage about the Calculator
 	 * @param sender
 	 */
 	
@@ -19,6 +18,15 @@ public class Calculator {
 		LogHelper.showInfo("calculatorHelpMultiplication", sender, ChatColor.YELLOW);
 		LogHelper.showInfo("calculatorHelpDivision", sender, ChatColor.YELLOW);
 	}
+	
+	/***
+	 * Calculation - Method to work out a calculation and return it
+	 * @param sender
+	 * @param function
+	 * @param int1
+	 * @param int2
+	 * @return
+	 */
 	
 	public static String calulation(CommandSender sender, String function, int int1, int int2){
 		String sum = null;
