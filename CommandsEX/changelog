@@ -1,5 +1,8 @@
 Beta 1.75
 ---------
+- Added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>" (Replace the "0ms" with what time you got! ;)
+- Changed a tiny XXMP thing in the lang.properties
+
 - perm change cex.bypass.kick is now set to false by default
 
 - new command /nanosuit, info about NanoSuit

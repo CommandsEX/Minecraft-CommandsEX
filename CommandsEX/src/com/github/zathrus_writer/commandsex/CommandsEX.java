@@ -69,6 +69,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static List<String> onDisableFunctions = new ArrayList<String>();
 	// true if Vault plugin was found in the server installation
 	public static Boolean vaultPresent = false;
+	// Reference to our plugin timer to put it to basics
+	private long startTime, stopTime, finalTime;
 
 	/***
 	 * Class constructor.
@@ -83,6 +85,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onEnable() {
+		startTimer();
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
 		saveConfig();
@@ -192,6 +195,16 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			// tell Bukkit we have some event handling to do in this class :-)
 			this.getServer().getPluginManager().registerEvents(this, this);
 		}
+		stopTimer();
+	}
+	// Timer Methods
+	public void startTimer(){
+		startTime = System.currentTimeMillis();
+	}
+	public void stopTimer(){
+		stopTime = System.currentTimeMillis();
+		finalTime = stopTime - startTime;
+		LogHelper.logInfo(pdfFile.getName() + " Load Time: <" + finalTime + "ms> ");
 	}
 
 	/***
