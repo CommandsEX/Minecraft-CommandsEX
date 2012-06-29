@@ -56,11 +56,11 @@ public class Handler_savebackposition implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void saveBackPosition(PlayerDeathEvent e) {
 		Player p = e.getEntity();
 		if (!Permissions.checkPermEx(p, "cex.back.deathcoords")) return;
-		String pName = e.getEntity().getName();
-		Command_cex_back.lastLocations.put(pName, e.getEntity().getLocation());
+		String pName = p.getName();
+		Command_cex_back.lastLocations.put(pName, p.getLocation());
 	}
 }
