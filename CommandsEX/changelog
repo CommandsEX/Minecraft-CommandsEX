@@ -3,19 +3,21 @@ Beta 1.75
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX
 - added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
 
-- changed a tiny XXMP thing in the lang.properties
-
-- improved the calculator command, should now be more efficient and less code
-
-- perm change cex.bypass.kick is now set to false by default
-
 - new command /nanosuit, info about NanoSuit
 - new command /spawner, sets the type of spawner you are looking at
 - new command alias added for /clock, /time
 
+- improved the calculator command, should now be more efficient and less code
+- improved some XMPP error messages slightly
+- improved NanoSuit commands when NanoSuit is not activated.
+
+- fixed removing armor with /ci when NanoSuit is active.
+
 - removed command /removehat, it was a useless command and had too many problems
 
-- added help messages for NanoSuit commands if NanoSuit is not active
+- perm change cex.bypass.kick is now set to false by default
+
+- new perm cex.spawner
 
 Beta 1.70
 ---------

@@ -1,12 +1,13 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.zathrus_writer.commandsex.handlers.Handler_nanosuit;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
@@ -75,7 +76,22 @@ public class Command_cex_clear {
 			p = Bukkit.getPlayer(pName);
 			// clearing armor?
 			if ((clearArgument != null) && (clearArgument.equals("all") || clearArgument.equals("armor"))) {
-				p.getInventory().setArmorContents(null);
+				// Do this in a try and catch incase the NanoSuit handler does not exist e.g. if it was not selected in the builder
+				try {
+					// will not clear armor if nanosuit is active
+					if (!Handler_nanosuit.suitedPlayers.containsKey(pName)){
+						p.getInventory().setArmorContents(null);
+						// Do not send success message if only armor was being removed and NanoSuit was found.
+						if (clearArgument.equals("armor")){
+							return true;
+						}
+					} else {
+						LogHelper.showInfo("inventoryNanoSuitEror", sender, ChatColor.RED);
+					}
+				// If the NanoSuit handler does not exist then just set the armor to null
+				} catch (Exception e){
+					p.getInventory().setArmorContents(null);
+				}
 			}
 			
 			// clearing backpack?
