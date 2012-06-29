@@ -425,6 +425,9 @@ permissions:
   cex.authentication:
      default: op
      description: Players with this permissions node are required to enter an additional password for extra security
+  cex.spawner:
+     default: op
+     description: Allows the player to change the type a mob a spawner will spawn.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1022,3 +1025,9 @@ commands:
     permission: cex.authentication.reset
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [reset, resetaccount, resetplayer]
+  cex_spawner:
+    description: Sets the type a mob a spawner will spawn.
+    usage: /<command> <mob-name>
+    permission: cex.spawner
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spawner, mobspawner]
