@@ -12,6 +12,7 @@ Beta 1.75
 - improved NanoSuit commands when NanoSuit is not activated.
 
 - fixed removing armor with /ci when NanoSuit is active.
+- fixed double explosions with TNT Kamikaze (again)
 
 - removed command /removehat, it was a useless command and had too many problems
 

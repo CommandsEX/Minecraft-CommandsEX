@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -13,8 +14,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 
@@ -53,21 +56,24 @@ public class Handler_tntkamikaze implements Listener {
     	}
     	
     	public void run() {
-    		// remove TNT from player's inventory
-    		p.getInventory().remove(Material.TNT);
+    		// Check if the player is still in the list, if they are in creative and if they are in god mode
+    		if (Handler_tntkamikaze.explodingPlayers.contains(p.getName()) && p.getGameMode() != GameMode.CREATIVE && !Common.godPlayers.contains(p.getName())){
+    			// remove TNT from player's inventory
+        		p.getInventory().remove(Material.TNT);
 
-    		// create explosion in the world where the player is
-    		Location l = this.p.getLocation();
-    		this.p.playEffect(l, Effect.EXTINGUISH, 0);
-    		p.getWorld().createExplosion(l, 4F);
+        		// create explosion in the world where the player is
+        		Location l = this.p.getLocation();
+        		this.p.playEffect(l, Effect.EXTINGUISH, 0);
+        		p.getWorld().createExplosion(l, 4F);
 
-    		// check if we should insta-kill the player
-    		if (CommandsEX.getConf().getBoolean("kamikazeInstaKill")) {
-    			p.setHealth(0);
+        		// check if we should insta-kill the player
+        		if (CommandsEX.getConf().getBoolean("kamikazeInstaKill")) {
+        			p.setHealth(0);
+        		}
+        		
+        		// remove player from the list
+        		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedRemoval(p.getName()), (20 * 5));
     		}
-    		
-    		// remove player from the list
-    		CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedRemoval(p.getName()), (20 * 5));
     	}
     }
 	
@@ -86,27 +92,38 @@ public class Handler_tntkamikaze implements Listener {
 			p = (Player) e.getEntity();
 		}
 		
-		DamageCause dc = e.getCause();
-		if (
-				p.getInventory().contains(Material.TNT)
-				&&
-				!explodingPlayers.contains(p.getName())
-				&&
-				(
-					((dc == DamageCause.FIRE) && Permissions.checkPermEx(p, "cex.tnt.kamikaze"))
-					||
-					((dc == DamageCause.BLOCK_EXPLOSION) && Permissions.checkPermEx(p, "cex.tnt.kamikaze.from.damage"))
-				)
-		) {
-			// Only blow up the player if they didn't already die from the explosion
-			if (!(e.getDamage() >= p.getHealth())){
-				// tell the player he's about to explode :P
-				Integer timeToExplode = CommandsEX.getConf().getInt("kamikazeTimeout", 3);
-				LogHelper.showWarning("kamikazeTNTYouWillExplode#####[" + timeToExplode + " #####seconds", p);
-				explodingPlayers.add(p.getName());
-				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.getConf().getInt("kamikazeTimeout", 3)));
+		// Only explode the player if they are not in creative or god mode
+		if (p.getGameMode() != GameMode.CREATIVE && !Common.godPlayers.contains(p.getName())){
+			DamageCause dc = e.getCause();
+			if (
+					p.getInventory().contains(Material.TNT)
+					&&
+					!explodingPlayers.contains(p.getName())
+					&&
+					(
+						((dc == DamageCause.FIRE) && Permissions.checkPermEx(p, "cex.tnt.kamikaze"))
+						||
+						((dc == DamageCause.BLOCK_EXPLOSION) && Permissions.checkPermEx(p, "cex.tnt.kamikaze.from.damage"))
+					)
+			) {
+				// Only blow up the player if they didn't already die from the explosion
+				if (!(e.getDamage() >= p.getHealth())){
+					// tell the player he's about to explode :P
+					Integer timeToExplode = CommandsEX.getConf().getInt("kamikazeTimeout", 3);
+					LogHelper.showWarning("kamikazeTNTYouWillExplode#####[" + timeToExplode + " #####seconds", p);
+					explodingPlayers.add(p.getName());
+					CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new DelayedExplosion(p), (20 * CommandsEX.getConf().getInt("kamikazeTimeout", 3)));
+				}
 			}
 		}
 	}
 	
+	@EventHandler(priority = EventPriority.LOW)
+	public void onPlayerDeath(PlayerDeathEvent e){
+		Player player = (Player) e.getEntity();
+		// Removes the player from the list, prevents double explosions.
+		if (Handler_tntkamikaze.explodingPlayers.contains(player.getName())){
+			Handler_tntkamikaze.explodingPlayers.remove(player.getName());
+		}
+	}
 }
