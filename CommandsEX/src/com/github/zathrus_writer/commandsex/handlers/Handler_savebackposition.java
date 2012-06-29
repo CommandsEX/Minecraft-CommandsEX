@@ -37,7 +37,7 @@ public class Handler_savebackposition implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void saveBackPosition(PlayerTeleportEvent e) {
 		String pName = e.getPlayer().getName();
 		
