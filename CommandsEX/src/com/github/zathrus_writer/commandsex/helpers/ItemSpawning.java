@@ -21,11 +21,13 @@ public class ItemSpawning {
 	public static void giveItem(CommandSender sender, Player target, Material material, int amount, short damage){
 		ItemStack stack = new ItemStack(material);
 		
+		// Set the stacks durability (damage value)
 		stack.setDurability(damage);
 		stack.setAmount(amount);
 		
 		target.getInventory().addItem(stack);
 		
+		// Messages will be different if the player spawned the item for himself, or someone else
 		if (sender != target){
 			LogHelper.showInfo("itemYouGave#####[" + target.getName() + " " + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
 			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(material.name()) + (damage != 0 ? " (" + damage + ")": "") + " #####itemFrom#####[" + sender.getName(), target, ChatColor.AQUA);

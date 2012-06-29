@@ -40,7 +40,8 @@ public class Handler_condensejoins implements Listener {
 
 		// set up the periodic task
 		Integer taskTime = CommandsEX.getConf().getInt("joinSilentTime");
-
+		
+		// This function checks joins and leaves and displays the join/leave messages to all users if there are any in the queue
 		joinleaveCheckID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
 			@Override
 			public void run() {
@@ -69,8 +70,8 @@ public class Handler_condensejoins implements Listener {
 		}
 	}
 	
+	// Checks the joins and sends them to chat
 	public static void checkJoins(){
-
 		// remove a player if they are invisible
 		for (String pName : joins){
 			if (Common.invisiblePlayers.contains(pName)){
@@ -147,6 +148,7 @@ public class Handler_condensejoins implements Listener {
 		}
 	}
 
+	// Checks the leaves and sends them to chat
 	public static void checkLeaves(){
 		// remove a player if they are invisible
 		for (String pName : leaves){

@@ -29,6 +29,8 @@ public class Command_cex_spawner {
 		}
 
 		ArrayList<String> list = new ArrayList<String>();
+		// For each entity, check if the entity is alive and spawnable
+		// If it then add it to the list
 		for (EntityType entity : EntityType.values()){
 			if (entity.isAlive() && entity.isSpawnable()){
 				list.add(entity.getName().replaceAll(" ", ""));
@@ -44,9 +46,13 @@ public class Command_cex_spawner {
 			Block block = player.getTargetBlock(null, 30);
 			if (block.getType() == Material.MOB_SPAWNER){
 				String entityType = args[0];
+				// Get the entity from the string
 				EntityType entity = EntityType.fromName(entityType);
+				// If the entity is not null and the list contains the entity
+				// Then set the spawner to the entity type
 				if (entity != null && list.contains(entity.getName())){
 					CreatureSpawner spawner = (CreatureSpawner) block.getState();
+					// Set the spawner type
 					spawner.setSpawnedType(entity);
 					LogHelper.showInfo("spawnerSuccess#####[" + Utils.userFriendlyNames(entity.getName()), sender, ChatColor.GREEN);
 				} else {
