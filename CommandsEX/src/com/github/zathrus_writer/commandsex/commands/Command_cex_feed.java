@@ -1,11 +1,11 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_feed {
@@ -35,7 +35,7 @@ public class Command_cex_feed {
 		Player beingFed;
 		
 		// Check they want to feed someone else
-		if ((args.length > 0) && (!(sender instanceof Player) || Permissions.checkPerms((Player) sender, "cex.feed.others"))) {
+		if ((args.length > 0) && (!(sender instanceof Player) || ((Player) sender).hasPermission("cex.feed.others"))) {
 
 			// Change player
 			beingFed = Bukkit.getPlayer(args[0]);
@@ -46,7 +46,8 @@ public class Command_cex_feed {
 				return true;
 			}
 		} else {
-			beingFed = (Player) sender;
+			LogHelper.showInfo("feedOthersNoPerm", sender, ChatColor.RED);
+			return true;
 		}
 	
 		// Set food level
