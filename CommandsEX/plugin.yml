@@ -428,6 +428,14 @@ permissions:
   cex.spawner:
      default: op
      description: Allows the player to change the type a mob a spawner will spawn.
+  cex.fly:
+     default: op
+     description: Allows the player to set their own fly mode.
+     children:
+        cex.fly.others: true
+  cex.fly.others:
+     default: op
+     description: Allows the player to set others fly mode.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1031,3 +1039,9 @@ commands:
     permission: cex.spawner
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [spawner, mobspawner]
+  cex_fly:
+    description: Allows the player to set fly modes.
+    usage: /<command> [player]
+    permission: cex.fly
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [fly, flying]

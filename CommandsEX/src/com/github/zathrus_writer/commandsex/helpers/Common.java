@@ -14,6 +14,7 @@ import net.minecraft.server.Packet201PlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -481,10 +482,23 @@ public class Common implements Listener {
 				LogHelper.showInfo("invYouAreInvisible", sender);
 			}
 		}
-		
+
 		return true;
 	}
-	
+
+	public static void setFlyMode(Player target){
+		// make sure we don't break creative flying
+		if (target.getGameMode() != GameMode.CREATIVE){
+			if (target.getAllowFlight()){
+				target.setAllowFlight(false);
+			} else {
+				target.setAllowFlight(true);
+			}
+		} else {
+			target.setAllowFlight(true);
+		}
+	}
+
 	/***
 	 * Function to teleport a player to their original slap location if they leave while being slapped
 	 * @param e

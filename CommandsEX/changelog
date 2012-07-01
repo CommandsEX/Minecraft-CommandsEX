@@ -5,6 +5,7 @@ Beta 1.75
 
 - new command /nanosuit, info about NanoSuit
 - new command /spawner, sets the type of spawner you are looking at
+= new command /fly, allows you to fly without creative mode
 - new command alias added for /clock, /time
 
 - improved the calculator command, should now be more efficient and less code
@@ -23,6 +24,8 @@ Beta 1.75
 - changed explosion config nodes for explosion preventing (blockMobExplosionDamage, blockCreeperExplosions, blockTNTExplosions, blockFireballExplosions)
 
 - new perm cex.spawner
+- new perm cex.fly
+- new perm cex.fly.others
 
 Beta 1.70
 ---------
