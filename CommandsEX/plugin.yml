@@ -418,7 +418,12 @@ permissions:
      description: Allows the user to create platforms in the air, useful for building
   cex.extinguish:
      default: op
-     description: Allows the player to extinguish players
+     description: Allows the player to use /ext
+     children:
+        cex.extinguish.others: true
+  cex.extinguish.others:
+     default: op
+     description: Allows the player to extinguish other players
   cex.smelt:
      default: op
      description: Allows the player to use /smelt

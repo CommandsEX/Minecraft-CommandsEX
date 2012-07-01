@@ -26,7 +26,7 @@ public class Command_cex_extinguish {
 				return true;
 			}
 		}
-		
+
 		if (args.length == 0){
 			if (sender instanceof Player){
 				Player player = (Player) sender;
@@ -37,13 +37,16 @@ public class Command_cex_extinguish {
 			}
 		} else if (args.length == 1){
 			Player toExt = Bukkit.getPlayer(args[0]);
-			
 			if (toExt != null){
 				// Prevents the player from recieving 2 messages if they do /ext <their-player-name>
 				if (toExt != sender){
-					toExt.setFireTicks(0);
-					LogHelper.showInfo("extExtinguishedBySomeoneElse#####[ " + sender.getName(), toExt, ChatColor.GREEN);
-					LogHelper.showInfo("extExtinguishedSomeoneElse#####[ " + toExt.getName(), sender, ChatColor.GREEN);
+					if ((!(sender instanceof Player)) || ((Player) sender).hasPermission("cex.extinguish.others")){
+						toExt.setFireTicks(0);
+						LogHelper.showInfo("extExtinguishedBySomeoneElse#####[ " + sender.getName(), toExt, ChatColor.GREEN);
+						LogHelper.showInfo("extExtinguishedSomeoneElse#####[ " + toExt.getName(), sender, ChatColor.GREEN);
+					} else {
+						LogHelper.showInfo("extOtherNoPerm", sender, ChatColor.RED);
+					}
 				} else {
 					toExt.setFireTicks(0);
 					LogHelper.showInfo("extExtinguished", sender, ChatColor.GREEN);
@@ -54,7 +57,7 @@ public class Command_cex_extinguish {
 		} else {
 			LogHelper.showInfo("incorrectUsage", sender, ChatColor.RED);
 		}
-			
+
 		return true;
 	}
 }
