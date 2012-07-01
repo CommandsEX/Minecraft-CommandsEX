@@ -3,7 +3,6 @@ package com.github.zathrus_writer.commandsex.commands;
 import org.bukkit.command.CommandSender;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.SQLManager;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 
@@ -16,7 +15,7 @@ public class Command_cex_register {
 				LogHelper.showWarning("authNoDatabase", sender);
 				return true;
 			} else {
-				
+
 			}
 		}
 		

@@ -31,20 +31,36 @@ public class Command_cex_mob {
 				if ((args.length > 0) && (EntityType.fromName(args[0]) != null)) {
 					Location loc = player.getTargetBlock(null, 100).getLocation().add(0, 1, 0);
 					
+					// Amount of mobs to spawn
 					Integer mobCount = 1;
 					if ((args.length > 1) && args[1].matches(CommandsEX.intRegex)) {
 						mobCount = Integer.parseInt(args[1]);
-						
+					}
+
+					int limit = CommandsEX.getConf().getInt("spawnMobLimit");
+					// Check for spawn mob limit
+					if (limit != 0 && mobCount > limit && !player.hasPermission("cex.mob.spawn.bypasslimit")){
+						// Set the mob count to maximum limit
+						mobCount = limit;
+						LogHelper.showInfo("mobsLimit", sender, ChatColor.RED);
 					}
 					
-					for (Integer i = 0; i < mobCount; i++) {
-						player.getWorld().spawnCreature(loc, EntityType.fromName(args[0]));
+					EntityType entity = EntityType.fromName(args[0]);
+					// Check the mob type is valid
+					if (entity != null){
+						for (Integer i = 0; i < mobCount; i++) {
+							player.getWorld().spawnCreature(loc, EntityType.fromName(args[0]));
+						}
+						
+						LogHelper.showInfo("mobsSuccess#####[" + mobCount + " " + Utils.userFriendlyNames(entity.getName()), sender, ChatColor.AQUA);
+					} else {
+						LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
 					}
 				} else {
 					// list all available entities
 					List<String> s = new ArrayList<String>();
 					for (EntityType et : EntityType.values()) {
-						if (et.isAlive()) {
+						if (et.isAlive() && et.isSpawnable()) {
 							s.add(et.getName());
 						}
 					}

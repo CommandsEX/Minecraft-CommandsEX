@@ -12,6 +12,7 @@ Beta 1.75
 - improved some XMPP error messages slightly
 - improved NanoSuit commands when NanoSuit is not activated.
 - improved /platform command, you now must have permission to use a custom block type as a platform
+- improved /mob command, added a limit and a bypass node plus some more minor tweaks
 
 - updated /cex config commands for the new config nodes
 
@@ -26,11 +27,14 @@ Beta 1.75
 - perm change cex.bypass.kick is now set to false by default
 - changed explosion config nodes for explosion preventing (blockMobExplosionDamage, blockCreeperExplosions, blockTNTExplosions, blockFireballExplosions)
 
+- new config node spawnMobLimit, sets a limit for the amount of mobs spawned via the /mob command
+
 - new perm cex.spawner
 - new perm cex.fly
 - new perm cex.fly.others
 - new perm cex.extinguish.others
 - new perm cex.platform.block.<block-id>
+- new perm cex.mob.spawn.bypasslimit
 
 Beta 1.70
 ---------

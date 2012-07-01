@@ -354,3 +354,6 @@ blockCreeperExplosions: true
 blockTNTExplosions: true
 # Prevents land damage caused by Fireballs (true block, false for normal behavior)
 blockFireballExplosions: true
+
+# Sets a limit for how many mobs can be spawned at once (0 disables limit - NOT RECOMMENDED)
+spawnMobLimit: 20

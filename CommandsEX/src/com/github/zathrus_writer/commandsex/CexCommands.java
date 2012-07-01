@@ -217,6 +217,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configBlockFireballExposions", sender.getName()) + p.getConfig().getBoolean("blockFireballExplosions"));
 					} else if (v.equals("startuptimer")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configStartupTimer", sender.getName()) + p.getConfig().getBoolean("startupTimer"));
+					} else if (v.equals("spawnmoblimit")) {
+						sender.sendMessage(ChatColor.YELLOW + _("spawnMobLimit", sender.getName()) + p.getConfig().getInt("spawnMobLimit"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -226,6 +228,7 @@ public class CexCommands {
 					 * SETTING CONFIG VALUES
 					 */
 					String v = (args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase());
+					String setting = (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase());
 					if (v.equals("disableversion")) {
 						p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 						p.saveConfig();
@@ -235,18 +238,18 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("defaultlang")) {
-						if ((aLength > 2) && args[2] != null) {
-							p.getConfig().set("defaultLang", args[2]);
+						if ((aLength > 2) && setting != null) {
+							p.getConfig().set("defaultLang", setting);
 							p.saveConfig();
-							Language.defaultLocale = args[2];
+							Language.defaultLocale = setting;
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("tpatimeout")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("tpaTimeout", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpaTimeout", setting);
 								p.saveConfig();
 								try {
 									Command_cex_tpa.tTimeout = Integer.parseInt(args[2]);
@@ -262,12 +265,12 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("tpaheretimeout")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("tpahereTimeout", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpahereTimeout", setting);
 								p.saveConfig();
 								try {
-									Command_cex_tpahere.tTimeout = Integer.parseInt(args[2]);
+									Command_cex_tpahere.tTimeout = Integer.parseInt(setting);
 								} catch (Throwable e) {
 									// the tpahere command might not be present in the plugin
 								}
@@ -280,9 +283,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("commandcooldowntime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("commandCooldownTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("commandCooldownTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("commandCooldownTime"));
 							} else {
@@ -293,9 +296,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("homequalifytime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("homeQualifyTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("homeQualifyTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("homeQualifyTime"));
 							} else {
@@ -306,9 +309,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizrepeattime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizRepeatTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizRepeatTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizRepeatTime"));
 							} else {
@@ -319,9 +322,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizdelay")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizDelay", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDelay", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDelay"));
 							} else {
@@ -332,9 +335,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizduration")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizDuration", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDuration", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDuration"));
 							} else {
@@ -345,9 +348,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("weathernotifytime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("weatherNotifyTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("weatherNotifyTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("weatherNotifyTime"));
 							} else {
@@ -358,9 +361,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("defaultslapheight")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("defaultSlapHeight", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("defaultSlapHeight", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultSlapHeight"));
 							} else {
@@ -371,9 +374,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("maxwarpsperplayer")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("maxWarpsPerPlayer", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("maxWarpsPerPlayer", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("maxWarpsPerPlayer"));
 							} else {
@@ -384,9 +387,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("maxipholdtime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("maxIPholdTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("maxIPholdTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("maxIPholdTime"));
 							} else {
@@ -397,9 +400,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("mintempbanswarn")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("minTempBansWarn", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("minTempBansWarn", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("minTempBansWarn"));
 							} else {
@@ -410,9 +413,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("joinsilenttime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("joinSilentTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("joinSilentTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("joinSilentTime"));
 							} else {
@@ -423,9 +426,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("jailarea")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("jailArea", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("jailArea", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("jailArea"));
 							} else {
@@ -436,9 +439,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("kamikazetimeout")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("kamikazeTimeout", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("kamikazeTimeout", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("kamikazeTimeout"));
 							} else {
@@ -449,9 +452,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("deathgroupscleanuptime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("deathGroupsCleanupTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("deathGroupsCleanupTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathGroupsCleanupTime"));
 							} else {
@@ -462,9 +465,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("timedpromotetasktime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("timedPromoteTaskTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("timedPromoteTaskTime", setting);
 								p.saveConfig();
 
 								// cancel old task and create a new one with this new timeout value
@@ -496,9 +499,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("ecopromotetasktime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("ecoPromoteTaskTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("ecoPromoteTaskTime", setting);
 								p.saveConfig();
 
 								// cancel old task and create a new one with this new timeout value
@@ -517,7 +520,7 @@ public class CexCommands {
 											});
 											threadExecutor.shutdown(); // shutdown worker threads
 										}
-									}, (20 * Integer.parseInt(args[2])), (20 * Integer.parseInt(args[2])));
+									}, (20 * Integer.parseInt(setting)), (20 * Integer.parseInt(setting)));
 								} catch (Throwable ex) {}
 								
 								// show message
@@ -558,12 +561,12 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("debugMode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("timedpromoteexclude")) {
-						if (args[3].equals("add") || args[2].equals("add")) {
+						if (setting.equals("add") || setting.equals("add")) {
 							@SuppressWarnings("unchecked")
 							List<String> l = (List<String>) p.getConfig().getList("timedPromoteExclude");
-							String toAdd = args[2].equals("add") ? args[3] : args[4];
+							String toAdd = setting.equals("add") ? args[3] : args[4];
 							if (!l.contains(toAdd)) {
-								l.add(args[2].equals("add") ? args[3] : args[4]);
+								l.add(setting.equals("add") ? args[3] : args[4]);
 								p.getConfig().set("timedPromoteExclude", l);
 								p.saveConfig();
 							}
@@ -630,16 +633,16 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("motd")) {
-						if ((aLength > 2) && args[2] != null) {
-							p.getConfig().set("motd", args[2]);
+						if ((aLength > 2) && setting != null) {
+							p.getConfig().set("motd", setting);
 							p.saveConfig();
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motd")));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("motdnewplayer")) {
-						if ((aLength > 2) && args[2] != null) {
-							p.getConfig().set("motdNewPlayer", args[2]);
+						if ((aLength > 2) && setting != null) {
+							p.getConfig().set("motdNewPlayer", setting);
 							p.saveConfig();
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motdNewPlayer")));
 						} else {
@@ -654,9 +657,9 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("nanoSuitPumpkin") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("nanosuitspeed")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitSpeed", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitSpeed", setting);
 								p.saveConfig();
 								// show message
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitSpeed"));
@@ -667,9 +670,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitjump")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitJump", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitJump", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitJump"));
 							} else {
@@ -679,9 +682,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitdamage")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitDamage", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitDamage", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitDamage"));
 							} else {
@@ -691,9 +694,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuittime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitTime"));
 							} else {
@@ -703,9 +706,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitrechargetime")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitRechargeTime", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitRechargeTime", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitRechargeTime"));
 							} else {
@@ -723,7 +726,7 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("showMessagesOnExplode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("info")) {
-						p.getConfig().set("info", args[2]);
+						p.getConfig().set("info", setting);
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("info")));
 					} else if (v.equals("fakequitmessage")) {
@@ -735,13 +738,13 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("fakeJoinMessage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("serverowner")) {
-						p.getConfig().set("ServerOwner", args[2]);
+						p.getConfig().set("ServerOwner", setting);
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("ServerOwner"));
 					} else if (v.equals("kittycannonexplosionstrength")) {
-						if ((aLength > 2) && args[2] != null) {
-							if (args[2].matches(CommandsEX.intRegex)) {
-								p.getConfig().set("kittyCannonExplosionStrength", args[2]);
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("kittyCannonExplosionStrength", setting);
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("kittyCannonExplosionStrength"));
 							} else {
@@ -770,6 +773,18 @@ public class CexCommands {
 						p.getConfig().set("startupTimer", !p.getConfig().getBoolean("startupTimer"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("startupTimer") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("spawnmoblimit")) {
+						if ((aLength > 2) && setting != null) {
+							if (setting.matches(CommandsEX.intRegex)) {
+								p.getConfig().set("spawnMobLimit", setting);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("spawnMobLimit"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

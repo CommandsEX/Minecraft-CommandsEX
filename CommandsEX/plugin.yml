@@ -276,6 +276,11 @@ permissions:
   cex.mob.spawn:
     default: op
     description: Allows to spawn mobs.
+    children:
+       cex.mob.spawn.bypasslimit: true
+  cex.mob.spawn.bypasslimit:
+     default: false
+     description: Allows the player to bypass the mob spawning limit.
   cex.god:
     default: op
     description: Allows player to ignore received damage.
