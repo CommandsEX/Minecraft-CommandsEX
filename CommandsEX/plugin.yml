@@ -416,6 +416,11 @@ permissions:
   cex.platform:
      default: op
      description: Allows the user to create platforms in the air, useful for building
+     children:
+        cex.platform.block.*: true
+  cex.platform.block.*:
+     default: op
+     description: Restrict what blocks players can use for a platform.
   cex.extinguish:
      default: op
      description: Allows the player to use /ext

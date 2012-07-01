@@ -57,11 +57,16 @@ public class Command_cex_platform {
 
 						// If the list has one match then set the block to that
 					} else if (list.size() == 1) {
-						if (list.get(0).isBlock()){
-							loc.getBlock().setType(list.get(0));
-							LogHelper.showInfo("platformCreated", player, ChatColor.GREEN);
+						// Check the player has permission to use the block specified
+						if (player.hasPermission("cex.platform.block." + list.get(0).getId())){
+							if (list.get(0).isBlock()){
+								loc.getBlock().setType(list.get(0));
+								LogHelper.showInfo("platformCreated", player, ChatColor.GREEN);
+							} else {
+								LogHelper.showInfo("platformNotBlock", player, ChatColor.RED);
+							}
 						} else {
-							LogHelper.showInfo("platformNotBlock", player, ChatColor.RED);
+							LogHelper.showInfo("platformNoPerm", sender, ChatColor.RED);
 						}
 						
 					// If there are multiple matches then display it to the player
