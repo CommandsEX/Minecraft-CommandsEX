@@ -38,20 +38,9 @@ public class Command_cex_fly extends Common {
 			setFlyMode(player);
 			LogHelper.showInfo("flyOwnSuccess", sender, ChatColor.AQUA);
 		} else if (args.length == 1){
-			boolean hasPerms;
-			// Determine whether the player has permission to set others fly modes.
-			if (!(sender instanceof Player)){
-				hasPerms = true;
-			} else if (((Player) sender).hasPermission("cex.fly.others")){
-				hasPerms = true;
-			} else {
-				hasPerms = false;
-			}
-			
 			Player target = Bukkit.getPlayer(args[0]);
-			
 			if (target != sender){
-				if (hasPerms){
+				if ( ((!(sender instanceof Player)) || ((Player) sender).hasPermission("cex.fly.others"))){
 					if (target == null){
 						LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 						return true;
@@ -65,6 +54,7 @@ public class Command_cex_fly extends Common {
 				}
 			} else {
 				setFlyMode(target);
+				LogHelper.showInfo("flyOwnSuccess", sender, ChatColor.AQUA);
 			}
 		} else {
 			Commands.showCommandHelpAndUsage(sender, "cex_fly", alias);
