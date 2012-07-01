@@ -10,6 +10,7 @@ import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -38,26 +39,33 @@ public class Command_cex_kittycannon {
 			}
 		}
 		
-		// Variables
-		Random random = new Random();
-		final int explosionStrength = CommandsEX.getConf().getInt("KittyCannonExplosionStrength");
-		
-		// Complicated stuff... cbb to explain
-		Player player = (Player)sender;
-		final Ocelot ocelot = (Ocelot) player.getWorld().spawnCreature(player.getEyeLocation(), EntityType.OCELOT);;
-		final int i = random.nextInt(Ocelot.Type.values().length);
-		ocelot.setCatType(Ocelot.Type.values()[i]);
-		ocelot.setTamed(true);
-		ocelot.setVelocity(player.getEyeLocation().getDirection().multiply(2));
-		LogHelper.showInfo("kittycannoncreated", sender);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
-			public void run() {
-				final Location loc = ocelot.getLocation();
-				ocelot.remove();
-				loc.getWorld().createExplosion(loc, explosionStrength);
-			}
-		}, 20L);
-		
+		if (args.length == 0){
+			// Variables
+			Random random = new Random();
+			final int explosionStrength = CommandsEX.getConf().getInt("KittyCannonExplosionStrength");
+			
+			Player player = (Player)sender;
+			// Spawn an ocelot
+			final Ocelot ocelot = (Ocelot) player.getWorld().spawnCreature(player.getEyeLocation(), EntityType.OCELOT);;
+			// Get the amount of types of Ocelot exist and choose a random one
+			final int i = random.nextInt(Ocelot.Type.values().length);
+			// Set the type of cat spawned to the value above
+			ocelot.setCatType(Ocelot.Type.values()[i]);
+			ocelot.setTamed(true);
+			// This launches the Ocelot
+			ocelot.setVelocity(player.getEyeLocation().getDirection().multiply(2));
+			LogHelper.showInfo("kittycannoncreated", sender);
+			// Explode the Ocelot after an amount of time.
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
+				public void run() {
+					final Location loc = ocelot.getLocation();
+					ocelot.remove();
+					loc.getWorld().createExplosion(loc, explosionStrength);
+				}
+			}, 20L);
+		} else {
+			Commands.showCommandHelpAndUsage(sender, "cex_kittycannon", alias);
+		}
 		return true;
 	}
 }
