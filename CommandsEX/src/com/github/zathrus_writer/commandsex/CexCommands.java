@@ -181,6 +181,42 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configMotd", sender.getName()) + p.getConfig().getString("motd"));
 					} else if (v.equals("motdnewplayer")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configMotdNewPlayer", sender.getName()) + p.getConfig().getString("motdNewPlayer"));
+					} else if (v.equals("kitsBroadcastGifts")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configKitsBroadcastGifts", sender.getName()) + p.getConfig().getBoolean("kitsBroadcastGifts"));
+					} else if (v.equals("nanosuitpumpkin")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configNanoSuitPumpkin", sender.getName()) + p.getConfig().getBoolean("nanoSuitPumpkin"));
+					} else if (v.equals("nanosuitspeed")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configNanoSuitSpeed", sender.getName()) + p.getConfig().getInt("nanoSuitSpeed"));
+					} else if (v.equals("nanosuitjump")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configNanoSuitJump", sender.getName()) + p.getConfig().getInt("nanoSuitJump"));
+					} else if (v.equals("nanosuitdamage")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configNanoSuitDamage", sender.getName()) + p.getConfig().getInt("nanoSuitDamage"));
+					} else if (v.equals("nanosuitrechargetime")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configNanoSuitRechargeTime", sender.getName()) + p.getConfig().getInt("nanoSuitDamage"));
+					} else if (v.equals("showmessagesonsmite")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configShowMessagesOnSmite", sender.getName()) + p.getConfig().getBoolean("showMessagesOnSmite"));
+					} else if (v.equals("showmessagesonexplode")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configShowMessagesOnExplode", sender.getName()) + p.getConfig().getBoolean("showMessagesOnExplode"));
+					} else if (v.equals("info")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configInfo", sender.getName()) + p.getConfig().getString("info"));
+					} else if (v.equals("fakequitmessage")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configFakeQuitMessage", sender.getName()) + p.getConfig().getBoolean("fakeQuitMessage"));
+					} else if (v.equals("fakejoinmessage")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configFakeJoinMessage", sender.getName()) + p.getConfig().getBoolean("fakeJoinMessage"));
+					} else if (v.equals("serverowner")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configServerOwner", sender.getName()) + p.getConfig().getString("ServerOwner"));
+					} else if (v.equals("kittycannonexplosionstrength")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configKittyCannonExplosionStrength", sender.getName()) + p.getConfig().getInt("kittyCannonExplosionStrength"));
+					} else if (v.equals("blockmobexplosiondamage")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configBlockMobExplosionDamage", sender.getName()) + p.getConfig().getBoolean("blockMobExplosionDamage"));
+					} else if (v.equals("blockcreeperexplosions")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configBlockCreeperExplosions", sender.getName()) + p.getConfig().getBoolean("blockCreeperExplosions"));
+					} else if (v.equals("blocktntexplosions")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configBlockTNTExplosions", sender.getName()) + p.getConfig().getBoolean("blockTNTExplosions"));
+					} else if (v.equals("blockFireballExplosions")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configBlockFireballExposions", sender.getName()) + p.getConfig().getBoolean("blockFireballExplosions"));
+					} else if (v.equals("startuptimer")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configStartupTimer", sender.getName()) + p.getConfig().getBoolean("startupTimer"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -609,6 +645,131 @@ public class CexCommands {
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("kitsbroadcastgifts")) {
+						p.getConfig().set("kitsBroadcastGifts", !p.getConfig().getBoolean("kitsBroadcastGifts"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("kitsBroadcastGifts") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("nanosuitpumpkin")) {
+						p.getConfig().set("nanosuitpumpkin", !p.getConfig().getBoolean("nanosuitpumpkin"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("nanoSuitPumpkin") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("nanosuitspeed")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitSpeed", args[2]);
+								p.saveConfig();
+								// show message
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitSpeed"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("nanosuitjump")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitJump", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitJump"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("nanosuitdamage")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitDamage", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitDamage"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("nanosuittime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitTime"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("nanosuitrechargetime")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitRechargeTime", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitRechargeTime"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("showmessagesonsmite")) {
+						p.getConfig().set("showMessagesOnSmite", !p.getConfig().getBoolean("showMessagesOnSmite"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("showMessagesOnSmite") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equalsIgnoreCase("showmessagesonexplode")) {
+						p.getConfig().set("showMessagesOnExplode", !p.getConfig().getBoolean("showMessagesOnExplode"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("showMessagesOnExplode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("info")) {
+						p.getConfig().set("info", args[2]);
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("info")));
+					} else if (v.equals("fakequitmessage")) {
+						p.getConfig().set("fakeQuitMessage", !p.getConfig().getBoolean("fakeQuitMessage"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("fakeQuitMessage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("fakejoinmessage")) {
+						p.getConfig().set("fakeJoinMessage", !p.getConfig().getBoolean("fakeJoinMessage"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("fakeJoinMessage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("serverowner")) {
+						p.getConfig().set("ServerOwner", args[2]);
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("ServerOwner"));
+					} else if (v.equals("kittycannonexplosionstrength")) {
+						if ((aLength > 2) && args[2] != null) {
+							if (args[2].matches(CommandsEX.intRegex)) {
+								p.getConfig().set("kittyCannonExplosionStrength", args[2]);
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("kittyCannonExplosionStrength"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("blockmobexplosiondamage")) {
+						p.getConfig().set("blockMobExplosionDamage", !p.getConfig().getBoolean("blockMobExplosionDamage"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("blockMobExplosionDamage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("blockcreeperexplosions")) {
+						p.getConfig().set("blockCreeperExplosions", !p.getConfig().getBoolean("blockCreeperExplosions"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("blockCreeperExplosions") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("blocktntexplosions")) {
+						p.getConfig().set("blockTNTExplosions", !p.getConfig().getBoolean("blockTNTExplosions"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("blockTNTExplosions") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("blockfireballexplosions")) {
+						p.getConfig().set("blockFireballExplosions", !p.getConfig().getBoolean("blockFireballExplosions"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("blockFireballExplosions") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("startuptimer")) {
+						p.getConfig().set("startupTimer", !p.getConfig().getBoolean("startupTimer"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("startupTimer") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

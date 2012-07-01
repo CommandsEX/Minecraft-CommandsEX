@@ -11,6 +11,8 @@ Beta 1.75
 - improved some XMPP error messages slightly
 - improved NanoSuit commands when NanoSuit is not activated.
 
+- updated /cex config commands for the new config nodes
+
 - fixed removing armor with /ci when NanoSuit is active.
 - fixed double explosions with TNT Kamikaze (again)
 - fixed /back when player dies
@@ -18,6 +20,7 @@ Beta 1.75
 - removed command /removehat, it was a useless command and had too many problems
 
 - perm change cex.bypass.kick is now set to false by default
+- changed explosion config nodes for explosion preventing (blockMobExplosionDamage, blockCreeperExplosions, blockTNTExplosions, blockFireballExplosions)
 
 - new perm cex.spawner
 

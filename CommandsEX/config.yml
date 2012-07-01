@@ -342,12 +342,15 @@ fakeJoinMessage: true
 # Set this to the server's owner. This is used in /ownerstatus
 ServerOwner: Notch
 
-# This is the strength of the kittycannon explosion. Set to 0 for no block damage and -1 for no person damage.
+# This is the strength of the kittycannon explosion. Set to 0 for no block damage and -1 for no mob damage.
 KittyCannonExplosionStrength: 5
 
-# Enable and disable explosions (true enables, false disables)
-explosions:
-    blockMobDamage: true
-    creeper: true
-    tnt: true
-    fireball: true
+# Land/Explosion Control
+# Prevents mob damage caused by explosions (true blocks, false for normal behavior)
+blockMobExplosionDamage: true
+# Prevents land damage caused by creepers (true block, false for normal behavior)
+blockCreeperExplosions: true
+# Prevents land damage caused by TNT (true block, false for normal behavior)
+blockTNTExplosions: true
+# Prevents land damage caused by Fireballs (true block, false for normal behavior)
+blockFireballExplosions: true

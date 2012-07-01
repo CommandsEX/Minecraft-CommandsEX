@@ -31,7 +31,7 @@ public class Handler_explosions implements Listener {
 		Entity entity = e.getEntity();
 		
 		// Check what entity caused the explosion, and is it set to block that kind of explosion in the config?
-		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("explosions.creeper")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("explosions.tnt")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("explosions.fireball"))){
+		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("blockCreeperExplosions")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("blockTNTExplosions")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("blockFireballExplosions"))){
 			e.setYield(0);
 			// Removes the entity, just to make sure.
 			entity.remove();
@@ -49,7 +49,7 @@ public class Handler_explosions implements Listener {
 		if ((damager instanceof TNTPrimed || damager instanceof Creeper || damager instanceof Fireball || damager instanceof SmallFireball)){
 			// If the entity is an item, or if the config has blockMobDamage set to true then cancel the damage
 			// This stops items from despawning from damage caused by explosions
-			if (e.getEntity() instanceof Item || CommandsEX.getConf().getBoolean("explosions.blockMobDamage")){
+			if (e.getEntity() instanceof Item || CommandsEX.getConf().getBoolean("blockMobExplosionDamage")){
 				e.setCancelled(true);
 			}
 		}
