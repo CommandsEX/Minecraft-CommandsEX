@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -119,6 +120,14 @@ public class Warps {
 							LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause() + ", from = warp create");
 							return true;
 						}
+					}
+					
+					// Stop players from naming warps the same name as a warp function
+					if (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("rename") 
+							|| args[1].equalsIgnoreCase("public") || args[1].equalsIgnoreCase("private") 
+							|| args[1].equalsIgnoreCase("help") || args[1].equalsIgnoreCase("delete")){
+						LogHelper.showInfo("warpCannotUseThatName", sender, ChatColor.RED);
+						return true;
 					}
 					
 					Location l = player.getLocation();
@@ -342,7 +351,7 @@ public class Warps {
 	
 						if (warpFound) {
 							// inform player about successful operation
-							LogHelper.showInfo("warpMadePublic#####[ " + args[1], sender);
+							LogHelper.showInfo("warpMadePublic#####[" + args[1], sender);
 						} else {
 							// warp was not found
 							LogHelper.showWarning("warpNotFound", sender);
@@ -394,7 +403,7 @@ public class Warps {
 	
 						if (warpFound) {
 							// inform player about successful operation
-							LogHelper.showInfos(sender, new String[] {"warpMadePrivate1#####[ " + args[1], "warpMadePrivate2"});
+							LogHelper.showInfos(sender, new String[] {"warpMadePrivate1#####[" + args[1], "warpMadePrivate2"});
 						} else {
 							// warp was not found
 							LogHelper.showWarning("warpNotFound", sender);
@@ -448,6 +457,14 @@ public class Warps {
 						}
 						res.close();
 						
+						// Stop players from naming warps the same name as a warp function
+						if (args[2].equalsIgnoreCase("create") || args[2].equalsIgnoreCase("rename") 
+								|| args[2].equalsIgnoreCase("public") || args[2].equalsIgnoreCase("private") 
+								|| args[2].equalsIgnoreCase("help") || args[2].equalsIgnoreCase("delete")){
+							LogHelper.showInfo("warpCannotUseThatName", sender, ChatColor.RED);
+							return true;
+						}
+						
 						// now try to find the warp we're looking for
 						res = SQLManager.query_res("SELECT id_warp FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[1]);
 						while (res.next()) {
@@ -458,7 +475,7 @@ public class Warps {
 	
 						if (warpFound) {
 							// inform player about successful operation
-							LogHelper.showInfo("warp#####[ " + args[1] + " #####warpRenamedTo#####[ " + args[2] + ".", sender);
+							LogHelper.showInfo("warp#####[ " + args[1] + " #####warpRenamedTo#####[" + args[2] + ".", sender);
 						} else {
 							// warp was not found
 							LogHelper.showWarning("warpNotFound", sender);
@@ -517,7 +534,7 @@ public class Warps {
 						if (warpID > 0) {
 							SQLManager.query("DELETE FROM " + SQLManager.prefix + "warps WHERE id_warp = ?", warpID);
 							// inform player about successful operation
-							LogHelper.showInfo("warpDeleted#####[ " + args[1], sender);
+							LogHelper.showInfo("warpDeleted#####[" + args[1], sender);
 						} else {
 							// couldn't find the warp
 							LogHelper.showWarning("warpNotFound", sender);
