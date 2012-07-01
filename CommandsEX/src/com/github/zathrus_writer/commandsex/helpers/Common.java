@@ -486,6 +486,12 @@ public class Common implements Listener {
 		return true;
 	}
 
+	/***
+	 * Function to set a players fly mode without breaking Creative Mode
+	 * @author iKeirNez
+	 * @param target
+	 */
+	
 	public static void setFlyMode(Player target){
 		// make sure we don't break creative flying
 		if (target.getGameMode() != GameMode.CREATIVE){

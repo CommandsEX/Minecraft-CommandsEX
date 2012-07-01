@@ -8,10 +8,26 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_fly extends Common {
 
+	/***
+	 * Fly - Toggles fly mode for a player, without the need for creative mode.
+	 * @author iKeirNez
+	 * @param sender
+	 * @param alias
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		if (sender instanceof Player){
+			if (Utils.checkCommandSpam(((Player) sender), "cex_fly")){
+				return true;
+			}
+		}
+		
 		if (args.length == 0){
 			if (!(sender instanceof Player)){
 				Commands.showCommandHelpAndUsage(sender, "cex_fly", alias);
