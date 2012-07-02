@@ -37,6 +37,7 @@ Beta 1.75
 - new perm cex.extinguish.others
 - new perm cex.platform.block.<block-id>
 - new perm cex.mob.spawn.bypasslimit
+- new perm cex.time
 
 Beta 1.70
 ---------
