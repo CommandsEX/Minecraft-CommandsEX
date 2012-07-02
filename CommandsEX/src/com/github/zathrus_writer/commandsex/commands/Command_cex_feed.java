@@ -35,7 +35,7 @@ public class Command_cex_feed {
 			}
 			
 			Player player = (Player) sender;
-			player.setHealth(20);
+			player.setFoodLevel(20);
 			LogHelper.showInfo("feedFed", sender, ChatColor.AQUA);
 		} else if (args.length == 1){
 			Player beingFed = Bukkit.getPlayer(args[0]);
@@ -49,7 +49,7 @@ public class Command_cex_feed {
 				beingFed.setFoodLevel(20);
 				LogHelper.showInfo("feedFed", sender, ChatColor.AQUA);
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.feed.others"))){
-				beingFed.setHealth(20);
+				beingFed.setFoodLevel(20);
 				LogHelper.showInfo("feedFedBySomeoneElse#####[" + sender.getName(), beingFed, ChatColor.AQUA);
 				LogHelper.showInfo("feedFedSomeoneElse#####[" + beingFed.getName(), sender, ChatColor.AQUA);
 			} else {
