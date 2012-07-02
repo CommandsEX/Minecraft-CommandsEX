@@ -62,7 +62,13 @@ public class Command_cex_calculator extends Calculator {
 			return true;
 		}
 		
-		LogHelper.showInfo("calculatorAnswer#####[" + calulation(sender, function, int1, int2), sender, ChatColor.AQUA);
+		String answer = calulation(sender, function, int1, int2);
+		// Check the answer is not null
+		if (answer == null){
+			return true;
+		}
+		
+		LogHelper.showInfo("calculatorAnswer#####[" + answer, sender, ChatColor.AQUA);
 		
 		return true;
 	}
