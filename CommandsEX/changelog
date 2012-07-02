@@ -13,6 +13,7 @@ Beta 1.75
 - improved NanoSuit commands when NanoSuit is not activated.
 - improved /platform command, you now must have permission to use a custom block type as a platform
 - improved /mob command, added a limit and a bypass node plus some more minor tweaks
+- improved /time command, it can now show the current time via /time view
 
 - updated /cex config commands for the new config nodes
 
@@ -21,6 +22,7 @@ Beta 1.75
 - fixed /back when player dies
 - fixed naming warps to create, delete, help etc
 - fixed some double spaces in warp messages
+- fixed /cex config set
 
 - removed command /removehat, it was a useless command and had too many problems
 

@@ -258,6 +258,11 @@ permissions:
   cex.weather.notify:
     default: op
     description: Players with this permission will be notified of a weather change by another player as it happens, including the player's name.
+  cex.time:
+    default: true
+    description: Allows the player to view the current time.
+    children:
+       cex.time.set: false
   cex.time.set:
     default: op
     description: Allows player to change world time.
@@ -786,8 +791,8 @@ commands:
     aliases: [weather]
   cex_time:
     description: Allows player to change time in the current world.
-    usage: /<command> (value/dawn/morning/noon/evening/night)
-    permission: cex.time.set
+    usage: /<command> (set/add/view) (value/dawn/morning/noon/evening/night)
+    permission: cex.time
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [time]
   cex_kit:
