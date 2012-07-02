@@ -456,6 +456,12 @@ permissions:
   cex.fly.others:
      default: op
      description: Allows the player to set others fly mode.
+  cex.ptime:
+     default: true
+     description: Allows the player to see their current player time.
+  cex.ptime.set:
+     default: op
+     description: Allows the player to set their player time.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1065,3 +1071,9 @@ commands:
     permission: cex.fly
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [fly, flying]
+  cex_ptime:
+    description: Allows the player to set their own player time.
+    usage: /<command> (set/add/view/reset) (value/dawn/morning/noon/evening/night)
+    permission: cex.ptime
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ptime, playertime]
