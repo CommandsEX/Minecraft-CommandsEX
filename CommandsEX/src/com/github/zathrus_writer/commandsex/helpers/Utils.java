@@ -298,7 +298,7 @@ public class Utils {
 	 * @param player
 	 * @return
 	 */
-	public Player getOfflinePlayer(String player) {
+	public static Player getOfflinePlayer(String player) {
 		// Taken from the OpenInv Source
 		// https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L106
 		Player player2 = null;
