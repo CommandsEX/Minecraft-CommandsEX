@@ -87,7 +87,7 @@ public class Command_cex_xp {
 			
 			int xpLimit = 438247;
 			
-			if (function.equalsIgnoreCase("sett")){
+			if (function.equalsIgnoreCase("set")){
 				boolean canSet = (amountint > xpLimit ? false : true);
 				if (!(amountint > xpLimit)){
 					expman.setExp((canSet ? amountint : xpLimit));
