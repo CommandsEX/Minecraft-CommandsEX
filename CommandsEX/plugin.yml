@@ -492,13 +492,13 @@ permissions:
   cex.xp.give:
      default: op
      description: Allows the player to give themselves Experience
-  cex.give.others:
+  cex.xp.give.others:
      default: op
      description: Allows the player to give others Experience
-  cex.take:
+  cex.xp.take:
      default: op
      description: Allows the player to take away some of their Experience
-  cex.take.others:
+  cex.xp.take.others:
      default: op
      description: Allows the player to take away some Experience from others
   Listener.replacechat:
