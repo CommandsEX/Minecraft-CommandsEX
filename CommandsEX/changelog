@@ -8,6 +8,7 @@ Beta 1.75
 = new command /fly, allows you to fly without creative mode
 - new command alias added for /clock, /time
 - new command /ptime, sets a players time
+- new command /xp for all your experience needs, thanks to desht on the bukkit forums for the amazing Experience Manager http://forums.bukkit.org/threads/experiencemanager-was-experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/
 
 - improved the calculator command, should now be more efficient and less code
 - improved some XMPP error messages slightly

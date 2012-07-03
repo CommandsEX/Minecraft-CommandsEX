@@ -462,6 +462,45 @@ permissions:
   cex.ptime.set:
      default: op
      description: Allows the player to set their player time.
+  cex.xp:
+     default: op
+     description: Allows access to /xp command
+  cex.xp.all:
+     default: op
+     description: Allows access to all XP functions
+     children:
+        cex.xp.view: true
+        cex.xp.view.others: true
+        cex.xp.set: true
+        cex.xp.set.others: true
+        cex.xp.give: true
+        cex.xp.give.others: true
+        cex.xp.take: true
+        cex.xp.take.others: true
+  cex.xp.view:
+     default: op
+     description: Allows the player to view their Experience
+  cex.xp.view.others:
+     default: op
+     description: Allows the player to view others Experience
+  cex.xp.set:
+     default: op
+     description: Allows the player to set their amount of Experience
+  cex.xp.set.others:
+     default: op
+     description: Allows the player to set others amount of Experience
+  cex.xp.give:
+     default: op
+     description: Allows the player to give themselves Experience
+  cex.give.others:
+     default: op
+     description: Allows the player to give others Experience
+  cex.take:
+     default: op
+     description: Allows the player to take away some of their Experience
+  cex.take.others:
+     default: op
+     description: Allows the player to take away some Experience from others
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1066,14 +1105,20 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [spawner, mobspawner]
   cex_fly:
-    description: Allows the player to set fly modes.
+    description: Sets a players fly mode.
     usage: /<command> [player]
     permission: cex.fly
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [fly, flying]
   cex_ptime:
-    description: Allows the player to set their own player time.
+    description: Sets a players time.
     usage: /<command> (set/add/view/reset) (value/dawn/morning/noon/evening/night)
     permission: cex.ptime
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [ptime, playertime]
+  cex_xp:
+    description: Manage players experience.
+    usage: /<command> [player] (view/set/add/take) [amount]
+    permission: cex.xp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [xp, exp, experience]
