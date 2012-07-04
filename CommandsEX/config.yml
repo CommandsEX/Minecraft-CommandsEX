@@ -282,11 +282,11 @@ slapPreventDamage: true
 # ... as you can see in the syntax example, you can use color codes in your commands as well (explained at http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes)
 # ... also, you can use $p as a placeholder for name of the player who just died
 #
-# syntax:
-#   knight:
-#       toGroup: translucent
-#       command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
-# NOTE: YOU NEED TO ADD THIS CONFIGURATION HERE MANUALLY, NO DEFAULTS ARE CREATED FOR THIS SECTION!
+deathGroupChanges:
+    knight:
+        toGroup: translucent
+        command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
+# NOTE: YOU NEED TO EDIT THE ABOVE CONFIGURATION FOR THIS TO WORK!
 
 
 # this sets time (in days) after which we delete old records of player groups from database

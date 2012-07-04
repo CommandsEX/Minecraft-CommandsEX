@@ -100,20 +100,23 @@ public class Handler_deathgroup implements Listener {
 			LogHelper.logDebug("testing against " + group);
 			if (Vault.perms.playerInGroup(p, group)) {
 				LogHelper.logDebug("test ok");
-				toGroup = f.getString("deathGroupChanges." + group + ".toGroup", "");
-				command = f.getString("deathGroupChanges." + group + ".command", "");
-				
-				// change player's group based on config
-				if (!toGroup.equals("")) {
-					removedGroups.add(group + "##" + toGroup);
-					Vault.perms.playerRemoveGroup(p, group);
-					Vault.perms.playerAddGroup(p, toGroup);
-				}
-				
-				// check if we should execute a command
-				if ((command != null) && !command.equals("")) {
-					command = Utils.replaceChatColors(command).replace("$p", pName);
-					CommandsEX.plugin.getServer().dispatchCommand(ccs, command);
+				// make sure that these are not null and don't cause problems
+				if (f.getString("deathGroupChanges." + group + ".toGroup", "") != null && f.getString("deathGroupChanges." + group + ".command", "") != null){
+					toGroup = f.getString("deathGroupChanges." + group + ".toGroup", "");
+					command = f.getString("deathGroupChanges." + group + ".command", "");
+					
+					// change player's group based on config
+					if (!toGroup.equals("")) {
+						removedGroups.add(group + "##" + toGroup);
+						Vault.perms.playerRemoveGroup(p, group);
+						Vault.perms.playerAddGroup(p, toGroup);
+					}
+					
+					// check if we should execute a command
+					if ((command != null) && !command.equals("")) {
+						command = Utils.replaceChatColors(command).replace("$p", pName);
+						CommandsEX.plugin.getServer().dispatchCommand(ccs, command);
+					}
 				}
 			}
 		}
