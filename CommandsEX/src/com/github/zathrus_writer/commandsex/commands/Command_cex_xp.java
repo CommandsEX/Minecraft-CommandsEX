@@ -146,7 +146,7 @@ public class Command_cex_xp {
 				expman.changeExp(amountint);
 			}
 			// Send a success message to the target with the actual amount of XP that was added
-			if (sender != target) { LogHelper.showInfo("xpAdded#####[" + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience#####[ #####xpTo#####[" + target.getName(), sender, ChatColor.GREEN); }
+			if (sender != target) { LogHelper.showInfo("xpAdded#####[" + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience#####[ #####xpTo#####[" + target.getName(), sender, ChatColor.AQUA); }
 			// Send a success message to the sender with the actual amount of XP that was added
 			LogHelper.showInfo((sender != target ? "[" + sender.getName() + " #####xpAddedGave1#####[" : "xpAddedGave2#####[") + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience", target, ChatColor.AQUA);
 		}
@@ -172,7 +172,7 @@ public class Command_cex_xp {
 			// Send a message to sender saying the target didn't have that amount
 			if (!hasXP) { LogHelper.showInfo("xpNotEnough", sender, ChatColor.RED); }
 			// Alert the target that some of his XP has been stolen and the actual amount of XP taken
-			if (sender != target) { LogHelper.showInfo("xpTaken#####[" + (hasXP ? amountint : oldXP) + " #####xpExperience#####[ #####xpFrom#####[" + target.getName(), sender, ChatColor.GREEN); }
+			if (sender != target) { LogHelper.showInfo("xpTaken#####[" + (hasXP ? amountint : oldXP) + " #####xpExperience#####[ #####xpFrom#####[" + target.getName(), sender, ChatColor.AQUA); }
 			// Send a message to the sender with the actual amount of XP taken
 			LogHelper.showInfo((sender != target ? "[" + sender.getName() + " #####xpTakenTook1#####[" : "xpTakenTook2#####[") + (hasXP ? amountint : oldXP) + " #####xpExperience", target, ChatColor.AQUA);
 		}
