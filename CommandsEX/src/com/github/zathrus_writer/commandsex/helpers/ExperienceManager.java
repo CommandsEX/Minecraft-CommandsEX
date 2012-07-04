@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+
 /**
  * @author des
  *
@@ -20,7 +21,7 @@ public class ExperienceManager {
 	private final String playerName;
 
 	static {
-		initLookupTables(500);
+		initLookupTables(25);
 	}
 
 	/**
@@ -69,37 +70,31 @@ public class ExperienceManager {
 	}
 
 	/**
-	 * Set the players experience
-	 * @param amt		Amount of XP
-	 */
-	public void setExp(int amt) {
-		int xp = amt;
-		if (xp < 0) xp = 0;
-
-		Player player = getPlayer();
-		int curLvl = player.getLevel();
-		int newLvl = getLevelForExp(xp); 
-		if (curLvl != newLvl) {
-			player.setLevel(newLvl);
-		}
-
-		float pct = ((float)(xp - getXpForLevel(newLvl)) / (float)xpRequiredForNextLevel[newLvl]);
-		player.setExp(pct);
-	}
-	
-	/**
 	 * Adjust the player's XP by the given amount in an intelligent fashion.  Works around
 	 * some of the non-intuitive behaviour of the basic Bukkit player.giveExp() method.
 	 * 	
 	 * @param amt		Amount of XP, may be negative
 	 */
 	public void changeExp(int amt) {
-		int xp = getCurrentExp() + amt;
+		setExp(getCurrentExp(), amt);
+	}
+
+	/**
+	 * Set the player's experience
+	 *
+	 * @param amt        Amount of XP, should not be negative
+	 */
+	public void setExp(int amt) {
+		setExp(0, amt);
+	}
+
+	private void setExp(int base, int amt) {
+		int xp = base + amt;
 		if (xp < 0) xp = 0;
 
 		Player player = getPlayer();
 		int curLvl = player.getLevel();
-		int newLvl = getLevelForExp(xp); 
+		int newLvl = getLevelForExp(xp);
 		if (curLvl != newLvl) {
 			player.setLevel(newLvl);
 		}

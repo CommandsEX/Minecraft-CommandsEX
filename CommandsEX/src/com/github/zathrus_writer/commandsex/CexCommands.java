@@ -218,7 +218,9 @@ public class CexCommands {
 					} else if (v.equals("startuptimer")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configStartupTimer", sender.getName()) + p.getConfig().getBoolean("startupTimer"));
 					} else if (v.equals("spawnmoblimit")) {
-						sender.sendMessage(ChatColor.YELLOW + _("spawnMobLimit", sender.getName()) + p.getConfig().getInt("spawnMobLimit"));
+						sender.sendMessage(ChatColor.YELLOW + _("configSpawnMobLimit", sender.getName()) + p.getConfig().getInt("spawnMobLimit"));
+					} else if (v.equals("pluginmetrics")) {
+						sender.sendMessage(ChatColor.YELLOW + _("configPluginMetrics", sender.getName()) + p.getConfig().getBoolean("pluginMetrics"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -785,6 +787,10 @@ public class CexCommands {
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("pluginmetrics")) {
+						p.getConfig().set("pluginMetrics", !p.getConfig().getBoolean("pluginMetrics"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("pluginMetrics") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

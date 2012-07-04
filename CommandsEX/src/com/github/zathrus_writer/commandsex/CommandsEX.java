@@ -198,11 +198,14 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			this.getServer().getPluginManager().registerEvents(this, this);
 		}
 		
-		try {
-		    Metrics metrics = new Metrics(plugin);
-		    metrics.start();
-		} catch (IOException e) {
+		// don't start metrics if the user has disabled it
+		if (getConf().getBoolean("pluginMetrics")){
+			try {
+			    Metrics metrics = new Metrics(plugin);
+			    metrics.start();
+			} catch (IOException e) {
 
+			}
 		}
 		stopTimer();
 	}
