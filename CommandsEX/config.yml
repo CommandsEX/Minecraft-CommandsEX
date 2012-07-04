@@ -357,3 +357,6 @@ blockFireballExplosions: true
 
 # Sets a limit for how many mobs can be spawned at once (0 disables limit - NOT RECOMMENDED)
 spawnMobLimit: 20
+
+#How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
+onLoginTimeLimit: 48
