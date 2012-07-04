@@ -537,7 +537,7 @@ permissions:
   Init.Kits:
     default: true
     description: Placeholder for initialization function used to check and create kits database.
-  Init.Onlogin
+  Init.Onlogin:
     default: true
     description: Placeholder for initialization function used to check and delete old onLogin entries.
 commands:

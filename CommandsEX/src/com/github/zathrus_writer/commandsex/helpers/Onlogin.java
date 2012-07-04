@@ -12,9 +12,12 @@ public class Onlogin {
 		
 	}
 	public static void Init(CommandsEX plugin){
-		String sqlPrefix = CommandsEX.getConf().getString("prefix", "");
-		SQLManager.query("CREATE TABLE IF NOT EXISTS " + sqlPrefix + "onlogin (Player VARCHAR(16), Command VARCHAR(300), TimeStamp BIGINT);");	
-		checkForOld();
+		CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+			public void run() {
+			checkForOld();
+			}
+		}, 20L ,12000L);
+
 	}
 	public static void checkForOld(){
 		ResultSet set = SQLManager.query_res("SELECT * from " + CommandsEX.getConf().getString("prefix", "") + "onlogin;");

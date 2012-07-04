@@ -54,8 +54,9 @@ public class Command_cex_onlogin {
 			long TimeStamp = System.currentTimeMillis();
 			if(!CommandsEX.sqlEnabled) return true;
 			String sqlPrefix = CommandsEX.getConf().getString("prefix", "");
-			try {			
-			SQLManager.query("INSERT INTO " +sqlPrefix+"onLogin (Player, Command, TimeStamp) values ('" + targetName 
+			try {	
+			SQLManager.query("CREATE TABLE IF NOT EXISTS " + sqlPrefix + "onlogin (Player VARCHAR(16), Command VARCHAR(300), TimeStamp BIGINT);");
+			SQLManager.query("INSERT INTO " +sqlPrefix+"onlogin (Player, Command, TimeStamp) values ('" + targetName 
 					+ "', '" + command + "', '" + TimeStamp + "');");
 			return true;
 			} catch (Exception e) {

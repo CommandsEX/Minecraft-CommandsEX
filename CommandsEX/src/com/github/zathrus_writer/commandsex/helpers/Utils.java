@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,10 +12,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.MinecraftServer;
+
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -284,5 +290,38 @@ public class Utils {
 	public static String userFriendlyNames(String name){
 		String formattedName = WordUtils.capitalize(name.replaceAll("_", " ").toLowerCase());
 		return formattedName;
+	}
+	
+	/***
+	 * Allows you to use functions for an offline player like they where an online player
+	 * By creating a fake entity
+	 * @param player
+	 * @return
+	 */
+	public static Player getOfflinePlayer(String player) {
+		// Taken from the OpenInv Source
+		// https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L106
+		Player player2 = null;
+		try {
+			File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+			for (File playerfile : playerfolder.listFiles()) {
+				String filename = playerfile.getName();
+				String playername = filename.substring(0, filename.length() - 4);
+
+				if (playername.trim().equalsIgnoreCase(player)) {
+					final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
+					final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
+					player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
+					if (player2 != null) {
+						player2.loadData();
+					} else {
+						
+					}
+				}
+			}
+		} catch (final Exception e) {
+			// Exception :0
+		}
+		return player2;
 	}
 }
