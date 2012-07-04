@@ -26,6 +26,7 @@ Beta 1.75
 - fixed naming warps to create, delete, help etc
 - fixed some double spaces in warp messages
 - fixed /cex config set
+- fixed some issues with setting config values via commands
 
 - removed command /removehat, it was a useless command and had too many problems
 

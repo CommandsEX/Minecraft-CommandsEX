@@ -76,7 +76,6 @@ public class Command_cex_xp {
 			}
 		}
 
-		// Put this in a try catch, because if the users experience is too high, it can cause memory errors
 		ExperienceManager expman = new ExperienceManager(target);
 
 		if (function.equalsIgnoreCase("view")){
@@ -84,31 +83,16 @@ public class Command_cex_xp {
 			return true;
 		}
 
-		int xpLimit = 438247;
-
 		if (function.equalsIgnoreCase("set")){
-			boolean canSet = (amountint > xpLimit ? false : true);
-			if (!(amountint > xpLimit)){
-				expman.setExp((canSet ? amountint : xpLimit));
-				if (!canSet){ LogHelper.showInfo("xpCouldNotAddAll", sender, ChatColor.RED); }
-				if (sender != target) { LogHelper.showInfo("xpSet#####[" + target.getName() +  " #####xpTo#####[" + (canSet ? amountint : xpLimit), sender, ChatColor.AQUA); }
-				LogHelper.showInfo((sender != target ? "#####[" + sender.getName() + " #####xpSetMsgToTarget1#####[" : "xpSetMsgToTarget2#####[") + (canSet ? amountint : xpLimit), target, ChatColor.AQUA);
-			} else {
-				LogHelper.showInfo("xpLimit", sender, ChatColor.RED);
-			}
+			expman.setExp(amountint);
+			if (sender != target) { LogHelper.showInfo("xpSet#####[" + target.getName() +  " #####xpTo#####[" + amountint, sender, ChatColor.AQUA); }
+			LogHelper.showInfo((sender != target ? "#####[" + sender.getName() + " #####xpSetMsgToTarget1#####[" : "xpSetMsgToTarget2#####[") + amountint, target, ChatColor.AQUA);
 		}
 
 		if (function.equalsIgnoreCase("add")){
-			boolean spaceToAdd = (expman.getCurrentExp() + amountint > xpLimit ? false : true);
-			int oldXP = expman.getCurrentExp();
-			if (!(amountint > xpLimit)){
-				expman.changeExp((spaceToAdd ? amountint : xpLimit - oldXP));
-				if (!spaceToAdd) { LogHelper.showInfo("xpCouldNotAddAll", sender, ChatColor.RED); }
-				if (sender != target) { LogHelper.showInfo("xpAdded#####[" + (spaceToAdd ? amountint : xpLimit - oldXP) + " #####xpExperience#####[ #####xpTo#####[" + target.getName(), sender, ChatColor.GREEN); }
-				LogHelper.showInfo((sender != target ? "#####[" + sender.getName() + " #####xpAddedGave1#####[" : "xpAddedGave2#####[") + (spaceToAdd ? amountint : xpLimit - oldXP) + " #####xpExperience", target, ChatColor.AQUA);
-			} else {
-				LogHelper.showInfo("xpLimit", sender, ChatColor.RED);
-			}
+			expman.changeExp(amountint);
+			if (sender != target) { LogHelper.showInfo("xpAdded#####[" + amountint + " #####xpExperience#####[ #####xpTo#####[" + target.getName(), sender, ChatColor.GREEN); }
+			LogHelper.showInfo((sender != target ? "#####[" + sender.getName() + " #####xpAddedGave1#####[" : "xpAddedGave2#####[") + amountint + " #####xpExperience", target, ChatColor.AQUA);
 		}
 
 		if (function.equalsIgnoreCase("take")){
