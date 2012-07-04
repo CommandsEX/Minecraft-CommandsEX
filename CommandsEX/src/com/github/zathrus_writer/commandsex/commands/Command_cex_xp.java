@@ -82,12 +82,32 @@ public class Command_cex_xp {
 		int xpMax = 99999999;
 		// Very simple view function to show how much XP a player has
 		if (function.equalsIgnoreCase("view")){
+			if (!sender.hasPermission("cex.xp.view")){
+				LogHelper.showInfo("xpViewNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (sender != target && !sender.hasPermission("cex.xp.view.others")){
+				LogHelper.showInfo("xpViewOthersNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
 			LogHelper.showInfo((sender != target ? "[" + target.getName() + " #####xpHas#####[" : "xpViewSelf#####[") + expman.getCurrentExp() + " #####xpExperience", sender, ChatColor.AQUA);
 			return true;
 		}
 
 		// Set function to set a players XP
 		if (function.equalsIgnoreCase("set")){
+			if (!sender.hasPermission("cex.xp.set")){
+				LogHelper.showInfo("xpSetNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (sender != target && !sender.hasPermission("cex.xp.set.others")){
+				LogHelper.showInfo("xpSetOthersNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
 			boolean overLimit = false;
 			// See if the amount the player defined is over the limit
 			if (amountint > xpMax){ overLimit = true; }
@@ -103,6 +123,16 @@ public class Command_cex_xp {
 
 		// Add function to add to a players current experience
 		if (function.equalsIgnoreCase("add")){
+			if (!sender.hasPermission("cex.xp.add")){
+				LogHelper.showInfo("xpAddNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (sender != target && !sender.hasPermission("cex.xp.add.others")){
+				LogHelper.showInfo("xpAddOthersNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
 			boolean overLimit = false;
 			int oldXP = expman.getCurrentExp();
 			// Determin whether adding this amount of XP would go over the limit
@@ -123,6 +153,16 @@ public class Command_cex_xp {
 
 		// Take function to take XP from a player
 		if (function.equalsIgnoreCase("take")){
+			if (!sender.hasPermission("cex.xp.take")){
+				LogHelper.showInfo("xpTakeNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (sender != target && !sender.hasPermission("cex.xp.take.others")){
+				LogHelper.showInfo("xpTakeOthersNoPerm", sender, ChatColor.RED);
+				return true;
+			}
+			
 			// Check if the player has the amount needed
 			boolean hasXP = expman.hasExp(amountint);
 			int oldXP = expman.getCurrentExp();
