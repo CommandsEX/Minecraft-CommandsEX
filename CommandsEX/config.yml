@@ -362,6 +362,5 @@ spawnMobLimit: 20
 # Change to false if you wish to disable it
 pluginMetrics: true
 
-	
 #How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
 onLoginTimeLimit: 48
