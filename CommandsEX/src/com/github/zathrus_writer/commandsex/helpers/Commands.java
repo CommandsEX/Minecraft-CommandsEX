@@ -61,6 +61,11 @@ public class Commands implements CommandExecutor {
 			LogHelper.showWarning("internalError", sender);
 			LogHelper.logSevere("[CommandsEX] Couldn't handle function call '" + cmd + "'");
 			LogHelper.logDebug("Message: " + e.getMessage() + ", cause: "+e.getCause());
+			
+			// print the stack trace if debug mode is enabled
+			if (CommandsEX.getConf().getBoolean("debugMode")){
+				e.printStackTrace();
+			}
     		return true;
     	}
 	}

@@ -16,6 +16,7 @@ Beta 1.75
 - improved /platform command, you now must have permission to use a custom block type as a platform
 - improved /mob command, added a limit and a bypass node plus some more minor tweaks
 - improved /time command, it can now show the current time via /time view
+- improved debug mode, it will now print stack traces when an error occurs and debug mode is active
 
 - updated /cex config commands for the new config nodes
 
@@ -42,6 +43,16 @@ Beta 1.75
 - new perm cex.time
 - new perm cex.ptime
 - new perm cex.ptime.set
+- new perm cex.xp
+- new perm cex.xp.all
+- new perm cex.xp.view
+- new perm cex.xp.view.others
+- new perm cex.xp.set
+- new perm cex.xp.set.others
+- new perm cex.xp.give
+- new perm cex.xp.give.others
+- new perm cex.xp.take
+- new perm cex.xp.take.others
 
 Beta 1.70
 ---------
