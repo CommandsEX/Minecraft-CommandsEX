@@ -501,6 +501,18 @@ permissions:
   cex.xp.take.others:
      default: op
      description: Allows the player to take away some Experience from others
+  cex.pinfo:
+     default: op
+     description: Allows the player to view information about themself
+  cex.pinfo.others:
+     default: op
+     description: Allows the player to view information about others
+  cex.onlogin:
+    default: op
+    description: Allows the player to create onLogin entries.  
+  cex.onlogin.exempt:
+     default: op
+     description: Players with this permission cannot have onLogin entries created for them.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -546,6 +558,9 @@ permissions:
   Listener.invisibility:
     default: true
     description: Placeholder for event function for invisibility releated things
+  Listener.onlogin:
+    default: true
+    description: Placeholder for event function for onlogin related things  
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -567,6 +582,9 @@ permissions:
   Init.Kits:
     default: true
     description: Placeholder for initialization function used to check and create kits database.
+  Init.Onlogin:
+    default: true
+    description: Placeholder for initialization function used to check and delete old onLogin entries.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -1122,3 +1140,15 @@ commands:
     permission: cex.xp
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [xp, exp, experience]
+  cex_pinfo:
+    description: Shows information about a player.
+    usage: /<command> [player] [dispname/balance/health/armour/armourpoints/helmet/chestplate/leggings/boots/food/xp/xplevels/coords/world/x/y/z]
+    permission: cex.pinfo
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [pinfo, playerinfo]
+  cex_onlogin:
+    description: Executes the specified command when the specified player logs in.
+    usage: /<command> <player> <command goes here>
+    permission: cex.onlogin
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [onlogin]
