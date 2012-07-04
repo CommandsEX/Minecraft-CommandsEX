@@ -100,7 +100,7 @@ public class CexCommands {
 				) {
 			
 			/***
-			 * CONFIGURATION GETTING / SETTING
+			 * CONFIGURATION GETTING / (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())
 			 */
 			
 			if (!args[1].equals("get") && !args[1].equals("set") && !args[0].equals("cs") && !args[0].equals("cg")) {
@@ -206,7 +206,7 @@ public class CexCommands {
 					} else if (v.equals("serverowner")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configServerOwner", sender.getName()) + p.getConfig().getString("ServerOwner"));
 					} else if (v.equals("kittycannonexplosionstrength")) {
-						sender.sendMessage(ChatColor.YELLOW + _("configKittyCannonExplosionStrength", sender.getName()) + p.getConfig().getInt("kittyCannonExplosionStrength"));
+						sender.sendMessage(ChatColor.YELLOW + _("configKittyCannonExplosionStrength", sender.getName()) + p.getConfig().getInt("KittyCannonExplosionStrength"));
 					} else if (v.equals("blockmobexplosiondamage")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configBlockMobExplosionDamage", sender.getName()) + p.getConfig().getBoolean("blockMobExplosionDamage"));
 					} else if (v.equals("blockcreeperexplosions")) {
@@ -227,10 +227,9 @@ public class CexCommands {
 				} else if (args[1].equals("set") || args[0].equals("cs")) {
 					
 					/***
-					 * SETTING CONFIG VALUES
+					 * (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) CONFIG VALUES
 					 */
 					String v = (args[0].equals("cs") ? args[1].toLowerCase() : args[2].toLowerCase());
-					String setting = (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase());
 					if (v.equals("disableversion")) {
 						p.getConfig().set("disableVersion", !p.getConfig().getBoolean("disableVersion"));
 						p.saveConfig();
@@ -240,25 +239,25 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("logCommands") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("defaultlang")) {
-						if ((aLength > 2) && setting != null) {
-							p.getConfig().set("defaultLang", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							p.getConfig().set("defaultLang", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 							p.saveConfig();
-							Language.defaultLocale = setting;
+							Language.defaultLocale = (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase());
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultLang"));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("tpatimeout")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("tpaTimeout", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpaTimeout", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								try {
 									Command_cex_tpa.tTimeout = Integer.parseInt(args[2]);
 								} catch (Throwable e) {
 									// the tpa command might not be present in the plugin
 								}
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpaTimeout"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("tpaTimeout"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -267,16 +266,16 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("tpaheretimeout")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("tpahereTimeout", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("tpahereTimeout", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								try {
-									Command_cex_tpahere.tTimeout = Integer.parseInt(setting);
+									Command_cex_tpahere.tTimeout = Integer.parseInt((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 								} catch (Throwable e) {
 									// the tpahere command might not be present in the plugin
 								}
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("tpahereTimeout"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("tpahereTimeout"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -285,11 +284,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("commandcooldowntime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("commandCooldownTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("commandCooldownTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("commandCooldownTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("commandCooldownTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -298,11 +297,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("homequalifytime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("homeQualifyTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("homeQualifyTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("homeQualifyTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("homeQualifyTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -311,11 +310,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizrepeattime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizRepeatTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizRepeatTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizRepeatTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("quizRepeatTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -324,11 +323,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizdelay")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizDelay", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDelay", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDelay"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("quizDelay"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -337,11 +336,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("quizduration")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("quizDuration", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("quizDuration", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("quizDuration"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("quizDuration"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -350,11 +349,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("weathernotifytime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("weatherNotifyTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("weatherNotifyTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("weatherNotifyTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("weatherNotifyTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -363,11 +362,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("defaultslapheight")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("defaultSlapHeight", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("defaultSlapHeight", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("defaultSlapHeight"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("defaultSlapHeight"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -376,11 +375,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("maxwarpsperplayer")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("maxWarpsPerPlayer", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("maxWarpsPerPlayer", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("maxWarpsPerPlayer"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("maxWarpsPerPlayer"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -389,11 +388,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("maxipholdtime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("maxIPholdTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("maxIPholdTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("maxIPholdTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("maxIPholdTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -402,11 +401,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("mintempbanswarn")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("minTempBansWarn", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("minTempBansWarn", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("minTempBansWarn"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("minTempBansWarn"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -415,11 +414,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("joinsilenttime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("joinSilentTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("joinSilentTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("joinSilentTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("joinSilentTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -428,11 +427,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("jailarea")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("jailArea", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("jailArea", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("jailArea"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("jailArea"));
 							} else {
 								// area not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -441,11 +440,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("kamikazetimeout")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("kamikazeTimeout", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("kamikazeTimeout", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("kamikazeTimeout"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("kamikazeTimeout"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -454,11 +453,11 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("deathgroupscleanuptime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("deathGroupsCleanupTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("deathGroupsCleanupTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathGroupsCleanupTime"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("deathGroupsCleanupTime"));
 							} else {
 								// timeout not numeric
 								LogHelper.showWarning("configProvideNumericValue", sender);
@@ -467,9 +466,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("timedpromotetasktime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("timedPromoteTaskTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("timedPromoteTaskTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 
 								// cancel old task and create a new one with this new timeout value
@@ -501,9 +500,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("ecopromotetasktime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("ecoPromoteTaskTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("ecoPromoteTaskTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 
 								// cancel old task and create a new one with this new timeout value
@@ -522,7 +521,7 @@ public class CexCommands {
 											});
 											threadExecutor.shutdown(); // shutdown worker threads
 										}
-									}, (20 * Integer.parseInt(setting)), (20 * Integer.parseInt(setting)));
+									}, (20 * Integer.parseInt((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()))), (20 * Integer.parseInt((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()))));
 								} catch (Throwable ex) {}
 								
 								// show message
@@ -563,12 +562,12 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("debugMode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("timedpromoteexclude")) {
-						if (setting.equals("add") || setting.equals("add")) {
+						if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).equals("add") || (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).equals("add")) {
 							@SuppressWarnings("unchecked")
 							List<String> l = (List<String>) p.getConfig().getList("timedPromoteExclude");
-							String toAdd = setting.equals("add") ? args[3] : args[4];
+							String toAdd = (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).equals("add") ? args[3] : args[4];
 							if (!l.contains(toAdd)) {
-								l.add(setting.equals("add") ? args[3] : args[4]);
+								l.add((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).equals("add") ? args[3] : args[4]);
 								p.getConfig().set("timedPromoteExclude", l);
 								p.saveConfig();
 							}
@@ -635,16 +634,16 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("motd")) {
-						if ((aLength > 2) && setting != null) {
-							p.getConfig().set("motd", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							p.getConfig().set("motd", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 							p.saveConfig();
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motd")));
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("motdnewplayer")) {
-						if ((aLength > 2) && setting != null) {
-							p.getConfig().set("motdNewPlayer", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							p.getConfig().set("motdNewPlayer", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 							p.saveConfig();
 							sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("motdNewPlayer")));
 						} else {
@@ -659,9 +658,9 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("nanoSuitPumpkin") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("nanosuitspeed")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitSpeed", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitSpeed", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								// show message
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitSpeed"));
@@ -672,9 +671,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitjump")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitJump", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitJump", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitJump"));
 							} else {
@@ -684,9 +683,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitdamage")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitDamage", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitDamage", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitDamage"));
 							} else {
@@ -696,9 +695,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuittime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitTime"));
 							} else {
@@ -708,9 +707,9 @@ public class CexCommands {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
 					} else if (v.equals("nanosuitrechargetime")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("nanoSuitRechargeTime", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("nanoSuitRechargeTime", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("nanoSuitRechargeTime"));
 							} else {
@@ -728,7 +727,7 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("showMessagesOnExplode") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("info")) {
-						p.getConfig().set("info", setting);
+						p.getConfig().set("info", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + Utils.replaceChatColors(p.getConfig().getString("info")));
 					} else if (v.equals("fakequitmessage")) {
@@ -740,15 +739,15 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("fakeJoinMessage") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("serverowner")) {
-						p.getConfig().set("ServerOwner", setting);
+						p.getConfig().set("ServerOwner", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("ServerOwner"));
 					} else if (v.equals("kittycannonexplosionstrength")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("kittyCannonExplosionStrength", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("KittyCannonExplosionStrength", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
-								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("kittyCannonExplosionStrength"));
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("KittyCannonExplosionStrength"));
 							} else {
 								LogHelper.showWarning("configProvideNumericValue", sender);
 							}
@@ -776,9 +775,9 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("startupTimer") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("spawnmoblimit")) {
-						if ((aLength > 2) && setting != null) {
-							if (setting.matches(CommandsEX.intRegex)) {
-								p.getConfig().set("spawnMobLimit", setting);
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("spawnMobLimit", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
 								p.saveConfig();
 								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("spawnMobLimit"));
 							} else {
