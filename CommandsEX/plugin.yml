@@ -507,6 +507,9 @@ permissions:
   cex.pinfo.others:
      default: op
      description: Allows the player to view information about others
+  cex.pinfo.others.ip:
+     default: op
+     description: Allows the player to view players IP address, be careful who you give this to
   cex.onlogin:
     default: op
     description: Allows the player to create onLogin entries.  
@@ -1142,7 +1145,7 @@ commands:
     aliases: [xp, exp, experience]
   cex_pinfo:
     description: Shows information about a player.
-    usage: /<command> [player] [dispname/balance/health/armour/armourpoints/helmet/chestplate/leggings/boots/food/xp/xplevels/coords/world/x/y/z]
+    usage: /<command> [player] [dispname/balance/health/food/xp/xplevels/coords/world/x/y/z/armour/helmet/chestplate/leggings/boots]
     permission: cex.pinfo
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [pinfo, playerinfo]
