@@ -26,6 +26,7 @@ public class Onlogin {
 			long currentTime = System.currentTimeMillis();
 			long oldTime = set.getLong("TimeStamp");
 			int maxAge = CommandsEX.getConf().getInt("onLoginTimeLimit", 48);
+			@SuppressWarnings("unused")
 			long maxAgeLong =(long) maxAge * 3600000;
 			long oldTimeNew = oldTime + maxAge;
 			if (oldTimeNew < currentTime) {
