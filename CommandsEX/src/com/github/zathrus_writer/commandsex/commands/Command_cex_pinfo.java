@@ -151,10 +151,8 @@ public class Command_cex_pinfo {
 				System.out.println(time);
 				if (time.startsWith("00:")){
 					time = time.replaceFirst("00:", "");
-					System.out.println(time);
 					if (time.startsWith("00:")){
 						time = time.replaceFirst("00:", "") + "s";
-						System.out.println(time);
 					}
 				}
 				System.out.println(time);
