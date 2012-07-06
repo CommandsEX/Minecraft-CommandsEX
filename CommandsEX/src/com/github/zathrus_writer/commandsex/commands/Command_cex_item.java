@@ -44,7 +44,7 @@ public class Command_cex_item extends ItemSpawning {
 					try {
 						damage = Short.valueOf(args[0].split(":")[1]);
 					} catch (Exception e) {
-						LogHelper.showInfo("itemIncorrectDamageValue", player, ChatColor.RED);
+						LogHelper.showInfo("itemIncorrectDamage", player, ChatColor.RED);
 						Commands.showCommandHelpAndUsage(player, "cex_item", alias);
 						return true;
 					}

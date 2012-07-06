@@ -60,7 +60,7 @@ public class Command_cex_give extends ItemSpawning {
 				try {
 					damage = Short.valueOf(args[1].split(":")[1]);
 				} catch (Exception e) {
-					LogHelper.showInfo("itemIncorrectDamageValue", sender, ChatColor.RED);
+					LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
 					Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
 					return true;
 				}
