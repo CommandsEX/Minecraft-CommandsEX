@@ -148,7 +148,6 @@ public class Command_cex_pinfo {
 			ArrayList<String> potions = new ArrayList<String>();
 			for (PotionEffect pot : target.getActivePotionEffects()){
 				String time = Utils.convertToHHMMSS(pot.getDuration() / 20);
-				System.out.println(time);
 				if (time.startsWith("00:")){
 					time = time.replaceFirst("00:", "");
 					if (time.startsWith("00:")){
