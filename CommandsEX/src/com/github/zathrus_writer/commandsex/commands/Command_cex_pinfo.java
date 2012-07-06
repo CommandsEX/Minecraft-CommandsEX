@@ -147,7 +147,7 @@ public class Command_cex_pinfo {
 		if (function == null || function.equalsIgnoreCase("potions")) {
 			ArrayList<String> potions = new ArrayList<String>();
 			for (PotionEffect pot : target.getActivePotionEffects()){
-				String time = Utils.convertToHHMMSS(pot.getDuration() / 20);
+				String time = Utils.convertToHHMMSS(pot.getDuration() / 20, true);
 				if (time.startsWith("00:")){
 					time = time.replaceFirst("00:", "");
 					if (time.startsWith("00:")){

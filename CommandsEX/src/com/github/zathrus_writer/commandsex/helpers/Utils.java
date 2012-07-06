@@ -332,12 +332,12 @@ public class Utils {
 	 * @return
 	 */
 	
-	public static String convertToHHMMSS(int secondsIn){
+	public static String convertToHHMMSS(int secondsIn, boolean seconds){
 		int hours = secondsIn / 3600;
 		int remainder = secondsIn % 3600;
 		int minutes = remainder / 60;
-		int seconds = remainder % 60;
-		String string = (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+		int seconds1 = remainder % 60;
+		String string = (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds ? (seconds1 < 10 ? "0" : "") + seconds1 : "");
 		
 		return string;
 	}
