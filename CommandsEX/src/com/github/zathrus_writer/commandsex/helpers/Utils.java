@@ -324,4 +324,21 @@ public class Utils {
 		}
 		return player2;
 	}
+	
+	/***
+	 * Converts seconds to a HH:MM:SS format
+	 * @author iKeirNez
+	 * @param secondsIn
+	 * @return
+	 */
+	
+	public static String convertToHHMMSS(int secondsIn){
+		int hours = secondsIn / 3600;
+		int remainder = secondsIn % 3600;
+		int minutes = remainder / 60;
+		int seconds = remainder % 60;
+		String string = (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+		
+		return string;
+	}
 }

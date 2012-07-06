@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
@@ -48,15 +49,16 @@ public class Command_cex_pinfo {
 			}
 			target = (Player) sender;
 		} else if (args.length == 1){
-			if (args[1].equalsIgnoreCase("dispname") || args[1].equalsIgnoreCase("displayname") || args[1].equalsIgnoreCase("balance") || args[1].equalsIgnoreCase("health") || args[1].equalsIgnoreCase("hearts")
-					|| args[1].equalsIgnoreCase("armour") || args[1].equalsIgnoreCase("armourpoints") || args[1].equalsIgnoreCase("helmet") || args[1].equalsIgnoreCase("chestplate")
-					|| args[1].equalsIgnoreCase("leggings") || args[1].equalsIgnoreCase("boots") || args[1].equalsIgnoreCase("food") || args[1].equalsIgnoreCase("hunger")
-					|| args[1].equalsIgnoreCase("xp") || args[1].equalsIgnoreCase("exp") || args[1].equalsIgnoreCase("experience") || args[1].equalsIgnoreCase("xplevels")
-					|| args[1].equalsIgnoreCase("explevels") || args[1].equalsIgnoreCase("experiencelevels") || args[1].equalsIgnoreCase("explevel") || args[1].equalsIgnoreCase("experiencelevel")
-					|| args[1].equalsIgnoreCase("xplevel")|| args[1].equalsIgnoreCase("coords") || args[1].equalsIgnoreCase("coordinates")
-					|| args[1].equalsIgnoreCase("world") || args[1].equalsIgnoreCase("x") || args[1].equalsIgnoreCase("y") || args[1].equalsIgnoreCase("z")
-					|| args[1].equalsIgnoreCase("ip") || args[1].equalsIgnoreCase("ipaddress")){
-				function = args[1];
+			if (args[0].equalsIgnoreCase("dispname") || args[0].equalsIgnoreCase("displayname") || args[0].equalsIgnoreCase("balance") || args[0].equalsIgnoreCase("health") || args[0].equalsIgnoreCase("hearts")
+					|| args[0].equalsIgnoreCase("armour") || args[0].equalsIgnoreCase("armourpoints") || args[0].equalsIgnoreCase("helmet") || args[0].equalsIgnoreCase("chestplate")
+					|| args[0].equalsIgnoreCase("leggings") || args[0].equalsIgnoreCase("boots") || args[0].equalsIgnoreCase("food") || args[0].equalsIgnoreCase("hunger")
+					|| args[0].equalsIgnoreCase("xp") || args[0].equalsIgnoreCase("exp") || args[0].equalsIgnoreCase("experience") || args[0].equalsIgnoreCase("xplevels")
+					|| args[0].equalsIgnoreCase("explevels") || args[0].equalsIgnoreCase("experiencelevels") || args[0].equalsIgnoreCase("explevel") || args[0].equalsIgnoreCase("experiencelevel")
+					|| args[0].equalsIgnoreCase("xplevel")|| args[0].equalsIgnoreCase("coords") || args[0].equalsIgnoreCase("coordinates")
+					|| args[0].equalsIgnoreCase("world") || args[0].equalsIgnoreCase("x") || args[0].equalsIgnoreCase("y") || args[0].equalsIgnoreCase("z")
+					|| args[0].equalsIgnoreCase("ip") || args[0].equalsIgnoreCase("ipaddress") || args[0].equalsIgnoreCase("gamemode") || args[0].equalsIgnoreCase("gm")
+					|| args[0].equalsIgnoreCase("potions")){
+				function = args[0];
 				if (!(sender instanceof Player)){
 					Commands.showCommandHelpAndUsage(sender, "cex_pinfo", alias);
 					return true;
@@ -94,7 +96,8 @@ public class Command_cex_pinfo {
 					|| args[1].equalsIgnoreCase("explevels") || args[1].equalsIgnoreCase("experiencelevels") || args[1].equalsIgnoreCase("explevel") || args[1].equalsIgnoreCase("experiencelevel")
 					|| args[1].equalsIgnoreCase("xplevel")|| args[1].equalsIgnoreCase("coords") || args[1].equalsIgnoreCase("coordinates")
 					|| args[1].equalsIgnoreCase("world") || args[1].equalsIgnoreCase("x") || args[1].equalsIgnoreCase("y") || args[1].equalsIgnoreCase("z")
-					|| args[1].equalsIgnoreCase("ip") || args[1].equalsIgnoreCase("ipaddress")){
+					|| args[1].equalsIgnoreCase("ip") || args[1].equalsIgnoreCase("ipaddress") || args[1].equalsIgnoreCase("gamemode") || args[1].equalsIgnoreCase("gm")
+					|| args[1].equalsIgnoreCase("potions")){
 				function = args[1];
 			} else {
 				Commands.showCommandHelpAndUsage(sender, "cex_pinfo", alias);
@@ -106,6 +109,7 @@ public class Command_cex_pinfo {
 		}
 		
 		if (function == null || function.equalsIgnoreCase("dispname") || function.equalsIgnoreCase("displayname")){ LogHelper.showInfo("pinfoDispName#####[" + ChatColor.GOLD + target.getDisplayName(), sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("gamemode") || function.equalsIgnoreCase("gm")) { LogHelper.showInfo("pinfoGameMode#####[" + ChatColor.GOLD + Utils.userFriendlyNames(target.getGameMode().name()), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("ip") || function.equalsIgnoreCase("ipaddress")){
 			if (sender != target && !sender.hasPermission("cex.pinfo.others.ip")){
 				if (function != null){
@@ -140,6 +144,24 @@ public class Command_cex_pinfo {
 		if (function == null || function.equalsIgnoreCase("coords") || function.equalsIgnoreCase("coordinates") || function.equalsIgnoreCase("x")){ LogHelper.showInfo("pinfoX#####[" + ChatColor.GOLD + target.getLocation().getX(), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("coords") || function.equalsIgnoreCase("coordinates") || function.equalsIgnoreCase("y")){ LogHelper.showInfo("pinfoY#####[" + ChatColor.GOLD + target.getLocation().getY(), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("coords") || function.equalsIgnoreCase("coordinates") || function.equalsIgnoreCase("z")){ LogHelper.showInfo("pinfoZ#####[" + ChatColor.GOLD + target.getLocation().getZ(), sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("potions")) {
+			ArrayList<String> potions = new ArrayList<String>();
+			for (PotionEffect pot : target.getActivePotionEffects()){
+				String time = Utils.convertToHHMMSS(pot.getDuration() / 20);
+				System.out.println(time);
+				if (time.startsWith("00:")){
+					time = time.replaceFirst("00:", "");
+					System.out.println(time);
+					if (time.startsWith("00:")){
+						time = time.replaceFirst("00:", "") + "s";
+						System.out.println(time);
+					}
+				}
+				System.out.println(time);
+				potions.add(Utils.userFriendlyNames(pot.getType().getName()) + " : " + time);
+			}
+			LogHelper.showInfo("pinfoPotions#####[" + ChatColor.GOLD + (!potions.isEmpty() ? Utils.implode(potions, ", ") : "#####pinfoNone"), sender, ChatColor.GRAY);
+		}
 		
 		if (function == null || function.equalsIgnoreCase("armour") || function.equalsIgnoreCase("helmet") || function.equalsIgnoreCase("head")){
 			ArrayList<String> enchantments = new ArrayList<String>();
