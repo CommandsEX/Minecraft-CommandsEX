@@ -1145,7 +1145,7 @@ commands:
     aliases: [xp, exp, experience]
   cex_pinfo:
     description: Shows information about a player.
-    usage: /<command> [player] [username/dispname/balance/health/food/xp/xplevels/world/coords/armour/helmet/chestplate/leggings/boots]
+    usage: /<command> [player] [username/dispname/balance/health/food/xp/xplevels/world/invisible/god/coords/armour/helmet/chestplate/leggings/boots]
     permission: cex.pinfo
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [pinfo, playerinfo]

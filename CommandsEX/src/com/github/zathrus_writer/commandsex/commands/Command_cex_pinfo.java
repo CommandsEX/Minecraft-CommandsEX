@@ -14,6 +14,7 @@ import org.bukkit.potion.PotionEffect;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.ExperienceManager;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -110,8 +111,8 @@ public class Command_cex_pinfo {
 				}
 			}
 		}
-		if (function == null || function.equalsIgnoreCase("health") || function.equalsIgnoreCase("hearts")){ LogHelper.showInfo("pinfoHealth#####[" + ChatColor.GOLD + target.getHealth(), sender, ChatColor.GRAY); }
-		if (function == null || function.equalsIgnoreCase("food") || function.equalsIgnoreCase("hunger")){ LogHelper.showInfo("pinfoFood#####[" + ChatColor.GOLD + target.getFoodLevel(), sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("health") || function.equalsIgnoreCase("hearts")){ LogHelper.showInfo("pinfoHealth#####[" + ChatColor.GOLD + target.getHealth() + "/20", sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("food") || function.equalsIgnoreCase("hunger")){ LogHelper.showInfo("pinfoFood#####[" + ChatColor.GOLD + target.getFoodLevel() + "/20", sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("xp") || function.equalsIgnoreCase("exp") || function.equalsIgnoreCase("experience")){
 			ExperienceManager expman = new ExperienceManager(target);
 			LogHelper.showInfo("pinfoXP#####[" + ChatColor.GOLD + expman.getCurrentExp(), sender, ChatColor.GRAY);
@@ -121,7 +122,9 @@ public class Command_cex_pinfo {
 			ExperienceManager expman = new ExperienceManager(target);
 			LogHelper.showInfo("pinfoXPlvls#####[" + ChatColor.GOLD + expman.getLevelForExp(expman.getCurrentExp()), sender, ChatColor.GRAY);
 		}
-
+		if (function == null || function.equalsIgnoreCase("god")) { LogHelper.showInfo("pinfoGod#####[" + ChatColor.GOLD + (Common.godPlayers.contains(target.getName()) ? "#####pinfoOn" : "#####pinfoOff"), sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("inv") || function.equalsIgnoreCase("invisible")) { LogHelper.showInfo("pinfoInv#####[" + ChatColor.GOLD + (Common.invisiblePlayers.contains(target.getName()) ? "#####pinfoOn" : "#####pinfoOff"), sender, ChatColor.GRAY); }
+		
 		if (function == null || function.equalsIgnoreCase("coords") || function.equalsIgnoreCase("coordinates") || function.equalsIgnoreCase("world")){ LogHelper.showInfo("pinfoWorld#####[" + ChatColor.GOLD + target.getLocation().getWorld().getName(), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("coords")) {
 			Location loc = target.getLocation();
@@ -191,6 +194,12 @@ public class Command_cex_pinfo {
 		return true;
 	}
 	
+	/***
+	 * Determines whether a string is a valid function
+	 * @param method
+	 * @return
+	 */
+	
 	public static boolean validFunction(String method){
 		if (method.equalsIgnoreCase("dispname") || method.equalsIgnoreCase("displayname") || method.equalsIgnoreCase("balance") || method.equalsIgnoreCase("health") || method.equalsIgnoreCase("hearts")
 				|| method.equalsIgnoreCase("armour") || method.equalsIgnoreCase("helmet") || method.equalsIgnoreCase("chestplate") || method.equalsIgnoreCase("username") || method.equalsIgnoreCase("ign")
@@ -199,7 +208,7 @@ public class Command_cex_pinfo {
 				|| method.equalsIgnoreCase("explevels") || method.equalsIgnoreCase("experiencelevels") || method.equalsIgnoreCase("explevel") || method.equalsIgnoreCase("experiencelevel")
 				|| method.equalsIgnoreCase("xplevel")|| method.equalsIgnoreCase("coords") || method.equalsIgnoreCase("coordinates")
 				|| method.equalsIgnoreCase("world") || method.equalsIgnoreCase("ip") || method.equalsIgnoreCase("ipaddress") || method.equalsIgnoreCase("gamemode") || method.equalsIgnoreCase("gm")
-				|| method.equalsIgnoreCase("potions")){
+				|| method.equalsIgnoreCase("potions") || method.equalsIgnoreCase("inv") || method.equalsIgnoreCase("invisible") || method.equalsIgnoreCase("god")){
 			return true;
 		} else {
 			return false;
