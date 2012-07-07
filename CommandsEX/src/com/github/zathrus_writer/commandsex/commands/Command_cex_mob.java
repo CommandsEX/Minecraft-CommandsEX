@@ -7,6 +7,8 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -28,7 +30,9 @@ public class Command_cex_mob {
 			Player player = (Player)sender;
 			
 			if (!Utils.checkCommandSpam(player, "mob-spawn") && Permissions.checkPerms(player, "cex.mob.spawn")) {
-				if ((args.length > 0) && (EntityType.fromName(args[0]) != null)) {
+				if (args.length > 0) {
+					EntityType entity = EntityType.fromName(args[0]);
+					if (args[0].equalsIgnoreCase("chargedcreeper")){ entity = EntityType.CREEPER; }
 					Location loc = player.getTargetBlock(null, 100).getLocation().add(0, 1, 0);
 					
 					// Amount of mobs to spawn
@@ -45,20 +49,24 @@ public class Command_cex_mob {
 						LogHelper.showInfo("mobsLimit", sender, ChatColor.RED);
 					}
 					
-					EntityType entity = EntityType.fromName(args[0]);
 					// Check the mob type is valid
 					if (entity != null){
 						for (Integer i = 0; i < mobCount; i++) {
-							player.getWorld().spawnCreature(loc, EntityType.fromName(args[0]));
+							Entity entity1 = player.getWorld().spawnCreature(loc, entity);
+							if (args[0].equalsIgnoreCase("chargedcreeper")){
+								Creeper creep = ((Creeper) entity1);
+								creep.setPowered(true);
+							}
 						}
 						
-						LogHelper.showInfo("mobsSuccess#####[" + mobCount + " " + Utils.userFriendlyNames(entity.getName()), sender, ChatColor.AQUA);
+						LogHelper.showInfo("mobsSuccess#####[" + mobCount + " " + Utils.userFriendlyNames((args[0].equalsIgnoreCase("chargedcreeper") ? "Charged_Creeper" : entity.getName())), sender, ChatColor.AQUA);
 					} else {
 						LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
 					}
 				} else {
 					// list all available entities
 					List<String> s = new ArrayList<String>();
+					s.add("ChargedCreeper");
 					for (EntityType et : EntityType.values()) {
 						if (et.isAlive() && et.isSpawnable()) {
 							s.add(et.getName());
