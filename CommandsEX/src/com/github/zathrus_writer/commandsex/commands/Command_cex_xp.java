@@ -135,7 +135,7 @@ public class Command_cex_xp {
 			
 			boolean overLimit = false;
 			int oldXP = expman.getCurrentExp();
-			// Determin whether adding this amount of XP would go over the limit
+			// Determine whether adding this amount of XP would go over the limit
 			if (expman.getCurrentExp() + amountint > xpMax) { overLimit = true; }
 			// If it is over the limit, then set their XP to maximum
 			// Otherwise add the XP normally

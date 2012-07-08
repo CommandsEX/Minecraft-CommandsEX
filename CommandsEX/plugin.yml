@@ -192,10 +192,10 @@ permissions:
     default: op
     description: Allows player to set jail points.
   cex.tnt.kamikaze:
-    default: false
+    default: op
     description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is set on fire.
   cex.tnt.kamikaze.from.damage:
-    default: false
+    default: op
     description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is effected by a nearby explosion.
   cex.playtime:
     default: true
@@ -284,7 +284,7 @@ permissions:
     children:
        cex.mob.spawn.bypasslimit: true
   cex.mob.spawn.bypasslimit:
-     default: false
+     default: op
      description: Allows the player to bypass the mob spawning limit.
   cex.god:
     default: op
@@ -296,10 +296,10 @@ permissions:
     default: op
     description: Allows player to refresh 5 chunks around him.
   cex.slap:
-    default: false
+    default: op
     description: Allows player to slap other player, sending them into air.
   cex.slap.all:
-    default: false
+    default: op
     description: Allows player to slap all players on the server, sending them into air.
   cex.deathgroup.reset:
     default: op
@@ -308,7 +308,7 @@ permissions:
     default: op
     description: Players with this permission don't get their group changed after they die.
   cex.nanosuit:
-    default: false
+    default: op
     description: Players with this permission will get access to NanoSuit powers.
   cex.inv:
     default: op
@@ -317,16 +317,16 @@ permissions:
     default: true
     description: Grants use to /balance command
   cex.bypass.*:
-    default: false
+    default: op
     description: Player cannot be banned, kicked, muted, frozen ect
     children:
       cex.bypass.ban: true
       cex.bypass.kick: true
   cex.bypass.ban:
-     default: false
+     default: op
      description: Player cannot be banned
   cex.bypass.kick:
-     default: false
+     default: op
      description: Player cannot be kicked
   cex.smite:
      default: op
@@ -397,7 +397,7 @@ permissions:
      default: op
      description: Harmless command to UNLEASE KITTY CANNON FURY!
   cex.calculator:
-     default: false
+     default: op
      description: Use of /calc
   cex.calculator.*:
      default: op
