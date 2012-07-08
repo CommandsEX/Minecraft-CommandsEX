@@ -32,11 +32,8 @@ public class Handler_explosions implements Listener {
 		
 		// Check what entity caused the explosion, and is it set to block that kind of explosion in the config?
 		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("blockCreeperExplosions")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("blockTNTExplosions")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("blockFireballExplosions"))){
-			e.setYield(0);
-			// Removes the entity, just to make sure.
-			entity.remove();
-			// Cancel the event
-			e.setCancelled(true);
+			// Clear the blocks the explosion will break
+			e.blockList().clear();
 			// Create the fancy explosion particles
 			entity.getWorld().createExplosion(entity.getLocation(), 0);
 		}
