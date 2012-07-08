@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
@@ -33,6 +35,8 @@ public class Command_cex_smite {
 				Location loc = smited.getLocation();
 				// smite the player
 				smited.getWorld().strikeLightningEffect(loc);
+				// set last damage cause for custom death messages
+				smited.setLastDamageCause(new EntityDamageEvent(smited, DamageCause.LIGHTNING, 20));
 				smited.setHealth(0);
 			
 				// show the sender a message
