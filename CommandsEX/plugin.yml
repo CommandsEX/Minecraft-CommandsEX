@@ -1155,3 +1155,9 @@ commands:
     permission: cex.onlogin
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [onlogin]
+  cex_about:
+    description: Displayes developer and plugin information to the player.
+    usage: /<command>
+    permission: cex.about
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [about, cabout, cexinfo]
