@@ -18,6 +18,8 @@ Beta 1.75
 - improved /mob command, added a limit and a bypass node plus some more minor tweaks
 - improved /time command, it can now show the current time via /time view
 - improved debug mode, it will now print stack traces when an error occurs and debug mode is active
+- improved /broadcast, will no longer announce the senders name and also supports colors :D
+- improved /cex, will now show information and version.
 
 - updated /cex config commands for the new config nodes
 

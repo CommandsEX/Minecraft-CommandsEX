@@ -1,4 +1,5 @@
-author: Zathrus Writer
+author: Keir Nellyer
+authors: [Zathrus Writer, Keir Nellyer, Carlos Arias, Callum White, booooo201, EnvisionRed, Flumpy111]
 description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
@@ -1158,9 +1159,3 @@ commands:
     permission: cex.onlogin
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [onlogin]
-  cex_about:
-    description: Displayes developer and plugin information to the player.
-    usage: /<command>
-    permission: cex.about
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [about, cabout, cexinfo]

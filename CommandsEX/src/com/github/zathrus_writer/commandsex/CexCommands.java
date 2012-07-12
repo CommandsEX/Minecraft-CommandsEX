@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,15 +43,30 @@ public class CexCommands {
 			}
 		}
 		
-		if (aLength == 0) {
+		if (aLength == 0 || args[0].equalsIgnoreCase("about") || args[0].equalsIgnoreCase("version")) {
 
 			/***
-			 * VERSION
+			 * ABOUT
 			 */
 
-			if (!p.getConfig().getBoolean("disableVersion")) {
-				sender.sendMessage(ChatColor.YELLOW + CommandsEX.pdfFile.getName() + ", " + _("version", sender.getName()) + " " + CommandsEX.pdfFile.getVersion());
+			List<String> authors = new ArrayList<String>();
+			for (String author : CommandsEX.pdfFile.getAuthors()){
+				authors.add(author);
 			}
+			Integer aSize = authors.size();
+			String lName = (String) authors.get(aSize - 1);
+			authors.remove(aSize - 1);
+			sender.sendMessage(ChatColor.GREEN + CommandsEX.pdfFile.getName() + " " + ChatColor.YELLOW
+					+ (!p.getConfig().getBoolean("disableVersion") ? _("version", sender.getName())
+					+ " " + ChatColor.GREEN + CommandsEX.pdfFile.getVersion() + " " : "") + ChatColor.YELLOW + _("by", sender.getName())
+					+ ChatColor.GREEN + Utils.implode(authors, ChatColor.YELLOW + ", " + ChatColor.GREEN) + ChatColor.YELLOW
+					+ " " + _("and", sender.getName()) + ChatColor.GREEN + " " + lName);
+			sender.sendMessage(ChatColor.GREEN + _("wiki", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LS0sIj");
+			sender.sendMessage(ChatColor.GREEN + _("bukkitDev", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/P2ZJHA");
+			sender.sendMessage(ChatColor.GREEN + _("bukkitForums", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MmhPjV");
+			sender.sendMessage(ChatColor.GREEN + _("sourceForge", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/N9Zx9O");
+			sender.sendMessage(ChatColor.GREEN + _("builder", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/OdiROq");
+			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/PPhI5I");
 		} else if ((aLength == 1) && args[0].equals("null")) {
 			// does nothing, prints nothing - used for commands replacements/aliasing
 		} else if ((aLength == 1) && args[0].equals("reload")) {
@@ -58,7 +74,7 @@ public class CexCommands {
 			/***
 			 * RELOAD
 			 */
-			
+
 			if (sender.getName().toLowerCase().equals("console") || ((sender instanceof Player) && Permissions.checkPerms((Player)sender, "cex.reload"))) {
 				p.reloadConfig();
 				sender.sendMessage(ChatColor.GREEN + _("configReloaded", sender.getName()));
