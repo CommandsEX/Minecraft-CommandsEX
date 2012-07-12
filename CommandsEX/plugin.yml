@@ -563,7 +563,10 @@ permissions:
     description: Placeholder for event function for invisibility releated things
   Listener.onlogin:
     default: true
-    description: Placeholder for event function for onlogin related things  
+    description: Placeholder for event function for onlogin related things
+  Listener.deathmessages:
+    default: true
+    description: Placeholder for event function for setting death messages    
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
