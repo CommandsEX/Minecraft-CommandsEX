@@ -24,7 +24,8 @@ public class Command_cex_broadcast {
 				Player player = (Player)sender;
 				
 				if (!Utils.checkCommandSpam(player, "broadcast") && Permissions.checkPerms(player, "cex.broadcast")) {
-					Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[" + player.getName() + "]: " + Utils.implode(args, " "));
+					Bukkit.getServer().broadcastMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Broadcast" + ChatColor.BLUE +  "]"+ ChatColor.GREEN + ": " + Utils.implode(args, " "));
+					//Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[" + player.getName() + "]: " + Utils.implode(args, " "));
 				}
 			} else {
 				// show usage
