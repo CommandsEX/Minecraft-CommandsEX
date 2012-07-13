@@ -45,7 +45,7 @@ public class Command_cex_blind {
 				blind.sendMessage(ChatColor.GREEN + "You are blind");
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.blind.others"))){
 				blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
-				LogHelper.showInfo("You are blind!" + sender.getName(), blind, ChatColor.GREEN);
+				LogHelper.showInfo("You were blind by " + sender.getName(), blind, ChatColor.GREEN);
 			} else {
 				LogHelper.showInfo("You do not have permission to blind others!", sender, ChatColor.RED);
 				return true;
