@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -81,17 +82,22 @@ public class Kits implements Listener {
 		List<String> available = new ArrayList<String>();
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("kits");
-		Set<String> kitGroups = configGroups.getKeys(false);
-		
-		for (String group : kitGroups) {
-			if (group.equals("*") || ((sender instanceof Player) && Permissions.checkPermEx(((Player)sender), "cex.kits." + group)) || !(sender instanceof Player)) {
-				ConfigurationSection kits = f.getConfigurationSection("kits." + group);
-				Set<String> kitNames = kits.getKeys(false);
-				
-				for (String kit : kitNames) {
-					available.add(kit);
+		if (configGroups != null){
+			Set<String> kitGroups = configGroups.getKeys(false);
+			
+			for (String group : kitGroups) {
+				if (group.equals("*") || ((sender instanceof Player) && Permissions.checkPermEx(((Player)sender), "cex.kits." + group)) || !(sender instanceof Player)) {
+					ConfigurationSection kits = f.getConfigurationSection("kits." + group);
+					Set<String> kitNames = kits.getKeys(false);
+					
+					for (String kit : kitNames) {
+						available.add(kit);
+					}
 				}
 			}
+		} else {
+			LogHelper.showInfo("kitsNoneSetup", sender, ChatColor.RED);
+			return;
 		}
 		
 		LogHelper.showInfo("kitsAvailable#####[" + Utils.implode(available, ", "), sender);
@@ -122,110 +128,112 @@ public class Kits implements Listener {
 		} else {
 			player = (Player)sender;
 		}
-		
+
 		String pName = player.getName();
 		Boolean oneTimeKitWarning = false;
 		Boolean cooldownWarning = false;
 		Integer kitsAdded = 0;
 		Integer stamp = Utils.getUnixTimestamp(0L);
-		
+
 		if (!Utils.checkCommandSpam(sendingPlayer, "kits-give")) {
 			// check if we can use the kit in question
 			FileConfiguration f = CommandsEX.getConf();
 			ConfigurationSection kitConfigGroups = f.getConfigurationSection("kits");
-			Set<String> kitGroups = kitConfigGroups.getKeys(false);
-			
-			for (String group : kitGroups) {
-				if (group.equals("*") || Permissions.checkPermEx(sendingPlayer, "cex.kits." + group)) {
-					ConfigurationSection kits = f.getConfigurationSection("kits." + group);
-					Set<String> kitNames = kits.getKeys(false);
-					
-					for (String kit : kitNames) {
-						if (kit.equalsIgnoreCase(args[0])) {
-							if (f.getBoolean("kits." + group + "." + kit + ".onetime", false) && usedOneTimeKits.containsKey(pName)) {
-								// a one-time kit that was used by this player already
-								oneTimeKitWarning = true;
-							} else if ((f.getInt("kits." + group + "." + kit + ".cooldown", 0) > 0) && !Permissions.checkPermEx(player, "cex.kits.cooldown.bypass") && kitCooldowns.containsKey(pName) && ((stamp - kitCooldowns.get(pName)) < f.getInt("kits." + group + "." + kit + ".cooldown"))) {
-								// kit on a cooldown
-								cooldownWarning = true;
-							} else {
-								// one-time kit?
-								if (f.getBoolean("kits." + group + "." + kit + ".onetime", false)) {
-									// store one-time usage into database - if this returns error, the record already exists, so we just return a warning
-									if (CommandsEX.sqlEnabled) {
-										SQLManager.omitErrorLogs = true;
-										if (!SQLManager.query("INSERT INTO "+ SQLManager.prefix +"kits_usage VALUES (?, ?)", pName, kit)) {
-											oneTimeKitWarning = true;
-										} else {
-											usedOneTimeKits.put(pName, kit);
-										}
-										SQLManager.omitErrorLogs = false;
-									}
-								}
-								
-								// cooldown kit?
-								if (f.getInt("kits." + group + "." + kit + ".cooldown", 0) > 0) {
-									kitCooldowns.put(pName, Utils.getUnixTimestamp(0L));
-								}
-								
-								// if we don't have a one-time kit warning from database, give items to the player
-								if (!oneTimeKitWarning) {
-									// load all items for this player's reward
-									ConfigurationSection configGroups = f.getConfigurationSection("kits." + group + "." + kit);
-									Set<String> s = configGroups.getKeys(false);
-									// remove onetime and cooldown keys
-									s.remove("onetime");
-									s.remove("cooldown");
-									s.remove("onjoin");
-									
-									// first of all, count all kit blocks and see if they'd fit into player's inventory
-									Integer allBlocks = 0;
-									Inventory pi = player.getInventory();
-									Integer maxStackSize = pi.getMaxStackSize();
-									for (String kitItem : s) {
-										Integer blockCount = f.getInt("kits." + group + "." + kit + "." + kitItem);
-										if (blockCount > maxStackSize) {
-											allBlocks = (int) (allBlocks + Math.ceil(blockCount / maxStackSize));
-										} else {
-											allBlocks++;
+			if (kitConfigGroups != null){
+				Set<String> kitGroups = kitConfigGroups.getKeys(false);
+
+				for (String group : kitGroups) {
+					if (group.equals("*") || Permissions.checkPermEx(sendingPlayer, "cex.kits." + group)) {
+						ConfigurationSection kits = f.getConfigurationSection("kits." + group);
+						Set<String> kitNames = kits.getKeys(false);
+
+						for (String kit : kitNames) {
+							if (kit.equalsIgnoreCase(args[0])) {
+								if (f.getBoolean("kits." + group + "." + kit + ".onetime", false) && usedOneTimeKits.containsKey(pName)) {
+									// a one-time kit that was used by this player already
+									oneTimeKitWarning = true;
+								} else if ((f.getInt("kits." + group + "." + kit + ".cooldown", 0) > 0) && !Permissions.checkPermEx(player, "cex.kits.cooldown.bypass") && kitCooldowns.containsKey(pName) && ((stamp - kitCooldowns.get(pName)) < f.getInt("kits." + group + "." + kit + ".cooldown"))) {
+									// kit on a cooldown
+									cooldownWarning = true;
+								} else {
+									// one-time kit?
+									if (f.getBoolean("kits." + group + "." + kit + ".onetime", false)) {
+										// store one-time usage into database - if this returns error, the record already exists, so we just return a warning
+										if (CommandsEX.sqlEnabled) {
+											SQLManager.omitErrorLogs = true;
+											if (!SQLManager.query("INSERT INTO "+ SQLManager.prefix +"kits_usage VALUES (?, ?)", pName, kit)) {
+												oneTimeKitWarning = true;
+											} else {
+												usedOneTimeKits.put(pName, kit);
+											}
+											SQLManager.omitErrorLogs = false;
 										}
 									}
-									
-									// calculate available slots
-									Integer fullSlots = 0;
-									for (ItemStack istack : player.getInventory().getContents()) {
-										if ((istack != null) && istack.getAmount() > 0) {
-											fullSlots++;
-										}
+
+									// cooldown kit?
+									if (f.getInt("kits." + group + "." + kit + ".cooldown", 0) > 0) {
+										kitCooldowns.put(pName, Utils.getUnixTimestamp(0L));
 									}
-						
-									if ((pi.getSize() - fullSlots) >= allBlocks) {
-										// fill player's inventory with kit items
+
+									// if we don't have a one-time kit warning from database, give items to the player
+									if (!oneTimeKitWarning) {
+										// load all items for this player's reward
+										ConfigurationSection configGroups = f.getConfigurationSection("kits." + group + "." + kit);
+										Set<String> s = configGroups.getKeys(false);
+										// remove onetime and cooldown keys
+										s.remove("onetime");
+										s.remove("cooldown");
+										s.remove("onjoin");
+
+										// first of all, count all kit blocks and see if they'd fit into player's inventory
+										Integer allBlocks = 0;
+										Inventory pi = player.getInventory();
+										Integer maxStackSize = pi.getMaxStackSize();
 										for (String kitItem : s) {
-											try {
-												if (kitItem.contains(":")) {
-													String[] expl = kitItem.split(":");
-													pi.addItem(new ItemStack(Integer.parseInt(expl[0]), f.getInt("kits." + group + "." + kit + "." + kitItem), (short) 0, Byte.parseByte(expl[1])));
-												} else {
-													pi.addItem(new ItemStack(Integer.parseInt(kitItem), f.getInt("kits." + group + "." + kit + "." + kitItem)));
-												}
-											} catch (Throwable e) {
-												// unable to add item into inventory, inform server owner
-												LogHelper.logSevere("[CommandsEX] " + _("kitsUnableToAddItem", "") + kitItem + ":" + f.getInt("kits." + group + "." + kit + "." + kitItem));
-												LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+											Integer blockCount = f.getInt("kits." + group + "." + kit + "." + kitItem);
+											if (blockCount > maxStackSize) {
+												allBlocks = (int) (allBlocks + Math.ceil(blockCount / maxStackSize));
+											} else {
+												allBlocks++;
 											}
 										}
-										kitsAdded++;
-									} else {
-										if (!suppressWarnings) {
-											// not sure if we could fit reward in, better let player empty their inventory
-											LogHelper.showInfo("kitsInsufficientSpace", sendingPlayer);
+
+										// calculate available slots
+										Integer fullSlots = 0;
+										for (ItemStack istack : player.getInventory().getContents()) {
+											if ((istack != null) && istack.getAmount() > 0) {
+												fullSlots++;
+											}
 										}
-										
-										// reverse one-time kit data insert
-										if (CommandsEX.sqlEnabled) {
-											SQLManager.query("DELETE FROM "+ SQLManager.prefix +"kits_usage WHERE player_name = ? AND kit_name = ?", pName, kit);
-											usedOneTimeKits.remove(pName);
+
+										if ((pi.getSize() - fullSlots) >= allBlocks) {
+											// fill player's inventory with kit items
+											for (String kitItem : s) {
+												try {
+													if (kitItem.contains(":")) {
+														String[] expl = kitItem.split(":");
+														pi.addItem(new ItemStack(Integer.parseInt(expl[0]), f.getInt("kits." + group + "." + kit + "." + kitItem), (short) 0, Byte.parseByte(expl[1])));
+													} else {
+														pi.addItem(new ItemStack(Integer.parseInt(kitItem), f.getInt("kits." + group + "." + kit + "." + kitItem)));
+													}
+												} catch (Throwable e) {
+													// unable to add item into inventory, inform server owner
+													LogHelper.logSevere("[CommandsEX] " + _("kitsUnableToAddItem", "") + kitItem + ":" + f.getInt("kits." + group + "." + kit + "." + kitItem));
+													LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+												}
+											}
+											kitsAdded++;
+										} else {
+											if (!suppressWarnings) {
+												// not sure if we could fit reward in, better let player empty their inventory
+												LogHelper.showInfo("kitsInsufficientSpace", sendingPlayer);
+											}
+
+											// reverse one-time kit data insert
+											if (CommandsEX.sqlEnabled) {
+												SQLManager.query("DELETE FROM "+ SQLManager.prefix +"kits_usage WHERE player_name = ? AND kit_name = ?", pName, kit);
+												usedOneTimeKits.remove(pName);
+											}
 										}
 									}
 								}
@@ -233,8 +241,12 @@ public class Kits implements Listener {
 						}
 					}
 				}
+			} else {
+				LogHelper.showInfo("kitsNotExist", sender, ChatColor.RED);
+				return;
 			}
-			
+		}
+
 			if (oneTimeKitWarning) {
 				if (!suppressWarnings) {
 					LogHelper.showInfo("kitsOneTimeWarning", sendingPlayer);
@@ -261,7 +273,6 @@ public class Kits implements Listener {
 				}
 			}
 		}
-	}
 	
 	/***
 	 * When a player joins and never played on the server, give him initial kit(s).
