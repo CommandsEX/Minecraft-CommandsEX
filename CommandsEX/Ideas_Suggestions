@@ -1,4 +1,4 @@
-Ideas and Suggestions, please write any here:
+Ideas, Suggestions and bugs. please write any here:
 
 - Customisable Whitelist Message
 - PowerTool
@@ -6,3 +6,8 @@ Ideas and Suggestions, please write any here:
 - Update notifier
 - OpenInv style inventory viewing, able to edit
 - Mob/Player disguise, like Mob Disguise
+
+
+
+BUG: when player dies "%victum hit the ground too hard"
+BUG: /sethome is not working "Unknown command"
