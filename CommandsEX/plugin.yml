@@ -7,6 +7,12 @@ version: 'Beta 1.75'
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault]
 permissions:
+cex.blind.others:
+    default: op
+    description: Blind a player as a punishment or just for fun!
+cex.blind:
+    default: op
+    description: Blind yourself! YAY!
   cex.allowspamcommands:
     default: op
     description: Allows players to repeat same command multiple times in a short time period without being stopped. Useful for admin purposes.

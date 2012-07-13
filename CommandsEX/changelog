@@ -39,6 +39,8 @@ Beta 1.75
 
 - new config node spawnMobLimit, sets a limit for the amount of mobs spawned via the /mob command
 
+- new perm cex.blind
+- new perm cex.blind.others
 - new perm cex.spawner
 - new perm cex.fly
 - new perm cex.fly.others
