@@ -1167,3 +1167,9 @@ commands:
     permission: cex.blind
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [blind]
+  cex_sethome:
+    description: Set your home!
+    usage: /<command>
+    permission: cex.sethome
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [sethome]
