@@ -1,0 +1,1175 @@
+authors: [Zathrus Writer, Keir Nellyer, Carlos Arias, Callum White, booooo201, EnvisionRed, Flumpy111]
+description: A set of commands and event handlers, built to per-request specs.
+main: com.github.zathrus_writer.commandsex.CommandsEX
+name: CommandsEX
+load: postworld
+version: 'Beta 1.75'
+website: http://dev.bukkit.org/server-mods/commandsex
+softdepend: [Vault]
+permissions:
+  cex.blind.others:
+    default: op
+    description: Blind a player as a punishment or just for fun!
+  cex.allowspamcommands:
+    default: op
+    description: Allows players to repeat same command multiple times in a short time period without being stopped. Useful for admin purposes.
+  cex.reload:
+    default: op
+    description: Allows player to reload CommandsEX configuration from disk (/cex reload).
+  cex.tp:
+    default: op
+    description: Allows player to teleport himself to another player (/tp Player) and also one player to another (/tp Player1 Player2).
+    children:
+      cex.tpto: true
+  cex.tpto:
+    default: op
+    description: Allows player to teleport himself to another player. (/tpto).
+  cex.tphere:
+    default: op
+    description: Allows player to teleport another player to himself. (/tphere).
+  cex.tploc:
+    default: op
+    description: Allows player to teleport himself to a specified location (/tploc).
+  cex.tpa:
+    default: op
+    description: Player may ask another player for permission to teleport to him (/tpa).
+  cex.tpahere:
+    default: op
+    description: Player may ask another player to teleport to him (/tpahere).
+  cex.tpaccept:
+    default: true
+    description: Player may accept a teleport request from another player (/tpaccept).
+  cex.tpdeny:
+    default: true
+    description: Player may reject a teleport request from another player (/tpdeny).
+  cex.tpall:
+    default: op
+    description: Allows the player to teleport all players on the server to their location.
+  cex.back:
+    default: op
+    description: Allows a player to return to his last known location (/back).
+  cex.back.deathcoords:
+    default: op
+    description: Stores player's last position on their death, so they can use /back command to get there after respawning.
+  cex.lang:
+    default: true
+    description: Allows player to change their language and display list of available languages to change to.
+  cex.spawn:
+    default: true
+    description: Allows player to instantly teleport to a spawn location.
+  cex.setspawn:
+    default: op
+    description: Allows player to set the server's spawn location.
+  cex.sethome:
+    default: true
+    description: Allows player to set their home location in the given world.
+  cex.home:
+    default: true
+    description: Allows player to visit their home or their friends' homes.
+  cex.home.invite:
+    default: true
+    description: Allows player to invite and uninvite other players to/from their home.
+  cex.home.list:
+    default: true
+    description: Allows player to list players that are invited to his home or homes this player is invited to.
+  cex.home.listall:
+    default: op
+    description: Allows player to list all homes that are created on the server.
+  cex.home.publicize:
+    default: true
+    description: Allows player to make their home private or public.
+  cex.home.delete:
+    default: true
+    description: Allows player to delete their own home.
+  cex.home.delete.all:
+    default: op
+    description: Allows player to delete any home.
+  cex.home.iclear:
+    default: op
+    description: Allows player to clear all homes where players haven't been online in a given number of days.
+    children:
+      cex.hyes: true
+  cex.hyes:
+    default: op
+    description: Allows player to confirm the /home iclear command and really delete all homes found by it.
+  cex.home.tclear:
+    default: op
+    description: Allows player to teleport to first home where players haven't been online in a given number of days.
+  cex.bypasshomequalify:
+    default: op
+    description: Player with this permission is not required to spend a fixed amount of time on the server before being allowed to set home.
+  cex.bypassinvite:
+    default: op
+    description: Player with this permission can visit all homes without the need to be invited to them.
+  cex.kick:
+    default: op
+    description: Allows player to kick other players from the server.
+  cex.kick.all:
+    default: op
+    description: Allows player to kick all other players from the server
+  cex.mute:
+    default: op
+    description: Allows player to mute other players.
+  cex.unmute:
+    default: op
+    description: Allows player to unmute other players.
+  cex.freeze:
+    default: op
+    description: Allows player to freeze and unfreeze other players.
+  cex.warp.bypasslimits:
+    default: op
+    description: Player with this permission can create unlimited number of warps, regardless of config settings.
+  cex.warp.create:
+    default: op
+    description: Allows player to create warps.
+    children:
+      cex.warp.create.others: true
+  cex.warp.create.others:
+    default: op
+    description: Allows player to create warps for other players (i.e. other player will be the owner).
+  cex.warp:
+    default: true
+    description: Allows player to use warps (i.e. teleport to them).
+    children:
+      cex.warp.own: true
+  cex.warp.own:
+    default: true
+    description: Allows player to warp to their own warps.
+  cex.warp.any:
+    default: op
+    description: Allows player to visit both private and public warps.
+  cex.warp.listprivate:
+    default: op
+    description: Allows player to list private warps.
+  cex.warp.listpublic:
+    default: true
+    description: Allows player to list public warps.
+  cex.warp.public:
+    default: op
+    description: Allows player to make warps public.
+  cex.warp.private:
+    default: op
+    description: Allows player to make warps private.
+  cex.warp.rename:
+    default: op
+    description: Allows player to rename warps.
+  cex.warp.delete:
+    default: true
+    description: Allows player to delete his own warp points.
+  cex.warp.delete.all:
+    default: op
+    description: Allows player to delete any warp point.
+  cex.ban:
+    default: op
+    description: Allows player to ban players from the server.
+  cex.banip:
+    default: op
+    description: Allows player to ban IPs from the server.
+  cex.bcheck:
+    default: op
+    description: Allows player to see other players' current ban status.
+  cex.bhistory:
+    default: op
+    description: Allows player to see other players' ban history.
+  cex.pardon:
+    default: op
+    description: Allows player to pardon player or IP from being banned.
+  cex.online:
+    default: op
+    description: Allows player to list all players online or checks for a single player online status.
+    children:
+      cex.online.hidden: false
+  cex.online.hidden:
+    default: op
+    description: Allows the player to see hidden users in /online
+  cex.seejoins:
+    default: true
+    description: Allows player to see condensed join messages.
+  cex.seeleaves:
+    default: true
+    description: Allows player to see condensed leave messages.
+  cex.jail:
+    default: op
+    description: Allows player to jail or unjail other players.
+  cex.setjail:
+    default: op
+    description: Allows player to set jail points.
+  cex.tnt.kamikaze:
+    default: op
+    description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is set on fire.
+  cex.tnt.kamikaze.from.damage:
+    default: op
+    description: Player with this permission set will endure a full TNT explosion blast if he carries TNT block(s) and is effected by a nearby explosion.
+  cex.playtime:
+    default: true
+    description: Allows player to see how long has he been on the server.
+  cex.playtime.all:
+    default: op
+    description: Allows player to see how long has any player been on the server.
+  cex.time2rank:
+    default: true
+    description: Allows player to see how much time is left until they get auto-promoted.
+  cex.chatspy:
+    default: op
+    description: Allows player to see all chat (even private messages and local chat while being in global).
+  cex.quiz.version:
+    default: true
+    description: Allows player to see version of the quizzes module.
+  cex.quiz.start:
+    default: op
+    description: Allows player to force start a new quiz on the server.
+  cex.quiz.status:
+    default: true
+    description: Allows player to see when the next quiz is scheduled to begin.
+  cex.quiz.claim:
+    default: true
+    description: Allows player to claim their reward after winnig the quiz.
+  cex.item:
+    default: op
+    description: Allows the player to give themselves and item
+  cex.give:
+    default: op
+    description: Allows the player to give others items.
+  cex.clear:
+    default: op
+    description: Allows player to clear their inventory.
+  cex.clear.all:
+    default: op
+    description: Allows player to clear any player's inventory.
+  cex.broadcast:
+    default: op
+    description: Allows player to broadcast a message to everyone on the server like the /say command does - with player's name at the start of this message instead of [Server].
+  cex.gm.self:
+    default: op
+    description: Allows player to change their own game mode. This setting is INDEPENDENT on Bukkit's own bukkit.command.gamemode permission!
+  cex.ping:
+    default: op
+    description: Answers PONG. Useful for lag checking.
+  cex.weather:
+    default: op
+    description: Allows player to manipulate weather in the current world.
+  cex.weather.rain:
+    default: op
+    description: Toggles rain/snow in the current world.
+    children:
+      cex.weather: true
+  cex.weather.storm:
+    default: op
+    description: Toggles storm in the current world.
+    children:
+      cex.weather: true
+  cex.weather.notify:
+    default: op
+    description: Players with this permission will be notified of a weather change by another player as it happens, including the player's name.
+  cex.time:
+    default: true
+    description: Allows the player to view the current time.
+    children:
+       cex.time.set: false
+  cex.time.set:
+    default: op
+    description: Allows player to change world time.
+  cex.time.notify:
+    default: op
+    description: Players with this permission will be notified of a time change by another player as it happens, including the player's name.
+  cex.kits.use:
+    default: true
+    description: Players with this permission will be allowed to use at least common kits from the * group.
+  cex.kits.use.others:
+    default: op
+    description: Allows player to give kits to other players.
+  cex.kits.cooldown.bypass:
+    default: op
+    description: Allows to bypass cooldowns for kits recieving.
+  cex.mob.spawn:
+    default: op
+    description: Allows to spawn mobs.
+    children:
+       cex.mob.spawn.bypasslimit: true
+  cex.mob.spawn.bypasslimit:
+     default: op
+     description: Allows the player to bypass the mob spawning limit.
+  cex.god:
+    default: op
+    description: Allows player to ignore received damage.
+  cex.god.others:
+    default: op
+    description: Allows player to make other players ignore received damage.
+  cex.chunk.refresh:
+    default: op
+    description: Allows player to refresh 5 chunks around him.
+  cex.slap:
+    default: op
+    description: Allows player to slap other player, sending them into air.
+  cex.slap.all:
+    default: op
+    description: Allows player to slap all players on the server, sending them into air.
+  cex.deathgroup.reset:
+    default: op
+    description: Allows player to use the /greset command which will switch this player's group back to previous one after he died and lost it.
+  cex.deathgroup.ignore:
+    default: op
+    description: Players with this permission don't get their group changed after they die.
+  cex.nanosuit:
+    default: op
+    description: Players with this permission will get access to NanoSuit powers.
+  cex.inv:
+    default: op
+    description: Allows player to become invisible to other players.
+  cex.balance:
+    default: true
+    description: Grants use to /balance command
+  cex.bypass.*:
+    default: op
+    description: Player cannot be banned, kicked, muted, frozen ect
+    children:
+      cex.bypass.ban: true
+      cex.bypass.kick: true
+  cex.bypass.ban:
+     default: op
+     description: Player cannot be banned
+  cex.bypass.kick:
+     default: op
+     description: Player cannot be kicked
+  cex.smite:
+     default: op
+     description: Kills a player with lightning
+  cex.explode:
+     default: op
+     description: Kills a player with explosion
+  cex.setrank:
+     default: op
+     description: Allows player to set the rank/group of another player. Uses Vault
+  cex.setmyrank.*:
+     default: op
+     description: Allows a player to set their own rank
+     children:
+       cex.setmyrank: true
+  cex.setmyrank:
+     default: op
+     description: Allows a player to set their own rank. WILL REQUIRE cex.setmyrank.<groupname>
+  cex.remrank:
+     default: op
+     description: Allows player to remove the rank/group of another player. Uses Vault
+  cex.remmyrank.*:
+     default: op
+     description: Allows a player to remove their own rank
+     children:
+       cex.remmyrank: true
+  cex.remmyrank:
+     default: op
+     description: Allows a player to remove their own rank. WILL REQUIRE cex.remmyrank.<groupname>
+  cex.info:
+     default: true
+     description: Allows access to /info
+  cex.motd:
+     default: true
+     description: Allows player to display Message Of The Day
+  cex.ownerstatus:
+     default: true
+     description: Allows use of /ownerstatus
+  cex.repair:
+     default: op
+     description: Allows use of /repair
+  cex.feed:
+     default: op
+     description: Allows use of /feed
+     children:
+       cex.feed.others: true
+  cex.feed.others:
+     default: op
+     description: Allows you to /feed other people
+  cex.feed.all:
+     default: op
+     description: Allows use of /feedall
+  cex.heal:
+      default: op
+      description: Allows use of /heal
+      children:
+        cex.heal.others: true
+  cex.heal.others:
+      default: op
+      description: Allows use of /heal
+  cex.heal.all:
+      default: op
+      description: Allows use of /healall
+  cex.hat:
+     default: op
+     description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
+  cex.cannon:
+     default: op
+     description: Harmless command to UNLEASE MOB CANNON FURY!
+  cex.calculator:
+     default: op
+     description: Use of /calc
+  cex.calculator.*:
+     default: op
+     description: Use of all /calc types
+     children:
+       cex.calculator: true
+       cex.calculator.add: true
+       cex.calculator.subtract: true
+       cex.calculator.divide: true
+       cex.calculator.multiply: true
+  cex.calculator.add:
+     default: op
+     description: Use of add in /calc
+  cex.calculator.subtract:
+     default: op
+     description: Use of subtract in /calc
+  cex.calculator.multiply:
+     default: op
+     description: Use of multiply in /calc
+  cex.calculator.divide:
+     default: op
+     description: Use of divide in /calc
+  cex.clock:
+     default: op
+     description: Allows use of /clock
+  cex.platform:
+     default: op
+     description: Allows the user to create platforms in the air, useful for building
+     children:
+        cex.platform.block.*: true
+  cex.platform.block.*:
+     default: op
+     description: Restrict what blocks players can use for a platform.
+  cex.extinguish:
+     default: op
+     description: Allows the player to use /ext
+     children:
+        cex.extinguish.others: true
+  cex.extinguish.others:
+     default: op
+     description: Allows the player to extinguish other players
+  cex.smelt:
+     default: op
+     description: Allows the player to use /smelt
+  cex.authentication:
+     default: op
+     description: Players with this permissions node are required to enter an additional password for extra security
+  cex.spawner:
+     default: op
+     description: Allows the player to change the type a mob a spawner will spawn.
+  cex.fly:
+     default: op
+     description: Allows the player to set their own fly mode.
+     children:
+        cex.fly.others: true
+  cex.fly.others:
+     default: op
+     description: Allows the player to set others fly mode.
+  cex.ptime:
+     default: true
+     description: Allows the player to see their current player time.
+  cex.ptime.set:
+     default: op
+     description: Allows the player to set their player time.
+  cex.xp:
+     default: op
+     description: Allows access to /xp command
+  cex.xp.all:
+     default: op
+     description: Allows access to all XP functions
+     children:
+        cex.xp.view: true
+        cex.xp.view.others: true
+        cex.xp.set: true
+        cex.xp.set.others: true
+        cex.xp.give: true
+        cex.xp.give.others: true
+        cex.xp.take: true
+        cex.xp.take.others: true
+  cex.xp.view:
+     default: op
+     description: Allows the player to view their Experience
+  cex.xp.view.others:
+     default: op
+     description: Allows the player to view others Experience
+  cex.xp.set:
+     default: op
+     description: Allows the player to set their amount of Experience
+  cex.xp.set.others:
+     default: op
+     description: Allows the player to set others amount of Experience
+  cex.xp.give:
+     default: op
+     description: Allows the player to give themselves Experience
+  cex.xp.give.others:
+     default: op
+     description: Allows the player to give others Experience
+  cex.xp.take:
+     default: op
+     description: Allows the player to take away some of their Experience
+  cex.xp.take.others:
+     default: op
+     description: Allows the player to take away some Experience from others
+  cex.pinfo:
+     default: op
+     description: Allows the player to view information about themself
+  cex.pinfo.others:
+     default: op
+     description: Allows the player to view information about others
+  cex.pinfo.others.ip:
+     default: op
+     description: Allows the player to view players IP address, be careful who you give this to
+  cex.onlogin:
+    default: op
+    description: Allows the player to create onLogin entries.  
+  cex.onlogin.exempt:
+     default: op
+     description: Players with this permission cannot have onLogin entries created for them.
+  Listener.replacechat:
+    default: true
+    description: Placeholder for event function that allows player chat text replacements.
+  Listener.replaceplayercommand:
+    default: true
+    description: Placeholder for event function that allows player command replacements.
+  Listener.savebackposition:
+    default: true
+    description: Placeholder for event function that saves last player position in the event of teleportation.
+  Listener.replaceconsolecommand:
+    default: true
+    description: Placeholder for event function that allows server (console) command replacements.
+  Listener.condensejoins:
+    default: true
+    description: Placeholder for event function that condenses join/leave messages and shows them once in a while only.
+  Listener.xmpp:
+    default: true
+    description: Placeholder for event function that will connect to XMPP server and allow MC-XMPP communication.
+  Listener.tntkamikaze:
+    default: true
+    description: Placeholder for event function that checks whether a player has TNT in their inventory when they catch fire (or are damaged in explosion).
+  Listener.playtimepromote:
+    default: true
+    description: Placeholder for a timed function that will automatically promote players based on amount of time played on the server.
+  Listener.economypromote:
+    default: true
+    description: Placeholder for a timed function that will automatically promote and demote players based on their wealth.
+  Listener.chatspy:
+    default: true
+    description: Placeholder for event function that allows player chat spying.
+  Listener.motd:
+    default: true
+    description: Placeholder for event function that welcomes players to your server.
+  Listener.deathgroup:
+    default: true
+    description: Placeholder for event function that check for database of old pre-death groups for players and assigns them new group upon their death.
+  Listener.nanosuit:
+    default: true
+    description: Placeholder for event function that bring out chainmail armor nanosuit commands functionality!
+  Listener.explosions:
+    default: true
+    description: Placeholder for event function to stop all types of explosion damage
+  Listener.invisibility:
+    default: true
+    description: Placeholder for event function for invisibility releated things
+  Listener.onlogin:
+    default: true
+    description: Placeholder for event function for onlogin related things
+  Listener.deathmessages:
+    default: true
+    description: Placeholder for event function for setting death messages    
+  Init.Home:
+    default: true
+    description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
+  Init.Warps:
+    default: true
+    description: Placeholder for initialization function used to check and create warp points database.
+  Init.Bans:
+    default: true
+    description: Placeholder for initialization function used to import BanHammer database file into CommandsEX.
+  Init.Jails:
+    default: true
+    description: Placeholder for initialization function used to check and create jails database.
+  Init.Quizzes:
+    default: true
+    description: Placeholder for initialization function used to activate automatic quizzes.
+  Init.Weather:
+    default: true
+    description: Placeholder for initialization function used for automatic weather forecast broadcasts.
+  Init.Kits:
+    default: true
+    description: Placeholder for initialization function used to check and create kits database.
+  Init.Onlogin:
+    default: true
+    description: Placeholder for initialization function used to check and delete old onLogin entries.
+commands:
+  cex:
+    description: Displays version information and allows getting/setting configuration options.
+    usage: |
+           /<command>
+           /<command> config -> lists available options
+           /<command> config get <option>
+           /<command> cg <option>
+           /<command> config set <option> [add|remove <value>]
+           /<command> cs <option> [add|remove <value>]
+  cex_tp:
+    description: Teleports one player to another.
+    usage:  /<command> <Player1> [Player2]
+    permission: cex.tp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tp,tele,teleport,tp2p]
+  cex_tpto:
+    description: Teleports the active player to another player.
+    usage: /<command> <Player>
+    permission: cex.tpto
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpto]
+  cex_tphere:
+    description: Teleports another player to the active player.
+    usage: /<command> <Player>
+    permission: cex.tphere
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tphere]
+  cex_tploc:
+    description: Teleports the player to the given XYZ coordinates.
+    usage: |
+           /<command> <X> <Y> <Z> [player]
+    permission: cex.tploc
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tploc]
+  cex_tpa:
+    description: Asks a player for permission to teleport to him.
+    usage: /<command> <Player>
+    permission: cex.tpa
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpa,call,tpask]
+  cex_tpahere:
+    description: Requests another player to teleport to you.
+    usage: /<command> <Player>
+    permission: cex.tpahere
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpahere]
+  cex_tpaccept:
+    description: Accepts /tpa or /tpahere request for a specified player.
+    usage: /<command> <Player>
+    permission: cex.tpaccept
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpaccept,tpyes]
+  cex_tpdeny:
+    description: Rejects /tpa or /tpahere request for a specified player.
+    usage: /<command> <Player>
+    permission: cex.tpdeny
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpdeny,tpno]
+  cex_tpall:
+    description: Teleports all players on the server to the player.
+    usage: /<command> [player]
+    permission: cex.tpall
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpall, tpeveryone]
+  cex_back:
+    description: Returns a player to his last know location.
+    usage: /<command>
+    permission: cex.back
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [back]
+  cex_lang:
+    description: Displays list of available languages or changes language for the player.
+    usage: /<command> [language]
+    permission: cex.lang
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [lang]
+  cex_spawn:
+    description: Teleports a player to server's spawn location.
+    usage: /<command>
+    permission: cex.spawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spawn]
+  cex_setspawn:
+    description: Sets the server's spawn location.
+    usage: /<command>
+    permission: cex.setspawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setspawn]
+  cex_home:
+    description: Sets player's home location, teleports to home locations and allows for homes administration if permissions are given.
+    usage: /<command>
+    permission: cex.home
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [home]
+  cex_hyes:
+    description: Confirms the /home iclear command and really deletes all homes found by it.
+    usage: /<command>
+    permission: cex.hyes
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [hyes]
+  cex_kick:
+    description: Kicks given player from the server, optionally providing a custom reason.
+    usage: /<command> <Player> [reason]
+    permission: cex.kick
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kick]
+  cex_mute:
+    description: Mutes a player indefinitelly or for a given time period.
+    usage: /<command> <Player> [time]
+    permission: cex.mute
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [mute]
+  cex_unmute:
+    description: Unmutes a player.
+    usage: /<command> <Player>
+    permission: cex.unmute
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [unmute]
+  cex_freeze:
+    description: Freezes or unfreezes a player.
+    usage: /<command> <Player>
+    permission: cex.freeze
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [freeze]
+  cex_warp:
+    description: Teleports players to warp points and allows warp administration, if permissions are given.
+    usage: /<command>
+    permission: cex.warp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [warp]
+  cex_listwarps:
+    description: Lists all available (public/private/own) warps on the server.
+    usage: /<command>
+    permission: cex.warp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [listwarps]
+  cex_ban:
+    description: Bans a player from joining the server.
+    usage: /<command> <Player> [t:time] [reason]
+    permission: cex.ban
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ban]
+  cex_banip:
+    description: Bans an IP from joining the server. Alternatively, player name can be provided to do an IP lookup.
+    usage: /<command> (Player/IP) [t:time] [reason]
+    permission: cex.banip
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [banip]
+  cex_bcheck:
+    description: Shows information about current ban state of the given player.
+    usage: /<command> <Player>
+    permission: cex.bcheck
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bcheck]
+  cex_bhistory:
+    description: Shows information about bans history for the given player.
+    usage: /<command> <Player>
+    permission: cex.bhistory
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bhistory]
+  cex_pardon:
+    description: Pardons player or IP from being banned.
+    usage: /<command> (Player/IP)
+    permission: cex.pardon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [pardon, unban]
+  cex_online:
+    description: Shows list of all online players or checks player's online status.
+    usage: /<command> [Player]
+    permission: cex.online
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [online]
+  cex_jail:
+    description: Sends a player to jail, while preventing him from world interaction. Use this command again to set the player free.
+    usage: /<command> <Player>
+    permission: cex.jail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [jail]
+  cex_setjail:
+    description: Sets jail location for the current world.
+    usage: /<command>
+    permission: cex.setjail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setjail]
+  cex_playtime:
+    description: Shows playtime for the given player or for yourself.
+    usage: /<command> [Player]
+    permission: cex.playtime
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [playtime]
+  cex_time2rank:
+    description: Shows how much time is left until player's next auto-promotion.
+    usage: /<command>
+    permission: cex.time2rank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [time2rank]
+  cex_spy:
+    description: Activates chat spy mode, showing the player all chat messages - local and private included.
+    usage: /<command>
+    permission: cex.chatspy
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spy]
+  cex_quiz:
+    description: Displays various information about quizzes and also allows for rewards claiming and forcing a quiz start.
+    usage: /<command>
+    permission: cex.quiz.status
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [quiz]
+  cex_item:
+    description: Gives the sender an item
+    usage: /<command> <item-name>:[damage-value] [amount]
+    permission: cex.item
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [item,i]
+  cex_give:
+    description: Gives a player an item
+    usage: /<command> <player> <item-name>:[damage-value] [amount]
+    permission: cex.give
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [give, giveto]
+  cex_gm:
+    description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
+    usage: /<command>
+    permission: cex.gm.self
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [gm,creative,creativemode,gswitch]
+  cex_suicide:
+    description: Wrapper function for Bukkit's /kill command.
+    usage: /<command>
+    aliases: [suicide]
+  cex_clear:
+    description: Clears player's inventory or its part, based on parameters.
+    usage: /<command> [Player] (all|backpack|quick|armor)
+    permission: cex.clear
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [clearinventory,clear,clearinvent,ci]
+  cex_broadcast:
+    description: Broadcasts a message from player to everyone on the server in the /say way.
+    usage: /<command> <Message>
+    permission: cex.broadcast
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [broadcast,bcast]
+  cex_ping:
+    description: Answers PONG. Useful for lag checking.
+    usage: /<command>
+    permission: cex.ping
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ping]
+  cex_rain:
+    description: Toggles rain/snow in the current world.
+    usage: /<command>
+    permission: cex.weather.rain
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [rain]
+  cex_storm:
+    description: Toggles storm in the current world.
+    usage: /<command>
+    permission: cex.weather.storm
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [storm]
+  cex_weather:
+    description: Allows player to change weather in the current world.
+    usage: /<command> (rain,thunder/storm,sun/sunny)
+    permission: cex.weather
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [weather]
+  cex_time:
+    description: Allows player to change time in the current world.
+    usage: /<command> (set/add/view) (value/dawn/morning/noon/evening/night)
+    permission: cex.time
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [time]
+  cex_kit:
+    description: Allows player to obtain a predefined kit (group of items).
+    usage: /<command> <Kit_Name> [Player]
+    permission: cex.kits.use
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kit,kits,k]
+  cex_mob:
+    description: Allows player to spawn mobs.
+    usage: /<command> <Mob_Name> [amount]
+    permission: cex.mob.spawn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [mob,spawnmob]
+  cex_god:
+    description: Makes a player invincible to incomming damage.
+    usage: /<command> [Player]
+    permission: cex.god
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [g,god,godmode,tgm]
+  cex_chunk:
+    description: Refreshes 5 chunks around a player to fix rendering errors.
+    usage: /<command>
+    permission: cex.chunk.refresh
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [chunk,regenerate]
+  cex_slap:
+    description: Slaps a player, sending them to air. Fall damage can be disabled in the config file.
+    usage: /<command> <Player> [blocks]
+    permission: cex.slap
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [slap, launch, catapult]
+  cex_slapall:
+    description: Slaps the whole server, sending them into the air. Fall damage can be disabled in the config file.
+    usage: /<command> [blocks]
+    permission: cex.slap.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [slapall, launchall, catapultall]
+  cex_greset:
+    description: Returns player whose group has been changed upon death to his previous group.
+    usage: /<command> [Player]
+    permission: cex.deathgroup.reset
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [greset]
+  cex_armor:
+    description: Makes player invincible to incomming damage while NanoSuit powers hold.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [armor]
+  cex_cloak:
+    description: Makes player invisible while NanoSuit powers hold.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cloak]
+  cex_strength:
+    description: Multiplies player's damage against living entities while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [strength]
+  cex_speed:
+    description: Multiplies player's speed while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [speed]
+  cex_jump:
+    description: Multiplies player's jump height while using NanoSuit.
+    usage: /<command>
+    permission: cex.nanosuit
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [jump]
+  cex_inv:
+    description: Makes player invisible.
+    usage: /<command>
+    permission: cex.inv
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [inv,invisible,invisibility]
+  cex_balance:
+    description: Checks a players balance. Requires Vault/Economy
+    usage: /<command>
+    permission: cex.balance
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [bal,balance]
+  cex_smite:
+    description: Kills a player with lightning.
+    usage: /<command> <Player>
+    permission: cex.smite
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [smite, thor, lightning, strike, bolt]
+  cex_explode:
+    description: Kills a player with explosions, leaving same effect as TNT.
+    usage: /<command> <Player>
+    permission: cex.explode
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [explode]
+  cex_setrank:
+    description: Sets a players group/rank
+    usage: /<command> <player> <group>
+    permission: cex.setrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setrank, sr]
+  cex_setmyrank:
+    description: Sets your own rank
+    usage: /<command> <group>
+    permission: cex.setmyrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [setmyrank, smr, setmygroup, smg]
+  cex_info:
+    description: Shows the text in the config under info
+    usage: /<command>
+    permission: cex.info
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [info]
+  cex_remrank:
+    description: Removes a player from the given group
+    usage: /<command> <player> <group>
+    permission: cex.remrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [remrank, rr]
+  cex_remmyrank:
+    description: Removes yourself from the given group
+    usage: /<command> <group>
+    permission: cex.remmyrank
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [remmyrank, rmr, remmygroup, rmg]
+  cex_motd:
+    description: Displays Message Of The Day to the player.
+    usage: /<command>
+    permission: cex.motd
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [motd]
+  cex_ownerstatus:
+    description: Gets and changes the Owner's Status
+    usage: /<command> [dnd/afk/busy/here/check/help]
+    permission: cex.ownerstatus
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ownerstatus, os, owner]
+  cex_repair:
+    description: Repairs the item in hand
+    usage: /<command>
+    permission: cex.repair
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [repair]
+  cex_feed:
+    description: Refills a players food level
+    usage: /<command> [player]
+    permission: cex.feed
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [feed, feedme]
+  cex_feedall:
+    description: Refills all players food levels
+    usage: /<command>
+    permission: cex.feed.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [feedall, feedeveryone, feedserver]
+  cex_heal:
+    description: Refills a players health level
+    usage: /<command> [player]
+    permission: cex.heal
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [heal, healme]
+  cex_healall:
+    description: Refills all players health levels
+    usage: /<command>
+    permission: cex.heal.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [healall, healeveryone, healserver]
+  cex_hat:
+    description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD :D
+    usage: /<command>
+    permission: cex.hat
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [hat, h, head, helmet]
+  cex_calculator:
+    description: A simple calculator
+    usage: /<command> [add/subtract/divide/multiply/help] [number1] [number2]
+    permission: cex.calculator
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [calculator, calc]
+  cex_clock:
+    description: Shows date/time
+    usage: /<command>
+    permission: cex.clock
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [clock, date, time]
+  cex_platform:
+    description: Creates a platform below a player, useful for building in the air
+    usage: /<command> [block-id]
+    permission: cex.platform
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [platform, pf]
+  cex_extinguish:
+    description: Extinguishes a player
+    usage: /<command> [player]
+    permission: cex.extinguish
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [extinguish, ext]
+  cex_kickall:
+    description: Kicks everyone who does not have the kick excempt permission
+    usage: /<command> [kick-message]
+    permission: cex.kick.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [kickall, kickeveryone]
+  cex_smelt:
+    description: Smelts the item in the players hand without the need of a furnace.
+    usage: /<command> [amount-to-smelt]
+    permission: cex.smelt
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [smelt, cook, furnace]
+  cex_register:
+    description: Used to register an email and password
+    usage: /<command> <email-address> <password> <password>
+    permission: cex.authentication.register
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [register, signup]
+  cex_login:
+    description: Used to login a player
+    usage: /<command> <password>
+    permission: cex.authentication.login
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [login, signin]
+  cex_changepass:
+    description: Used to change a players password
+    usage: /<command> <old-password> <new-password> <new-password>
+    permission: cex.authentication.changepass
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [changepass, changepassword]
+  cex_changeemail:
+    description: Used to change a players email address
+    usage: /<command> <new-email-address>
+    permission: cex.authentication.changeemail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [changeemail, changeemailaddress]
+  cex_forcepass:
+    description: Changes any players password
+    usage: /<command> <player> <new-password>
+    permission: cex.authentication.forcepass
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [forcepass, forcepassword]
+  cex_forceemail:
+    description: Changes any players email address
+    usage: /<command> <player> <email-address>
+    permission: cex.authentication.forceemail
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [forceemail, forceemailaddress]
+  cex_reset:
+    description: Resets a players account, forcing them to signup again
+    usage: /<command> <player>
+    permission: cex.authentication.reset
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [reset, resetaccount, resetplayer]
+  cex_spawner:
+    description: Sets the type a mob a spawner will spawn.
+    usage: /<command> <mob-name>
+    permission: cex.spawner
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [spawner, mobspawner]
+  cex_fly:
+    description: Sets a players fly mode.
+    usage: /<command> [player]
+    permission: cex.fly
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [fly, flying]
+  cex_ptime:
+    description: Sets a players time.
+    usage: /<command> (set/add/view/reset) (value/dawn/morning/noon/evening/night)
+    permission: cex.ptime
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [ptime, playertime]
+  cex_xp:
+    description: Manage players experience.
+    usage: /<command> [player] (view/set/add/take) [amount]
+    permission: cex.xp
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [xp, exp, experience]
+  cex_pinfo:
+    description: Shows information about a player.
+    usage: /<command> [player] [username/dispname/balance/health/food/xp/xplevels/world/invisible/god/coords/armour/helmet/chestplate/leggings/boots]
+    permission: cex.pinfo
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [pinfo, playerinfo]
+  cex_onlogin:
+    description: Executes the specified command when the specified player logs in.
+    usage: /<command> <player> <command goes here>
+    permission: cex.onlogin
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [onlogin]
+  cex_blind:
+    description: Blind a player, YAY!
+    usage: /<command> <player>
+    permission: cex.blind
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [blind]
+  cex_sethome:
+    description: Set your home!
+    usage: /<command>
+    permission: cex.sethome
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [sethome]
+  cex_cannon:
+    description: Fires a mob and explodes it. Happy 2000th BukkitDev download.
+    usage: /<command> [player] <mob> [explosion-strength]
+    permission: cex.cannon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cannon, kittycannon]
