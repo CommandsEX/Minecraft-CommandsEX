@@ -14,4 +14,4 @@ Ideas, Suggestions and bugs. please write any here:
 
 
 BUG: when player dies "%victum hit the ground too hard"
-BUG: /sethome is not working "Unknown command"
+FIXED: /sethome is not working "Unknown command"

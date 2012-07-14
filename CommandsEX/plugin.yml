@@ -1173,3 +1173,9 @@ commands:
     permission: cex.sethome
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [sethome]
+  cex_cannon:
+    description: Fire a mob!
+    usage: /<command> <mob>
+    permission: cex.cannon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cannon]
