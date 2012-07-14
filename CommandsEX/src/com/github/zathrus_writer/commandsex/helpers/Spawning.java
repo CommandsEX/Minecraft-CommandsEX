@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,7 @@ public class Spawning {
 		// so far, this is a very simple function that will be expanded to allow random spawns and similar features
 		Player player = (Player)sender;
 		if (!Utils.checkCommandSpam(player, "spawn-go")) {
-			World world = player.getWorld();
+			World world = Bukkit.getWorlds().get(0);
 			Location l = world.getSpawnLocation();
 			l.setYaw((float) CommandsEX.getConf().getDouble("spawnYaw"));
 			l.setPitch((float) CommandsEX.getConf().getDouble("spawnPitch"));

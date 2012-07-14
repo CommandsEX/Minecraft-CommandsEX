@@ -31,8 +31,8 @@ public class Handler_deathmessages implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerDeath(PlayerDeathEvent e){
 		FileConfiguration config = CommandsEX.getConf();
-		Player victum = e.getEntity();
-		EntityDamageEvent damev = victum.getLastDamageCause();
+		Player victim = e.getEntity();
+		EntityDamageEvent damev = victim.getLastDamageCause();
 		DamageCause cause;
 		if (damev != null){
 			cause = damev.getCause();
@@ -50,78 +50,80 @@ public class Handler_deathmessages implements Listener {
 		
 		// check if player died via pvp
 		if (killer instanceof Player){
-			message = replacements(config.getString("deathPvP"), victum).replaceAll("%killer%", ((Player) killer).getName());
+			message = replacements(config.getString("deathPvP"), victim).replaceAll("%killer%", ((Player) killer).getName());
 		}
 		
 		// check if drowned
 		if (cause == DamageCause.DROWNING){
-			message = replacements(config.getString("deathDrown"), victum);
+			message = replacements(config.getString("deathDrown"), victim);
 		}
 		
 		// check if they fell
 		if (cause == DamageCause.FALL){
-			message = replacements(config.getString("deathFall"), victum);
+			message = replacements(config.getString("deathFall"), victim);
 		}
 		
 		// check if fire
 		if (cause == DamageCause.FIRE || cause == DamageCause.FIRE_TICK){
-			message = replacements(config.getString("deathFire"), victum);
+			message = replacements(config.getString("deathFire"), victim);
 		}
 		
 		// check if lava
 		if (cause == DamageCause.LAVA){
-			message = replacements(config.getString("deathLava"), victum);
+			message = replacements(config.getString("deathLava"), victim);
 		}
 		
 		// check if magic
 		if (cause == DamageCause.MAGIC){
-			message = replacements(config.getString("deathMagic"), victum);
+			message = replacements(config.getString("deathMagic"), victim);
 		}
 		
 		// check if starved
 		if (cause == DamageCause.STARVATION){
-			message = replacements(config.getString("deathStarvation"), victum);
+			message = replacements(config.getString("deathStarvation"), victim);
 		}
 		
 		// check if struck by lightning
 		if (cause == DamageCause.LIGHTNING){
-			message = replacements(config.getString("deathLightning"), victum);
+			message = replacements(config.getString("deathLightning"), victim);
 		}
 		
 		// check if poisoned
 		if (cause == DamageCause.POISON){
-			message = replacements(config.getString("deathPoison"), victum);
+			message = replacements(config.getString("deathPoison"), victim);
 		}
 		
 		// check if suffocated
 		if (cause == DamageCause.SUFFOCATION){
-			message = replacements(config.getString("deathSuffocate"), victum);
+			message = replacements(config.getString("deathSuffocate"), victim);
 		}
 		
 		// check if suicide
 		if (cause == DamageCause.SUICIDE){
-			message = replacements(config.getString("deathSuicide"), victum);
+			message = replacements(config.getString("deathSuicide"), victim);
 		}
 		
 		// check if void
 		if (cause == DamageCause.VOID){
-			message = replacements(config.getString("deathVoid"), victum);
+			message = replacements(config.getString("deathVoid"), victim);
 		}
 		
 		if (cause == DamageCause.CONTACT || cause == DamageCause.ENTITY_ATTACK){
-			message = replacements(config.getString("death" + killer.getType().getName()), victum);
+			//System.out.println(killer.getType().getName());
+			message = replacements(config.getString("death" + killer.getType().getName()), victim);
 		}
 		
 		// check if explosion
 		if (cause == DamageCause.BLOCK_EXPLOSION || cause == DamageCause.ENTITY_EXPLOSION){
-			// check if tnt
-			if (killer.getType() == EntityType.PRIMED_TNT){
-				message = replacements(config.getString("deathTNT"), victum);
-			}
-			
-			// check if creeper
-			if (killer.getType() == EntityType.CREEPER){
-				message = replacements(config.getString("deathCreeper"), victum);
+			if (killer != null){
+				// check if tnt
+				if (killer.getType() == EntityType.PRIMED_TNT){
+					message = replacements(config.getString("deathTNT"), victim);
+				} else if (killer.getType() == EntityType.CREEPER){
+					message = replacements(config.getString("deathCreeper"), victim);
+				}
+			} else {
+				message = replacements(config.getString("deathOtherExplosion"), victim);
 			}
 		}
 
@@ -132,13 +134,13 @@ public class Handler_deathmessages implements Listener {
 				Arrow arrow = (Arrow) killer;
 				if (arrow.getShooter() instanceof Player){
 					// player shot the arrow
-					message = replacements(config.getString("deathShotByPlayer"), victum).replaceAll("%killer%", ((Player) arrow.getShooter()).getName());
+					message = replacements(config.getString("deathShotByPlayer"), victim).replaceAll("%killer%", ((Player) arrow.getShooter()).getName());
 				} else if (arrow.getShooter() instanceof Skeleton) {
 					// skeleton shot the arrow
-					message = replacements(config.getString("deathShotByMob"), victum).replaceAll("%killer%", Utils.userFriendlyNames(arrow.getShooter().getType().getName()));
+					message = replacements(config.getString("deathShotByMob"), victim).replaceAll("%killer%", Utils.userFriendlyNames(arrow.getShooter().getType().getName()));
 				} else {
 					// something else shot the arrow, e.g. dispenser
-					message = replacements(config.getString("deathShotOther"), victum);
+					message = replacements(config.getString("deathShotOther"), victim);
 				}
 			}
 		}
@@ -148,12 +150,12 @@ public class Handler_deathmessages implements Listener {
 			SmallFireball fireball = (SmallFireball) killer;
 			// check if ghast
 			if (fireball.getShooter() instanceof Ghast){
-				message = replacements(config.getString("deathGhast"), victum);
+				message = replacements(config.getString("deathGhast"), victim);
 			}
 			
 			// check if blaze
 			if (fireball.getShooter() instanceof Blaze){
-				message = replacements(config.getString("deathBlaze"), victum);
+				message = replacements(config.getString("deathBlaze"), victim);
 			}
 		}
 		
@@ -162,20 +164,23 @@ public class Handler_deathmessages implements Listener {
 			Fireball fireball = (Fireball) killer;
 			// check if ghast
 			if (fireball.getShooter() instanceof Ghast){
-				message = replacements(config.getString("deathGhast"), victum);
+				message = replacements(config.getString("deathGhast"), victim);
 			}
 			
 			// check if blaze
 			if (fireball.getShooter() instanceof Blaze){
-				message = replacements(config.getString("deathBlaze"), victum);
+				message = replacements(config.getString("deathBlaze"), victim);
 			}
 		}
 		
-		// send custom death message
-		e.setDeathMessage(message);
+		// Will send default message if null
+		if (message != null){
+			// send custom death message
+			e.setDeathMessage(message);
+		}
 	}
 	
-	public String replacements(String string, Player victum){
-		return Utils.replaceChatColors(string).replaceAll("%victum%", victum.getName()).replaceAll("%world%", victum.getWorld().getName());
+	public String replacements(String string, Player victim){
+		return Utils.replaceChatColors(string).replaceAll("%victim%", victim.getName()).replaceAll("%world%", victim.getWorld().getName());
 	}
 }

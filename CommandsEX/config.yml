@@ -342,8 +342,8 @@ fakeJoinMessage: true
 # Set this to the server's owner. This is used in /ownerstatus
 ServerOwner: Notch
 
-# This is the strength of the kittycannon explosion. Set to 0 for no block damage and -1 for no mob damage.
-KittyCannonExplosionStrength: 5
+# This is the strength of the cannon explosion. Set to 0 for no block damage and -1 for no mob damage.
+CannonExplosionStrength: 5
 
 # Land/Explosion Control
 # Prevents mob damage caused by explosions (true blocks, false for normal behavior)
@@ -365,29 +365,36 @@ pluginMetrics: true
 #How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
 onLoginTimeLimit: 48
 
-deathPvP: '%victum% was slain by %killer%'
-deathDrown: '%victum% drowned'
-deathFall: '%victum hit the ground too hard'
-deathFire: '%victum% went up in flames'
-deathLava: '%victum% took a bath in some lava'
-deathMagic: '%victum% was killed by magic'
-deathStarvation: '%victum% starved to death'
-deathPoison: '%victum% was poisoned'
-deathSuffocate: '%victum% suffocated in a wall'
-deathSuicide: '%victum% committed suicide'
-deathVoid: '%victum% fell into the void'
-deathShotByMob: '%victum% was shot by a %killer%'
-deathShotByPlayer: '%victum% was shot by %killer%'
-deathShotOther: '%victum% was shot'
-deathLightning: 'Zues strick %victum% with lightning'
-deathTNT: '%victum% was blown to smithereens by TNT'
-deathCreeper: '%victum% was blown to smithereens by a Creeper'
-deathGhast: '%victum% was shot by a Ghast'
-deathShotByBlaze: '%victum% was shot by a Blaze'
-deathBlaze: '%victum% was punched by a blaze'
-deathZombie: '%victum% became a Zombies breakfast'
-deathSpider: '%victum% got caught in the web of a Spider'
-deathCaveSpider: '%victum% found a nice shiny cave spider'
-deathEnderman: 'An Enderman borrowed the head of %victum%'
-deathWolf: '%victum% was slain by a wolf'
-deathPigZombie: '%victum% picked a fight with some Zombie Pigmen...and failed!'
+deathPvP: '%victim% was slain by %killer%'
+deathDrown: '%victim% drowned'
+deathFall: '%victim% hit the ground too hard'
+deathFire: '%victim% went up in flames'
+deathLava: '%victim% took a bath in some lava'
+deathMagic: '%victim% was killed by magic'
+deathStarvation: '%victim% starved to death'
+deathPoison: '%victim% was poisoned'
+deathSuffocate: '%victim% suffocated in a wall'
+deathSuicide: '%victim% thought the world was too much!'
+deathVoid: '%victim% fell into the void'
+deathShotByMob: '%victim% was shot by a %killer%'
+deathShotByPlayer: '%victim% was shot by %killer%'
+deathShotOther: '%victim% was shot'
+deathLightning: 'Zues strick %victim% with lightning'
+deathTNT: '%victim% was blown to smithereens by TNT'
+deathCreeper: '%victim% was blown to smithereens by a Creeper'
+deathOtherExplosion: '%victim% blew up'
+deathGhast: '%victim% was shot by a Ghast'
+deathShotByBlaze: '%victim% was shot by a Blaze'
+deathBlaze: '%victim% was punched by a blaze'
+deathZombie: '%victim% became a Zombies breakfast'
+deathSpider: '%victim% got caught in the web of a Spider'
+deathCaveSpider: '%victim% found a nice shiny Cave Spider'
+deathWolf: '%victim% was slain by a wolf'
+deathPigZombie: '%victim% picked a fight with some Zombie Pigmen...and failed!'
+deathEnderman: '%victim% has their head borrowed by an enderman'
+deathLavaSlime: '%victim% was slain by a Magma Cube'
+deathSilverfish: '%victim% was slain by a Silverfish'
+deathVillagerGolem: '%victim% was slain by an Iron Golem'
+deathSlime: '%victim% was slain by a Slime'
+deathGiant: '%victim% was squashed by a Giant Zombie'
+deathEnderDragon: '%victim% was dropped by an Ender Dragon'
