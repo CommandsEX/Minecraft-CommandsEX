@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -65,6 +66,7 @@ public class Teleportation {
 				delayedTeleport(player2, player1.getLocation());
 			} else if ((command.equals("tphere")) || (command.equals("tp") && (aLength > 1))) {
 				// teleporting another player to our position OR first player to second player (via arguments)
+				sender.sendMessage(ChatColor.GRAY + "Teleporting...");
 				delayedTeleport(player1, player2.getLocation());
 			}
 		}

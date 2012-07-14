@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex.commands;
 
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -41,11 +42,15 @@ public class Command_cex_tpaccept {
 						Command_cex_tpa.requests.remove(id);
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
+						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
+						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
 					} else if (Command_cex_tpahere.requests.contains(id)) {
 						// remove pending request
 						Command_cex_tpahere.requests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
+						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
+						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
 					} else {
 						// no matching request found
 						LogHelper.showWarning("tpRequestNotFound", sender);

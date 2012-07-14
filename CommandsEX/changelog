@@ -11,7 +11,9 @@ Beta 1.75
 - new command /ptime, sets a players time
 - new command /xp for all your experience needs, thanks to desht on the bukkit forums for the amazing Experience Manager http://forums.bukkit.org/threads/experiencemanager-was-experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/
 - new command /pinfo, shows information about a player including ip address, coordinates, armor (and armor enchantments)
+- new command /cannon, allows the player to fire a mob.
 
+- improved /tpa commands with a confirmation message "Teleport Request Accepted"
 - improved the calculator command, should now be more efficient and less code
 - improved some XMPP error messages slightly
 - improved NanoSuit commands when NanoSuit is not activated.
@@ -21,6 +23,7 @@ Beta 1.75
 - improved debug mode, it will now print stack traces when an error occurs and debug mode is active
 - improved /broadcast, will no longer announce the senders name and also supports colors :D
 - improved /cex, will now show information and version.
+- improved kittycannon, it is now /cannon and allows you to fire any kind of mob.
 
 - updated /cex config commands for the new config nodes
 
@@ -33,13 +36,17 @@ Beta 1.75
 - fixed some issues with setting config values via commands
 - fixed /sethome not working
 - fixed NPE when using kit commands when none are defined
+- fixed /spawn taking you to the current players world rather than the default worlds spawn.
 
 - removed command /removehat, it was a useless command and had too many problems
 
-- perm change cex.bypass.kick is now set to false by default
 - changed explosion config nodes for explosion preventing (blockMobExplosionDamage, blockCreeperExplosions, blockTNTExplosions, blockFireballExplosions)
+- changed KittyCannonExplosionStrength to CannonExplosionStrength
 
 - new config node spawnMobLimit, sets a limit for the amount of mobs spawned via the /mob command
+
+- perm change cex.bypass.kick is now set to false by default
+- perm change cex.kittycannon is now cex.cannon
 
 - new perm cex.blind
 - new perm cex.blind.others
@@ -65,6 +72,7 @@ Beta 1.75
 - new perm cex.pinfo
 - new perm cex.pinfo.others
 - new perm cex.pinfo.others.ip
+- new perm cex.cannon
 
 Beta 1.70
 ---------

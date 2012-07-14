@@ -396,9 +396,9 @@ permissions:
   cex.hat:
      default: op
      description: Put a block on your head! HAPPY 100th BUKKIT DEV DOWNLOAD!
-  cex.kittycannon:
+  cex.cannon:
      default: op
-     description: Harmless command to UNLEASE KITTY CANNON FURY!
+     description: Harmless command to UNLEASE MOB CANNON FURY!
   cex.calculator:
      default: op
      description: Use of /calc
@@ -1041,12 +1041,6 @@ commands:
     permission: cex.hat
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [hat, h, head, helmet]
-  cex_kittycannon:
-    description: FIRE IN THE HOLE! HAPPY 1000th BUKKIT DEV DOWNLOAD :D
-    usage: /<command>
-    permission: cex.kittycannon
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [kittycannon, kc]
   cex_calculator:
     description: A simple calculator
     usage: /<command> [add/subtract/divide/multiply/help] [number1] [number2]
@@ -1173,3 +1167,9 @@ commands:
     permission: cex.sethome
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [sethome]
+  cex_cannon:
+    description: Fires a mob and explodes it. Happy 2000th BukkitDev download.
+    usage: /<command> [player] <mob> [explosion-strength]
+    permission: cex.cannon
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cannon, kittycannon]
