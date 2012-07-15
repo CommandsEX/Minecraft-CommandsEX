@@ -2,6 +2,7 @@ Beta 1.75
 ---------
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
 - added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
+- added plugin update support, may be changed in the near future to work better.
 
 - new command /blind, Blinds a player or yourself!
 - new command /nanosuit, info about NanoSuit
