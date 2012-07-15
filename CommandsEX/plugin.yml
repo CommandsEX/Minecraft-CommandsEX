@@ -766,7 +766,7 @@ commands:
     usage: /<command> [Player]
     permission: cex.online
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [online]
+    aliases: [online, list]
   cex_jail:
     description: Sends a player to jail, while preventing him from world interaction. Use this command again to set the player free.
     usage: /<command> <Player>

@@ -24,6 +24,9 @@ Beta 1.75
 - improved /broadcast, will no longer announce the senders name and also supports colors :D
 - improved /cex, will now show information and version.
 - improved kittycannon, it is now /cannon and allows you to fire any kind of mob.
+- improved /online, now has an alias of /list and lists the amount of users online out of the maximum allowed
+- improved /online some more, now has more support for hidden users.
+- improved item spawning, if no amount is specified then the maximum stack size will be spawned instead.
 
 - updated /cex config commands for the new config nodes
 

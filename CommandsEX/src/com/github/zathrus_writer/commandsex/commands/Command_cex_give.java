@@ -45,7 +45,7 @@ public class Command_cex_give extends ItemSpawning {
 		} else {
 			String item;
 			short damage = 0;
-			int amount = 64;
+			int amount = -1;
 		
 			Player target = Bukkit.getPlayer(args[0]);
 			if (target == null){

@@ -35,7 +35,7 @@ public class Command_cex_item extends ItemSpawning {
 			} else {
 				String item;
 				short damage = 0;
-				int amount = 64;
+				int amount = -1;
 
 				if (args[0].contains(":")){
 					String[] data = args[0].split(":");

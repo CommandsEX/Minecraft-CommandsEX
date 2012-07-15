@@ -73,7 +73,8 @@ public class Handler_condensejoins implements Listener {
 	// Checks the joins and sends them to chat
 	public static void checkJoins(){
 		// remove a player if they are invisible
-		for (String pName : joins){
+		for(int x=0; x < joins.size(); x++){
+			String pName = joins.get(x);
 			if (Common.invisiblePlayers.contains(pName)){
 				joins.remove(pName);
 			}
@@ -151,7 +152,8 @@ public class Handler_condensejoins implements Listener {
 	// Checks the leaves and sends them to chat
 	public static void checkLeaves(){
 		// remove a player if they are invisible
-		for (String pName : leaves){
+		for(int x=0; x < leaves.size(); x++){
+			String pName = leaves.get(x);
 			if (Common.invisiblePlayers.contains(pName)){
 				leaves.remove(pName);
 			}

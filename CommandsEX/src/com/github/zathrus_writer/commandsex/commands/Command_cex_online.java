@@ -4,6 +4,7 @@ package com.github.zathrus_writer.commandsex.commands;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -41,6 +42,8 @@ public class Command_cex_online {
 					if (Common.invisiblePlayers.contains(player.getName())){
 						if (sender.hasPermission("cex.online.hidden")){
 							addPlayer = true;
+						} else if (sender.getName().equalsIgnoreCase(player.getName())){
+							addPlayer = true;
 						} else {
 							addPlayer = false;
 						}
@@ -50,11 +53,11 @@ public class Command_cex_online {
 					
 					// Using the method above, choose whether or not to add the player
 					if (addPlayer){
-						players.add(player.getName());
+						players.add((Common.invisiblePlayers.contains(player.getName()) ? "[" + ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW : "#####[") + player.getName());
 					}
 				}
 				
-				LogHelper.showInfo("onlinePlayers#####[" + Utils.implode(players, ", "), sender);
+				LogHelper.showInfo("onlinePlayers#####[(" + players.size() + "/"  + Bukkit.getServer().getMaxPlayers() + "): " + ChatColor.YELLOW + "#####" + Utils.implode(players, ChatColor.AQUA + ", " + ChatColor.YELLOW), sender);
 			} else {
 				// check if a given player is online
 				Player p = Bukkit.getServer().getPlayer(args[0]);

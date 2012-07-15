@@ -21,9 +21,13 @@ public class ItemSpawning {
 	public static void giveItem(CommandSender sender, Player target, Material material, int amount, short damage){
 		ItemStack stack = new ItemStack(material);
 		
+		if (amount == -1){
+			amount = stack.getMaxStackSize();
+		}
+		
+		stack.setAmount(amount);
 		// Set the stacks durability (damage value)
 		stack.setDurability(damage);
-		stack.setAmount(amount);
 		
 		target.getInventory().addItem(stack);
 		
