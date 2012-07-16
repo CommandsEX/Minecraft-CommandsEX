@@ -53,13 +53,13 @@ public class Command_cex_ownerstatus {
 			
 			// Set there new status
 			if(args[0].equalsIgnoreCase("here")) {
-				ownerStatus="";
+				ownerStatus = "online";
 			} else if(args[0].equalsIgnoreCase("dnd")) {
-				ownerStatus="dnd";
+				ownerStatus = "dnd";
 			} else if(args[0].equalsIgnoreCase("afk")) {
-				ownerStatus="afk";
+				ownerStatus = "afk";
 			} else if(args[0].equalsIgnoreCase("busy")) {
-				ownerStatus="busy";
+				ownerStatus = "busy";
 			} else {
 				return false;
 			}
@@ -95,7 +95,7 @@ public class Command_cex_ownerstatus {
 		}
 		
 		// If they are just online
-		if(ownerStatus.equalsIgnoreCase("")) {
+		if(ownerStatus.equalsIgnoreCase("online")) {
 			LogHelper.showInfo("[" + ownerS + " #####ownerOnline", sender, ChatColor.GREEN);
 			return true;
 		}
