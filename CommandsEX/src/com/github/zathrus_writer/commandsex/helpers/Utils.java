@@ -21,6 +21,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -266,7 +267,7 @@ public class Utils {
 	 * @param input
 	 * @return
 	 */
-	public static List<Material> closestMatches(String input) {
+	public static List<Material> materialClosestMatches(String input) {
         ArrayList<Material> matches = new ArrayList<Material>();
         
         for (Material mat : Material.values()){
@@ -277,6 +278,26 @@ public class Utils {
         		return Arrays.asList(mat);
             } else if (mat.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(mat);
+            }
+        }
+        
+        return matches;
+    }
+	
+	/***
+	 * Gets the closest living entity matches and returns them
+	 * @author iKeirNez
+	 * @param input
+	 * @return
+	 */
+	public static List<EntityType> entityClosestMatches(String input) {
+        ArrayList<EntityType> matches = new ArrayList<EntityType>();
+        
+        for (EntityType en : EntityType.values()){
+        	if ((en.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(en.getTypeId()).equals(input))){
+        		return Arrays.asList(en);
+            } else if (en.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+            	matches.add(en);
             }
         }
         
@@ -328,17 +349,46 @@ public class Utils {
 	/***
 	 * Converts seconds to a HH:MM:SS format
 	 * @author iKeirNez
-	 * @param secondsIn
+	 * @param currentTime
 	 * @return
 	 */
 	
-	public static String convertToHHMMSS(int secondsIn, boolean seconds){
-		int hours = secondsIn / 3600;
-		int remainder = secondsIn % 3600;
-		int minutes = remainder / 60;
-		int seconds1 = remainder % 60;
+	public static String convertToHHMMSS(long currentTime, boolean seconds){
+		long hours = currentTime / 3600;
+		long remainder = currentTime % 3600;
+		long minutes = remainder / 60;
+		long seconds1 = remainder % 60;
 		String string = (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds ? (seconds1 < 10 ? "0" : "") + seconds1 : "");
 		
 		return string;
 	}
+	
+	/***
+	 * Parses a worlds time into realtime.
+	 * @param time
+	 * @return
+	 */
+	
+	public static String parseTime(long time){
+        long gameTime = time;
+        long hours = gameTime / 1000 + 6;
+        long minutes = (gameTime % 1000) * 60 / 1000; 
+        String ampm = "AM";
+        if (hours >= 12)
+        {
+            hours -= 12; ampm = "PM"; 
+        }
+ 
+        if (hours >= 12)
+        {
+            hours -= 12; ampm = "AM"; 
+        }
+ 
+        if (hours == 0) hours = 12;
+ 
+        String mm = "0" + minutes; 
+        mm = mm.substring(mm.length() - 2, mm.length());
+ 
+        return hours + ":" + mm + " " + ampm;
+    }
 }

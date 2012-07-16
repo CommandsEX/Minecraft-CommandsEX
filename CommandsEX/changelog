@@ -2,7 +2,7 @@ Beta 1.80
 ---------
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
 - added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
-- added plugin update support, may be changed in the near future to work better.
+- added plugin update support
 
 - new command /blind, Blinds a player or yourself!
 - new command /nanosuit, info about NanoSuit
@@ -12,7 +12,7 @@ Beta 1.80
 - new command /ptime, sets a players time
 - new command /xp for all your experience needs, thanks to desht on the bukkit forums for the amazing Experience Manager http://forums.bukkit.org/threads/experiencemanager-was-experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/
 - new command /pinfo, shows information about a player including ip address, coordinates, armor (and armor enchantments)
-- new command /cannon, allows the player to fire a mob.
+- new command /cannon, to replace /kittycannon, allows the player to fire a mob.
 
 - improved /tpa commands with a confirmation message "Teleport Request Accepted"
 - improved the calculator command, should now be more efficient and less code
@@ -28,6 +28,9 @@ Beta 1.80
 - improved /online, now has an alias of /list and lists the amount of users online out of the maximum allowed
 - improved /online some more, now has more support for hidden users.
 - improved item spawning, if no amount is specified then the maximum stack size will be spawned instead.
+- improved time setting, /time set day now works :)
+- improved time viewing, now shows time in real time, e.g. 9:00 PM
+- improved player time viewing, now shows time in real time, e.g. 9:00 PM
 
 - updated /cex config commands for the new config nodes
 

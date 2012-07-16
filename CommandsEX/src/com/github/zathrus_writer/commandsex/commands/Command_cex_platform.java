@@ -49,7 +49,7 @@ public class Command_cex_platform {
 				}
 			} else if (args.length == 1) {
 				if (loc.getBlock().getTypeId() == 0) {
-					List <Material> list = Utils.closestMatches(args[0]);
+					List <Material> list = Utils.materialClosestMatches(args[0]);
 
 					// If the list is empty then display an error messages
 					if (list.size() == 0) {

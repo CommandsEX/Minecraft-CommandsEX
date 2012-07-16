@@ -1,10 +1,12 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Ageable;
@@ -13,6 +15,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Wolf;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
@@ -27,7 +32,7 @@ public class Command_cex_cannon {
 		ArrayList<String> entities = new ArrayList<String>();
 		for (EntityType en : EntityType.values()){
 			if (en.isAlive() && en.isSpawnable()){
-				entities.add(Utils.userFriendlyNames(en.name()));
+				entities.add(Utils.userFriendlyNames(en.name()).replace(" ", ""));
 			}
 		}
 		
@@ -42,17 +47,26 @@ public class Command_cex_cannon {
 		}
 		
 		EntityType toSpawn = null;
-		String entity = null;
 		int explosionStrength = CommandsEX.getConf().getInt("CannonExplosionStrength");
 		Player target = null;
 		String type = null;
+		String entity = null;
 		
 		if (args.length == 1 || args.length == 2){
 			if (sender instanceof Player){
 				target = (Player) sender;
-				toSpawn = EntityType.valueOf(args[0]);
-				entity = args[0];
-				if (toSpawn == null || !entities.contains(toSpawn)){
+				if (args[0].contains(":")){
+					String[] data = args[0].split(":");
+					entity = data[0];
+					if (data.length == 2){ type = data[1]; }
+				} else {
+					entity = args[0];
+				}
+				
+				if (Utils.entityClosestMatches(entity).size() > 0){
+					List<EntityType> matches = Utils.entityClosestMatches(entity);
+					toSpawn = matches.get(0);
+				} else {
 					LogHelper.showInfo("cannonInvalid", sender, ChatColor.RED);
 					return true;
 				}
@@ -68,7 +82,6 @@ public class Command_cex_cannon {
 				if (explosionStrength > explosionStrengthLimit){
 					LogHelper.showInfo("cannonLimit", sender, ChatColor.RED);
 					explosionStrength = explosionStrengthLimit;
-					return true;
 				}
 			} else {
 				LogHelper.showInfo("cannonInteger", sender, ChatColor.RED);
@@ -83,9 +96,18 @@ public class Command_cex_cannon {
 				return true;
 			}
 			
-			toSpawn = EntityType.valueOf(args[1]);
-			entity = args[1];
-			if (toSpawn == null || !entities.contains(toSpawn)){
+			if (args[1].contains(":")){
+				String[] data = args[1].split(":");
+				entity = data[0];
+				if (data.length == 2){ type = data[1]; }
+			} else {
+				entity = args[1];
+			}
+			
+			if (Utils.entityClosestMatches(entity).size() > 0){
+				List<EntityType> matches = Utils.entityClosestMatches(entity);
+				toSpawn = matches.get(0);
+			} else {
 				LogHelper.showInfo("cannonInvalid", sender, ChatColor.RED);
 				return true;
 			}
@@ -95,7 +117,6 @@ public class Command_cex_cannon {
 				if (explosionStrength > explosionStrengthLimit){
 					LogHelper.showInfo("cannonLimit", sender, ChatColor.RED);
 					explosionStrength = explosionStrengthLimit;
-					return true;
 				}
 			} else {
 				LogHelper.showInfo("cannonInteger", sender, ChatColor.RED);
@@ -103,51 +124,69 @@ public class Command_cex_cannon {
 			}
 		}
 		
-		if (entity.contains(":")){
-			String[] data = entity.split(":");
-			entity = data[0];
-			type = data[1];
+		DyeColor dye = null;
+
+		try {
+			for (DyeColor d : DyeColor.values()){
+				String lower = d.name().toLowerCase();
+				if (lower.equalsIgnoreCase(type)){
+					dye = d;
+				}
+			}
+		} catch (Exception e){
+
+		}
+
+		if (type != null){
 			if (type.equalsIgnoreCase("charged") || type.equalsIgnoreCase("powered") && toSpawn == EntityType.CREEPER){
 				type = "charged";
 			} else if (type.equalsIgnoreCase("baby") || type.equalsIgnoreCase("child") && (toSpawn == EntityType.PIG || toSpawn == EntityType.COW
 					|| toSpawn == EntityType.CHICKEN || toSpawn == EntityType.SHEEP || toSpawn == EntityType.OCELOT || toSpawn == EntityType.WOLF)){
 				type = "baby";
+			} else if (type.equalsIgnoreCase("tamed") && (toSpawn == EntityType.WOLF || toSpawn == EntityType.OCELOT)){
+				
+			} else if (type.equalsIgnoreCase("angry") && toSpawn == EntityType.WOLF){
+				
+			}
+			else if (toSpawn == EntityType.SHEEP && dye != null){
+				// Correct, nothing to do here
 			} else {
 				LogHelper.showInfo("cannonInvalidType", sender, ChatColor.RED);
 				return true;
 			}
 		}
 		
+
 		final LivingEntity mob = target.getWorld().spawnCreature(target.getEyeLocation(), toSpawn);
-		
-		if (toSpawn == EntityType.PIG || toSpawn == EntityType.COW
-				|| toSpawn == EntityType.CHICKEN || toSpawn == EntityType.SHEEP || toSpawn == EntityType.OCELOT || toSpawn == EntityType.WOLF){
-			
-			if (type.equalsIgnoreCase("baby")){
-				Ageable age = (Ageable) mob;
-				age.setBaby();
-			}
-			
-			if (type.equalsIgnoreCase("charged")){
-				if (mob.getType() == EntityType.CREEPER){
-					Creeper creep = (Creeper) mob;
-					creep.setPowered(true);
-				} else {
-					LogHelper.showInfo("cannonInvalidType", sender, ChatColor.RED);
-					return true;
-				}
-			}
-		}
 		
 		if (toSpawn == EntityType.OCELOT){
 			final Ocelot ocelot = (Ocelot) mob;
 			Random random = new Random();
 			int i = random.nextInt(Ocelot.Type.values().length);
 			ocelot.setCatType(Ocelot.Type.values()[i]);
-			ocelot.setTamed(true);
+		}
+		
+		if (type != null){
+			if (type.equalsIgnoreCase("baby")){
+				Ageable age = (Ageable) mob;
+				age.setBaby();
+			} else if (type.equalsIgnoreCase("tamed")){
+				Tameable tame = (Tameable) mob;
+				tame.setTamed(true);
+			} else if (type.equalsIgnoreCase("angry")){
+				Wolf wolf = (Wolf) mob;
+				wolf.setAngry(true);
+			} else if (type.equalsIgnoreCase("charged")){
+				Creeper creep = (Creeper) mob;
+				creep.setPowered(true);
+			} else if (dye != null){
+				Sheep sheep = (Sheep) mob;
+				sheep.setColor(dye);
+			}
 		}
 		
 		mob.setVelocity(target.getEyeLocation().getDirection().multiply(2));
+		mob.setFallDistance(-999999999999F);
 		LogHelper.showInfo("cannonCreated", sender);
 		// required for task, has to be final
 		final int newExplosionStrength = explosionStrength;
@@ -161,5 +200,3 @@ public class Command_cex_cannon {
 		return true;
 	}
 }
-
-

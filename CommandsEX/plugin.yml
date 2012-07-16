@@ -863,7 +863,7 @@ commands:
     aliases: [weather]
   cex_time:
     description: Allows player to change time in the current world.
-    usage: /<command> (set/add/view) (value/dawn/morning/noon/evening/night)
+    usage: /<command> (set/add/view) (value/day/morning/noon/evening/night)
     permission: cex.time
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [time]
@@ -1133,7 +1133,7 @@ commands:
     aliases: [fly, flying]
   cex_ptime:
     description: Sets a players time.
-    usage: /<command> (set/add/view/reset) (value/dawn/morning/noon/evening/night)
+    usage: /<command> (set/add/view/reset) (value/day/morning/noon/evening/night)
     permission: cex.ptime
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [ptime, playertime]

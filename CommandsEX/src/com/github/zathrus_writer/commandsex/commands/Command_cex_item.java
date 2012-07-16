@@ -62,8 +62,8 @@ public class Command_cex_item extends ItemSpawning {
 					}
 				}
 
-				if (Utils.closestMatches(item).size() > 0){
-					List<Material> matches = Utils.closestMatches(item);
+				if (Utils.materialClosestMatches(item).size() > 0){
+					List<Material> matches = Utils.materialClosestMatches(item);
 					giveItem(sender, player, matches.get(0), amount, damage);
 				} else {
 					LogHelper.showInfo("itemNotFound", player, ChatColor.RED);

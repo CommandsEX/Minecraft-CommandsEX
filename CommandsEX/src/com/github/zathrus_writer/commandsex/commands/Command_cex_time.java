@@ -8,6 +8,7 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Time;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_time extends Time {
 	/***
@@ -22,7 +23,7 @@ public class Command_cex_time extends Time {
 			// do we have any parameters?
 			
 			if (args.length == 0 || args[0].equalsIgnoreCase("view")){
-				LogHelper.showInfo("timeCurrentTime1#####[" + player.getWorld().getTime() + " #####timeCurrentTime2", sender, ChatColor.AQUA);
+				LogHelper.showInfo("timeCurrentTime#####[" + Utils.parseTime(player.getWorld().getTime()) + " #####timeOr#####[" + player.getWorld().getTime() + " #####timeTicks", sender, ChatColor.AQUA);
 			} else if (args.length > 1) {
 				if (player.hasPermission("cex.time.set")) {
 					setTime(sender, args);

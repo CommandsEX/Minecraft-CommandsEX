@@ -44,7 +44,7 @@ public class Time {
 				return;
 			}
 		} else {
-			if (args[1].equalsIgnoreCase("dawn")) {
+			if (args[1].equalsIgnoreCase("dawn") || args[1].equalsIgnoreCase("day")){
 				moveBy = 0L;
 			} else if (args[1].equalsIgnoreCase("morning")) {
 				moveBy = 2500L;
@@ -72,14 +72,14 @@ public class Time {
 		}
 		
 		// tell the player and anyone with permission to see what happened
-		LogHelper.showInfo("timeChanged#####[" + p.getWorld().getTime(), sender);
+		LogHelper.showInfo("timeChanged#####[" + Utils.parseTime(p.getWorld().getTime()) + " #####timeOr#####[" + p.getWorld().getTime() + " #####timeTicks", sender);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (!player.equals(p) && Permissions.checkPermEx(player, "cex.time.notify")) {
 				LogHelper.showInfo("timeChangedBy1#####[" + worldName + " #####timeChangedBy2#####[" + pName, player);
 			}
 		}
 	}
-	
+
 	/***
 	 * Function to set a players time
 	 * @author iKeirNez
@@ -94,7 +94,7 @@ public class Time {
 			p.resetPlayerTime();
 			LogHelper.showInfo("playerTimeReset", sender, ChatColor.AQUA);
 			return;
-		}
+		} 
 		
 		// we only support SET and ADD
 		if (!args[0].equalsIgnoreCase("set") && !args[0].equalsIgnoreCase("add")) {
@@ -124,7 +124,7 @@ public class Time {
 				return;
 			}
 		} else {
-			if (args[1].equalsIgnoreCase("dawn")) {
+			if (args[1].equalsIgnoreCase("dawn") || args[1].equalsIgnoreCase("day")){
 				moveBy = 0L;
 			} else if (args[1].equalsIgnoreCase("morning")) {
 				moveBy = 2500L;
@@ -147,6 +147,6 @@ public class Time {
 		}
 		
 		// tell the player and anyone with permission to see what happened
-		LogHelper.showInfo("playerTimeChanged#####[" + p.getPlayerTime(), sender);
+		LogHelper.showInfo("playerTimeChanged#####[" + Utils.parseTime(p.getPlayerTime()) + " #####timeOr#####[" + p.getPlayerTime() + " #####timeTicks", sender);
 	}
 }
