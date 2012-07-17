@@ -40,7 +40,7 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 public class CommandsEX extends JavaPlugin implements Listener {
 	// our plugin :-)
 	public static CommandsEX plugin;
-	public static String[] authors = { "iKeirNez", "Callum_White1997", "melonman1999" };
+	public static String[] authors = { "iKeirNez", "Callum_White1997", "melonman1999", "kezz101", "booooo201" };
 	// regex to check if String is a number
 	public final static String intRegex = "(-)?(\\d){1,10}(\\.(\\d){1,10})?";
 	// plugin description file, used at least on 2 places, so it's here :-P

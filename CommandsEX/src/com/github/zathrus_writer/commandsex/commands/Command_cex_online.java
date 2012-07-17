@@ -53,7 +53,7 @@ public class Command_cex_online {
 					
 					// Using the method above, choose whether or not to add the player
 					if (addPlayer){
-						players.add((Common.invisiblePlayers.contains(player.getName()) ? "[" + ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW : "#####[") + player.getName());
+						players.add((Common.invisiblePlayers.contains(player.getName()) ? ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW: "#####[") + player.getName());
 					}
 				}
 				
