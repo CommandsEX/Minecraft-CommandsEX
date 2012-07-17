@@ -519,6 +519,9 @@ permissions:
   cex.onlogin.exempt:
      default: op
      description: Players with this permission cannot have onLogin entries created for them.
+  cex.troll:
+     default: op
+     description: Allows the player access to the /troll command
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -570,6 +573,9 @@ permissions:
   Listener.deathmessages:
     default: true
     description: Placeholder for event function for setting death messages    
+  Listener.devwelcome:
+    default: true
+    description: Placeholder for event function for announcing to all online players when a CommandsEX developer joins.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -1168,8 +1174,14 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [sethome]
   cex_cannon:
-    description: Fires a mob and explodes it. Happy 2000th BukkitDev download.
+    description: Fires a mob and explodes it.
     usage: /<command> [player] <mob> [explosion-strength]
     permission: cex.cannon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [cannon, kittycannon]
+  cex_troll:
+    description: A variety of trolling commands to troll your friends.
+    usage: /<command> (blind) [time] [player]
+    permission: cex.troll
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [troll]

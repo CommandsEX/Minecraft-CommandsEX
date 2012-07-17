@@ -19,26 +19,25 @@ public class Command_cex_blindall {
 			if (Utils.checkCommandSpam(player, "cex_blindall")){
 				return true;
 			}
-		if (args.length == 0){
-			if (!(sender instanceof Player)){
-				Commands.showCommandHelpAndUsage(sender, "cex_blindall", alias);
-				return true;
-			}
-			for (Player p : Bukkit.getOnlinePlayers()){
-				Player blind = Bukkit.getPlayer(args[0]);
-				// Don't launch the sender
-				if (!sender.getName().equalsIgnoreCase(p.getName())){
-					sender.sendMessage(ChatColor.AQUA + "You made the whole server blind");
-					blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
-			
+			if (args.length == 0){
+				if (!(sender instanceof Player)){
+					Commands.showCommandHelpAndUsage(sender, "cex_blindall", alias);
+					return true;
 				}
-				
-				
-			}	
-			
-		}
+
+				for (Player p : Bukkit.getOnlinePlayers()){
+					Player blind = Bukkit.getPlayer(args[0]);
+					// Don't launch the sender
+					if (!sender.getName().equalsIgnoreCase(p.getName())){
+						blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
+					}
+				}
+
+				sender.sendMessage(ChatColor.AQUA + "You made the whole server blind");
+
+			}
 		}
 		return false;
 	}
-	
+
 }

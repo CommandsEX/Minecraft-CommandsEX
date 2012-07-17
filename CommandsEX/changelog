@@ -108,6 +108,7 @@ Beta 1.70
 - added secret 1000th download celebration command ;)
 - added options in the config to disable certain explosions
 - added support for recognition of weeks in /ban (and possibly other future) commands - you can now do /ban <Player> 2w
+- added an announcement for when a CommandsEX developer joins the game, can be turned off in the config.
 
 - improved XMPP by forwarding private messages to it
 - improved XMPP in General

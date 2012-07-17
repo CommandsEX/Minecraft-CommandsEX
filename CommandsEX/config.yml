@@ -401,3 +401,6 @@ deathVillagerGolem: '&a%victim%&f was slain by an Iron Golem'
 deathSlime: '&a%victim%&f was slain by a Slime'
 deathGiant: '&a%victim%&f was squashed by a Giant Zombie'
 deathEnderDragon: '&a%victim%&f was dropped by an Ender Dragon'
+
+# Whether or not to announce to all online players when a CommandsEX developer joins the game.
+announceDevelopers: true

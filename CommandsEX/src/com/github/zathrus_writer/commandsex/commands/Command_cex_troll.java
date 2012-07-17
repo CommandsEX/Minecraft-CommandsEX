@@ -62,9 +62,10 @@ public class Command_cex_troll {
 		
 		if (troll.equalsIgnoreCase("blind")){
 			target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, (setting != -1 ? setting * 20 : 500), 0));
-			LogHelper.showInfo("trollConfirm#####" + (sender != target ? "[" + target.getName() : "") + "trollWith#####[" + trollType, sender);
-			return true;
+			trollType = "Blindness";
 		}
+		
+		LogHelper.showInfo("trollConfirm#####" + (sender != target ? "[" + target.getName() + " " : "") + "trollWith#####[" + trollType, sender);
 		
 		return true;
 	}
