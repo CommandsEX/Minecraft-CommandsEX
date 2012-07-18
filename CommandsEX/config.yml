@@ -404,3 +404,6 @@ deathEnderDragon: '&a%victim%&f was dropped by an Ender Dragon'
 
 # Whether or not to announce to all online players when a CommandsEX developer joins the game.
 announceDevelopers: true
+
+# The default strength when /explode is used
+explodeStrength: 5

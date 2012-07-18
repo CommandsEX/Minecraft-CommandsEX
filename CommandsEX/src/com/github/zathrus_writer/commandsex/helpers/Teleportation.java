@@ -63,6 +63,7 @@ public class Teleportation {
 			 */
 			if ((command.equals("tp") && (aLength == 1)) || command.equals("tpto")) {
 				// simple tp to another person
+				sender.sendMessage(ChatColor.GRAY + "Teleporting...");
 				delayedTeleport(player2, player1.getLocation());
 			} else if ((command.equals("tphere")) || (command.equals("tp") && (aLength > 1))) {
 				// teleporting another player to our position OR first player to second player (via arguments)

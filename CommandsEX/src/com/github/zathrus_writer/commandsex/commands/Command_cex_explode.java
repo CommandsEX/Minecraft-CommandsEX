@@ -1,27 +1,29 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_explode {
 	
 	/***
 	 * EXPLODE - kills a player with EXPLOSIONS
+	 * @author iKeirNez
 	 * @param sender
 	 * @param args
 	 * @return
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		
+	
 		if (sender instanceof Player){
 			Player player = (Player) sender;
 			if (Utils.checkCommandSpam(player, "cex_explode")){
@@ -29,31 +31,52 @@ public class Command_cex_explode {
 			}
 		}
 		
-		if (!(sender instanceof Player) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.explode"))) {
-			if(args.length > 0) {
-				// get variables about the player 
-				Player exploded = Bukkit.getServer().getPlayer(args[0]);
-				Location loc = exploded.getLocation();
-				
-				// smite the player
-				exploded.getWorld().createExplosion(loc, -1);
-				exploded.setHealth(0);
-				
-				// show the sender a message
-				LogHelper.showInfo("explodePlayer#####[" + exploded.getName(), sender);
-				
-				// config variable
-				Boolean showMessageOnExplode = CommandsEX.getConf().getBoolean("showMessageOnExplode");
-				
-				// show who smited the smitee (is that a word)
-				if(showMessageOnExplode == true) {
-					LogHelper.showWarning("explodeRecieveExplode#####[" + sender.getName(), exploded);
-				}
-				
-			} else {
+		Player target = null;
+		int explosionStrength = CommandsEX.getConf().getInt("explodeStrength");
+		
+		if (args.length > 2){
+			Commands.showCommandHelpAndUsage(sender, "cex_explode", alias);
+			return true;
+		}
+		
+		if (args.length == 0){
+			if (!(sender instanceof Player)){
 				Commands.showCommandHelpAndUsage(sender, "cex_explode", alias);
+				return true;
+			}
+			target = (Player) sender;
+		}
+
+		if (args.length >= 1){
+			if (args[0].matches(CommandsEX.intRegex) && Bukkit.getPlayerExact(args[0]) == null){
+				explosionStrength = Integer.valueOf(args[0]);
+				target = (Player) sender;
+			} else {
+				target = Bukkit.getPlayer(args[0]);
+				if (target == null){
+					LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
+					return true;
+				}
 			}
 		}
+		
+		if (args.length == 2){
+			if (args[1].matches(CommandsEX.intRegex)){
+				explosionStrength = Integer.valueOf(args[1]);
+			} else {
+				LogHelper.showInfo("explodeInteger", sender, ChatColor.RED);
+				return true;
+			}
+		}
+		
+		target.setHealth(0);
+		target.getWorld().createExplosion(target.getLocation(), explosionStrength);
+		target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.ENTITY_EXPLOSION, 20));
+		LogHelper.showInfo("explodePlayer#####[" + target.getName(), sender, ChatColor.AQUA);
+		if (CommandsEX.getConf().getBoolean("showMessageOnExplode") && sender != target){
+			LogHelper.showInfo("explodeRecieveExplode#####[" + sender.getName(), sender, ChatColor.RED);
+		}
+		
 		return true;
 	}
 }
