@@ -5,10 +5,15 @@ Ideas, Suggestions and bugs. please write any here:
 - alias for /help CommandsEX
 - OpenInv style inventory viewing, able to edit
 - Mob/Player disguise, like Mob Disguise
+- silent chest opening when invisible
+
+- /msg, be able to tell which were sent and which were recieved
 
 - make /i wool:black and stuff work
+- fix spawnmob command
 
 - unknown death messages
 
 - Add MORE fun commands and trolly commands
 - Add a /fun command to replace /blind. Usage /fun blind 10 were Blind would be the fun thing and 10 would be how long it lasts in seconds.
+- Save /spy when a user relogs/

@@ -1178,7 +1178,7 @@ commands:
     usage: /<command> [player] <mob> [explosion-strength]
     permission: cex.cannon
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [cannon, kittycannon]
+    aliases: [cannon, kittycannon, kc]
   cex_troll:
     description: A variety of trolling commands to troll your friends.
     usage: /<command> (blind) [time] [player]

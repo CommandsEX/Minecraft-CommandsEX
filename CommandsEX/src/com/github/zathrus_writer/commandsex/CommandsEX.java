@@ -1,6 +1,5 @@
 package com.github.zathrus_writer.commandsex;
 
-
 import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.io.IOException;
@@ -15,12 +14,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,6 +27,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.zathrus_writer.commandsex.handlers.Handler_serverstop;
 import com.github.zathrus_writer.commandsex.helpers.AutoUpdate;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
@@ -93,6 +91,14 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		startTimer();
+
+		// custom shutdown kick messages
+		try {
+			Runtime.getRuntime().addShutdownHook(new Handler_serverstop());
+		} catch (Exception e){
+			// Class file not found, removed from builder?
+		}
+
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
 		if (getConf().getBoolean("autoUpdate")){
@@ -250,11 +256,6 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onDisable() {
-		
-		// kicks all players when the plugin is disabled (server is shutdown)
-		for (Player player : Bukkit.getOnlinePlayers()){
-			player.kickPlayer(ChatColor.RED + _("shutdownKickMessage", player.getName()));
-		}
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
 		

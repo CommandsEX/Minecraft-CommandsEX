@@ -42,7 +42,8 @@ public class Command_cex_blind {
 			
 			if (sender.getName().equalsIgnoreCase(blind.getName())){
 				blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
-				blind.sendMessage(ChatColor.GREEN + "You are blind");
+				blind.sendMessage(ChatColor.GREEN + "You have been made blind by " + sender.getName());
+				LogHelper.showInfo("blindConfirm", sender, ChatColor.AQUA);
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.blind.others"))){
 				blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
 				LogHelper.showInfo("You were blind by " + sender.getName(), blind, ChatColor.GREEN);

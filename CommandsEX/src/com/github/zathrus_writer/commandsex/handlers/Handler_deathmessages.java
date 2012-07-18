@@ -37,6 +37,8 @@ public class Handler_deathmessages implements Listener {
 		if (damev != null){
 			cause = damev.getCause();
 		} else {
+			// unknown
+			e.setDeathMessage(replacements(config.getString("deathUnknown"), victim));
 			return;
 		}
 		Entity killer = null;
@@ -137,10 +139,10 @@ public class Handler_deathmessages implements Listener {
 					message = replacements(config.getString("deathShotByPlayer"), victim).replaceAll("%killer%", ((Player) arrow.getShooter()).getName());
 				} else if (arrow.getShooter() instanceof Skeleton) {
 					// skeleton shot the arrow
-					message = replacements(config.getString("deathShotByMob"), victim).replaceAll("%killer%", Utils.userFriendlyNames(arrow.getShooter().getType().getName()));
+					message = replacements(config.getString("deathShotBySkeleton"), victim).replaceAll("%killer%", Utils.userFriendlyNames(arrow.getShooter().getType().getName()));
 				} else {
 					// something else shot the arrow, e.g. dispenser
-					message = replacements(config.getString("deathShotOther"), victim);
+					message = replacements(config.getString("deathShotByOther"), victim);
 				}
 			}
 		}
@@ -173,7 +175,6 @@ public class Handler_deathmessages implements Listener {
 			}
 		}
 		
-		// Will send default message if null
 		if (message != null){
 			// send custom death message
 			e.setDeathMessage(message);

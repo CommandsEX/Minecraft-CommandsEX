@@ -368,7 +368,7 @@ autoUpdate: true
 #How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
 onLoginTimeLimit: 48
 
-deathPvP: '&a%victim%&f was slain by &a&a%killer%&f'
+deathPvP: '&a%victim%&f was slain by &a%killer%'
 deathDrown: '&a%victim%&f drowned'
 deathFall: '&a%victim%&f hit the ground too hard'
 deathFire: '&a%victim%&f went up in flames'
@@ -379,10 +379,10 @@ deathPoison: '&a%victim%&f was poisoned'
 deathSuffocate: '&a%victim%&f suffocated in a wall'
 deathSuicide: '&a%victim%&f thought the world was too much!'
 deathVoid: '&a%victim%&f fell into the void'
-deathShotByMob: '&a%victim%&f was shot by a &a%killer%&f'
-deathShotByPlayer: '&a%victim%&f was shot by &a%killer%&f'
-deathShotOther: '&a%victim%&f was shot'
-deathLightning: 'Zues strick &a%victim%&f with lightning'
+deathShotBySkeleton: '&a%victim%&f was shot by a &a%killer%'
+deathShotByPlayer: '&a%victim%&f was shot by &a%killer%'
+deathShotByOther: '&a%victim%&f was shot'
+deathLightning: 'Zues struck &a%victim%&f with lightning'
 deathTNT: '&a%victim%&f was blown to smithereens by TNT'
 deathCreeper: '&a%victim%&f was blown to smithereens by a Creeper'
 deathOtherExplosion: '&a%victim%&f blew up'
@@ -401,9 +401,13 @@ deathVillagerGolem: '&a%victim%&f was slain by an Iron Golem'
 deathSlime: '&a%victim%&f was slain by a Slime'
 deathGiant: '&a%victim%&f was squashed by a Giant Zombie'
 deathEnderDragon: '&a%victim%&f was dropped by an Ender Dragon'
+deathUnknown: '&a%victim%&f was killed by Herobrine'
 
 # Whether or not to announce to all online players when a CommandsEX developer joins the game.
 announceDevelopers: true
 
 # The default strength when /explode is used
 explodeStrength: 5
+
+# The kick message that will be sent to all players when the server shuts down
+shutdownKickMessage: '&cThe server has shut down'

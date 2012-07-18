@@ -32,6 +32,8 @@ Beta 1.80
 - improved time viewing, now shows time in real time, e.g. 9:00 PM
 - improved player time viewing, now shows time in real time, e.g. 9:00 PM
 - improved /explode, now works without any arguments and an explosion strength can also be defined.
+- improved custom kick messages, no login kicks all players when the server is reloaded
+- improved custom kick messages, can now be changed via the config
 
 - updated /cex config commands for the new config nodes
 

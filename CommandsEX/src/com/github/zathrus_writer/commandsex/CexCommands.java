@@ -64,7 +64,7 @@ public class CexCommands {
 			sender.sendMessage(ChatColor.GREEN + _("wiki", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LS0sIj");
 			sender.sendMessage(ChatColor.GREEN + _("bukkitDev", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/P2ZJHA");
 			sender.sendMessage(ChatColor.GREEN + _("bukkitForums", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MmhPjV");
-			sender.sendMessage(ChatColor.GREEN + _("sourceForge", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/N9Zx9O");
+			sender.sendMessage(ChatColor.GREEN + _("donate", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/Oaw3Wp");
 			sender.sendMessage(ChatColor.GREEN + _("builder", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/OdiROq");
 			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/PPhI5I");
 		} else if ((aLength == 1) && args[0].equals("null")) {
@@ -237,6 +237,74 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configSpawnMobLimit", sender.getName()) + p.getConfig().getInt("spawnMobLimit"));
 					} else if (v.equals("pluginmetrics")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configPluginMetrics", sender.getName()) + p.getConfig().getBoolean("pluginMetrics"));
+					} else if (v.equals("deathvp")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPvP"));
+					} else if (v.equals("deathdrown")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathDrown"));
+					} else if (v.equals("deathfall")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathFall"));
+					} else if (v.equals("deathfire")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathFire"));
+					} else if (v.equals("deathlava")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLava"));
+					} else if (v.equals("deathmagic")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathMagic"));
+					} else if (v.equals("deathstarvation")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathStarvation"));
+					} else if (v.equals("deathpoison")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPoison"));
+					} else if (v.equals("deathsuffocate")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSuffocate"));
+					} else if (v.equals("deathsuicide")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSuicide"));
+					} else if (v.equals("deathvoid")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathVoid"));
+					} else if (v.equals("deathshotbyskeleton")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotBySkeleton"));
+					} else if (v.equals("deathshotbyplayer")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotByPlayer"));
+					} else if (v.equals("deathshotbyother")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("death"));
+					} else if (v.equals("deathlightning")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLightning"));
+					} else if (v.equals("deathtnt")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathtnt"));
+					} else if (v.equals("deathcreeper")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathcreeper"));
+					} else if (v.equals("deathotherexplosion")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathotherexplosion"));
+					} else if (v.equals("deathghast")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathGhast"));
+					} else if (v.equals("deathshotbyblaze")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotByBlaze"));
+					} else if (v.equals("deathblaze")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathBlaze"));
+					} else if (v.equals("deathzombie")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathZombie"));
+					} else if (v.equals("deathspider")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSpider"));
+					} else if (v.equals("deathcavespider")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathCaveSpider"));
+					} else if (v.equals("deathwolf")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathWolf"));
+					} else if (v.equals("deathpigzombie")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPigZombie"));
+					} else if (v.equals("deathenderman")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathEnderman"));
+					} else if (v.equals("deathlavaslime")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLavaSlime"));
+					} else if (v.equals("deathsilverfish")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSilverfish"));
+					} else if (v.equals("deathvillagergolem")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathVillagerGolem"));
+					} else if (v.equals("deathslime")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSlime"));
+					} else if (v.equals("deathgiant")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathGiant"));
+					} else if (v.equals("deathenderdragon")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathEnderDragon"));
+					} else if (v.equals("deathunknown")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathUnknown"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -806,7 +874,12 @@ public class CexCommands {
 						p.getConfig().set("pluginMetrics", !p.getConfig().getBoolean("pluginMetrics"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("pluginMetrics") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
-					} else {
+					} else if (v.equals("deathpvp")) {
+						p.getConfig().set("deathPvP", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("deathPvP"));
+					}
+					else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
 				}

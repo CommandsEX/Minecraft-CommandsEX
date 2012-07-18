@@ -25,6 +25,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+
 public class Utils {
 
 	// used for simple checking of commands spamming
@@ -252,9 +253,7 @@ public class Utils {
 	 * Replaces all chat color codes in the given text by their real ChatColor counterparts.
 	 */
 	public static String replaceChatColors(String s) {
-		ChatColor[] cc = ChatColor.values();
-		
-		for (ChatColor c : cc) {
+		for (ChatColor c : ChatColor.values()) {
 			s = s.replaceAll("&" + c.getChar(), ChatColor.getByChar(c.getChar()) + "");
 		}
 		
