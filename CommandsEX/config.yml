@@ -362,7 +362,7 @@ spawnMobLimit: 20
 # Change to false if you wish to disable it
 pluginMetrics: true
 
-# Enables the built in auto updater
+# Enables the update alerter
 updateAlerter: true
 
 deathPvP: '&a%victim%&f was slain by &a%killer%'

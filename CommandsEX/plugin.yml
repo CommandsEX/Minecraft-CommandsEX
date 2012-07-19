@@ -7,9 +7,6 @@ version: 'Beta 1.80'
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault]
 permissions:
-  cex.blind.others:
-    default: op
-    description: Blind a player as a punishment or just for fun!
   cex.allowspamcommands:
     default: op
     description: Allows players to repeat same command multiple times in a short time period without being stopped. Useful for admin purposes.
@@ -513,6 +510,18 @@ permissions:
   cex.pinfo.others.ip:
      default: op
      description: Allows the player to view players IP address, be careful who you give this to
+  cex.update.announce:
+     default: op
+     description: Players with this permission will be notified of new updates
+  cex.bind:
+     default: op
+     description: Allows the player to use /blind
+  cex.blind.others:
+    default: op
+    description: Blind a player as a punishment or just for fun!
+  cex.blind.all:
+    default: op
+    description: Blinds all online players, making them unable to see
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1145,10 +1154,16 @@ commands:
     aliases: [pinfo, playerinfo]
   cex_blind:
     description: Blind a player, YAY!
-    usage: /<command> <player>
+    usage: /<command> [player] [time in seconds]
     permission: cex.blind
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [blind]
+  cex_blindall:
+    description: Blinds all online players
+    usage: /<command> [time in seconds]
+    permission: cex.blind.all
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [blindall]
   cex_sethome:
     description: Set your home!
     usage: /<command>

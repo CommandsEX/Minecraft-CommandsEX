@@ -86,10 +86,12 @@ public class UpdateAlerter implements Runnable, Listener
   private String type;
   
   public static void init(CommandsEX plugin){
-	  try {
-		  new UpdateAlerter(plugin);
-	  } catch (Exception e){
-		  
+	  if (plugin.getConfig().getBoolean("updateAlerter")){
+		  try {
+			  new UpdateAlerter(plugin);
+		  } catch (Exception e){
+			  // Error :(
+		  }
 	  }
   }
   
@@ -316,7 +318,7 @@ public class UpdateAlerter implements Runnable, Listener
 			for(int i = 0; i < 2; i++)
 			  rout[i] = COLOR_INFO+out[i];
 			for(Player p: plugin.getServer().getOnlinePlayers())
-			  if(hasPermission(p, "autoupdate.announce"))
+			  if(hasPermission(p, "cex.update.announce"))
 				p.sendMessage(rout);
 		  }
 		});
@@ -348,7 +350,7 @@ public class UpdateAlerter implements Runnable, Listener
 	  String[] out;
 	  if(needUpdate)
 	  {
-		if(hasPermission(p, "autoupdate.announce"))
+		if(hasPermission(p, "cex.update.announce"))
 		{
 		  out = new String[] {
 				  COLOR_INFO+updateVersion + " is now available!",
