@@ -18,7 +18,6 @@ Beta 1.80
 - new command /nanosuit, info about NanoSuit
 - new command /spawner, sets the type of spawner you are looking at
 - new command /fly, allows you to fly without creative mode
-- new command alias added for /clock, /time
 - new command /ptime, sets a players time
 - new command /xp for all your experience needs, thanks to desht on the bukkit forums for the amazing Experience Manager http://forums.bukkit.org/threads/experiencemanager-was-experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/
 - new command /pinfo, shows information about a player including ip address, coordinates, armor (and armor enchantments)
