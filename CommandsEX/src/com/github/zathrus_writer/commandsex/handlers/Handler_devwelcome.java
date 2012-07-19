@@ -22,7 +22,7 @@ public class Handler_devwelcome implements Listener {
 			Player player = e.getPlayer();
 			for (String author : CommandsEX.authorIGNs){
 				if (player.getName().equalsIgnoreCase(author)){
-					Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "A CommandsEX developer has just joined the game, " + player.getName());
+					Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "A CommandsEX developer has just joined the game, " + ChatColor.AQUA + player.getName());
 				}
 			}
 		}

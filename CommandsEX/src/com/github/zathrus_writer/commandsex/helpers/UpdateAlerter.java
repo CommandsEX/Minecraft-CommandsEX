@@ -25,6 +25,8 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
+
 /**
  * 
  * @author V10lator
@@ -82,6 +84,14 @@ public class UpdateAlerter implements Runnable, Listener
   private String updateVersion;
   private String pluginURL;
   private String type;
+  
+  public static void init(CommandsEX plugin){
+	  try {
+		  new UpdateAlerter(plugin);
+	  } catch (Exception e){
+		  
+	  }
+  }
   
   /**
    * This will use your main configuration (config.yml).

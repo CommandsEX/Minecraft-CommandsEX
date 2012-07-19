@@ -365,9 +365,6 @@ pluginMetrics: true
 # Enables the built in auto updater
 updateAlerter: true
 
-#How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
-onLoginTimeLimit: 48
-
 deathPvP: '&a%victim%&f was slain by &a%killer%'
 deathDrown: '&a%victim%&f drowned'
 deathFall: '&a%victim%&f hit the ground too hard'

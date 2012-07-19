@@ -513,15 +513,6 @@ permissions:
   cex.pinfo.others.ip:
      default: op
      description: Allows the player to view players IP address, be careful who you give this to
-  cex.onlogin:
-    default: op
-    description: Allows the player to create onLogin entries.  
-  cex.onlogin.exempt:
-     default: op
-     description: Players with this permission cannot have onLogin entries created for them.
-  cex.troll:
-     default: op
-     description: Allows the player access to the /troll command
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -567,9 +558,6 @@ permissions:
   Listener.invisibility:
     default: true
     description: Placeholder for event function for invisibility releated things
-  Listener.onlogin:
-    default: true
-    description: Placeholder for event function for onlogin related things
   Listener.deathmessages:
     default: true
     description: Placeholder for event function for setting death messages    
@@ -597,9 +585,9 @@ permissions:
   Init.Kits:
     default: true
     description: Placeholder for initialization function used to check and create kits database.
-  Init.Onlogin:
+  Init.UpdateAlerter:
     default: true
-    description: Placeholder for initialization function used to check and delete old onLogin entries.
+    description: Placeholder for initialization function used to alert players of new updates.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -1155,12 +1143,6 @@ commands:
     permission: cex.pinfo
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [pinfo, playerinfo]
-  cex_onlogin:
-    description: Executes the specified command when the specified player logs in.
-    usage: /<command> <player> <command goes here>
-    permission: cex.onlogin
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [onlogin]
   cex_blind:
     description: Blind a player, YAY!
     usage: /<command> <player>
@@ -1179,9 +1161,3 @@ commands:
     permission: cex.cannon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [cannon, kittycannon, kc]
-  cex_troll:
-    description: A variety of trolling commands to troll your friends.
-    usage: /<command> (blind) [time] [player]
-    permission: cex.troll
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [troll]
