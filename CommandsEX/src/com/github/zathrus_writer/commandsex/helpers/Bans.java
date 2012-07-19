@@ -255,7 +255,7 @@ public class Bans {
 
 		// at last, kick the player if still online
 		if (!isOffline) {
-			p.kickPlayer((!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
+			p.kickPlayer(ChatColor.RED + (!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
 		}
 		
         return true;
@@ -346,7 +346,7 @@ public class Bans {
 			if (pairs.getValue().equals(ip)) {
 				Player p = Bukkit.getServer().getPlayer(pairs.getKey());
 				if (p != null) {
-					p.kickPlayer((!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
+					p.kickPlayer(ChatColor.RED + (!reason.equals("") ? (_("bansYouAreBannedForMessage", "") + reason) :  _("bansGenericReason", "")));
 				}
 			}
 		}

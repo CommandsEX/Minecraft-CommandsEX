@@ -31,7 +31,7 @@ public class Command_cex_blind {
 			
 			Player player = (Player) sender;
 			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
-			player.sendMessage(ChatColor.GREEN + "You are blind");
+			player.sendMessage(ChatColor.GREEN + "You made yourself blind");
 		} else if (args.length == 1){
 			Player blind = Bukkit.getPlayer(args[0]);
 			
@@ -47,6 +47,7 @@ public class Command_cex_blind {
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.blind.others"))){
 				blind.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 500, 0));
 				LogHelper.showInfo("You were blind by " + sender.getName(), blind, ChatColor.GREEN);
+				LogHelper.showInfo("blindConfirm", sender, ChatColor.AQUA);
 			} else {
 				LogHelper.showInfo("You do not have permission to blind others!", sender, ChatColor.RED);
 				return true;

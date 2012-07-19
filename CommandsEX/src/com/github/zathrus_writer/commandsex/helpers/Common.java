@@ -195,7 +195,7 @@ public class Common implements Listener {
 		}
 		
 		// kick player and tell everyone if set up in the config file
-		p.kickPlayer(leaveReason.equals("") ? _("kickGenericReason", "") : leaveReason);
+		p.kickPlayer(ChatColor.RED + (leaveReason.equals("") ? _("kickGenericReason", "") : leaveReason));
 		if (!CommandsEX.getConf().getBoolean("silentKicks")) {
 			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!leaveReason.equals("") ? (pName + " " + _("kickBeingKickedForMessage", "") + leaveReason) : pName + " " + _("kickBeingKickedMessage", "")));
 		}

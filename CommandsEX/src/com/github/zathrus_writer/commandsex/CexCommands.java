@@ -64,7 +64,7 @@ public class CexCommands {
 			sender.sendMessage(ChatColor.GREEN + _("wiki", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LS0sIj");
 			sender.sendMessage(ChatColor.GREEN + _("bukkitDev", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/P2ZJHA");
 			sender.sendMessage(ChatColor.GREEN + _("bukkitForums", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MmhPjV");
-			sender.sendMessage(ChatColor.GREEN + _("donate", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/Oaw3Wp");
+			sender.sendMessage(ChatColor.GREEN + _("donate", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LYCsrQ");
 			sender.sendMessage(ChatColor.GREEN + _("builder", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/OdiROq");
 			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/PPhI5I");
 		} else if ((aLength == 1) && args[0].equals("null")) {
@@ -237,74 +237,80 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configSpawnMobLimit", sender.getName()) + p.getConfig().getInt("spawnMobLimit"));
 					} else if (v.equals("pluginmetrics")) {
 						sender.sendMessage(ChatColor.YELLOW + _("configPluginMetrics", sender.getName()) + p.getConfig().getBoolean("pluginMetrics"));
-					} else if (v.equals("deathvp")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPvP"));
+					} else if (v.equals("deathpvp")){
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathPvP"));
 					} else if (v.equals("deathdrown")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathDrown"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathDrown"));
 					} else if (v.equals("deathfall")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathFall"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathFall"));
 					} else if (v.equals("deathfire")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathFire"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathFire"));
 					} else if (v.equals("deathlava")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLava"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathLava"));
 					} else if (v.equals("deathmagic")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathMagic"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathMagic"));
 					} else if (v.equals("deathstarvation")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathStarvation"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathStarvation"));
 					} else if (v.equals("deathpoison")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPoison"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathPoison"));
 					} else if (v.equals("deathsuffocate")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSuffocate"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathSuffocate"));
 					} else if (v.equals("deathsuicide")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSuicide"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathSuicide"));
 					} else if (v.equals("deathvoid")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathVoid"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathVoid"));
 					} else if (v.equals("deathshotbyskeleton")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotBySkeleton"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathShotBySkeleton"));
 					} else if (v.equals("deathshotbyplayer")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotByPlayer"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathShotByPlayer"));
 					} else if (v.equals("deathshotbyother")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("death"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("death"));
 					} else if (v.equals("deathlightning")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLightning"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathLightning"));
 					} else if (v.equals("deathtnt")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathtnt"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathtnt"));
 					} else if (v.equals("deathcreeper")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathcreeper"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathcreeper"));
 					} else if (v.equals("deathotherexplosion")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathotherexplosion"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathotherexplosion"));
 					} else if (v.equals("deathghast")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathGhast"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathGhast"));
 					} else if (v.equals("deathshotbyblaze")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathShotByBlaze"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathShotByBlaze"));
 					} else if (v.equals("deathblaze")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathBlaze"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathBlaze"));
 					} else if (v.equals("deathzombie")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathZombie"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathZombie"));
 					} else if (v.equals("deathspider")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSpider"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathSpider"));
 					} else if (v.equals("deathcavespider")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathCaveSpider"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathCaveSpider"));
 					} else if (v.equals("deathwolf")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathWolf"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathWolf"));
 					} else if (v.equals("deathpigzombie")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathPigZombie"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathPigZombie"));
 					} else if (v.equals("deathenderman")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathEnderman"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathEnderman"));
 					} else if (v.equals("deathlavaslime")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathLavaSlime"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathLavaSlime"));
 					} else if (v.equals("deathsilverfish")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSilverfish"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathSilverfish"));
 					} else if (v.equals("deathvillagergolem")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathVillagerGolem"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathVillagerGolem"));
 					} else if (v.equals("deathslime")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathSlime"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathSlime"));
 					} else if (v.equals("deathgiant")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathGiant"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathGiant"));
 					} else if (v.equals("deathenderdragon")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathEnderDragon"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathEnderDragon"));
 					} else if (v.equals("deathunknown")){
-						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getBoolean("deathUnknown"));
+						sender.sendMessage(ChatColor.YELLOW + _("configDeathMessages", sender.getName()) + p.getConfig().getString("deathUnknown"));
+					} else if (v.equals("announcedevelopers")){
+						sender.sendMessage(ChatColor.YELLOW + _("configAnnounceDevelopers", sender.getName()) + p.getConfig().getBoolean("announceDevelopers"));
+					} else if (v.equals("explodestrength")){
+						sender.sendMessage(ChatColor.YELLOW + _("configExplodeStrength", sender.getName()) + p.getConfig().getString("explodeStrength"));
+					} else if (v.equals("shutdownkickmessage")){
+						sender.sendMessage(ChatColor.YELLOW + _("configShutdownKickMessage", sender.getName()) + p.getConfig().getString("shutdownKickMessage"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -825,7 +831,7 @@ public class CexCommands {
 					} else if (v.equals("serverowner")) {
 						p.getConfig().set("ServerOwner", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
 						p.saveConfig();
-						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("ServerOwner"));
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("ServerOwner"));
 					} else if (v.equals("kittycannonexplosionstrength")) {
 						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
 							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
@@ -875,11 +881,162 @@ public class CexCommands {
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("pluginMetrics") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else if (v.equals("deathpvp")) {
-						p.getConfig().set("deathPvP", (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()));
+						p.getConfig().set("deathPvP", (args[0].equals("cs") ? args[2] : args[3]));
 						p.saveConfig();
-						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("deathPvP"));
-					}
-					else {
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathPvP"));
+					} else if (v.equals("deathdrown")) {
+						p.getConfig().set("deathDrown", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathDrown"));
+					} else if (v.equals("deathfall")) {
+						p.getConfig().set("deathFall", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathFall"));
+					} else if (v.equals("deathfire")) {
+						p.getConfig().set("deathFire", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathFire"));
+					} else if (v.equals("deathlava")) {
+						p.getConfig().set("deathLava", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathLava"));
+					} else if (v.equals("deathmagic")) {
+						p.getConfig().set("deathMagic", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathMagic"));
+					} else if (v.equals("deathstarvation")) {
+						p.getConfig().set("deathStarvation", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathStarvation"));
+					} else if (v.equals("deathpoison")) {
+						p.getConfig().set("deathPoison", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathPoison"));
+					} else if (v.equals("deathsuffocate")) {
+						p.getConfig().set("deathSuffocate", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathSuffocate"));
+					} else if (v.equals("deathsuicide")) {
+						p.getConfig().set("deathSuicide", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathSuicide"));
+					} else if (v.equals("deathvoid")) {
+						p.getConfig().set("deathVoid", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathVoid"));
+					} else if (v.equals("deathshotbyskeleton")) {
+						p.getConfig().set("deathShotBySkeleton", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathShotBySkeleton"));
+					} else if (v.equals("deathshotbyplayer")) {
+						p.getConfig().set("deathShotByPlayer", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathShotByPlayer"));
+					} else if (v.equals("deathshotbyother")) {
+						p.getConfig().set("deathShotByOther", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathShotByOther"));
+					} else if (v.equals("deathlightning")) {
+						p.getConfig().set("deathLightning", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathLightning"));
+					} else if (v.equals("deathtnt")) {
+						p.getConfig().set("deathTNT", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathTNT"));
+					} else if (v.equals("deathcreeper")) {
+						p.getConfig().set("deathCreeper", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathCreeper"));
+					} else if (v.equals("deathotherexplosion")) {
+						p.getConfig().set("deathOtherExplosion", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathOtherExplosion"));
+					} else if (v.equals("deathghast")) {
+						p.getConfig().set("deathGhast", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathGhast"));
+					} else if (v.equals("deathshotbyblaze")) {
+						p.getConfig().set("deathShotByBlaze", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathShotByBlaze"));
+					} else if (v.equals("deathblaze")) {
+						p.getConfig().set("deathBlaze", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathBlaze"));
+					} else if (v.equals("deathzombie")) {
+						p.getConfig().set("deathZombie", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathZombie"));
+					} else if (v.equals("deathspider")) {
+						p.getConfig().set("deathSpider", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathSpider"));
+					} else if (v.equals("deathcavespider")) {
+						p.getConfig().set("deathCaveSpider", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathCaveSpider"));
+					} else if (v.equals("deathwolf")) {
+						p.getConfig().set("deathWolf", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathWolf"));
+					} else if (v.equals("deathpigzombie")) {
+						p.getConfig().set("deathPigZombie", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathPigZombie"));
+					} else if (v.equals("deathenderman")) {
+						p.getConfig().set("deathEnderman", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathEnderman"));
+					} else if (v.equals("deathlavaslime")) {
+						p.getConfig().set("deathLavaSlime", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathLavaSlime"));
+					} else if (v.equals("deathsilverfish")) {
+						p.getConfig().set("deathSilverfish", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathSilverfish"));
+					} else if (v.equals("deathvillagergolem")) {
+						p.getConfig().set("deathVillagerGolem", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathVillagerGolem"));
+					} else if (v.equals("deathslime")) {
+						p.getConfig().set("deathSlime", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathSlime"));
+					} else if (v.equals("deathgiant")) {
+						p.getConfig().set("deathGiant", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathGiant"));
+					} else if (v.equals("deathenderdragon")) {
+						p.getConfig().set("deathEnderDragon", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathEnderDragon"));
+					} else if (v.equals("deathunknown")) {
+						p.getConfig().set("deathUnknown", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathUnknown"));
+					} else if (v.equals("announcedevelopers")) {
+						p.getConfig().set("announceDevelopers", !p.getConfig().getBoolean("announceDevelopers"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getBoolean("announceDevelopers"));
+					} else if (v.equals("explodestrength")) {
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("explodeStrength", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("explodeStrength"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
+					} else if (v.equals("shutdownkickmessage")) {
+						p.getConfig().set("shutdownKickMessage", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("shutdownKickMessage"));
+					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
 				}

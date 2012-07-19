@@ -363,7 +363,7 @@ spawnMobLimit: 20
 pluginMetrics: true
 
 # Enables the built in auto updater
-autoUpdate: true
+updateAlerter: true
 
 #How long (in hours) onLogin entries stay in the SQL database before they are deleted. Set it to 0 to disable
 onLoginTimeLimit: 48

@@ -28,7 +28,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.zathrus_writer.commandsex.handlers.Handler_serverstop;
-import com.github.zathrus_writer.commandsex.helpers.AutoUpdate;
+import com.github.zathrus_writer.commandsex.helpers.UpdateAlerter;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
@@ -75,7 +75,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
 	// reference the auto updater
-	AutoUpdate autoUpdate;
+	UpdateAlerter updatealerter;
 
 	/***
 	 * Class constructor.
@@ -101,9 +101,9 @@ public class CommandsEX extends JavaPlugin implements Listener {
 
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
-		if (getConf().getBoolean("autoUpdate")){
+		if (getConf().getBoolean("updateAlerter")){
 			try {
-				autoUpdate = new AutoUpdate(this);
+				updatealerter = new UpdateAlerter(this);
 			} catch (Exception e) {
 
 			}

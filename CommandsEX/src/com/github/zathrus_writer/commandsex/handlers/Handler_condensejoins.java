@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -205,6 +206,12 @@ public class Handler_condensejoins implements Listener {
 		handleLeave(e.getPlayer().getName());		
 		// prevent quit message to show up
 		e.setQuitMessage("");
+	}
+	
+	@EventHandler(priority = EventPriority.LOW)
+	public void condenseLeaves1(PlayerKickEvent e){
+		// prevent kick message showing
+		e.setLeaveMessage("");
 	}
 	
 }

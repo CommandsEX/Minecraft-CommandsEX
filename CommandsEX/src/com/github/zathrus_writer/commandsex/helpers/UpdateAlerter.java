@@ -1,13 +1,9 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
@@ -24,21 +20,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-
 /**
  * 
  * @author V10lator
- * @version 1.0
+ * @version 1.0-iKeirNez1
  * website: http://forums.bukkit.org/threads/autoupdate-update-your-plugins.84421/
  *
  */
-public class AutoUpdate implements Runnable, Listener
+public class UpdateAlerter implements Runnable, Listener
 {
   /*
    * Configuration:
@@ -54,12 +48,13 @@ public class AutoUpdate implements Runnable, Listener
    * COLOR_ERROR = The text color for error messages.
    */
   private long delay = 216000L;
-  private final String ymlPrefix = "v";
+  private final String ymlPrefix = "";
   private final String ymlSuffix = "";
   private final String bukkitdevPrefix = "";
   private final String bukkitdevSuffix = "";
   private String bukkitdevSlug = "";
-  private final ChatColor COLOR_INFO = ChatColor.BLUE;
+  private final ChatColor COLOR_INFO = ChatColor.GOLD;
+  private final ChatColor COLOR_CONSOLE = ChatColor.GREEN;
   private final ChatColor COLOR_OK = ChatColor.GREEN;
   private final ChatColor COLOR_ERROR = ChatColor.RED;
   /*
@@ -72,7 +67,7 @@ public class AutoUpdate implements Runnable, Listener
    * plugin and change the version to something unique (like adding -<yourName>).
    */
   
-  private final String version = "1.0";
+  private final String version = "1.0-iKeirNez1";
   
   private final Plugin plugin;
   private final String bukget;
@@ -84,8 +79,6 @@ public class AutoUpdate implements Runnable, Listener
   boolean enabled = false;
   private final AtomicBoolean lock = new AtomicBoolean(false);
   private boolean needUpdate = false;
-  private boolean updatePending = false;
-  private String updateURL;
   private String updateVersion;
   private String pluginURL;
   private String type;
@@ -96,7 +89,7 @@ public class AutoUpdate implements Runnable, Listener
    * @param plugin The instance of your plugins main class.
    * @throws Exception 
    */
-  public AutoUpdate(Plugin plugin) throws Exception
+  public UpdateAlerter(Plugin plugin) throws Exception
   {
 	this(plugin, plugin.getConfig());
   }
@@ -108,7 +101,7 @@ public class AutoUpdate implements Runnable, Listener
    * @param config The configuration to use.
    * @throws Exception 
    */
-  public AutoUpdate(Plugin plugin, Configuration config) throws Exception
+  public UpdateAlerter(Plugin plugin, Configuration config) throws Exception
   {
 	if(plugin == null)
 	  throw new Exception("Plugin can not be null");
@@ -181,12 +174,12 @@ public class AutoUpdate implements Runnable, Listener
 		if(!lock.compareAndSet(false, true))
 		  return;
 		BukkitScheduler bs = plugin.getServer().getScheduler();
-		if(bs.isQueued(AutoUpdate.this.pid) || bs.isCurrentlyRunning(AutoUpdate.this.pid))
-		  bs.cancelTask(AutoUpdate.this.pid);
+		if(bs.isQueued(UpdateAlerter.this.pid) || bs.isCurrentlyRunning(UpdateAlerter.this.pid))
+		  bs.cancelTask(UpdateAlerter.this.pid);
 		if(restart)
-		  AutoUpdate.this.pid = bs.scheduleAsyncRepeatingTask(plugin, AutoUpdate.this, 5L, delay);
+		  UpdateAlerter.this.pid = bs.scheduleAsyncRepeatingTask(plugin, UpdateAlerter.this, 5L, delay);
 		else
-		  AutoUpdate.this.pid = -1;
+		  UpdateAlerter.this.pid = -1;
 		lock.set(false);
 		bs.cancelTask(pid);
 	  }
@@ -288,7 +281,6 @@ public class AutoUpdate implements Runnable, Listener
 			lock.set(false);
 			return;
 		  }
-		  updateURL = jo.getString("dl_link");
 		  updateVersion = nv;
 		  type = jo.getString("type");
 		  needUpdate = true;
@@ -302,17 +294,16 @@ public class AutoUpdate implements Runnable, Listener
 		  return;
 		}
 		final String[] out = new String[] {
-				"["+plugin.getName()+"] New "+type+" available!",
-				"If you want to update from "+av+" to "+updateVersion+" use /update "+plugin.getName(),
-				"See "+pluginURL+" for more information."
+				  COLOR_CONSOLE+updateVersion + " is now available!",
+				  COLOR_CONSOLE+pluginURL
 		};
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new SyncMessageDelayer(null, out));
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable()
 		{
 		  public void run()
 		  {
-			String[] rout = new String[3];
-			for(int i = 0; i < 3; i++)
+			String[] rout = new String[2];
+			for(int i = 0; i < 2; i++)
 			  rout[i] = COLOR_INFO+out[i];
 			for(Player p: plugin.getServer().getOnlinePlayers())
 			  if(hasPermission(p, "autoupdate.announce"))
@@ -350,21 +341,8 @@ public class AutoUpdate implements Runnable, Listener
 		if(hasPermission(p, "autoupdate.announce"))
 		{
 		  out = new String[] {
-				  COLOR_INFO+"["+plugin.getName()+"] New "+type+" available!",
-				  COLOR_INFO+"If you want to update from "+av+" to "+updateVersion+" use /update "+plugin.getName(),
-				  COLOR_INFO+"See "+pluginURL+" for more information."
-		  };
-		}
-		else
-		  out = null;
-	  }
-	  else if(updatePending)
-	  {
-		if(hasPermission(p, "autoupdate.announce"))
-		{
-		  out = new String[] {
-				  COLOR_INFO+"Please restart the server to finish the update of "+plugin.getName(),
-				  COLOR_INFO+"See "+pluginURL+" for more information."
+				  COLOR_INFO+updateVersion + " is now available!",
+				  COLOR_INFO+pluginURL
 		  };
 		}
 		else
@@ -414,130 +392,24 @@ public class AutoUpdate implements Runnable, Listener
 	}
   }
   
-  //TODO: Find a better way for dynamic command handling
-  /**
-   * This is internal stuff.
-   * Don't call this directly!
-   */
-  @EventHandler(ignoreCancelled = false)
-  public void updateCmd(PlayerCommandPreprocessEvent event)
-  {
-	try
-	{
-	  String[] split = event.getMessage().split(" ");
-	  if(!split[0].equalsIgnoreCase("/update"))
-		return;
-	  event.setCancelled(true);
-	  if(!enabled || !needUpdate)
-		return;
-	  if(split.length > 1 && !plugin.getName().equalsIgnoreCase(split[1]))
-		return;
-	  update(event.getPlayer());
-	}
-	catch(Throwable t)
-	{
-	  printStackTraceSync(t, false);
-	}
-  }
-  
-  private void update(CommandSender sender)
-  {
-	if(!hasPermission(sender, "autoupdate.update."+plugin.getName()))
-	{
-	  sender.sendMessage(COLOR_ERROR+plugin.getName()+": You are not allowed to update me!");
-	  return;
-	}
-	final BukkitScheduler bs = plugin.getServer().getScheduler();
-	final String pn = sender instanceof Player ? ((Player)sender).getName() : null;
-	bs.scheduleAsyncDelayedTask(plugin, new Runnable()
-	{
-	  public void run()
-	  {
-		try
-		{
-		  while(!lock.compareAndSet(false, true))
-		  {
-			try
-			{
-			  Thread.sleep(1L);
-			}
-			catch(InterruptedException e)
-			{
-			}
-			continue;
-		  }
-		  String out;
-		  try
-		  {
-			File to = new File(plugin.getServer().getUpdateFolderFile(), updateURL.substring(updateURL.lastIndexOf('/')+1, updateURL.length()));
-			File tmp = new File(to.getAbsolutePath()+".au");
-			if(!tmp.exists())
-			{
-			  plugin.getServer().getUpdateFolderFile().mkdirs();
-			  tmp.createNewFile();
-			}
-			URL url = new URL(updateURL);
-			InputStream is = url.openStream();
-			OutputStream os = new FileOutputStream(tmp);
-			byte[] buffer = new byte[4096];
-			int fetched;
-			while((fetched = is.read(buffer)) != -1)
-			  os.write(buffer, 0, fetched);
-			is.close();
-			os.flush();
-			os.close();
-			if(to.exists())
-			  to.delete();
-			if(tmp.renameTo(to))
-			{
-			  out = COLOR_OK+plugin.getName()+" ready! Restart server to finish the update.";
-			  needUpdate = false;
-			  updatePending = true;
-			  updateURL = type = null;
-			}
-			else
-			{
-			  out = COLOR_ERROR+plugin.getName()+" failed to update!";
-			  if(tmp.exists())
-				tmp.delete();
-			  if(to.exists())
-				to.delete();
-			}
-		  }
-		  catch(Exception e)
-		  {
-			out = COLOR_ERROR+plugin.getName()+" failed to update!";
-			printStackTraceSync(e, true);
-		  }
-		  bs.scheduleSyncDelayedTask(plugin, new SyncMessageDelayer(pn, new String[] {out}));
-		  lock.set(false);
-		}
-		catch(Throwable t)
-		{
-		  printStackTraceSync(t, false);
-		}
-	  }
-	});
-  }
-  
   private void printStackTraceSync(Throwable t, boolean expected)
   {
 	BukkitScheduler bs = plugin.getServer().getScheduler();
 	try
 	{
-	  String prefix = plugin.getName()+" [AutoUpdate] ";
+	  String prefix = plugin.getName()+" [Update] ";
 	  StringWriter sw = new StringWriter();
 	  PrintWriter pw = new PrintWriter(sw);
 	  t.printStackTrace(pw);
 	  String[] sts = sw.toString().replace("\r", "").split("\n");
 	  String[] out;
 	  if(expected)
-		out = new String[sts.length+31];
+		out = new String[sts.length+29];
 	  else
-		out = new String[sts.length+33];
+		out = new String[sts.length+31];
 	  out[0] = prefix;
 	  out[1] = prefix+"Internal error!";
-	  out[2] = prefix+"If this bug hasn't been reported please open a ticket at http://forums.bukkit.org/threads/autoupdate-update-your-plugins.84421/";
+	  out[2] = prefix+"If this bug hasn't been reported please open a ticket at http://sourceforge.net/userapps/trac/zathrus-writer/newticket";
 	  out[3] = prefix+"Include the following into your bug report:";
 	  out[4] = prefix+"          ======= SNIP HERE =======";
 	  int i = 5;
@@ -561,8 +433,6 @@ public class AutoUpdate implements Runnable, Listener
 	  out[++i] = prefix+"config         : "+config;
 	  out[++i] = prefix+"lock           : "+lock.get();
 	  out[++i] = prefix+"needUpdate     : "+needUpdate;
-	  out[++i] = prefix+"updatePending  : "+updatePending;
-	  out[++i] = prefix+"UpdateUrl      : "+updateURL;
 	  out[++i] = prefix+"updateVersion  : "+updateVersion;
 	  out[++i] = prefix+"pluginURL      : "+pluginURL;
 	  out[++i] = prefix+"type           : "+type;
@@ -598,8 +468,8 @@ public class AutoUpdate implements Runnable, Listener
 		  }
 		  pid = -1;
 		  config = null;
-		  needUpdate = updatePending = false;
-		  updateURL = updateVersion = pluginURL = type = null;
+		  needUpdate = false;
+		  updateVersion = pluginURL = type = null;
 		}
 	  });
 	}
