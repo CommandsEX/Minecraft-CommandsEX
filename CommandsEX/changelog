@@ -1,3 +1,13 @@
+Beta 1.85
+---------
+Key:
++ = Addition
+- = Removal
+@ = Change
+* = Bug fix
+~ = New bug
+# = Note
+
 Beta 1.80
 ---------
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
