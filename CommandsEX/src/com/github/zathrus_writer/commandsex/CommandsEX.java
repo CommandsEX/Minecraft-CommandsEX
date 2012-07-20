@@ -27,7 +27,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.zathrus_writer.commandsex.handlers.Handler_serverstop;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
@@ -88,13 +87,6 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		startTimer();
-
-		// custom shutdown kick messages
-		try {
-			Runtime.getRuntime().addShutdownHook(new Handler_serverstop());
-		} catch (Exception e){
-			// Class file not found, removed from builder?
-		}
 
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);

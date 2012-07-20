@@ -1,18 +1,10 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-
-import com.github.zathrus_writer.commandsex.CommandsEX;
 
 public class Handler_devwelcome implements Listener {
 	
-	public Handler_devwelcome() {
+/*	public Handler_devwelcome() {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 	
@@ -26,6 +18,6 @@ public class Handler_devwelcome implements Listener {
 				}
 			}
 		}
-	}
+	}*/
 
 }

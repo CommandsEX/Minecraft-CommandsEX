@@ -1,4 +1,4 @@
-Beta 1.85
+Beta 1.80
 ---------
 Key:
 + = Addition
@@ -8,8 +8,10 @@ Key:
 ~ = New bug
 # = Note
 
-Beta 1.80
+Beta 1.75
 ---------
+HAPPY 5000th BUKKITDEV DOWNLOAD DAY, yeah we couldn't do every version inbetween as there are so many, thanks guys!
+
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
 - added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
 - added plugin update support
@@ -41,7 +43,7 @@ Beta 1.80
 - improved time viewing, now shows time in real time, e.g. 9:00 PM
 - improved player time viewing, now shows time in real time, e.g. 9:00 PM
 - improved /explode, now works without any arguments and an explosion strength can also be defined.
-- improved custom kick messages, no login kicks all players when the server is reloaded
+- improved custom kick messages, no longer kicks all players when the server is reloaded
 - improved custom kick messages, can now be changed via the config
 - improved kicking and banning, fixed some bugs and kick messages now appear in red.
 
@@ -65,7 +67,6 @@ Beta 1.80
 
 - new config node spawnMobLimit, sets a limit for the amount of mobs spawned via the /mob command
 
-- perm change cex.bypass.kick is now set to false by default
 - perm change cex.kittycannon is now cex.cannon
 
 - new perm cex.blind

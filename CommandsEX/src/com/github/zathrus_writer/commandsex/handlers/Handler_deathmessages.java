@@ -109,12 +109,12 @@ public class Handler_deathmessages implements Listener {
 		if (cause == DamageCause.VOID){
 			message = replacements(config.getString("deathVoid"), victim);
 		}
-		
+
 		if (cause == DamageCause.CONTACT || cause == DamageCause.ENTITY_ATTACK){
 			//System.out.println(killer.getType().getName());
 			message = replacements(config.getString("death" + killer.getType().getName()), victim);
 		}
-		
+
 		// check if explosion
 		if (cause == DamageCause.BLOCK_EXPLOSION || cause == DamageCause.ENTITY_EXPLOSION){
 			if (killer != null){

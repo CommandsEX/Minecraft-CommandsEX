@@ -282,10 +282,10 @@ slapPreventDamage: true
 # ... as you can see in the syntax example, you can use color codes in your commands as well (explained at http://www.minecraftwiki.net/wiki/Classic_server_protocol#Color_Codes)
 # ... also, you can use $p as a placeholder for name of the player who just died
 #
-deathGroupChanges:
-    knight:
-        toGroup: translucent
-        command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
+#deathGroupChanges:
+#    knight:
+#        toGroup: translucent
+#        command: say &eThe time has come for &f$p &eto move on. $p will now be joining ranks of light as a translucent lightkeeper.
 # NOTE: YOU NEED TO EDIT THE ABOVE CONFIGURATION FOR THIS TO WORK!
 
 
@@ -399,9 +399,6 @@ deathSlime: '&a%victim%&f was slain by a Slime'
 deathGiant: '&a%victim%&f was squashed by a Giant Zombie'
 deathEnderDragon: '&a%victim%&f was dropped by an Ender Dragon'
 deathUnknown: '&a%victim%&f was killed by Herobrine'
-
-# Whether or not to announce to all online players when a CommandsEX developer joins the game.
-announceDevelopers: true
 
 # The default strength when /explode is used
 explodeStrength: 5
