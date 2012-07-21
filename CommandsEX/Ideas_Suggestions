@@ -6,16 +6,16 @@ Ideas, Suggestions and bugs. please write any here:
 - OpenInv style inventory viewing, able to edit
 - Mob/Player disguise, like Mob Disguise
 - silent chest opening when invisible
-
+- ptime.set.others
 - make leave messages fire before join messages in condense joins
 - redo /pinfo
 - burn command
 - change /time set day to /time day, same for others
 - /msg, be able to tell which were sent and which were recieved
-
+- unblind all
 - make /i wool:black and stuff work
 - fix spawnmob command
-
+- improve blind and blind
 - unknown death messages
 
 - make using a custom explosion strength require a bypass permission node

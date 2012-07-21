@@ -133,6 +133,23 @@ public class UpdateAlerter implements Runnable, Listener
 	plugin.getServer().getPluginManager().registerEvents(this, plugin);
   }
   
+  /***
+   * This will determine which level the plugin type is
+   * this will help decide whether Release is higher than Beta
+   * @param string
+   */
+  public Integer getTypeLevel(String string){
+	  if (string.contains("Release")){
+		  return 1;
+	  } else if (string.contains("Beta")){
+		  return 2;
+	  } else if (string.contains("Alpha")){
+		  return 3;
+	  } else {
+		  return -1;
+	  }
+  }
+  
   /**
    * Use this to restart the main task.
    * This is useful after scheduler.cancelTasks(plugin); for example.
@@ -288,7 +305,50 @@ public class UpdateAlerter implements Runnable, Listener
 		  pluginURL = jo.getString("bukkitdev_link");
 		  jo = ja.getJSONObject(0);
 		  nv = bukkitdevPrefix+jo.getString("name")+bukkitdevSuffix;
-		  if(av.equals(nv) || (updateVersion != null && updateVersion.equals(nv)))
+		 
+		  String newVersion = null;
+		  int nvcounter = 0;
+		  while (nvcounter < nv.length()){
+			  if (String.valueOf(nv.charAt(nvcounter)).matches(CommandsEX.intRegex) || String.valueOf(nv.charAt(nvcounter)).equals(".")){
+				  newVersion = (newVersion != null ? newVersion : "") + nv.charAt(nvcounter);
+			  }
+			  
+			  nvcounter++;
+		  }
+		  double nv1 = Double.parseDouble(newVersion);
+		  
+		  String currentVersion = null;
+		  String version = CommandsEX.pdfFile.getVersion();
+		  int cvcounter = 0;
+		  while (cvcounter < version.length()){
+			  if (String.valueOf(version.charAt(cvcounter)).matches(CommandsEX.intRegex) || String.valueOf(version.charAt(cvcounter)).equals(".")){
+				  currentVersion = (currentVersion != null ? currentVersion : "") + version.charAt(cvcounter);
+			  }
+			  
+			  cvcounter++;
+		  }
+		  
+		  double cv = Double.parseDouble(currentVersion);
+		  int nvTypeLevel = getTypeLevel(nv);
+		  int cvTypeLevel = getTypeLevel(version);
+		  boolean newVersionHigher;
+		  if (cvTypeLevel == -1){
+			  newVersionHigher = true;
+		  } else if (nvTypeLevel == cvTypeLevel){
+			  if (nv1 == cv){
+				  newVersionHigher = false;
+			  } else if (nv1 > cv){
+				  newVersionHigher = true;
+			  } else {
+				  newVersionHigher = false;
+			  }
+		  } else if (nvTypeLevel < cvTypeLevel){
+			  newVersionHigher = true;
+		  } else {
+			  newVersionHigher = false;
+		  }
+		  
+		  if(!newVersionHigher)
 		  {
 			lock.set(false);
 			return;

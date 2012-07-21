@@ -58,7 +58,7 @@ public class CexCommands {
 			authors.remove(aSize - 1);
 			sender.sendMessage(ChatColor.GREEN + CommandsEX.pdfFile.getName() + " " + ChatColor.YELLOW
 					+ (!p.getConfig().getBoolean("disableVersion") ? _("version", sender.getName())
-					+ " " + ChatColor.GREEN + CommandsEX.pdfFile.getVersion() + " " : "") + ChatColor.YELLOW + _("by", sender.getName())
+					+ " " + ChatColor.GREEN + CommandsEX.pdfFile.getVersion().replaceFirst("CommandsEX ", "") + " " : "") + ChatColor.YELLOW + _("by", sender.getName())
 					+ ChatColor.GREEN + Utils.implode(authors, ChatColor.YELLOW + ", " + ChatColor.GREEN) + ChatColor.YELLOW
 					+ " " + _("and", sender.getName()) + ChatColor.GREEN + " " + lName);
 			sender.sendMessage(ChatColor.GREEN + _("wiki", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LS0sIj");

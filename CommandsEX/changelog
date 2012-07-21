@@ -1,4 +1,4 @@
-Beta 1.80
+Beta 1.76
 ---------
 Key:
 + = Addition
@@ -8,9 +8,11 @@ Key:
 ~ = New bug
 # = Note
 
+* fixed update alerter, no longer alerts you of a new update when BukGet is out of sync
+
 Beta 1.75
 ---------
-HAPPY 5000th BUKKITDEV DOWNLOAD DAY, yeah we couldn't do every version inbetween as there are so many, thanks guys!
+HAPPY 5000th BUKKITDEV DOWNLOAD DAY, yeah we couldn't do every milestone inbetween as there are so many, thanks guys!
 
 - added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
 - added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
