@@ -1,5 +1,3 @@
-Beta 1.76
----------
 Key:
 + = Addition
 - = Removal
@@ -8,6 +6,12 @@ Key:
 ~ = New bug
 # = Note
 
+Beta ----
+---------
+* fixed OPs not having access to all commands, like /time set
+
+Beta 1.76
+---------
 * fixed update alerter, no longer alerts you of a new update when BukGet is out of sync
 
 Beta 1.75

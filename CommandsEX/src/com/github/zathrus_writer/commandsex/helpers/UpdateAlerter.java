@@ -336,7 +336,39 @@ public class UpdateAlerter implements Runnable, Listener
 			  newVersionHigher = true;
 		  } else if (nvTypeLevel == cvTypeLevel){
 			  if (nv1 == cv){
-				  newVersionHigher = false;
+				  
+				  char cvLetter;
+				  String cvMinorVersion = null;
+				  for (cvLetter='a'; cvLetter <= 'z'; cvLetter++){
+					  if (currentVersion.contains(String.valueOf(cv) + cvLetter)){
+						  cvMinorVersion = String.valueOf(cvLetter);
+					  }
+				  }
+				  
+				  char nvLetter;
+				  String nvMinorVersion = null;
+				  for (nvLetter='a'; nvLetter <= 'z'; nvLetter++){
+					  if (nv.contains(String.valueOf(nv1) + nvLetter)){
+						  nvMinorVersion = String.valueOf(nvLetter);
+					  }
+				  }
+				  
+				  if (nvMinorVersion == null){
+					  newVersionHigher = false;
+				  } else if (cvMinorVersion == null){
+					  newVersionHigher = true;
+				  } else {
+					  int cvValue = Character.getNumericValue(cvMinorVersion.charAt(0) - 9);
+					  int nvValue = Character.getNumericValue(nvMinorVersion.charAt(0) - 9);
+					  
+					  if (nvValue == cvValue){
+						  newVersionHigher = false;
+					  } else if (nvValue > cvValue){
+						  newVersionHigher = true;
+					  } else {
+						  newVersionHigher = false;
+					  }
+				  }
 			  } else if (nv1 > cv){
 				  newVersionHigher = true;
 			  } else {
