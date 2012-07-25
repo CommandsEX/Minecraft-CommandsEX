@@ -523,6 +523,9 @@ permissions:
   cex.invsee:
     default: op
     description: Allows the player to see other players inventories
+  cex.signs.format:
+    default: op
+    description: Allows the player to use colours and formatting on signs.
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -574,6 +577,9 @@ permissions:
   Listener.serverstop:
     default: true
     description: Placeholder for event function to hook into shutdown runtime and send custom server shutdown kick messages
+  Listener.colouredsigns:
+    default: true
+    description: Placeholder for event function to use format codes to format signs.
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
