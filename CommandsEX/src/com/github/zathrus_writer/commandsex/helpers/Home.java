@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -226,6 +227,10 @@ public class Home {
 
 						// assemble location for the home
 						l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
+						if (l.getWorld() == null){
+							LogHelper.showInfo("homeWorldNotExist", sender, ChatColor.RED);
+							return true;
+						}
 						
 						// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
 						if (foundPlayerName.toLowerCase().equals(homePlayerForSQL)) {

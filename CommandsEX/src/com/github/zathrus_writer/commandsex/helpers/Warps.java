@@ -200,6 +200,10 @@ public class Warps {
 	
 							// assemble location for the warp point
 							l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
+							if (l.getWorld() == null){
+								LogHelper.showInfo("warpWorldNotExist", sender, ChatColor.RED);
+								return true;
+							}
 							
 							// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
 							if (foundWarpName.toLowerCase().equals(warpForSQL)) {

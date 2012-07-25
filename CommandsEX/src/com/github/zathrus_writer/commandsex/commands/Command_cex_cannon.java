@@ -11,13 +11,14 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Ocelot;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Wolf;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
@@ -31,7 +32,7 @@ public class Command_cex_cannon {
 		
 		ArrayList<String> entities = new ArrayList<String>();
 		for (EntityType en : EntityType.values()){
-			if (en.isAlive() && en.isSpawnable()){
+			if (en.isSpawnable()){
 				entities.add(Utils.userFriendlyNames(en.name()).replace(" ", ""));
 			}
 		}
@@ -147,6 +148,8 @@ public class Command_cex_cannon {
 				
 			} else if (type.equalsIgnoreCase("angry") && toSpawn == EntityType.WOLF){
 				
+			} else if (toSpawn == EntityType.DROPPED_ITEM && Utils.materialClosestMatches(type).size() > 0){
+				type = "item:" + type;
 			}
 			else if (toSpawn == EntityType.SHEEP && dye != null){
 				// Correct, nothing to do here
@@ -157,10 +160,16 @@ public class Command_cex_cannon {
 		}
 		
 
-		final LivingEntity mob = target.getWorld().spawnCreature(target.getEyeLocation(), toSpawn);
+		final Entity entity1;
+		
+		if (toSpawn == EntityType.DROPPED_ITEM){
+			entity1 = target.getWorld().dropItem(target.getEyeLocation(), new ItemStack(Utils.materialClosestMatches(type.split(":")[1].replaceFirst(":", "")).get(0)));
+		} else {
+			entity1 = target.getWorld().spawn(target.getEyeLocation(), toSpawn.getEntityClass());
+		}
 		
 		if (toSpawn == EntityType.OCELOT){
-			final Ocelot ocelot = (Ocelot) mob;
+			final Ocelot ocelot = (Ocelot) entity1;
 			Random random = new Random();
 			int i = random.nextInt(Ocelot.Type.values().length);
 			ocelot.setCatType(Ocelot.Type.values()[i]);
@@ -168,32 +177,34 @@ public class Command_cex_cannon {
 		
 		if (type != null){
 			if (type.equalsIgnoreCase("baby")){
-				Ageable age = (Ageable) mob;
+				Ageable age = (Ageable) entity1;
 				age.setBaby();
 			} else if (type.equalsIgnoreCase("tamed")){
-				Tameable tame = (Tameable) mob;
+				Tameable tame = (Tameable) entity1;
 				tame.setTamed(true);
 			} else if (type.equalsIgnoreCase("angry")){
-				Wolf wolf = (Wolf) mob;
+				Wolf wolf = (Wolf) entity1;
 				wolf.setAngry(true);
 			} else if (type.equalsIgnoreCase("charged")){
-				Creeper creep = (Creeper) mob;
+				Creeper creep = (Creeper) entity1;
 				creep.setPowered(true);
+			} else if (type.startsWith("item:") && toSpawn == EntityType.DROPPED_ITEM){
+
 			} else if (dye != null){
-				Sheep sheep = (Sheep) mob;
+				Sheep sheep = (Sheep) entity1;
 				sheep.setColor(dye);
 			}
 		}
 		
-		mob.setVelocity(target.getEyeLocation().getDirection().multiply(2));
-		mob.setFallDistance(-999999999999F);
+		entity1.setVelocity(target.getEyeLocation().getDirection().multiply(2));
+		entity1.setFallDistance(-999999999999F);
 		LogHelper.showInfo("cannonCreated", sender);
 		// required for task, has to be final
 		final int newExplosionStrength = explosionStrength;
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
 			public void run() {
-				final Location loc = mob.getLocation();
-				mob.remove();
+				final Location loc = entity1.getLocation();
+				entity1.remove();
 				loc.getWorld().createExplosion(loc, newExplosionStrength);
 			}
 		}, 20L);

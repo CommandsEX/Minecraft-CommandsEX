@@ -14,6 +14,11 @@ Beta 1.80
 + /burn [player] [seconds] command
 + /invsee [player]
 
+@ /cannon now works for entities like TNT and items!
+
+* fixed warping to worlds that no longer exist
+* fixed teleporting to homes where the world no longer exists
+
 # new perm cex.burn
 # new perm cex.burn.others
 # new perm cex.invsee
