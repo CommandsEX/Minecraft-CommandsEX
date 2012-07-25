@@ -514,6 +514,15 @@ permissions:
   cex.blind.all:
     default: op
     description: Blinds all online players, making them unable to see
+  cex.burn:
+    default: op
+    description: Burns a player
+  cex.burn.others:
+    default: op
+    description: Allows this player to burn other players
+  cex.invsee:
+    default: op
+    description: Allows the player to see other players inventories
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1174,3 +1183,15 @@ commands:
     permission: cex.cannon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [cannon, kittycannon, kc]
+  cex_burn:
+    description: Burns a player.
+    usage: /<command> [player] [seconds to burn]
+    permission: cex.burn
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [burn]
+  cex_invsee:
+    description: Opens another players inventory.
+    usage: /<command> [player]
+    permission: cex.invsee
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [invsee, openinv, invedit]

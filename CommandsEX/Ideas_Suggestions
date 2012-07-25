@@ -3,13 +3,11 @@ Ideas, Suggestions and bugs. please write any here:
 - Customisable Whitelist Message
 - PowerTool
 - alias for /help CommandsEX
-- OpenInv style inventory viewing, able to edit
 - Mob/Player disguise, like Mob Disguise
 - silent chest opening when invisible
-- ptime.set.others
+- Rewrite Ptime and support other players
 - make leave messages fire before join messages in condense joins
 - redo /pinfo
-- burn command
 - change /time set day to /time day, same for others
 - /msg, be able to tell which were sent and which were recieved
 - unblind all
@@ -20,5 +18,5 @@ Ideas, Suggestions and bugs. please write any here:
 - make using a custom explosion strength require a bypass permission node
 - Spout features, MP3 files and stuff
 - Add MORE fun commands and trolly commands
-- Add a /fun command to replace /blind. Usage /fun blind 10 were Blind would be the fun thing and 10 would be how long it lasts in seconds.
-- Save /spy when a user relogs/
+- Save /spy when a user relogs
+- Server info, ram usage and TPS

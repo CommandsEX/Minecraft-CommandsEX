@@ -328,14 +328,16 @@ public class Utils {
 				String filename = playerfile.getName();
 				String playername = filename.substring(0, filename.length() - 4);
 
-				if (playername.trim().equalsIgnoreCase(player)) {
-					final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
-					final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
-					player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
-					if (player2 != null) {
-						player2.loadData();
-					} else {
-						
+				if (playerfile.getName().equalsIgnoreCase(player)){
+					if (playername.trim().equalsIgnoreCase(player)) {
+						final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
+						final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
+						player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
+						if (player2 != null) {
+							player2.loadData();
+						} else {
+							
+						}
 					}
 				}
 			}

@@ -6,9 +6,17 @@ Key:
 ~ = New bug
 # = Note
 
-Beta ----
+Beta 1.80
 ---------
 * fixed OPs not having access to all commands, like /time set
+* improved the Update Alerter, it can now cleverly tell the difference between Alpha 1.75a and Beta 1.75b and such like
+
++ /burn [player] [seconds] command
++ /invsee [player]
+
+# new perm cex.burn
+# new perm cex.burn.others
+# new perm cex.invsee
 
 Beta 1.76
 ---------
