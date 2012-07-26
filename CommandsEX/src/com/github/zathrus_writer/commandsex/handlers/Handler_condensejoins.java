@@ -46,8 +46,8 @@ public class Handler_condensejoins implements Listener {
 		joinleaveCheckID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
 			@Override
 			public void run() {
-				checkJoins();
 				checkLeaves();
+				checkJoins();
 			}
 		}, (20 * taskTime), (20 * taskTime));
 	}

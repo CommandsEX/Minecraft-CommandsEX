@@ -6,7 +6,6 @@ Ideas, Suggestions and bugs. please write any here:
 - Mob/Player disguise, like Mob Disguise
 - silent chest opening when invisible
 - Rewrite Ptime and support other players
-- make leave messages fire before join messages in condense joins
 - redo /pinfo
 - change /time set day to /time day, same for others
 - /msg, be able to tell which were sent and which were recieved
@@ -20,3 +19,4 @@ Ideas, Suggestions and bugs. please write any here:
 - Add MORE fun commands and trolly commands
 - Save /spy when a user relogs
 - Server info, ram usage and TPS
+- Sign edit commands.

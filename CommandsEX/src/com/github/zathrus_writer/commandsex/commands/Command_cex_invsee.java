@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.Inventory;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
@@ -38,7 +38,7 @@ public class Command_cex_invsee {
 			}
 		}
 		
-		PlayerInventory inv = target.getInventory();
+		Inventory inv = target.getInventory();
 		player.openInventory(inv);
 		LogHelper.showInfo("invSeeNowEditing#####[" + target.getName(), sender, ChatColor.AQUA);
 		
