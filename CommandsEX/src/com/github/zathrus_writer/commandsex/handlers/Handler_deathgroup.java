@@ -88,6 +88,7 @@ public class Handler_deathgroup implements Listener {
 		
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("deathGroupChanges");
+		if (configGroups == null){ return; }
 		Set<String> groups = configGroups.getKeys(false);
 		String pName = p.getName();
 		String toGroup = null;
