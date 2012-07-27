@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Fireball;
@@ -29,13 +30,14 @@ public class Handler_explosions implements Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent e){
 		Entity entity = e.getEntity();
+		Location loc = e.getLocation();
 		
 		// Check what entity caused the explosion, and is it set to block that kind of explosion in the config?
 		if ((entity instanceof Creeper && CommandsEX.getConf().getBoolean("blockCreeperExplosions")) || (entity instanceof TNTPrimed && CommandsEX.getConf().getBoolean("blockTNTExplosions")) || ((entity instanceof Fireball || entity instanceof SmallFireball) && CommandsEX.getConf().getBoolean("blockFireballExplosions"))){
 			// Clear the blocks the explosion will break
 			e.blockList().clear();
 			// Create the fancy explosion particles
-			entity.getWorld().createExplosion(entity.getLocation(), 0);
+			loc.getWorld().createExplosion(loc, 0);
 		}
 		
 	}
