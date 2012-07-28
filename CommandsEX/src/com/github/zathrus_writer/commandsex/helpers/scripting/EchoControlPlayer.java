@@ -762,4 +762,16 @@ public class EchoControlPlayer extends EchoControl implements Player {
 		@SuppressWarnings("deprecation") @Override public void updateInventory() {
 			((Player)wrappedSender).updateInventory();
 		}
+
+		@Override public int getExpToLevel() {
+			return ((Player)wrappedSender).getExpToLevel();
+		}
+
+		@Override public boolean hasLineOfSight(Entity arg0) {
+			return ((Player)wrappedSender).hasLineOfSight(arg0);
+		}
+
+		@Override public boolean isValid() {
+			return ((Player)wrappedSender).isValid();
+		}
 }
