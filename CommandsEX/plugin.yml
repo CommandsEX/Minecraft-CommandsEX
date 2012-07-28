@@ -41,7 +41,10 @@ permissions:
     description: Player may reject a teleport request from another player (/tpdeny).
   cex.tpall:
     default: op
-    description: Allows the player to teleport all players on the server to their location.
+    description: Allows the player to teleport all players on the server to their location. (/tpall)
+  cex.tpaall:
+    default: op
+    description: Player may ask all players online if they would like to teleport to them (/tpaall)
   cex.back:
     default: op
     description: Allows a player to return to his last known location (/back).
@@ -669,6 +672,12 @@ commands:
     permission: cex.tpall
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tpall, tpeveryone]
+  cex_tpaall:
+    description: Requests all online players to teleport to you
+    usage: /<command>
+    permission: cex.tpaall
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpaall, tpaeveryone]
   cex_back:
     description: Returns a player to his last know location.
     usage: /<command>

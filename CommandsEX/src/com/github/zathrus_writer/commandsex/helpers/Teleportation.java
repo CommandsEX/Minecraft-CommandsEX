@@ -3,6 +3,7 @@ package com.github.zathrus_writer.commandsex.helpers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -113,8 +114,10 @@ public class Teleportation {
     	}
     	
     	public void run() {
+    		p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 20);
     		p.teleport(l);
-
+    		p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 20);
+    		
     		// check if we should not call a post-teleport function and call it with a delay, since teleporting takes time
     		// and the result would not be pretty (like being frozen/jailed in the air and kicked for flying)
     		if (this.r != null) {

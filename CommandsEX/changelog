@@ -16,7 +16,8 @@ Beta 1.80
 
 @ /cannon now works for entities like TNT and items!
 @ leave messages now send before join messages to avoid confusion
-@ changed some incorrect death messages.
+@ changed some incorrect death messages
+@ smoke now appears when a player teleports
 
 * fixed warping to worlds that no longer exist
 * fixed teleporting to homes where the world no longer exists
