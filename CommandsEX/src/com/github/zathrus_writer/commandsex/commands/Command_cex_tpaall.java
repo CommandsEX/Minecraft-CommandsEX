@@ -51,13 +51,15 @@ public class Command_cex_tpaall {
 		}
 		
 		for (Player player : Bukkit.getOnlinePlayers()){
-			String id = player.getName() + "#####" + player.getName();
-			requests.add(id);
-			// set timeout function that will cancel TPA request if timeout is reached
-			player.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
-			player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
-			player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
-			sent++;
+			if (player != sender){
+				String id = player.getName() + "#####" + player.getName();
+				requests.add(id);
+				// set timeout function that will cancel TPA request if timeout is reached
+				player.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
+				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
+				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
+				sent++;
+			}
 		}
 		
 		if (!requests.isEmpty()){
@@ -75,7 +77,7 @@ public class Command_cex_tpaall {
 			}
 		}
 		
-		LogHelper.showInfo("[" + sent + "#####tpaAllRequestsSent", sender, ChatColor.AQUA);
+		LogHelper.showInfo("[" + sent + " #####tpaAllRequestsSent", sender, ChatColor.AQUA);
 		
 		return true;
 	}
