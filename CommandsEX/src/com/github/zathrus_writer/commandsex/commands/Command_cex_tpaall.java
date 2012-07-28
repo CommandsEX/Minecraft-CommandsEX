@@ -21,6 +21,15 @@ public class Command_cex_tpaall {
 	public static List<String> requests = new ArrayList<String>();
 	public static Integer tTimeout = 0;
 	
+	/***
+	 * TpaAll, sends a request to all online players to teleport to the target/sender
+	 * @author iKeirNez
+	 * @param sender
+	 * @param alias
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		
 		if (sender instanceof Player && Utils.checkCommandSpam((Player) sender, "cex_tpaall")){
