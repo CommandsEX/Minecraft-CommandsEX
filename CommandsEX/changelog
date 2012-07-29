@@ -12,7 +12,7 @@ Beta 1.80
 * improved the Update Alerter, it can now cleverly tell the difference between Alpha 1.75a and Beta 1.75b and such like
 
 + /burn [player] [seconds] command
-+ /invsee [player]
++ /invsee <player>
 
 @ /cannon now works for entities like TNT and items!
 @ /item and /give now work for color damage values with wool, /give iKeirNez wool:red
@@ -24,6 +24,7 @@ Beta 1.80
 * fixed teleporting to homes where the world no longer exists
 * fixed a NullPointerException when a player dies and there is no death group configuration
 * fixed a potencial NullPointerException with Explosion handling
+* fixed join messages being sent if the player is invisible, joins the server and then turns invisibility off
 
 # new perm cex.burn
 # new perm cex.burn.others

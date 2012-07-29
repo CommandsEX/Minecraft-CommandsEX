@@ -54,7 +54,7 @@ public class Handler_condensejoins implements Listener {
 	
 	public static void handleJoin(String pName) {
 		// get player's name and store it
-		if (!joins.contains(pName)) {
+		if (!joins.contains(pName) && !Common.invisiblePlayers.contains(pName)) {
 			joins.add(pName);
 		}
 		
@@ -131,7 +131,7 @@ public class Handler_condensejoins implements Listener {
 	
 	public static void handleLeave(String pName) {
 		// get player's name and store it
-		if (!leaves.contains(pName)) {
+		if (!leaves.contains(pName) && !Common.invisiblePlayers.contains(pName)) {
 			leaves.add(pName);
 		}
 

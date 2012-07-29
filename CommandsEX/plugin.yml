@@ -1203,7 +1203,7 @@ commands:
     aliases: [burn]
   cex_invsee:
     description: Opens another players inventory.
-    usage: /<command> [player]
+    usage: /<command> <player>
     permission: cex.invsee
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [invsee, openinv, invedit]
