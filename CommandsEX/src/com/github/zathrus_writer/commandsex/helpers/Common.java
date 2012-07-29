@@ -30,6 +30,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -681,6 +682,15 @@ public class Common implements Listener {
 				LogHelper.showInfo("chatMessageFrom#####[" + pName + ": " + ChatColor.WHITE + msg, p);
 				e.getRecipients().remove(p);
 			}
+		}
+	}
+	
+	@EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerDeath(PlayerDeathEvent e){
+		Player player = (Player) e.getEntity();
+		// If the player is invisible, don't show their death message
+		if (Common.invisiblePlayers.contains(player.getName())){
+			e.setDeathMessage("");
 		}
 	}
 }

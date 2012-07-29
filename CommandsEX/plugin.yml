@@ -571,9 +571,6 @@ permissions:
   Listener.explosions:
     default: true
     description: Placeholder for event function to stop all types of explosion damage
-  Listener.invisibility:
-    default: true
-    description: Placeholder for event function for invisibility releated things
   Listener.deathmessages:
     default: true
     description: Placeholder for event function for setting death messages
