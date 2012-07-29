@@ -15,6 +15,7 @@ Beta 1.80
 + /invsee [player]
 
 @ /cannon now works for entities like TNT and items!
+@ /item and /give now work for color damage values with wool, /give iKeirNez wool:red
 @ leave messages now send before join messages to avoid confusion
 @ changed some incorrect death messages
 @ smoke now appears when a player teleports

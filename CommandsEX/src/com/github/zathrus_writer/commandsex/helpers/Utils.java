@@ -19,6 +19,7 @@ import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.EntityType;
@@ -270,7 +271,6 @@ public class Utils {
         ArrayList<Material> matches = new ArrayList<Material>();
         
         for (Material mat : Material.values()){
-        	// Quick fix for stone brick
         	if (input.equalsIgnoreCase("stonebrick")){
         		return Arrays.asList(Material.SMOOTH_BRICK);
         	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
@@ -284,7 +284,7 @@ public class Utils {
     }
 	
 	/***
-	 * Gets the closest living entity matches and returns them
+	 * Gets the closest entity matches
 	 * @author iKeirNez
 	 * @param input
 	 * @return
@@ -302,6 +302,26 @@ public class Utils {
         
         return matches;
     }
+	
+	/***
+	 * Gets the closest dye color matches
+	 * @author iKeirNez
+	 * @param input
+	 * @return
+	 */
+	public static List<DyeColor> dyeColorClosestMatches(String input){
+		ArrayList<DyeColor> matches = new ArrayList<DyeColor>();
+		
+        for (DyeColor dye : DyeColor.values()){
+        	if (dye.name().replace("_", "").toLowerCase().equals(input.toLowerCase())){
+        		return Arrays.asList(dye);
+            } else if (dye.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+            	matches.add(dye);
+            }
+        }
+        
+        return matches;
+	}
 	
 	/***
 	 * Takes a value e.g. a material name and makes it look more user friendly. E.g. GLASS_PANE would become Glass Pane

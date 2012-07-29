@@ -1,7 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -33,23 +31,38 @@ public class Command_cex_item extends ItemSpawning {
 			if (args.length == 0 || args.length > 2){
 				Commands.showCommandHelpAndUsage(player, "cex_item", alias);
 			} else {
-				String item;
+				Material item;
 				short damage = 0;
 				int amount = -1;
 
 				if (args[0].contains(":")){
 					String[] data = args[0].split(":");
-					item = data[0];
-
-					try {
-						damage = Short.valueOf(args[0].split(":")[1]);
-					} catch (Exception e) {
-						LogHelper.showInfo("itemIncorrectDamage", player, ChatColor.RED);
-						Commands.showCommandHelpAndUsage(player, "cex_item", alias);
+					
+					if (Utils.materialClosestMatches(data[0]).size() > 0){
+						item = Utils.materialClosestMatches(data[0]).get(0);
+					} else {
+						LogHelper.showInfo("itemNotFound", player, ChatColor.RED);
 						return true;
 					}
+
+					try {
+						damage = Short.valueOf(data[1]);
+					} catch (Exception e) {
+						if (item == Material.WOOL && Utils.dyeColorClosestMatches(data[1]).size() > 0){
+							damage = Utils.dyeColorClosestMatches(data[1]).get(0).getData();
+						} else {
+							LogHelper.showInfo("itemIncorrectDamage", player, ChatColor.RED);
+							Commands.showCommandHelpAndUsage(player, "cex_item", alias);
+							return true;
+						}
+					}
 				} else {
-					item = args[0];
+					if (Utils.materialClosestMatches(args[0]).size() > 0){
+						item = Utils.materialClosestMatches(args[0]).get(0);
+					} else {
+						LogHelper.showInfo("itemNotFound", player, ChatColor.RED);
+						return true;
+					}
 				}
 
 				if (args.length == 2){
@@ -62,14 +75,8 @@ public class Command_cex_item extends ItemSpawning {
 					}
 				}
 
-				if (Utils.materialClosestMatches(item).size() > 0){
-					List<Material> matches = Utils.materialClosestMatches(item);
-					giveItem(sender, player, matches.get(0), amount, damage);
-				} else {
-					LogHelper.showInfo("itemNotFound", player, ChatColor.RED);
-				}
+				giveItem(sender, player, item, amount, damage);
 			}
-			//player.performCommand("give " + player.getName() + " " + Utils.implode(args, " "));
 		}
 		return true;
 	}

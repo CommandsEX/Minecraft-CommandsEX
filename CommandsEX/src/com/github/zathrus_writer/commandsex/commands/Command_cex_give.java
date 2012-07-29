@@ -1,7 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,7 +41,7 @@ public class Command_cex_give extends ItemSpawning {
 			System.out.println("Incorrect args");
 			Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
 		} else {
-			String item;
+			Material item;
 			short damage = 0;
 			int amount = -1;
 		
@@ -55,17 +53,32 @@ public class Command_cex_give extends ItemSpawning {
 			
 			if (args[1].contains(":")){
 				String[] data = args[1].split(":");
-				item = data[0];
+				if (Utils.materialClosestMatches(data[0]).size() > 0){
+					item = Utils.materialClosestMatches(data[0]).get(0);
+				} else {
+					LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
+					return true;
+				}
 				
 				try {
 					damage = Short.valueOf(args[1].split(":")[1]);
 				} catch (Exception e) {
-					LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
-					Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
-					return true;
+					if (item == Material.WOOL && Utils.dyeColorClosestMatches(data[1]).size() > 0){
+						damage = Utils.dyeColorClosestMatches(data[1]).get(0).getData();
+					} else {
+						LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
+						Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
+						return true;
+					}
+					
 				}
 			} else {
-				item = args[1];
+				if (Utils.materialClosestMatches(args[1]).size() > 0){
+					item = Utils.materialClosestMatches(args[1]).get(0);
+				} else {
+					LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
+					return true;
+				}
 			}
 			
 			if (args.length == 3){
@@ -78,12 +91,7 @@ public class Command_cex_give extends ItemSpawning {
 				}
 			}
 			
-			if (Utils.materialClosestMatches(item).size() > 0){
-				List<Material> matches = Utils.materialClosestMatches(item);
-				giveItem(sender, target, matches.get(0), amount, damage);
-			} else {
-				LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
-			}
+			giveItem(sender, target, item, amount, damage);
 		}
 		
 		return true;
