@@ -1,6 +1,8 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -86,10 +88,10 @@ public class Command_cex_mob {
 			type = data[1];
 			if ((type.equalsIgnoreCase("baby") && isAgeable(toSpawn)) || (type.equalsIgnoreCase("charged") &&
 					toSpawn == EntityType.CREEPER) || ((type.equalsIgnoreCase("angry") || type.equalsIgnoreCase("tamed")) &&
-					toSpawn == EntityType.WOLF) || (type.equalsIgnoreCase("tamed") && toSpawn == EntityType.OCELOT) ||
-					(toSpawn == EntityType.OCELOT && (type.equalsIgnoreCase("black") || type.equalsIgnoreCase("red") ||
-					type.equalsIgnoreCase("siamese") || type.equalsIgnoreCase("wild")))){
+					toSpawn == EntityType.WOLF) || (type.equalsIgnoreCase("tamed") && toSpawn == EntityType.OCELOT)){
 				// Nothing to do here
+			} else if (toSpawn == EntityType.OCELOT && catTypeClosestMatches(type).size() > 0){
+				type = "ocelottype:" + catTypeClosestMatches(type).get(0).name().replaceAll("_", "").toLowerCase().replaceAll("cat", "").replaceAll("ocelot", "");
 			} else if (toSpawn == EntityType.SHEEP && Utils.dyeColorClosestMatches(type).size() > 0){
 				type = "sheepcolor:" + Utils.dyeColorClosestMatches(type).get(0).name().replaceAll("_", "").toLowerCase();
 			} else {
@@ -146,10 +148,15 @@ public class Command_cex_mob {
 					creep.setPowered(true);
 				}
 				
-				if (type.equalsIgnoreCase("black") || type.equalsIgnoreCase("red") || type.equalsIgnoreCase("siamese") ||
-						type.equalsIgnoreCase("wild")){
+				if (type.startsWith("ocelottype:")){
+					type = type.replaceFirst("ocelottype:", "");
 					Ocelot oce = (Ocelot) entity;
-					oce.setCatType(Type.valueOf(type.toUpperCase()));
+					if (!type.startsWith("wild")){
+						oce.setTamed(true);
+						oce.setOwner((AnimalTamer) player);
+					}
+					
+					oce.setCatType(catTypeClosestMatches(type).get(0));
 				}
 				
 				if (type.startsWith("sheepcolor:")){
@@ -160,7 +167,7 @@ public class Command_cex_mob {
 			}
 		}
 		
-		LogHelper.showInfo("mobsSuccess#####[" + amount + " " + Utils.userFriendlyNames((type != null ? type : "") + " " + toSpawn.name()), sender, ChatColor.AQUA);
+		LogHelper.showInfo("mobsSuccess#####[" + amount + " " + Utils.userFriendlyNames((type != null ? type + " " : "") + toSpawn.name()), sender, ChatColor.AQUA);
 		
 		return true;
 	}
@@ -173,5 +180,19 @@ public class Command_cex_mob {
 		} else {
 			return false;
 		}
+	}
+	
+	public static List<Type> catTypeClosestMatches(String input){
+		ArrayList<Type> matches = new ArrayList<Type>();
+        
+        for (Type type : Type.values()){
+        	if ((type.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(type.getId()).equals(input))){
+        		return Arrays.asList(type);
+            } else if (type.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+            	matches.add(type);
+            }
+        }
+        
+        return matches;
 	}
 }
