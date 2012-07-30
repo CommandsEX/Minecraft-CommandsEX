@@ -42,7 +42,7 @@ permissions:
   cex.tpall:
     default: op
     description: Allows the player to teleport all players on the server to their location. (/tpall)
-  cex.tpaall:
+  cex.tpa.all:
     default: op
     description: Player may ask all players online if they would like to teleport to them (/tpaall)
   cex.back:
@@ -672,7 +672,7 @@ commands:
   cex_tpaall:
     description: Requests all online players to teleport to you
     usage: /<command>
-    permission: cex.tpaall
+    permission: cex.tpa.all
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tpaall, tpaeveryone]
   cex_back:

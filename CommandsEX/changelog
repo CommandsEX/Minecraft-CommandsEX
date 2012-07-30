@@ -8,27 +8,33 @@ Key:
 
 Beta 1.80
 ---------
-* fixed OPs not having access to all commands, like /time set
-* improved the Update Alerter, it can now cleverly tell the difference between Alpha 1.75a and Beta 1.75b and such like
 
-+ /burn [player] [seconds] command
-+ /invsee <player>
+@ updated to support CraftBukkit R5.0
+
++ /burn [player] [seconds], command to burn a player for a certain amount of time
++ /invsee <player>, opens a players inventory and allows editing
++ /tpaall, sends a teleport request to all online players
 
 @ /cannon now works for entities like TNT and items!
 @ /item and /give now work for color damage values with wool, /give iKeirNez wool:red
+@ /mob command was completely rewritten and now has support for things like /mob chicken:baby or /mob sheep:red and even /mob wolf:angry
 @ leave messages now send before join messages to avoid confusion
 @ changed some incorrect death messages
 @ smoke now appears when a player teleports
 
+* fixed OPs not having access to all commands, like /time set
+* improved the Update Alerter, it can now cleverly tell the difference between Alpha 1.75a and Beta 1.75b and such like
 * fixed warping to worlds that no longer exist
 * fixed teleporting to homes where the world no longer exists
 * fixed a NullPointerException when a player dies and there is no death group configuration
 * fixed a potencial NullPointerException with Explosion handling
 * fixed join messages being sent if the player is invisible, joins the server and then turns invisibility off
+* fixed PvP and Entity Attacks conflicting with each other in Death Messages resulting in an NPE.
 
 # new perm cex.burn
 # new perm cex.burn.others
 # new perm cex.invsee
+# new perm cex.tpa.all
 
 Beta 1.76
 ---------

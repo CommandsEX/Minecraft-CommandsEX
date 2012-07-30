@@ -110,7 +110,7 @@ public class Handler_deathmessages implements Listener {
 			message = replacements(config.getString("deathVoid"), victim);
 		}
 
-		if (cause == DamageCause.CONTACT || cause == DamageCause.ENTITY_ATTACK){
+		if ((cause == DamageCause.CONTACT || cause == DamageCause.ENTITY_ATTACK) && !(killer instanceof Player)){
 			//System.out.println(killer.getType().getName());
 			message = replacements(config.getString("death" + killer.getType().getName()), victim);
 		}

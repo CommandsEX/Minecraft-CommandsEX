@@ -58,23 +58,7 @@ public class Command_cex_tpaall {
 				return true;
 			}
 		}
-		
-		for (Player player : Bukkit.getOnlinePlayers()){
-			if (player != sender){
-				String id = player.getName() + "#####" + player.getName();
-				requests.add(id);
-				// set timeout function that will cancel TPA request if timeout is reached
-				player.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
-				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
-				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
-				sent++;
-			}
-		}
-		
-		if (!requests.isEmpty()){
-			CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpaall", requests), (20 * tTimeout));
-		}
-		
+
 		// load TPA timeout from config if not present
 		if (tTimeout == 0) {
 			Integer t = CommandsEX.getConf().getInt("tpaTimeout");
@@ -83,6 +67,19 @@ public class Command_cex_tpaall {
 			} else {
 				// fallback to default if we didn't find a valid config value
 				tTimeout = 50;
+			}
+		}
+
+		for (Player player : Bukkit.getOnlinePlayers()){
+			if (player != sender){
+				String id = to.getName() + "#####" + player.getName();
+				requests.add(id);
+				// set timeout function that will cancel TPA request if timeout is reached
+				player.sendMessage(ChatColor.GREEN + to.getName() + " " + _("tpRequest1", sender.getName()));
+				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
+				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
+				sent++;
+				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpaall", id), (20 * tTimeout));
 			}
 		}
 		
@@ -95,13 +92,22 @@ public class Command_cex_tpaall {
 	 * Cancel's a request after timeout has been reached and sends message to the appropriate user.
 	 * @param id
 	 */
-	public static void cancelRequests(List<String> toCancel) {
-		
-		for (String st : toCancel){
-			if (requests.contains(st)){
-				requests.remove(st);
-				System.out.println("Removed " + st);
-			}
+	public static void cancelRequest(String id) {
+		// check if the request still exists
+		if (!requests.contains(id)) {
+			return;
 		}
+		
+		// remove the request from list
+		requests.remove(id);
+		
+		System.out.println("Removed");
+		
+		// send message to the original requestor, if he's still online
+		/*String[] s = id.split("#####");
+		Player tpaPlayer = Bukkit.getServer().getPlayer(s[0]);
+		if (tpaPlayer != null) {
+			tpaPlayer.sendMessage(ChatColor.RED + _("tpRequestCancelled", tpaPlayer.getName()) + s[1] + ".");
+		}*/
 	}
 }

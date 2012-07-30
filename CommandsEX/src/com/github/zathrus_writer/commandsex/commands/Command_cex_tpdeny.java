@@ -29,7 +29,9 @@ public class Command_cex_tpdeny {
 					
 					// check if there is a TPA or TPAHERE request for the given players combination
 					String id = args[0] + "#####" + player.getName();
-					if (Command_cex_tpa.requests.contains(id)) {
+					if (Command_cex_tpaall.requests.contains(id)){
+						Command_cex_tpaall.requests.remove(id);
+					} else if (Command_cex_tpa.requests.contains(id)) {
 						// remove pending request
 						Command_cex_tpa.requests.remove(id);
 					} else if (Command_cex_tpahere.requests.contains(id)) {

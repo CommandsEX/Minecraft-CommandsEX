@@ -37,7 +37,14 @@ public class Command_cex_tpaccept {
 					
 					// check if there is a TPA or TPAHERE request for the given players combination
 					String id = tpaPlayer.getName() + "#####" + player.getName();
-					if (Command_cex_tpa.requests.contains(id)) {
+					if (Command_cex_tpaall.requests.contains(id)){
+						// remove pending request
+						Command_cex_tpaall.requests.remove(id);
+						// teleport the player to us
+						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
+						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
+						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request from " + sender.getName() + " Accepted");
+					} else if (Command_cex_tpa.requests.contains(id)) {
 						// remove pending request
 						Command_cex_tpa.requests.remove(id);
 						// teleport us to the given player
