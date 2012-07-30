@@ -284,7 +284,7 @@ public class Utils {
     }
 	
 	/***
-	 * Gets the closest entity matches
+	 * Gets the closest spawnable entity matches
 	 * @author iKeirNez
 	 * @param input
 	 * @return
@@ -293,11 +293,35 @@ public class Utils {
         ArrayList<EntityType> matches = new ArrayList<EntityType>();
         
         for (EntityType en : EntityType.values()){
-        	if ((en.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(en.getTypeId()).equals(input))){
-        		return Arrays.asList(en);
-            } else if (en.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
-            	matches.add(en);
-            }
+        	if (en.isSpawnable()){
+        		if ((en.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(en.getTypeId()).equals(input))){
+            		return Arrays.asList(en);
+                } else if (en.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+                	matches.add(en);
+                }
+        	}
+        }
+        
+        return matches;
+    }
+	
+	/***
+	 * Gets the closest living entity matches
+	 * @author iKeirNez
+	 * @param input
+	 * @return
+	 */
+	public static List<EntityType> livingEntityClosestMatches(String input) {
+        ArrayList<EntityType> matches = new ArrayList<EntityType>();
+        
+        for (EntityType en : EntityType.values()){
+        	if (en.isAlive() && en.isSpawnable()){
+        		if ((en.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(en.getTypeId()).equals(input))){
+            		return Arrays.asList(en);
+                } else if (en.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
+                	matches.add(en);
+                }
+        	}
         }
         
         return matches;

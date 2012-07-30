@@ -1,21 +1,25 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Wolf;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.Permissions;
-import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_mob {
@@ -26,56 +30,148 @@ public class Command_cex_mob {
 	 * @return
 	 */
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (PlayerHelper.checkIsPlayer(sender)) {
-			Player player = (Player)sender;
+		
+		if (!(sender instanceof Player)){
+			LogHelper.showInfo("inWorldCommandOnly", sender, ChatColor.RED);
+			return true;
+		}
+		
+		Player player = (Player) sender;
+		
+		if (Utils.checkCommandSpam(player, "cex_mob")){
+			return true;
+		}
+		
+		if (args.length == 0){
+			ArrayList<String> available = new ArrayList<String>();
+			for (EntityType en : EntityType.values()){
+				if (en.isAlive() && en.isSpawnable()){
+					available.add(Utils.userFriendlyNames(en.name()));
+				}
+			}
+			LogHelper.showInfo("mobsList#####[" + Utils.implode(available, ", "), sender, ChatColor.AQUA);
+			return true;
+		}
+		
+		if (args.length > 2){
+			Commands.showCommandHelpAndUsage(sender, "cex_mob", alias);
+			return true;
+		}
+		
+		EntityType toSpawn = null;
+		String type = null;
+		int amount = 1;
+		int limit = CommandsEX.getConf().getInt("spawnMobLimit");
+		
+		if (args[0].contains(":")){
+			String[] data = args[0].split(":");
 			
-			if (!Utils.checkCommandSpam(player, "mob-spawn") && Permissions.checkPerms(player, "cex.mob.spawn")) {
-				if (args.length > 0) {
-					EntityType entity = EntityType.fromName(args[0]);
-					if (args[0].equalsIgnoreCase("chargedcreeper")){ entity = EntityType.CREEPER; }
-					Location loc = player.getTargetBlock(null, 100).getLocation().add(0, 1, 0);
-					
-					// Amount of mobs to spawn
-					Integer mobCount = 1;
-					if ((args.length > 1) && args[1].matches(CommandsEX.intRegex)) {
-						mobCount = Integer.parseInt(args[1]);
-					}
-
-					int limit = CommandsEX.getConf().getInt("spawnMobLimit");
-					// Check for spawn mob limit
-					if (limit != 0 && mobCount > limit && !player.hasPermission("cex.mob.spawn.bypasslimit")){
-						// Set the mob count to maximum limit
-						mobCount = limit;
-						LogHelper.showInfo("mobsLimit", sender, ChatColor.RED);
-					}
-					
-					// Check the mob type is valid
-					if (entity != null){
-						for (Integer i = 0; i < mobCount; i++) {
-							Entity entity1 = player.getWorld().spawnCreature(loc, entity);
-							if (args[0].equalsIgnoreCase("chargedcreeper")){
-								Creeper creep = ((Creeper) entity1);
-								creep.setPowered(true);
-							}
-						}
-						
-						LogHelper.showInfo("mobsSuccess#####[" + mobCount + " " + Utils.userFriendlyNames((args[0].equalsIgnoreCase("chargedcreeper") ? "Charged_Creeper" : entity.getName())), sender, ChatColor.AQUA);
-					} else {
-						LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
-					}
-				} else {
-					// list all available entities
-					List<String> s = new ArrayList<String>();
-					s.add("ChargedCreeper");
-					for (EntityType et : EntityType.values()) {
-						if (et.isAlive() && et.isSpawnable()) {
-							s.add(et.getName());
-						}
-					}
-					LogHelper.showInfo("mobsList#####[" + ChatColor.WHITE + Utils.implode(s, ", "), sender);
+			if (data.length == 0){
+				LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (data.length == 1){
+				LogHelper.showInfo("mobsInvalidType", sender, ChatColor.RED);
+				return true;
+			}
+			
+			if (Utils.livingEntityClosestMatches(data[0]).size() > 0){
+				toSpawn = Utils.livingEntityClosestMatches(data[0]).get(0);
+			} else {
+				LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
+				return true;
+			}
+			
+			type = data[1];
+			if ((type.equalsIgnoreCase("baby") && isAgeable(toSpawn)) || (type.equalsIgnoreCase("charged") &&
+					toSpawn == EntityType.CREEPER) || ((type.equalsIgnoreCase("angry") || type.equalsIgnoreCase("tamed")) &&
+					toSpawn == EntityType.WOLF) || (type.equalsIgnoreCase("tamed") && toSpawn == EntityType.OCELOT) ||
+					(toSpawn == EntityType.OCELOT && (type.equalsIgnoreCase("black") || type.equalsIgnoreCase("red") ||
+					type.equalsIgnoreCase("siamese") || type.equalsIgnoreCase("wild")))){
+				// Nothing to do here
+			} else if (toSpawn == EntityType.SHEEP && Utils.dyeColorClosestMatches(type).size() > 0){
+				type = "sheepcolor:" + Utils.dyeColorClosestMatches(type).get(0).name().replaceAll("_", "").toLowerCase();
+			} else {
+				LogHelper.showInfo("mobsInvalidType", sender, ChatColor.RED);
+				return true;
+			}
+		} else {
+			if (Utils.livingEntityClosestMatches(args[0]).size() > 0){
+				toSpawn = Utils.livingEntityClosestMatches(args[0]).get(0);
+			} else {
+				LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
+				return true;
+			}
+		}
+		
+		if (args.length == 2){
+			try {
+				amount = Integer.valueOf(args[1]);
+			} catch (Exception e){
+				LogHelper.showInfo("mobsInt", sender, ChatColor.RED);
+				return true;
+			}
+		}
+		
+		if (amount > limit && !player.hasPermission("cex.mob.spawn.bypasslimit")){
+			LogHelper.showInfo("mobsLimit", sender, ChatColor.RED);
+			amount = limit;
+		}
+		
+		for (int i = 0; i < amount; i++){
+			Location location = player.getTargetBlock(null, 50).getLocation();
+			location.setY(location.getY() + 1);
+			Entity entity = player.getWorld().spawnEntity(location, toSpawn);
+			
+			if (type != null){
+				if (type.equalsIgnoreCase("baby")){
+					Ageable ageable = (Ageable) entity;
+					ageable.setBaby();
+				}
+				
+				if (type.equalsIgnoreCase("tamed")){
+					Tameable tame = (Tameable) entity;
+					tame.setTamed(true);
+					tame.setOwner((AnimalTamer) player);
+				}
+				
+				if (type.equalsIgnoreCase("angry")){
+					Wolf wolf = (Wolf) entity;
+					wolf.setAngry(true);
+				}
+				
+				if (type.equalsIgnoreCase("charged")){
+					Creeper creep = (Creeper) entity;
+					creep.setPowered(true);
+				}
+				
+				if (type.equalsIgnoreCase("black") || type.equalsIgnoreCase("red") || type.equalsIgnoreCase("siamese") ||
+						type.equalsIgnoreCase("wild")){
+					Ocelot oce = (Ocelot) entity;
+					oce.setCatType(Type.valueOf(type.toUpperCase()));
+				}
+				
+				if (type.startsWith("sheepcolor:")){
+					type = type.split(":")[1];
+					Sheep sheep = (Sheep) entity;
+					sheep.setColor(Utils.dyeColorClosestMatches(type).get(0));
 				}
 			}
 		}
-        return true;
+		
+		LogHelper.showInfo("mobsSuccess#####[" + amount + " " + Utils.userFriendlyNames((type != null ? type : "") + " " + toSpawn.name()), sender, ChatColor.AQUA);
+		
+		return true;
+	}
+	
+	public static Boolean isAgeable(EntityType et){
+		if (et == EntityType.COW || et == EntityType.CHICKEN || et == EntityType.SHEEP
+				|| et == EntityType.PIG || et == EntityType.WOLF || et == EntityType.OCELOT
+				|| et == EntityType.VILLAGER){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
