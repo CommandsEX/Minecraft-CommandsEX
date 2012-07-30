@@ -891,7 +891,7 @@ commands:
     aliases: [kit,kits,k]
   cex_mob:
     description: Allows player to spawn mobs.
-    usage: /<command> <Mob_Name> [amount]
+    usage: /<command> <mob>:[type] [amount]
     permission: cex.mob.spawn
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [mob,spawnmob]
@@ -1190,8 +1190,8 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [sethome]
   cex_cannon:
-    description: Fires a mob and explodes it.
-    usage: /<command> [player] <mob> [explosion-strength]
+    description: Fires an entity and explodes it.
+    usage: /<command> [player] <entity>:[type] [explosion-strength]
     permission: cex.cannon
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [cannon, kittycannon, kc]
