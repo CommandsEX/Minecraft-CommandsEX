@@ -268,9 +268,24 @@ public class Utils {
 	 * @return
 	 */
 	public static List<Material> materialClosestMatches(String input) {
-        ArrayList<Material> matches = new ArrayList<Material>();
+		ArrayList<Material> values = new ArrayList<Material>();
+		ArrayList<Material> matches = new ArrayList<Material>();
         
-        for (Material mat : Material.values()){
+		for (Material mat : Material.values()){
+			if (!values.contains(mat)){
+				if (mat == Material.PISTON_STICKY_BASE && !values.contains(Material.PISTON_BASE)){
+					values.add(Material.PISTON_BASE);
+					values.add(Material.PISTON_STICKY_BASE);
+				} else if (mat == Material.REDSTONE_TORCH_OFF && !values.contains(Material.REDSTONE_TORCH_ON)){
+					values.add(Material.REDSTONE_TORCH_ON);
+					values.add(Material.REDSTONE_TORCH_OFF);
+				} else {
+					values.add(mat);
+				}
+			}
+		}
+		
+        for (Material mat : values){
         	if (input.equalsIgnoreCase("stonebrick")){
         		return Arrays.asList(Material.SMOOTH_BRICK);
         	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
