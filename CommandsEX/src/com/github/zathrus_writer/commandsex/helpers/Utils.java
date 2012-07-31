@@ -286,13 +286,15 @@ public class Utils {
 		}
 		
         for (Material mat : values){
-        	if (input.equalsIgnoreCase("stonebrick")){
-        		return Arrays.asList(Material.SMOOTH_BRICK);
-        	} else if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
+        	if ((mat.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(mat.getId()).equals(input))){
         		return Arrays.asList(mat);
             } else if (mat.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(mat);
-            }
+            } else if ("stonebrick".contains(input.toLowerCase())){
+        		return Arrays.asList(Material.SMOOTH_BRICK);
+        	} else if ("stickypiston".contains(input.toLowerCase())){
+        		return Arrays.asList(Material.PISTON_STICKY_BASE);
+        	}
         }
         
         return matches;
