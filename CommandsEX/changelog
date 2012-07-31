@@ -6,6 +6,11 @@ Key:
 ~ = New bug
 # = Note
 
+Beta 1.80a
+----------
+
+* fixed ClassNotFoundExceptions when using a tpa command
+
 Beta 1.80
 ---------
 
@@ -14,6 +19,7 @@ Beta 1.80
 + /burn [player] [seconds], command to burn a player for a certain amount of time
 + /invsee <player>, opens a players inventory and allows editing
 + /tpaall, sends a teleport request to all online players
++ players can now create signs and use color codes to format them
 
 @ /cannon now works for entities like TNT and items!
 @ /item and /give now work for color damage values with wool, /give iKeirNez wool:red

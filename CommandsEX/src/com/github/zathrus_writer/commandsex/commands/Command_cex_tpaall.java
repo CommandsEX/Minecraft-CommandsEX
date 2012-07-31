@@ -2,9 +2,6 @@ package com.github.zathrus_writer.commandsex.commands;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,12 +10,12 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 import com.github.zathrus_writer.commandsex.helpers.TpRequestCanceller;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_tpaall {
 
-	public static List<String> requests = new ArrayList<String>();
 	public static Integer tTimeout = 0;
 	
 	/***
@@ -73,7 +70,7 @@ public class Command_cex_tpaall {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (player != sender){
 				String id = to.getName() + "#####" + player.getName();
-				requests.add(id);
+				Teleportation.tpaallRequests.add(id);
 				// set timeout function that will cancel TPA request if timeout is reached
 				player.sendMessage(ChatColor.GREEN + to.getName() + " " + _("tpRequest1", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
@@ -94,20 +91,11 @@ public class Command_cex_tpaall {
 	 */
 	public static void cancelRequest(String id) {
 		// check if the request still exists
-		if (!requests.contains(id)) {
+		if (!Teleportation.tpaallRequests.contains(id)) {
 			return;
 		}
 		
 		// remove the request from list
-		requests.remove(id);
-		
-		System.out.println("Removed");
-		
-		// send message to the original requestor, if he's still online
-		/*String[] s = id.split("#####");
-		Player tpaPlayer = Bukkit.getServer().getPlayer(s[0]);
-		if (tpaPlayer != null) {
-			tpaPlayer.sendMessage(ChatColor.RED + _("tpRequestCancelled", tpaPlayer.getName()) + s[1] + ".");
-		}*/
+		Teleportation.tpaallRequests.remove(id);
 	}
 }

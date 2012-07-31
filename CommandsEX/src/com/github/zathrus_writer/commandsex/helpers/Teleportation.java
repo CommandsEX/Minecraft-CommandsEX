@@ -1,5 +1,8 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -17,6 +20,12 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
  *
  */
 public class Teleportation {
+	
+	// stores all requests for all tpa types
+	public static List<String> tpaallRequests = new ArrayList<String>();
+	public static List<String> tpaRequests = new ArrayList<String>();
+	public static List<String> tpahereRequests = new ArrayList<String>();
+	
 	/***
 	 * TPCOMMON - used as base method for teleporting players one to another
 	 * @param sender

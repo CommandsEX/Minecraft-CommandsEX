@@ -1,6 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,6 +8,7 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
+import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 
 public class Command_cex_tpdeny {
 	
@@ -29,14 +29,14 @@ public class Command_cex_tpdeny {
 					
 					// check if there is a TPA or TPAHERE request for the given players combination
 					String id = args[0] + "#####" + player.getName();
-					if (Command_cex_tpaall.requests.contains(id)){
-						Command_cex_tpaall.requests.remove(id);
-					} else if (Command_cex_tpa.requests.contains(id)) {
+					if (Teleportation.tpaallRequests.contains(id)){
+						Teleportation.tpaallRequests.remove(id);
+					} else if (Teleportation.tpaRequests.contains(id)) {
 						// remove pending request
-						Command_cex_tpa.requests.remove(id);
-					} else if (Command_cex_tpahere.requests.contains(id)) {
+						Teleportation.tpaRequests.remove(id);
+					} else if (Teleportation.tpahereRequests.contains(id)) {
 						// remove pending request
-						Command_cex_tpahere.requests.remove(id);
+						Teleportation.tpahereRequests.remove(id);
 					} else {
 						// no matching request found
 						LogHelper.showWarning("tpRequestNotFound", sender);

@@ -1,5 +1,7 @@
 Ideas, Suggestions and bugs. please write any here:
 
+- each entity has its own permission node for /mob and /cannon
+- every type of format has its own permission node for coloured signs
 - Customisable Whitelist Message
 - PowerTool
 - alias for /help CommandsEX

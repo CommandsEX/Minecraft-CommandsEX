@@ -1,10 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import static com.github.zathrus_writer.commandsex.Language._;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,12 +12,12 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
+import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 import com.github.zathrus_writer.commandsex.helpers.TpRequestCanceller;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_tpa {
 	
-	public static List<String> requests = new ArrayList<String>();
 	public static Integer tTimeout = 0;
 	
 	/***
@@ -54,7 +50,7 @@ public class Command_cex_tpa {
 						
 						// if another TPA or TPAHERE request is pending...
 						String id = player.getName() + "#####" + tpaPlayer.getName();
-						if (requests.contains(id) || Command_cex_tpahere.requests.contains(id)) {
+						if (Teleportation.tpaRequests.contains(id) || Teleportation.tpahereRequests.contains(id) || Teleportation.tpaallRequests.contains(id)) {
 							LogHelper.showWarning("tpRequestPending", sender);
 							return true;
 						}
@@ -71,7 +67,7 @@ public class Command_cex_tpa {
 						}
 						
 						// add names of TPA players and send message
-						requests.add(id);
+						Teleportation.tpaRequests.add(id);
 						tpaPlayer.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
 						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
 						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
@@ -97,12 +93,12 @@ public class Command_cex_tpa {
 	 */
 	public static void cancelRequest(String id) {
 		// check if the request still exists
-		if (!requests.contains(id)) {
+		if (!Teleportation.tpaRequests.contains(id)) {
 			return;
 		}
 		
 		// remove the request from list
-		requests.remove(id);
+		Teleportation.tpaRequests.remove(id);
 		
 		// send message to the original requestor, if he's still online
 		String[] s = id.split("#####");
