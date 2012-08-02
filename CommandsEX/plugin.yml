@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Beta 1.80a'
+version: 'Beta 1.85 DEV'
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault]
 permissions:
@@ -239,9 +239,6 @@ permissions:
   cex.broadcast:
     default: op
     description: Allows player to broadcast a message to everyone on the server like the /say command does - with player's name at the start of this message instead of [Server].
-  cex.gm.self:
-    default: op
-    description: Allows player to change their own game mode. This setting is INDEPENDENT on Bukkit's own bukkit.command.gamemode permission!
   cex.ping:
     default: op
     description: Answers PONG. Useful for lag checking.
@@ -539,6 +536,12 @@ permissions:
   cex.disguise.mob.*:
     default: op
     description: Allows the player to disguise as any mob
+  cex.gamemode:
+    default: op
+    description: Allows access to /gm
+  cex.gamemode.others:
+    default: op
+    description: Allows the player to change others gamemode
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -842,11 +845,11 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [give, giveto]
   cex_gm:
-    description: Wrapper function for Bukkit's /gamemode command, automatically changing mode of current player or the player given as a parameter.
-    usage: /<command>
-    permission: cex.gm.self
+    description: Changes a players gamemode
+    usage: /<command> [player] [gamemode] [player] [gamemode]
+    permission: cex.gamemode
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [gm,creative,creativemode,gswitch]
+    aliases: [gm, gamemode, gswitch, creative, survival, adventure]
   cex_suicide:
     description: Wrapper function for Bukkit's /kill command.
     usage: /<command>

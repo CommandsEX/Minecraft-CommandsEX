@@ -6,10 +6,16 @@ Key:
 ~ = New bug
 # = Note
 
-Beta ----
+Beta 1.85
 ---------
 
 @ spawning items now work better, item names now spawn what you would expect them to
+@ completely rewrote the /gm command
+
+# new perm cex.gamemode
+# new perm cex.gamemode.others
+
+# removed perm cex.gm.self
 
 Beta 1.80a
 ----------
