@@ -527,6 +527,18 @@ permissions:
   cex.signs.format:
     default: op
     description: Allows the player to use colours and formatting on signs.
+  cex.disguise:
+    default: op
+    description: Allows the player to use the disguise command
+  cex.disguise.player:
+    default: op
+    description: Allows the player to disguise as another player
+  cex.disguise.player.colour:
+    default: op
+    description: Allows the player to use colour codes the players disguise name
+  cex.disguise.mob.*:
+    default: op
+    description: Allows the player to disguise as any mob
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1205,3 +1217,9 @@ commands:
     permission: cex.invsee
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [invsee, openinv, invedit]
+  cex_disguise:
+    description: Disguise as a player or mob.
+    usage: /<command>
+    permission: cex.disguise
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [disguise]
