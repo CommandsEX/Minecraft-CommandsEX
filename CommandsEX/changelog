@@ -8,9 +8,11 @@ Key:
 
 Beta 1.85
 ---------
++ added /cannonall to cannon all online players
 
 @ spawning items now work better, item names now spawn what you would expect them to
 @ completely rewrote the /gm command
+@ minor performance tweaks
 
 # new perm cex.gamemode
 # new perm cex.gamemode.others

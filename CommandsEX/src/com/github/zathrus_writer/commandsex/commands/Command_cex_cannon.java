@@ -11,16 +11,21 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Tameable;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.ClosestMatches;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -32,7 +37,7 @@ public class Command_cex_cannon {
 		
 		ArrayList<String> entities = new ArrayList<String>();
 		for (EntityType en : EntityType.values()){
-			if (en.isSpawnable()){
+			if (en.isSpawnable() && en != EntityType.PAINTING){
 				entities.add(Utils.userFriendlyNames(en.name()).replace(" ", ""));
 			}
 		}
@@ -64,8 +69,8 @@ public class Command_cex_cannon {
 					entity = args[0];
 				}
 				
-				if (Utils.entityClosestMatches(entity).size() > 0){
-					List<EntityType> matches = Utils.entityClosestMatches(entity);
+				List<EntityType> matches = ClosestMatches.spawnableEntity(entity);
+				if (matches.size() > 0){
 					toSpawn = matches.get(0);
 				} else {
 					LogHelper.showInfo("cannonInvalid", sender, ChatColor.RED);
@@ -105,8 +110,8 @@ public class Command_cex_cannon {
 				entity = args[1];
 			}
 			
-			if (Utils.entityClosestMatches(entity).size() > 0){
-				List<EntityType> matches = Utils.entityClosestMatches(entity);
+			if (ClosestMatches.spawnableEntity(entity).size() > 0){
+				List<EntityType> matches = ClosestMatches.spawnableEntity(entity);
 				toSpawn = matches.get(0);
 			} else {
 				LogHelper.showInfo("cannonInvalid", sender, ChatColor.RED);
@@ -139,19 +144,24 @@ public class Command_cex_cannon {
 		}
 
 		if (type != null){
-			if (type.equalsIgnoreCase("charged") || type.equalsIgnoreCase("powered") && toSpawn == EntityType.CREEPER){
+			if (type.equalsIgnoreCase("fire")){
+				
+			} else if (type.equalsIgnoreCase("charged") || type.equalsIgnoreCase("powered") && toSpawn == EntityType.CREEPER){
 				type = "charged";
 			} else if (type.equalsIgnoreCase("baby") || type.equalsIgnoreCase("child") && (toSpawn == EntityType.PIG || toSpawn == EntityType.COW
 					|| toSpawn == EntityType.CHICKEN || toSpawn == EntityType.SHEEP || toSpawn == EntityType.OCELOT || toSpawn == EntityType.WOLF)){
 				type = "baby";
 			} else if (type.equalsIgnoreCase("tamed") && (toSpawn == EntityType.WOLF || toSpawn == EntityType.OCELOT)){
 				
-			} else if (type.equalsIgnoreCase("angry") && toSpawn == EntityType.WOLF){
+			} else if (type.equalsIgnoreCase("angry") && (toSpawn == EntityType.WOLF || toSpawn == EntityType.PIG_ZOMBIE)){
 				
-			} else if (toSpawn == EntityType.DROPPED_ITEM && Utils.materialClosestMatches(type).size() > 0){
+			} else if (toSpawn == EntityType.ENDERMAN && ClosestMatches.material(type).size() > 0){
+				
+			} else if (toSpawn == EntityType.VILLAGER && ClosestMatches.villagerProfessions(type).size() > 0){
+				
+			} else if (toSpawn == EntityType.DROPPED_ITEM && ClosestMatches.material(type).size() > 0){
 				type = "item:" + type;
-			}
-			else if (toSpawn == EntityType.SHEEP && dye != null){
+			} else if (toSpawn == EntityType.SHEEP && dye != null){
 				// Correct, nothing to do here
 			} else {
 				LogHelper.showInfo("cannonInvalidType", sender, ChatColor.RED);
@@ -163,7 +173,7 @@ public class Command_cex_cannon {
 		final Entity entity1;
 		
 		if (toSpawn == EntityType.DROPPED_ITEM){
-			entity1 = target.getWorld().dropItem(target.getEyeLocation(), new ItemStack(Utils.materialClosestMatches(type.split(":")[1].replaceFirst(":", "")).get(0)));
+			entity1 = target.getWorld().dropItem(target.getEyeLocation(), new ItemStack(ClosestMatches.material(type.split(":")[1].replaceFirst(":", "")).get(0)));
 		} else {
 			entity1 = target.getWorld().spawn(target.getEyeLocation(), toSpawn.getEntityClass());
 		}
@@ -176,18 +186,33 @@ public class Command_cex_cannon {
 		}
 		
 		if (type != null){
-			if (type.equalsIgnoreCase("baby")){
+			if (type.equalsIgnoreCase("fire")){
+				entity1.setFireTicks(40);
+			} else if (type.equalsIgnoreCase("baby")){
 				Ageable age = (Ageable) entity1;
 				age.setBaby();
 			} else if (type.equalsIgnoreCase("tamed")){
 				Tameable tame = (Tameable) entity1;
 				tame.setTamed(true);
 			} else if (type.equalsIgnoreCase("angry")){
-				Wolf wolf = (Wolf) entity1;
-				wolf.setAngry(true);
+				if (toSpawn == EntityType.WOLF){
+					Wolf wolf = (Wolf) entity1;
+					wolf.setAngry(true);
+				}
+				
+				if (toSpawn == EntityType.PIG_ZOMBIE){
+					PigZombie pigzombie = (PigZombie) entity1;
+					pigzombie.setAngry(true);
+				}
 			} else if (type.equalsIgnoreCase("charged")){
 				Creeper creep = (Creeper) entity1;
 				creep.setPowered(true);
+			} else if (toSpawn == EntityType.ENDERMAN && ClosestMatches.material(type).size() > 0){
+				Enderman enderman = (Enderman) entity1;
+				enderman.setCarriedMaterial(new MaterialData(ClosestMatches.material(type).get(0)));
+			} else if (toSpawn == EntityType.VILLAGER && ClosestMatches.villagerProfessions(type).size() > 0){
+				Villager villager = (Villager) entity1;
+				villager.setProfession(ClosestMatches.villagerProfessions(type).get(0));
 			} else if (type.startsWith("item:") && toSpawn == EntityType.DROPPED_ITEM){
 
 			} else if (dye != null){

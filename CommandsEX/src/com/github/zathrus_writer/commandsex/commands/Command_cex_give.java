@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.helpers.ClosestMatches;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.ItemSpawning;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
@@ -53,8 +54,8 @@ public class Command_cex_give extends ItemSpawning {
 			
 			if (args[1].contains(":")){
 				String[] data = args[1].split(":");
-				if (Utils.materialClosestMatches(data[0]).size() > 0){
-					item = Utils.materialClosestMatches(data[0]).get(0);
+				if (ClosestMatches.material(data[0]).size() > 0){
+					item = ClosestMatches.material(data[0]).get(0);
 				} else {
 					LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
 					return true;
@@ -63,8 +64,8 @@ public class Command_cex_give extends ItemSpawning {
 				try {
 					damage = Short.valueOf(args[1].split(":")[1]);
 				} catch (Exception e) {
-					if (item == Material.WOOL && Utils.dyeColorClosestMatches(data[1]).size() > 0){
-						damage = Utils.dyeColorClosestMatches(data[1]).get(0).getData();
+					if (item == Material.WOOL && ClosestMatches.dyeColor(data[1]).size() > 0){
+						damage = ClosestMatches.dyeColor(data[1]).get(0).getData();
 					} else {
 						LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
 						Commands.showCommandHelpAndUsage(sender, "cex_give", alias);
@@ -73,8 +74,8 @@ public class Command_cex_give extends ItemSpawning {
 					
 				}
 			} else {
-				if (Utils.materialClosestMatches(args[1]).size() > 0){
-					item = Utils.materialClosestMatches(args[1]).get(0);
+				if (ClosestMatches.material(args[1]).size() > 0){
+					item = ClosestMatches.material(args[1]).get(0);
 				} else {
 					LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
 					return true;

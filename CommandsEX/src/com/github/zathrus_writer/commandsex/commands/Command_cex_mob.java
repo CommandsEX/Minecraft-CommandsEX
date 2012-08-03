@@ -1,8 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,13 +11,13 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Wolf;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.ClosestMatches;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -78,8 +76,8 @@ public class Command_cex_mob {
 				return true;
 			}
 			
-			if (Utils.livingEntityClosestMatches(data[0]).size() > 0){
-				toSpawn = Utils.livingEntityClosestMatches(data[0]).get(0);
+			if (ClosestMatches.livingEntity(data[0]).size() > 0){
+				toSpawn = ClosestMatches.livingEntity(data[0]).get(0);
 			} else {
 				LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
 				return true;
@@ -90,17 +88,17 @@ public class Command_cex_mob {
 					toSpawn == EntityType.CREEPER) || ((type.equalsIgnoreCase("angry") || type.equalsIgnoreCase("tamed")) &&
 					toSpawn == EntityType.WOLF) || (type.equalsIgnoreCase("tamed") && toSpawn == EntityType.OCELOT)){
 				// Nothing to do here
-			} else if (toSpawn == EntityType.OCELOT && catTypeClosestMatches(type).size() > 0){
-				type = "ocelottype:" + catTypeClosestMatches(type).get(0).name().replaceAll("_", "").toLowerCase().replaceAll("cat", "").replaceAll("ocelot", "");
-			} else if (toSpawn == EntityType.SHEEP && Utils.dyeColorClosestMatches(type).size() > 0){
-				type = "sheepcolor:" + Utils.dyeColorClosestMatches(type).get(0).name().replaceAll("_", "").toLowerCase();
+			} else if (toSpawn == EntityType.OCELOT && ClosestMatches.catType(type).size() > 0){
+				type = "ocelottype:" + ClosestMatches.catType(type).get(0).name().replaceAll("_", "").toLowerCase().replaceAll("cat", "").replaceAll("ocelot", "");
+			} else if (toSpawn == EntityType.SHEEP && ClosestMatches.dyeColor(type).size() > 0){
+				type = "sheepcolor:" + ClosestMatches.dyeColor(type).get(0).name().replaceAll("_", "").toLowerCase();
 			} else {
 				LogHelper.showInfo("mobsInvalidType", sender, ChatColor.RED);
 				return true;
 			}
 		} else {
-			if (Utils.livingEntityClosestMatches(args[0]).size() > 0){
-				toSpawn = Utils.livingEntityClosestMatches(args[0]).get(0);
+			if (ClosestMatches.livingEntity(args[0]).size() > 0){
+				toSpawn = ClosestMatches.livingEntity(args[0]).get(0);
 			} else {
 				LogHelper.showInfo("mobsInvalid", sender, ChatColor.RED);
 				return true;
@@ -156,13 +154,13 @@ public class Command_cex_mob {
 						oce.setOwner((AnimalTamer) player);
 					}
 					
-					oce.setCatType(catTypeClosestMatches(type).get(0));
+					oce.setCatType(ClosestMatches.catType(type).get(0));
 				}
 				
 				if (type.startsWith("sheepcolor:")){
 					type = type.split(":")[1];
 					Sheep sheep = (Sheep) entity;
-					sheep.setColor(Utils.dyeColorClosestMatches(type).get(0));
+					sheep.setColor(ClosestMatches.dyeColor(type).get(0));
 				}
 			}
 		}
@@ -180,19 +178,5 @@ public class Command_cex_mob {
 		} else {
 			return false;
 		}
-	}
-	
-	public static List<Type> catTypeClosestMatches(String input){
-		ArrayList<Type> matches = new ArrayList<Type>();
-        
-        for (Type type : Type.values()){
-        	if ((type.name().replace("_", "").toLowerCase().equals(input.toLowerCase()) || String.valueOf(type.getId()).equals(input))){
-        		return Arrays.asList(type);
-            } else if (type.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
-            	matches.add(type);
-            }
-        }
-        
-        return matches;
 	}
 }
