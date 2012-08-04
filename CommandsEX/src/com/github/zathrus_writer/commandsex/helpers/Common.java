@@ -32,8 +32,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -664,7 +664,7 @@ public class Common implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void noChatToInvisiblePlayers(PlayerChatEvent e) {
+	public void noChatToInvisiblePlayers(AsyncPlayerChatEvent e) {
 		if (Common.invisiblePlayers.size() > 0) return;
 
 		String pName = e.getPlayer().getName();

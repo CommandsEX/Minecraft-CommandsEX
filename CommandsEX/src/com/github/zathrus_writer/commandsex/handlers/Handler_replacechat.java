@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.FileListHelper;
@@ -50,7 +50,7 @@ public class Handler_replacechat implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void replaceChat(PlayerChatEvent e) {
+	public void replaceChat(AsyncPlayerChatEvent e) {
 		try {
 			ScriptEnvironment env = new ScriptEnvironment(); {
 				env.setCommandSender(e.getPlayer());

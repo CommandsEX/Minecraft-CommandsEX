@@ -13,9 +13,11 @@ Beta 1.85
 @ spawning items now work better, item names now spawn what you would expect them to
 @ completely rewrote the /gm command
 @ minor performance tweaks
+@ all chat related functions now use Asynchonous Chat
 
 # new perm cex.gamemode
 # new perm cex.gamemode.others
+# new perm cex.cannon.all
 
 # removed perm cex.gm.self
 

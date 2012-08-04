@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -137,7 +137,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void interceptChat(PlayerChatEvent e) {
+	public void interceptChat(AsyncPlayerChatEvent e) {
 		try {
 			chatRoom.sendMessage(filterOutgoing(String.format(e.getFormat(), e.getPlayer().getName(), e.getMessage())));
 			XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);

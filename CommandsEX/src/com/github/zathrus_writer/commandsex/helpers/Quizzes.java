@@ -17,7 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -302,7 +302,7 @@ public class Quizzes implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void checkChat(PlayerChatEvent e) {
+	public void checkChat(AsyncPlayerChatEvent e) {
 		if (!quizRunning || (e.getRecipients().size() == 0)) return;
 		
 		// check if we have an answer

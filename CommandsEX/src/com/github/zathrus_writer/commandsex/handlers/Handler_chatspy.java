@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -30,7 +30,7 @@ public class Handler_chatspy implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void passChat(PlayerChatEvent e) {
+	public void passChat(AsyncPlayerChatEvent e) {
 		if (e.getRecipients().size() == 0) return;
 		Player sender = e.getPlayer();
 		for (Player p : Bukkit.getServer().getOnlinePlayers()) {

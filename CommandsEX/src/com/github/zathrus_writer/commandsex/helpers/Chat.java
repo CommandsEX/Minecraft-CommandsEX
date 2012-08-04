@@ -16,7 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 
@@ -175,7 +175,7 @@ public class Chat implements Listener {
 	 * @return
 	 */
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-	public void checkMutes(PlayerChatEvent e) {
+	public void checkMutes(AsyncPlayerChatEvent e) {
 		if (Chat.mutedPlayers.containsKey(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
