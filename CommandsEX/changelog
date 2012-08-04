@@ -14,6 +14,7 @@ Beta 1.85
 @ completely rewrote the /gm command
 @ minor performance tweaks
 @ all chat related functions now use Asynchonous Chat
+@ added doubleslab to Material matching
 
 # new perm cex.gamemode
 # new perm cex.gamemode.others
