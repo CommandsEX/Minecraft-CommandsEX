@@ -19,6 +19,7 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -344,4 +345,58 @@ public class Utils {
  
         return hours + ":" + mm + " " + ampm;
     }
+	
+	public static byte degreeToByte(float degree){
+		return (byte) (int) ((int) degree * 256.0F / 360.0F);
+	}
+	
+	public static String typeOfEntity(EntityType eType){
+		String type = "none";
+		EntityType[] passives = {
+				EntityType.CHICKEN,
+				EntityType.COW,
+				EntityType.MUSHROOM_COW,
+				EntityType.OCELOT,
+				EntityType.PIG,
+				EntityType.SHEEP,
+				EntityType.WOLF,
+				EntityType.SQUID,
+				EntityType.VILLAGER,
+				EntityType.SNOWMAN,
+				EntityType.IRON_GOLEM
+			};
+		
+		EntityType[] aggressives = {
+				EntityType.BLAZE,
+				EntityType.CAVE_SPIDER,
+				EntityType.CREEPER,
+				EntityType.ENDER_DRAGON,
+				EntityType.ENDERMAN,
+				EntityType.GHAST,
+				EntityType.GIANT,
+				EntityType.MAGMA_CUBE,
+				EntityType.PIG_ZOMBIE,
+				EntityType.SILVERFISH,
+				EntityType.SKELETON,
+				EntityType.SLIME,
+				EntityType.SPIDER,
+				EntityType.ZOMBIE
+			};
+		
+		for (EntityType et : passives){
+			if (eType == et){
+				type = "passive";
+			}
+		}
+		
+		if (type.equals("none")){
+			for (EntityType et : aggressives){
+				if (eType == et){
+					type = "aggressive";
+				}
+			}
+		}
+		
+		return type;
+	}
 }

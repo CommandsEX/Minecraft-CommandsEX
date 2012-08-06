@@ -308,9 +308,11 @@ public class CexCommands {
 					} else if (v.equals("announcedevelopers")){
 						sender.sendMessage(ChatColor.YELLOW + _("configAnnounceDevelopers", sender.getName()) + p.getConfig().getBoolean("announceDevelopers"));
 					} else if (v.equals("explodestrength")){
-						sender.sendMessage(ChatColor.YELLOW + _("configExplodeStrength", sender.getName()) + p.getConfig().getString("explodeStrength"));
+						sender.sendMessage(ChatColor.YELLOW + _("configExplodeStrength", sender.getName()) + p.getConfig().getInt("explodeStrength"));
 					} else if (v.equals("shutdownkickmessage")){
 						sender.sendMessage(ChatColor.YELLOW + _("configShutdownKickMessage", sender.getName()) + p.getConfig().getString("shutdownKickMessage"));
+					} else if (v.equals("defaultbutcherradius")){
+						sender.sendMessage(ChatColor.YELLOW + _("configButcherDefaultRadius", sender.getName()) + p.getConfig().getInt("butcherDefaultRadius"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -1036,6 +1038,18 @@ public class CexCommands {
 						p.getConfig().set("shutdownKickMessage", (args[0].equals("cs") ? args[2] : args[3]));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("shutdownKickMessage"));
+					} else if (v.equals("butcherdefaultradius")) {
+						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
+							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
+								p.getConfig().set("butcherDefaultRadius", Integer.valueOf((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase())));
+								p.saveConfig();
+								sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getInt("butcherDefaultRadius"));
+							} else {
+								LogHelper.showWarning("configProvideNumericValue", sender);
+							}
+						} else {
+							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
+						}
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

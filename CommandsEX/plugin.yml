@@ -545,6 +545,9 @@ permissions:
   cex.gamemode.others:
     default: op
     description: Allows the player to change others gamemode
+  cex.butcher:
+    default: op
+    description: Allows the player to slaughter nearby mobs
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1238,3 +1241,9 @@ commands:
     permission: cex.disguise
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [disguise]
+  cex_butcher:
+    description: Kill nearby mobs.
+    usage: /<command> [radius] [type to kill] [lightning]
+    permission: cex.butcher
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [butcher]

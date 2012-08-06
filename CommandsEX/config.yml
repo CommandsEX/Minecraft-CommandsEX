@@ -405,3 +405,6 @@ explodeStrength: 5
 
 # The kick message that will be sent to all players when the server shuts down
 shutdownKickMessage: '&cThe server has shut down'
+
+# The default radius for the /butcher command when no radius is specified
+butcherDefaultRadius: 5

@@ -9,6 +9,7 @@ Key:
 Beta 1.85
 ---------
 + added /cannonall to cannon all online players
++ added /butcher command to kill nearby mobs
 
 @ spawning items now work better, item names now spawn what you would expect them to
 @ completely rewrote the /gm command
