@@ -408,3 +408,6 @@ shutdownKickMessage: '&cThe server has shut down'
 
 # The default radius for the /butcher command when no radius is specified
 butcherDefaultRadius: 5
+
+# Should /spawn take you to the global spawn or a per world spawn
+perWorldSpawn: false

@@ -66,7 +66,7 @@ public class CexCommands {
 			sender.sendMessage(ChatColor.GREEN + _("bukkitForums", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MmhPjV");
 			sender.sendMessage(ChatColor.GREEN + _("donate", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LYCsrQ");
 			sender.sendMessage(ChatColor.GREEN + _("builder", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/OdiROq");
-			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/PPhI5I");
+			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MraQG4");
 		} else if ((aLength == 1) && args[0].equals("null")) {
 			// does nothing, prints nothing - used for commands replacements/aliasing
 		} else if ((aLength == 1) && args[0].equals("reload")) {
@@ -313,6 +313,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configShutdownKickMessage", sender.getName()) + p.getConfig().getString("shutdownKickMessage"));
 					} else if (v.equals("defaultbutcherradius")){
 						sender.sendMessage(ChatColor.YELLOW + _("configButcherDefaultRadius", sender.getName()) + p.getConfig().getInt("butcherDefaultRadius"));
+					} else if (v.equals("perworldspawn")){
+						sender.sendMessage(ChatColor.YELLOW + _("configPerWorldSpawn", sender.getName()) + p.getConfig().getBoolean("perWorldSpawn"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -1018,10 +1020,6 @@ public class CexCommands {
 						p.getConfig().set("deathUnknown", (args[0].equals("cs") ? args[2] : args[3]));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("deathUnknown"));
-					} else if (v.equals("announcedevelopers")) {
-						p.getConfig().set("announceDevelopers", !p.getConfig().getBoolean("announceDevelopers"));
-						p.saveConfig();
-						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getBoolean("announceDevelopers"));
 					} else if (v.equals("explodestrength")) {
 						if ((aLength > 2) && (args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()) != null) {
 							if ((args[0].equals("cs") ? args[2].toLowerCase() : args[3].toLowerCase()).matches(CommandsEX.intRegex)) {
@@ -1050,6 +1048,10 @@ public class CexCommands {
 						} else {
 							LogHelper.showWarnings(sender, "configUnspecifiedError1", "configUnspecifiedError2", "configUnspecifiedError3");
 						}
+					} else if (v.equals("perworldspawn")) {
+						p.getConfig().set("perWorldSpawn", !p.getConfig().getBoolean("perWorldSpawn"));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("perWorldSpawn") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

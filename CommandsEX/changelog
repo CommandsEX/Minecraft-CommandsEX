@@ -8,6 +8,8 @@ Key:
 
 Beta 1.85
 ---------
+# support for CraftBukkit 1.3.1 RB
+
 + added /cannonall to cannon all online players
 + added /butcher command to kill nearby mobs
 
@@ -16,10 +18,15 @@ Beta 1.85
 @ minor performance tweaks
 @ all chat related functions now use Asynchonous Chat
 @ added doubleslab to Material matching
+@ added a config option to select whether to use a global spawn or a per world spawn
+@ changed ticket link in /cex to github
+
+* fixed experience setting, adding and taking for 1.3.1
 
 # new perm cex.gamemode
 # new perm cex.gamemode.others
 # new perm cex.cannon.all
+' new perm cex.butcher
 
 # removed perm cex.gm.self
 
