@@ -5,9 +5,13 @@ import java.util.HashMap;
 
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.MathHelper;
+import net.minecraft.server.Packet21PickupSpawn;
 import net.minecraft.server.Packet24MobSpawn;
 import net.minecraft.server.Packet29DestroyEntity;
+import net.minecraft.server.Packet31RelEntityMove;
+import net.minecraft.server.Packet32EntityLook;
 import net.minecraft.server.Packet33RelEntityMoveLook;
+import net.minecraft.server.Packet35EntityHeadRotation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,8 +46,8 @@ public class Disguise {
 		oldPosY = MathHelper.floor(loc.getY() * 32.0D);
 		oldPosZ = MathHelper.floor(loc.getZ() * 32.0D);
 		
-		packet.f = (byte) ((int) loc.getYaw() * 256.0F  / 360.0F);
-		packet.g = (byte) ((int) loc.getPitch() * 256.0F  / 360.0F);
+		packet.f = Utils.degreeToByte(loc.getYaw());
+		packet.g = Utils.degreeToByte(loc.getPitch());
 		packet.h = packet.f;
 		 
 		Field metadataField = packet.getClass().getDeclaredField("s");
@@ -57,7 +61,15 @@ public class Disguise {
 		return packet;
 	}
 	
-	public static Packet33RelEntityMoveLook movePacket(Location move, int id){
+	public static Packet31RelEntityMove movePacket(Location move, int id){
+		Packet31RelEntityMove packet = new Packet31RelEntityMove();
+		
+		packet.a = id;
+		
+		packet.b
+	}
+	
+	public static Packet33RelEntityMoveLook relMovePacket(Location move, int id){
 		Packet33RelEntityMoveLook packet = new Packet33RelEntityMoveLook();
 		packet.a = id;
 		
@@ -72,6 +84,24 @@ public class Disguise {
 		oldPosY = MathHelper.floor(move.getY() * 32.0D);
 		oldPosZ = MathHelper.floor(move.getZ() * 32.0D);
 
+		return packet;
+	}
+	
+	public static Packet32EntityLook lookPacket(Location move, int id){
+		Packet32EntityLook packet = new Packet32EntityLook();
+		
+		packet.a = id;
+		packet.b = 0;
+		packet.c = 0;
+		packet.d = 0;
+		packet.e = Utils.degreeToByte(move.getYaw());
+		packet.f = Utils.degreeToByte(move.getPitch());
+		
+		return packet;
+	}
+	
+	public static Packet35EntityHeadRotation headTurnPacket(Location move, int id){
+		Packet35EntityHeadRotation packet = new Packet35EntityHeadRotation(id, Utils.degreeToByte(move.getYaw()));
 		return packet;
 	}
 	

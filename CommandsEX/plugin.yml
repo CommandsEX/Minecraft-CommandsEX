@@ -601,7 +601,10 @@ permissions:
     description: Placeholder for event function to use format codes to format signs.
   Listener.disguise:
     default: true
-    description: Placeholder for event function to handle disguising as mobs
+    description: Placeholder for event function to allows disguising to function correctly
+  Listener.bankickreason:
+    default: true
+    description: Placeholder for event function to kick banned players for the correct reason
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -1236,8 +1239,14 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [invsee, openinv, invedit]
   cex_butcher:
-    description: Kill nearby mobs.
+    description: Kills nearby mobs.
     usage: /<command> [radius] [type to kill] [lightning]
     permission: cex.butcher
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [butcher]
+  cex_disguise:
+    description: Disguise as a mob.
+    usage: /<command>
+    permission: cex.disguise
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [disguise]

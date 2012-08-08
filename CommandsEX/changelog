@@ -13,6 +13,8 @@ Beta 1.85
 + added /cannonall to cannon all online players
 + added /butcher command to kill nearby mobs
 
++ when perm/temp banned players try to join they will recieve information such as who banned them and when. It will also display the reason and time left if applicable
+
 @ spawning items now work better, item names now spawn what you would expect them to
 @ completely rewrote the /gm command
 @ minor performance tweaks
@@ -26,7 +28,7 @@ Beta 1.85
 # new perm cex.gamemode
 # new perm cex.gamemode.others
 # new perm cex.cannon.all
-' new perm cex.butcher
+# new perm cex.butcher
 
 # removed perm cex.gm.self
 
