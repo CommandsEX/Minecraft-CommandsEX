@@ -67,7 +67,7 @@ public class Handler_bankickreason implements Listener {
 						Integer seconds = (timeAll - (days * 86400) - (hours * 3600) - (minutes * 60));
 
 						kickReason = kickReason.replaceFirst("%expire%", expiration_date);
-						kickReason = kickReason + "\n Remaining Time: " + (days != 0 ? days + " " +  _("days", pName)
+						kickReason = kickReason + ChatColor.AQUA + "\n" + _("bansRemainingTime", pName) + ChatColor.GOLD + (days != 0 ? days + " " +  _("days", pName)
 								+ " " : "") + (hours != 0 ? hours + " " + _("hours", pName) + " " : "")
 								+ (minutes != 0 ? minutes + " " + _("minutes", pName) + " " : "") + seconds
 								+ " " + _("seconds", pName);
