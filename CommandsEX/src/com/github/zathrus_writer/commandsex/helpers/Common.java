@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.Packet201PlayerInfo;
 
 import org.bukkit.Bukkit;
@@ -442,10 +443,12 @@ public class Common implements Listener {
 		String pName = player.getName();
 		Boolean isInvisible = invisiblePlayers.contains(pName);
 		
+		EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
+		
 		if (!isInvisible) {
 			invisiblePlayers.add(pName);
 			((CraftServer) player.getServer()).getHandle().sendAll(
-					new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, false, 9999));
+					new Packet201PlayerInfo(ePlayer.listName, false, 9999));
 			
 			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
 				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", ""));
@@ -453,7 +456,7 @@ public class Common implements Listener {
 		} else {
 			invisiblePlayers.remove(pName);
 			((CraftServer) player.getServer()).getHandle().sendAll(
-					new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, true, 1000));
+					new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
 			
 			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
 				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", ""));
