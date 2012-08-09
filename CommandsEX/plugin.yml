@@ -548,6 +548,9 @@ permissions:
   cex.butcher:
     default: op
     description: Allows the player to slaughter nearby mobs
+  cex.joinfull:
+    default: op
+    description: Allows the player to join the server even if it is full
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -605,6 +608,9 @@ permissions:
   Listener.bankickreason:
     default: true
     description: Placeholder for event function to kick banned players for the correct reason
+  Listener.joinfull:
+    default: true
+    description: Placeholder for event function to allow players with a certain a permission to join while the server is full
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

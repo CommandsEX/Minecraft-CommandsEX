@@ -25,6 +25,9 @@ public class Handler_condensejoins implements Listener {
 	public static List<String> leaves = new ArrayList<String>();
 	public static Integer lastLeaveTime = 0;
 	
+	public static List<String> fakeJoins = new ArrayList<String>();
+	public static List<String> fakeLeaves = new ArrayList<String>();
+	
 	static Integer joinStamp = Utils.getUnixTimestamp(0L);
 	static Integer joinFlushTime = CommandsEX.getConf().getInt("joinSilentTime");
 	
@@ -54,7 +57,7 @@ public class Handler_condensejoins implements Listener {
 	
 	public static void handleJoin(String pName) {
 		// get player's name and store it
-		if (!joins.contains(pName) && !Common.invisiblePlayers.contains(pName)) {
+		if (!joins.contains(pName)) {
 			joins.add(pName);
 		}
 		
@@ -76,8 +79,12 @@ public class Handler_condensejoins implements Listener {
 		// remove a player if they are invisible
 		for(int x=0; x < joins.size(); x++){
 			String pName = joins.get(x);
-			if (Common.invisiblePlayers.contains(pName)){
-				joins.remove(pName);
+			if (fakeJoins.contains(pName)){
+				fakeJoins.remove(pName);
+			} else {
+				if (Common.invisiblePlayers.contains(pName)){
+					joins.remove(pName);
+				}
 			}
 		}
 
@@ -131,7 +138,7 @@ public class Handler_condensejoins implements Listener {
 	
 	public static void handleLeave(String pName) {
 		// get player's name and store it
-		if (!leaves.contains(pName) && !Common.invisiblePlayers.contains(pName)) {
+		if (!leaves.contains(pName)) {
 			leaves.add(pName);
 		}
 
@@ -155,8 +162,12 @@ public class Handler_condensejoins implements Listener {
 		// remove a player if they are invisible
 		for(int x=0; x < leaves.size(); x++){
 			String pName = leaves.get(x);
-			if (Common.invisiblePlayers.contains(pName)){
-				leaves.remove(pName);
+			if (fakeLeaves.contains(pName)){
+				fakeLeaves.remove(pName);
+			} else {
+				if (Common.invisiblePlayers.contains(pName)){
+					leaves.remove(pName);
+				}
 			}
 		}
 

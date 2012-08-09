@@ -45,6 +45,7 @@ import org.bukkit.util.Vector;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
+import com.github.zathrus_writer.commandsex.handlers.Handler_condensejoins;
 
 /***
  * Contains set of functions and event listeners used to handle the freeze command.
@@ -452,7 +453,10 @@ public class Common implements Listener {
 			
 			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
-					if (p.hasPermission("cex.seeleaves")){
+					try {
+						Handler_condensejoins.fakeLeaves.add(pName);
+						Handler_condensejoins.handleLeave(pName);
+					} catch (Exception ex){
 						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
 					}
 					
@@ -466,10 +470,13 @@ public class Common implements Listener {
 			
 			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
-					if (p.hasPermission("cex.seejoins")){
+					try {
+						Handler_condensejoins.fakeJoins.add(pName);
+						Handler_condensejoins.handleJoin(pName);
+					} catch (Exception ex){
 						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
 					}
-					
+
 					p.showPlayer(player);
 				}
 			}

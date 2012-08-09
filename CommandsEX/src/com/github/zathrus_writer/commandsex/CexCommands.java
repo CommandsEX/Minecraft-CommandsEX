@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -67,6 +68,18 @@ public class CexCommands {
 			sender.sendMessage(ChatColor.GREEN + _("donate", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/LYCsrQ");
 			sender.sendMessage(ChatColor.GREEN + _("builder", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/OdiROq");
 			sender.sendMessage(ChatColor.GREEN + _("ticket", sender.getName()) + ChatColor.YELLOW +  "http://bit.ly/MraQG4");
+		} else if ((aLength == 1 || aLength == 2) && (args[0].equals("help") || args[0].equals("commands"))){
+			int page = 0;
+			if (aLength == 2){
+				if (args[1].matches(CommandsEX.intRegex)){
+					page = Integer.valueOf(args[1]);
+				} else {
+					LogHelper.showInfo("cexNumeric", sender, ChatColor.RED);
+					return true;
+				}
+			}
+			
+			Bukkit.dispatchCommand(sender, "help CommandsEX " + page);
 		} else if ((aLength == 1) && args[0].equals("null")) {
 			// does nothing, prints nothing - used for commands replacements/aliasing
 		} else if ((aLength == 1) && args[0].equals("reload")) {
