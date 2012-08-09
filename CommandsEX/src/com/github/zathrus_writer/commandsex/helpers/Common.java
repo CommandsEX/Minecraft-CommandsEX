@@ -451,7 +451,13 @@ public class Common implements Listener {
 					new Packet201PlayerInfo(ePlayer.listName, false, 9999));
 			
 			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
-				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", ""));
+				for (Player p : Bukkit.getOnlinePlayers()){
+					if (p.hasPermission("cex.seeleaves")){
+						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
+					}
+					
+					p.hidePlayer(player);
+				}
 			}
 		} else {
 			invisiblePlayers.remove(pName);
@@ -459,15 +465,13 @@ public class Common implements Listener {
 					new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
 			
 			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
-				Bukkit.broadcastMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", ""));
-			}
-		}
-		
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (isInvisible) {
-				p.showPlayer(player);
-			} else {
-				p.hidePlayer(player);
+				for (Player p : Bukkit.getOnlinePlayers()){
+					if (p.hasPermission("cex.seejoins")){
+						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
+					}
+					
+					p.showPlayer(player);
+				}
 			}
 		}
 		
