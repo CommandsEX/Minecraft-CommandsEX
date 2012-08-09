@@ -5,7 +5,9 @@ import static com.github.zathrus_writer.commandsex.Language._;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -95,11 +97,20 @@ public class Handler_condensejoins implements Listener {
 			if (jSize > 1) {
 				String lName = (String) joins.get(jSize - 1);
 				joins.remove(jSize - 1);
-				String msg = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seejoins");
+				
+				// send each player the join message in their own language
+				for (Player p : Bukkit.getOnlinePlayers()){
+					if (p.hasPermission("cex.seejoins")){
+						String msg = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", p.getName());
+						p.sendMessage(msg);
+					}
+				}
+				
 				// forward the broadcast to XMPP connector, if present
 				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					// send xmpp message in default language
+					String xmppMessage = ChatColor.WHITE + Utils.implode(joins, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
 				} catch (Throwable e) {
 					// nothing bad happens if we don't have XMPP module present :)
 				}
@@ -178,11 +189,20 @@ public class Handler_condensejoins implements Listener {
 			if (lSize > 1) {
 				String lName = (String) leaves.get(lSize - 1);
 				leaves.remove(lSize - 1);
-				String msg = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
-				CommandsEX.plugin.getServer().broadcast(msg, "cex.seeleaves");
+				
+				// send the leave message to the player in their own language
+				for (Player p : Bukkit.getOnlinePlayers()){
+					if (p.hasPermission("cex.seeleaves")){
+						String msg = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName());
+						p.sendMessage(msg);
+					}
+				}
+				
 				// forward the broadcast to XMPP connector, if present
 				try {
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(msg));
+					// send the xmpp message in the default language
+					String xmppMessage = ChatColor.WHITE + Utils.implode(leaves, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
+					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
 				} catch (Throwable e) {
 					// nothing bad happens if we don't have XMPP module present :)
 				}
