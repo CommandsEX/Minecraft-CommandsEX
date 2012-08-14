@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 public class ItemSpawning {
 
 	/***
-	 * Used by /item and /give command to handle the spawning of item
+	 * Used by /item and /give command to handle the spawning of items
 	 * @param sender
 	 * @param args
 	 * @param function

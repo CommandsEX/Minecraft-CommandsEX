@@ -48,11 +48,13 @@ public class Command_cex_butcher {
 				if (!args[1].equalsIgnoreCase("lightning") && !args[1].equalsIgnoreCase("-l")){
 					typeToKill = args[1];
 					
-					if (args[2].equalsIgnoreCase("lightning") || args[2].equalsIgnoreCase("-l")){
-						lightning = true;
-					} else {
-						Commands.showCommandHelpAndUsage(sender, "cex_butcher", alias);
-						return true;
+					if (args.length > 2){
+						if (args[2].equalsIgnoreCase("lightning") || args[2].equalsIgnoreCase("-l")){
+							lightning = true;
+						} else {
+							Commands.showCommandHelpAndUsage(sender, "cex_butcher", alias);
+							return true;
+						}
 					}
 				} else {
 					lightning = true;
@@ -60,10 +62,7 @@ public class Command_cex_butcher {
 			} else {
 				if (args[0].equalsIgnoreCase("lightning") || args[0].equalsIgnoreCase("-l")){
 					lightning = true;
-				} else {
-					Commands.showCommandHelpAndUsage(sender, "cex_butcher", alias);
-					return true;
-				}
+				} 
 			}
 		}
 		
