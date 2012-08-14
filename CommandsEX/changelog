@@ -6,14 +6,19 @@ Key:
 ~ = New bug
 # = Note
 
+Beta 1.90
+---------
+
++ when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
+
+@ merged functions from /item and /give into one class file, this will make it easier to change them in the future
+
 Beta 1.85
 ---------
 # support for CraftBukkit 1.3.1 RB
 
 + added /cannonall to cannon all online players
 + added /butcher command to kill nearby mobs
-
-+ when perm/temp banned players try to join they will recieve information such as who banned them and when. It will also display the reason and time left if applicable
 
 @ spawning items now work better, item names now spawn what you would expect them to
 @ completely rewrote the /gm command
