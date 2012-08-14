@@ -119,5 +119,4 @@ public class ClosestMatches {
         
         return matches;
 	}
-	
 }
