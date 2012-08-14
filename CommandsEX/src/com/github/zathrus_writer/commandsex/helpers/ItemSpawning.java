@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,7 +36,8 @@ public class ItemSpawning {
 
 		String itemArg = (function.equals("give") ? args[1] : args[0]);
 		String amountArg = (function.equals("give") ? (args.length > 2 ? args[2] : null) : (args.length > 1 ? args[1] : null));
-
+		String damageArg = (function.equals("give") ? (args.length > 3 ? args[3] : null) : (args.length > 2 ? args[2] : null));
+		
 		Material item;
 		short damage = 0;
 		int amount = -1;
@@ -57,8 +59,22 @@ public class ItemSpawning {
 
 			target = (Player) sender;
 		}
+		
+		if (itemArg.contains(":") && damageArg != null){
+			Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
+			return;
+		}
+		
+		if (!itemArg.contains(":")){
+			List<Material> matches = ClosestMatches.material(itemArg);
 
-		if (itemArg.contains(":")){
+			if (matches.size() > 0){
+				item = matches.get(0);
+			} else {
+				LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
+				return;
+			}
+		} else {
 			String[] data = itemArg.split(":");
 			if (ClosestMatches.material(data[0]).size() > 0){
 				item = ClosestMatches.material(data[0]).get(0);
@@ -77,19 +93,25 @@ public class ItemSpawning {
 					Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
 					return;
 				}
-
-			}
-		} else {
-			List<Material> matches = ClosestMatches.material(itemArg);
-
-			if (matches.size() > 0){
-				item = matches.get(0);
-			} else {
-				LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
-				return;
 			}
 		}
 
+		if (damageArg != null){
+			try {
+				damage = Short.valueOf(damageArg);
+			} catch (Exception e) {
+				List<DyeColor> matches = ClosestMatches.dyeColor(damageArg);
+				
+				if (item == Material.WOOL && matches.size() > 0){
+					damage = matches.get(0).getData();
+				} else {
+					LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
+					Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
+					return;
+				}
+			}
+		}
+		
 		if (amountArg != null){
 			try {
 				amount = Integer.valueOf(amountArg);
