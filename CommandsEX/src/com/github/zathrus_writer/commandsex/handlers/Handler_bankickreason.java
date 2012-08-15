@@ -33,10 +33,11 @@ public class Handler_bankickreason implements Listener {
 					Player player = e.getPlayer();
 					String pName = player.getName();
 					
-					String kickReason = ChatColor.RED + _("bansHeader", pName) + ChatColor.AQUA + "\n" + _("bansReason", pName)
-					+ ChatColor.GOLD + "%reason%\n" + ChatColor.AQUA + _("bansExpires", pName) + ChatColor.GOLD + "%expire%\n"
-					+ ChatColor.AQUA + _("bansBanTime", pName) + ChatColor.GOLD + "%date% " + ChatColor.AQUA + _("by", pName)
-					+ ChatColor.GOLD + " %banner%";
+					String reason = null;
+					String expireDate = null;
+					String createDate = null;
+					String bannerName = null;
+					String timeLeft = null;
 					
 					ResultSet res = SQLManager.query_res("SELECT player_name, creation_date, expiration_date, creator, reason FROM " + SQLManager.prefix + "bans WHERE player_name = ? ORDER BY id_ban DESC LIMIT 1", player.getName());
 
@@ -44,11 +45,11 @@ public class Handler_bankickreason implements Listener {
 					final String creation_date = dateFormat.format(res.getTimestamp("creation_date").getTime());
 					final String expiration_date = dateFormat.format(res.getTimestamp("expiration_date").getTime());
 
-					kickReason = kickReason.replaceFirst("%banner%", res.getString("creator"));
+					bannerName = res.getString("creator");
 
-					kickReason = kickReason.replaceFirst("%date%", creation_date);
+					createDate = creation_date;
 					if (res.getString("expiration_date").equals("0000-00-00 00:00:00")){
-						kickReason = kickReason.replaceFirst("%expire%", "NEVER");
+						expireDate = _("bansNever", pName);
 					} else {
 						Date d;
 						Date c = new Date();
@@ -66,15 +67,21 @@ public class Handler_bankickreason implements Listener {
 						Integer minutes = (int) Math.floor((timeAll - (days * 86400) - (hours * 3600)) / 60);
 						Integer seconds = (timeAll - (days * 86400) - (hours * 3600) - (minutes * 60));
 
-						kickReason = kickReason.replaceFirst("%expire%", expiration_date);
-						kickReason = kickReason + ChatColor.AQUA + "\n" + _("bansRemainingTime", pName) + ChatColor.GOLD + (days != 0 ? days + " " +  _("days", pName)
+						expireDate = expiration_date;
+						timeLeft = ChatColor.AQUA + _("bansRemainingTime", pName) + ChatColor.GOLD + (days != 0 ? days + " " +  _("days", pName)
 								+ " " : "") + (hours != 0 ? hours + " " + _("hours", pName) + " " : "")
 								+ (minutes != 0 ? minutes + " " + _("minutes", pName) + " " : "") + seconds
 								+ " " + _("seconds", pName);
 					}
 
-					String reason = res.getString("reason");
-					kickReason = kickReason.replaceFirst("%reason%", (!reason.equals("") ? reason : _("bansGenericReason", pName)));
+					String resReason = res.getString("reason");
+					reason = (!resReason.equals("") ? resReason : _("bansGenericReason", pName));
+					
+					String kickReason = ChatColor.RED + _("bansHeader", pName) + ChatColor.AQUA + "\n" + _("bansReason", pName)
+							+ ChatColor.GOLD + reason + "\n" + ChatColor.AQUA + _("bansExpires", pName) + ChatColor.GOLD + expireDate + "\n"
+							+ ChatColor.AQUA + _("bansBanTime", pName) + ChatColor.GOLD + createDate + " " + ChatColor.AQUA + _("by", pName)
+							+ ChatColor.GOLD + " " + bannerName + (!timeLeft.equals(null) ? "\n" + timeLeft : "");
+					
 					e.setKickMessage(kickReason);
 
 					res.close();
