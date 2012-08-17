@@ -10,11 +10,14 @@ Beta 1.90
 ---------
 
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
++ players with permission can now teleport other players to any warp they have permission to
 
 @ merged functions from /item and /give into one class file, this will make it easier to change them in the future
 @ /give and /item command now works the vanilla way too (/give iKeirNez 90 5 2) meaning you won't have to edit TooManyItem's settings if you use that
 
 * fixed 2 bugs in /butcher command
+
+# new perm cex.warp.others
 
 Beta 1.85
 ---------

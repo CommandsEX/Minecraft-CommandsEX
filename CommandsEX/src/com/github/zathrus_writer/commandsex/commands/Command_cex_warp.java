@@ -1,11 +1,8 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
-import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Warps;
 
 public class Command_cex_warp extends Warps {
@@ -16,32 +13,30 @@ public class Command_cex_warp extends Warps {
 	 * @return
 	 */
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (PlayerHelper.checkIsPlayer(sender)) {
-			Player player = (Player)sender;
 			// check permissions and call to action
 			if (args.length > 0) {
 				Boolean hasPerms = true;
-				if ((args.length >= 1) && args[0].toLowerCase().equals("list") && ((hasPerms = Permissions.checkPerms(player, "cex.warp.listpublic")) || (hasPerms = Permissions.checkPerms(player, "cex.warp.listprivate")))) {
+				if ((args.length >= 1) && args[0].toLowerCase().equals("list") && ((hasPerms = Permissions.checkPerms(sender, "cex.warp.listpublic")) || (hasPerms = Permissions.checkPerms(sender, "cex.warp.listprivate")))) {
 					/***
 					 * WARP LIST, LISTWARPS
 					 */
 					list(sender, args, "warp", alias);
-				} else if ((args.length >= 1) && args[0].toLowerCase().equals("create") && (hasPerms = Permissions.checkPerms(player, "cex.warp.create"))) {
+				} else if ((args.length >= 1) && args[0].toLowerCase().equals("create") && (hasPerms = Permissions.checkPerms(sender, "cex.warp.create"))) {
 					/***
 					 * WARP CREATE
 					 */
 					create(sender, args, "warp", alias);
-				} else if ((args.length >= 1) && args[0].toLowerCase().equals("rename") && (hasPerms = Permissions.checkPerms(player, "cex.warp.rename"))) {
+				} else if ((args.length >= 1) && args[0].toLowerCase().equals("rename") && (hasPerms = Permissions.checkPerms(sender, "cex.warp.rename"))) {
 					/***
 					 * WARP RENAME
 					 */
 					rename(sender, args, "warp", alias);
-				} else if ((args.length >= 1) && args[0].toLowerCase().equals("public") && (hasPerms = Permissions.checkPerms(player, "cex.warp.public"))) {
+				} else if ((args.length >= 1) && args[0].toLowerCase().equals("public") && (hasPerms = Permissions.checkPerms(sender, "cex.warp.public"))) {
 					/***
 					 * WARP PUBLIC
 					 */
 					make_public(sender, args, "warp", alias);
-				} else if ((args.length >= 1) && args[0].toLowerCase().equals("private") && (hasPerms = Permissions.checkPerms(player, "cex.warp.private"))) {
+				} else if ((args.length >= 1) && args[0].toLowerCase().equals("private") && (hasPerms = Permissions.checkPerms(sender, "cex.warp.private"))) {
 					/***
 					 * WARP PRIVATE
 					 */
@@ -55,10 +50,10 @@ public class Command_cex_warp extends Warps {
 					/***
 					 * WARP DELETE
 					 */
-					if ((hasPerms = Permissions.checkPerms(player, "cex.warp.delete"))) {
+					if ((hasPerms = Permissions.checkPerms(sender, "cex.warp.delete"))) {
 						delete(sender, args, "warp", alias);
 					}
-				} else if ((args.length == 1) && (Permissions.checkPerms(player, "cex.warp.own") || Permissions.checkPerms(player, "cex.warp")) && hasPerms) {
+				} else if ((args.length == 1 || args.length == 2) && (Permissions.checkPerms(sender, "cex.warp.own") || Permissions.checkPerms(sender, "cex.warp")) && hasPerms) {
 					/***
 					 * WARP <Name>
 					 */
@@ -73,7 +68,6 @@ public class Command_cex_warp extends Warps {
 				 */
 				help(sender, args, "warp", alias);
 			}
-		}
         return true;
 	}
 }

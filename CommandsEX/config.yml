@@ -411,3 +411,6 @@ butcherDefaultRadius: 5
 
 # Should /spawn take you to the global spawn or a per world spawn
 perWorldSpawn: false
+
+# This will appear before a players name if they have a nickname
+nicknamePrefix: '~'

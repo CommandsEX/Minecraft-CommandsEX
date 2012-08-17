@@ -28,10 +28,10 @@ public class Warps {
 	public static void init(CommandsEX plugin) {
 		// first of all, check if we can use any DB
 		if (!CommandsEX.sqlEnabled) return;
-		
+
 		// next create warps table if it's not present yet
 		SQLManager.query((SQLManager.sqlType.equals("mysql") ? "" : "BEGIN; ") + "CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"warps (id_warp integer " + (SQLManager.sqlType.equals("mysql") ? "unsigned " : "") +"NOT NULL" + (SQLManager.sqlType.equals("mysql") ? " AUTO_INCREMENT" : "") +", owner_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", world_name varchar(32) NOT NULL, warp_name varchar(50) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", x double NOT NULL, y double NOT NULL, z double NOT NULL, is_public BOOLEAN NOT NULL DEFAULT '0', PRIMARY KEY (id_warp), UNIQUE " + (SQLManager.sqlType.equals("mysql") ? "KEY warp_name " : "") +"(warp_name)" + (SQLManager.sqlType.equals("mysql") ? ", KEY owner_name (owner_name)" : "") + ")" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores warp points for the server' AUTO_INCREMENT=1" : "") + (SQLManager.sqlType.equals("mysql") ? "" : "; CREATE INDEX IF NOT EXISTS owner_name ON "+ SQLManager.prefix +"warps (owner_name); COMMIT;"));
-		
+
 		// upgrade to yaw and pitch-aware, if not upgraded yet
 		try {
 			Boolean upgradedToYaw = false;
@@ -44,7 +44,7 @@ public class Warps {
 				}
 			}
 			res.close();
-			
+
 			if (!upgradedToYaw) {
 				// not upgraded yet, upgrade here
 				SQLManager.query("ALTER TABLE "+ SQLManager.prefix +"warps ADD COLUMN yaw double NOT NULL DEFAULT 0");
@@ -57,7 +57,7 @@ public class Warps {
 		}
 	}
 
-	
+
 	/***
 	 * WARP CREATE - creates a warp point
 	 * @param sender
@@ -80,7 +80,7 @@ public class Warps {
 						LogHelper.showWarning("warpNoPublicPerms", sender);
 						return true;
 					}
-					
+
 					// if the player is trying to create a warp for another player, check for permissions
 					Boolean createForOther = false;
 					if ((args.length > 2) && !args[2].equals("public") && !args[2].equals("private") && !Permissions.checkPermEx(player, "cex.warp.create.others")) {
@@ -92,12 +92,12 @@ public class Warps {
 							LogHelper.showWarning("warpCreateForOtherFailed", sender);
 							return true;
 						}
-						
+
 						// give this player permission to warp to his own warps
 						Permissions.addPerm(player.getWorld().getName(), args[2], "cex.warp.own");
 						createForOther = true;
 					}
-					
+
 					// check how many warps this player has created, if limit is imposed
 					if ((CommandsEX.getConf().getInt("maxWarpsPerPlayer") > 0) && !Permissions.checkPermEx(player, "cex.warp.bypasslimits")) {
 						try {
@@ -107,7 +107,7 @@ public class Warps {
 								numWarps = res.getInt("Total");
 							}
 							res.close();
-							
+
 							if (numWarps >= CommandsEX.getConf().getInt("maxWarpsPerPlayer")) {
 								// no more warps for this player
 								LogHelper.showWarning("warpTooManyWarps", sender);
@@ -121,7 +121,7 @@ public class Warps {
 							return true;
 						}
 					}
-					
+
 					// Stop players from naming warps the same name as a warp function
 					if (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("rename") 
 							|| args[1].equalsIgnoreCase("public") || args[1].equalsIgnoreCase("private") 
@@ -129,12 +129,12 @@ public class Warps {
 						LogHelper.showInfo("warpCannotUseThatName", sender, ChatColor.RED);
 						return true;
 					}
-					
+
 					Location l = player.getLocation();
 					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, yaw, pitch, is_public) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch), is_public = VALUES(is_public)" : ""), (createForOther ? args[2] : pName), player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
 						// warp successfuly created
 						LogHelper.showInfo("warpCreated#####[" + args[1], sender);
-						
+
 						if (createForOther) {
 							// send message to the new proud warp owner :)
 							Player px = Bukkit.getServer().getPlayer(args[2]);
@@ -157,10 +157,10 @@ public class Warps {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * WARP - teleports a player to warp location, if they have permissions
 	 * @param sender
@@ -171,84 +171,133 @@ public class Warps {
 	 */
 	public static Boolean warp(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
-			Player player = (Player)sender;
-
-			// get warp data from DB, if we didn't spam too much :)
-			if (!Utils.checkCommandSpam(player, "warp-go")) {
-				if (args.length > 0) {
-					String pName = player.getName();
-					try {
-						String warpForSQL = args[0].toLowerCase();
-						String foundWarpName = "";
-						Integer numWarps = 0;
-						Location l = null;
-						ResultSet res = SQLManager.query_res("SELECT * FROM " + SQLManager.prefix + "warps WHERE (warp_name = ? OR warp_name LIKE ?)", warpForSQL, warpForSQL + "%");
-	
-						while (res.next()) {
-							numWarps++;
-							foundWarpName = res.getString("warp_name");
-							// check if player is allowed to go to this warp
-							if (!player.hasPermission("cex.warp.any") && !res.getBoolean("is_public") && !res.getString("owner_name").equals(pName)) {
-								// player is not allowed in
-								LogHelper.showWarning("warpNotAllowed", sender);
-								return true;
-							} else if (res.getString("owner_name").equals(pName) && !Permissions.checkPermEx(player, "cex.warp.own")) {
-								// the player is trying to warp to his own warp but doesn't have permissions
-								LogHelper.showWarning("warpNotAllowed", sender);
-								return true;
-							}
-	
-							// assemble location for the warp point
-							l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
-							if (l.getWorld() == null){
-								LogHelper.showInfo("warpWorldNotExist", sender, ChatColor.RED);
-								return true;
-							}
-							
-							// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
-							if (foundWarpName.toLowerCase().equals(warpForSQL)) {
-								numWarps = 1;
-								break;
-							}
-						}
-						res.close();
-	
-						if (numWarps > 1) {
-							// too many warp points match the selection
-							numWarps = 0;
-							foundWarpName = args[0];
-						} else if (numWarps == 1) {
-							// teleport player to the warp point
-							Teleportation.delayedTeleport(player, l);
-							LogHelper.showInfo("warpYouHaveWarpedTo#####[" + foundWarpName, sender);
-							return true;
-						}
-						
-						// if warp was not found, show message
-						if (numWarps == 0) {
-							LogHelper.showWarning("warpNotFound", sender);
-						}
-					} catch (Throwable e) {
-						// unable to load warp point
-						LogHelper.showWarning("internalError", sender);
-						LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
-						LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause() + ", from = warp");
-						return true;
-					}
+			Player target = null;
+			
+			if (!(sender instanceof Player)){
+				if (args.length < 2){
+					help(sender, args, "warp", alias);
+					return true;
 				} else {
-					// show usage info
-					Commands.showCommandHelpAndUsage(sender, "cex_warp", "warp_to");
+					target = Bukkit.getPlayer(args[0]);
+				}
+			} else {
+				if (Utils.checkCommandSpam((Player) sender, "warp-go")){
 					return true;
 				}
+				
+				if (args.length > 1){
+					if (!sender.hasPermission("cex.warp.others")){
+						LogHelper.showInfo("warpOthersNoPerm", sender, ChatColor.RED);
+						return true;
+					}
+					
+					target = Bukkit.getPlayer(args[0]);
+				} else {
+					target = (Player) sender;
+				}
+			}
+			
+			if (target.equals(null)){
+				LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
+				return true;
+			}
+
+			// get warp data from DB
+			if (args.length > 0 && args.length < 3) {
+				String sName = sender.getName();
+				try {
+					String warpForSQL = null;
+
+					if (args.length == 1){
+						warpForSQL = args[0].toLowerCase();
+					} else {
+						warpForSQL = args[1].toLowerCase();
+						if (!sender.hasPermission("cex.warp.others")){
+							LogHelper.showInfo("warpOthersNoPerm", sender, ChatColor.RED);
+							return true;
+						}
+
+						target = Bukkit.getPlayer(args[0]);
+
+						if (target.equals(null)){
+							LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
+							return true;
+						}
+					}
+					String foundWarpName = "";
+					Integer numWarps = 0;
+					Location l = null;
+					ResultSet res = SQLManager.query_res("SELECT * FROM " + SQLManager.prefix + "warps WHERE (warp_name = ? OR warp_name LIKE ?)", warpForSQL, warpForSQL + "%");
+
+					while (res.next()) {
+						numWarps++;
+						foundWarpName = res.getString("warp_name");
+						// check if player is allowed to go to this warp
+						if (!sender.hasPermission("cex.warp.any") && !res.getBoolean("is_public") && !res.getString("owner_name").equals(sName)) {
+							// player is not allowed in
+							LogHelper.showWarning("warpNotAllowed", sender);
+							return true;
+						} else if (res.getString("owner_name").equals(sName) && !Permissions.checkPermEx(sender, "cex.warp.own")) {
+							// the player is trying to warp to his own warp but doesn't have permissions
+							LogHelper.showWarning("warpNotAllowed", sender);
+							return true;
+						}
+
+						// assemble location for the warp point
+						l = new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getDouble("x"), res.getDouble("y"), res.getDouble("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch"));
+						if (l.getWorld() == null){
+							LogHelper.showInfo("warpWorldNotExist", sender, ChatColor.RED);
+							return true;
+						}
+
+						// if the name matches exactly what we've been looking for, adjust numHomes and break the loop
+						if (foundWarpName.toLowerCase().equals(warpForSQL)) {
+							numWarps = 1;
+							break;
+						}
+					}
+					res.close();
+
+					if (numWarps > 1) {
+						// too many warp points match the selection
+						numWarps = 0;
+						foundWarpName = args[0];
+					} else if (numWarps == 1) {
+						// teleport player to the warp point
+						Teleportation.delayedTeleport(target, l);
+						if (!sender.equals(target)){
+							LogHelper.showInfo("warpOtherConfirm#####[" + target.getName() + "#####to#####[ " + foundWarpName, sender);
+							LogHelper.showInfo("[" + sender.getName() + " #####warpOtherNotify#####[" + foundWarpName, target);
+						} else {
+							LogHelper.showInfo("warpYouHaveWarpedTo#####[" + foundWarpName, sender);
+						}
+						return true;
+					}
+
+					// if warp was not found, show message
+					if (numWarps == 0) {
+						LogHelper.showWarning("warpNotFound", sender);
+					}
+				} catch (Throwable e) {
+					// unable to load warp point
+					LogHelper.showWarning("internalError", sender);
+					LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
+					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause() + ", from = warp");
+					return true;
+				}
+			} else {
+				// show usage info
+				Commands.showCommandHelpAndUsage(sender, "cex_warp", "warp_to");
+				return true;
 			}
 		} else {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * LISTWARPS - list all public warps created on the server
 	 * @param sender
@@ -259,75 +308,82 @@ public class Warps {
 	 */
 	public static Boolean list(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
-			Player player = (Player)sender;
-			if (!Utils.checkCommandSpam(player, "warp-listwarps")) {
-				try {
-					ResultSet res;
-					if ((args.length == 0) || ((args.length == 1) && args[0].toLowerCase().equals("list"))) {
-						if ((player.hasPermission("cex.warp.listpublic")) && (player.hasPermission("cex.warp.listprivate"))) {
-							// list all warps - possibly an admin request
-							res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps");
-						} else if (player.hasPermission("cex.warp.listpublic")) {
-							// list public warps as well as our own
-							res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 1 OR owner_name = ?", player.getName());
-						} else {
-							// list own warps only
-							res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE owner_name = ?", player.getName());
-						}
-					} else if (((args.length > 1) && args[1].toLowerCase().equals("public")) || ((args.length == 1) && args[0].toLowerCase().equals("public"))) {
-						if (player.hasPermission("cex.warp.listpublic")) {
-							// list public warps only
-							res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 1");
-						} else {
-							// player is not allowed to list public warps
-							LogHelper.showWarning("warpInsufficientListingPerms", sender);
-							return true;
-						}
-					} else if (((args.length > 1) && args[1].toLowerCase().equals("private")) || ((args.length == 1) && args[0].toLowerCase().equals("private"))) {
-						// list private warps if we can
-						if (player.hasPermission("cex.warp.listprivate")) {
-							res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 0 OR owner_name = ?", player.getName());
-						} else {
-							// player is not allowed to list private warps
-							LogHelper.showWarning("warpInsufficientListingPerms", sender);
-							return true;
-						}
-					} else if (((args.length > 1) && args[1].toLowerCase().equals("own")) || ((args.length == 1) && args[0].toLowerCase().equals("own"))) {
-						// list only our own warp points
-						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE owner_name = ?", player.getName());
+			
+			if (sender instanceof Player){
+				if (Utils.checkCommandSpam((Player) sender, "warp-list")){
+					return true;
+				}
+			} else if (args.length == 0){
+				help(sender, args, "warp", alias);
+				return true;
+			}
+			
+			try {
+				ResultSet res;
+				if ((args.length == 0) || ((args.length == 1) && args[0].toLowerCase().equals("list"))) {
+					if ((sender.hasPermission("cex.warp.listpublic")) && (sender.hasPermission("cex.warp.listprivate"))) {
+						// list all warps - possibly an admin request
+						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps");
+					} else if (sender.hasPermission("cex.warp.listpublic")) {
+						// list public warps as well as our own
+						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 1 OR owner_name = ?", sender.getName());
 					} else {
-						// unrecognized parameter
-						LogHelper.showWarning("warpUnrecognizedParam", sender);
+						// list own warps only
+						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE owner_name = ?", sender.getName());
+					}
+				} else if (((args.length > 1) && args[1].toLowerCase().equals("public")) || ((args.length == 1) && args[0].toLowerCase().equals("public"))) {
+					if (sender.hasPermission("cex.warp.listpublic")) {
+						// list public warps only
+						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 1");
+					} else {
+						// player is not allowed to list public warps
+						LogHelper.showWarning("warpInsufficientListingPerms", sender);
 						return true;
 					}
-					
-					List<Object> warps = new ArrayList<Object>();
-					while (res.next()) {
-						warps.add(res.getString("warp_name"));
-					}
-					res.close();
-
-					if (warps.size() > 0) {
-						LogHelper.showInfo("warpsList#####[ " + Utils.implode(warps, ", "), sender);
+				} else if (((args.length > 1) && args[1].toLowerCase().equals("private")) || ((args.length == 1) && args[0].toLowerCase().equals("private"))) {
+					// list private warps if we can
+					if (sender.hasPermission("cex.warp.listprivate")) {
+						res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE is_public = 0 OR owner_name = ?", sender.getName());
 					} else {
-						// no warps data available for current player
-						LogHelper.showWarning("warpsNoWarps", sender);
+						// player is not allowed to list private warps
+						LogHelper.showWarning("warpInsufficientListingPerms", sender);
+						return true;
 					}
-				} catch (Throwable e) {
-					// something went wrong with our SQL...
-					LogHelper.showWarning("internalError", sender);
-					LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
-					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause() + ", from = listwarps");
+				} else if (((args.length > 1) && args[1].toLowerCase().equals("own")) || ((args.length == 1) && args[0].toLowerCase().equals("own"))) {
+					// list only our own warp points
+					res = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE owner_name = ?", sender.getName());
+				} else {
+					// unrecognized parameter
+					LogHelper.showWarning("warpUnrecognizedParam", sender);
+					return true;
 				}
+
+				List<Object> warps = new ArrayList<Object>();
+				while (res.next()) {
+					warps.add(res.getString("warp_name"));
+				}
+				res.close();
+
+				if (warps.size() > 0) {
+					LogHelper.showInfo("warpsList#####[ " + Utils.implode(warps, ", "), sender);
+				} else {
+					// no warps data available for current player
+					LogHelper.showWarning("warpsNoWarps", sender);
+				}
+			} catch (Throwable e) {
+				// something went wrong with our SQL...
+				LogHelper.showWarning("internalError", sender);
+				LogHelper.logSevere("[CommandsEX] " + _("dbReadError", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause() + ", from = listwarps");
 			}
 		} else {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * WARP PUBLIC - makes warp point public
 	 * @param sender
@@ -339,20 +395,20 @@ public class Warps {
 	public static Boolean make_public(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
 			Player player = (Player)sender;
-			
+
 			// make warp point public, if we didn't spam too much :)
 			if (!Utils.checkCommandSpam(player, "warp-public")) {
 				if (args.length >= 2) {
 					try {
 						Boolean warpFound = false;
 						ResultSet res = SQLManager.query_res("SELECT id_warp FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[1]);
-						
+
 						while (res.next()) {
 							SQLManager.query("UPDATE " + SQLManager.prefix + "warps SET is_public = 1 WHERE id_warp = ?", res.getInt("id_warp"));
 							warpFound = true;
 						}
 						res.close();
-	
+
 						if (warpFound) {
 							// inform player about successful operation
 							LogHelper.showInfo("warpMadePublic#####[" + args[1], sender);
@@ -376,10 +432,10 @@ public class Warps {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * WARP PRIVATE - makes warp point public
 	 * @param sender
@@ -391,20 +447,20 @@ public class Warps {
 	public static Boolean make_private(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
 			Player player = (Player)sender;
-			
+
 			// make warp point private, if we didn't spam too much :)
 			if (!Utils.checkCommandSpam(player, "warp-private")) {
 				if (args.length >= 2) {
 					try {
 						Boolean warpFound = false;
 						ResultSet res = SQLManager.query_res("SELECT id_warp FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[1]);
-						
+
 						while (res.next()) {
 							SQLManager.query("UPDATE " + SQLManager.prefix + "warps SET is_public = 0 WHERE id_warp = ?", res.getInt("id_warp"));
 							warpFound = true;
 						}
 						res.close();
-	
+
 						if (warpFound) {
 							// inform player about successful operation
 							LogHelper.showInfos(sender, new String[] {"warpMadePrivate1#####[" + args[1], "warpMadePrivate2"});
@@ -428,10 +484,10 @@ public class Warps {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * WARP RENAME - renames a warp point
 	 * @param sender
@@ -452,7 +508,7 @@ public class Warps {
 						Boolean warpFound = false;
 						// first check for warp with same name as the new one in database
 						ResultSet res = SQLManager.query_res("SELECT id_warp FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[2]);
-						
+
 						while (res.next()) {
 							// same name already exists, inform user and abort
 							LogHelper.showWarning("warpSameNameExist", sender);
@@ -460,7 +516,7 @@ public class Warps {
 							return true;
 						}
 						res.close();
-						
+
 						// Stop players from naming warps the same name as a warp function
 						if (args[2].equalsIgnoreCase("create") || args[2].equalsIgnoreCase("rename") 
 								|| args[2].equalsIgnoreCase("public") || args[2].equalsIgnoreCase("private") 
@@ -468,7 +524,7 @@ public class Warps {
 							LogHelper.showInfo("warpCannotUseThatName", sender, ChatColor.RED);
 							return true;
 						}
-						
+
 						// now try to find the warp we're looking for
 						res = SQLManager.query_res("SELECT id_warp FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[1]);
 						while (res.next()) {
@@ -476,7 +532,7 @@ public class Warps {
 							warpFound = true;
 						}
 						res.close();
-	
+
 						if (warpFound) {
 							// inform player about successful operation
 							LogHelper.showInfo("warp#####[ " + args[1] + " #####warpRenamedTo#####[" + args[2] + ".", sender);
@@ -500,10 +556,10 @@ public class Warps {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * WARP DELETE - removes a warp point
 	 * @param sender
@@ -515,7 +571,7 @@ public class Warps {
 	public static Boolean delete(CommandSender sender, String[] args, String command, String alias) {
 		if (CommandsEX.sqlEnabled) {
 			Player player = (Player)sender;
-			
+
 			// delete the warp point, if we didn't spam too much :)
 			if (!Utils.checkCommandSpam(player, "warp-delete")) {
 				if (args.length >= 2) {
@@ -533,7 +589,7 @@ public class Warps {
 							warpID = res.getInt("id_warp");
 						}
 						res.close();
-						
+
 						// remove the warp
 						if (warpID > 0) {
 							SQLManager.query("DELETE FROM " + SQLManager.prefix + "warps WHERE id_warp = ?", warpID);
@@ -559,10 +615,10 @@ public class Warps {
 			// no database, no homes
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
-	
+
 	/***
 	 * HELP - displays warps usage
 	 * @param sender
@@ -579,7 +635,7 @@ public class Warps {
 			// no database, no warps
 			LogHelper.showInfo("warpsNoDatabase", sender);
 		}
-		
-        return true;
+
+		return true;
 	}
 }

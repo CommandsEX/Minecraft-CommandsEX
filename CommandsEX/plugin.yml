@@ -159,6 +159,9 @@ permissions:
   cex.warp.delete.all:
     default: op
     description: Allows player to delete any warp point.
+  cex.warp.others:
+    default: op
+    description: Allows the player to teleport any other player to any warp they have permission to
   cex.ban:
     default: op
     description: Allows player to ban players from the server.
@@ -551,6 +554,24 @@ permissions:
   cex.joinfull:
     default: op
     description: Allows the player to join the server even if it is full
+  cex.keepinventory.*:
+    default: op
+    description: Allows the player to keep their inventory, xp and armor on death
+  cex.keepinventory.inventory:
+    default: op
+    description: Allows the player to keep their inventory on death
+  cex.keepinventory.armor:
+    default: op
+    description: Allows the player to keep their armor on death
+  cex.keepinventory.xp:
+    default: op
+    description: Allows the player to keep their xp on death.
+  cex.nick:
+    default: op
+    description: Allows access to the /nick command
+  cex.nick.others:
+    default: op
+    description: Allows the player to set others nicknames
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -611,6 +632,9 @@ permissions:
   Listener.joinfull:
     default: true
     description: Placeholder for event function to allow players with a certain a permission to join while the server is full
+  Listener.keepinventory:
+    default: true
+    description: Placeholder for event function to allow players with a permission node to keep their inventories on death
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -635,6 +659,9 @@ permissions:
   Init.UpdateAlerter:
     default: true
     description: Placeholder for initialization function used to alert players of new updates.
+  Init.Nicknames:
+    default: true
+    description: Placeholder for initialization function used to set players nicknames.
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -1256,3 +1283,9 @@ commands:
     permission: cex.disguise
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [disguise]
+  cex_nickname:
+    description: Set your own nickname
+    usage: /<command> [player] <nickname/reset>
+    permission: cex.nick
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [nickname, nick, displayname]
