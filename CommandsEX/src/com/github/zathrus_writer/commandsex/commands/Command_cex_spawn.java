@@ -1,11 +1,9 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.zathrus_writer.commandsex.helpers.Permissions;
-import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
+import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Spawning;
 
 public class Command_cex_spawn extends Spawning {
@@ -16,12 +14,14 @@ public class Command_cex_spawn extends Spawning {
 	 * @return
 	 */
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (PlayerHelper.checkIsPlayer(sender)) {
-			Player player = (Player)sender;
-			if (Permissions.checkPerms(player, "cex.spawn")) {
-				doSpawn(sender, args, "spawn", alias);
+		if (!(sender instanceof Player)){
+			if (args.length == 0){
+				Commands.showCommandHelpAndUsage(sender, "cex_spawn", alias);
+				return true;
 			}
 		}
-        return true;
+		
+		doSpawn(sender, args, "spawn", alias);
+		return true;
 	}
 }

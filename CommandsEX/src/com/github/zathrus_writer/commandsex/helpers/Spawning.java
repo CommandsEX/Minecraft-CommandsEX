@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -35,49 +36,75 @@ public class Spawning {
 	 */
 	public static Boolean doSpawn(CommandSender sender, String[] args, String command, String alias) {
 		// so far, this is a very simple function that will be expanded to allow random spawns and similar features
-		Player player = (Player) sender;
-		if (!Utils.checkCommandSpam(player, "spawn-go")) {
-			World world;
-			
-			if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
-				world = player.getWorld();
+		Player target = null;
+
+		if (args.length > 0){
+			if (sender.hasPermission("cex.spawn.others")){
+				target = Bukkit.getPlayer(args[0]);
 			} else {
-				if (!getSpawns().contains("globalSpawnWorld")){
-					getSpawns().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
-				}
-				
-				world = Bukkit.getWorld(getSpawns().getString("globalSpawnWorld"));
+				LogHelper.showInfo("spawnOthersNoPerm", sender, ChatColor.RED);
+				return true;
 			}
-			
-			Location spawn = world.getSpawnLocation();
-			
-			double x = spawn.getX();
-			double y = spawn.getY();
-			double z = spawn.getZ();
-			
-			// set yaw to 0 if it does not exist
-			if (!getSpawns().contains(world.getName() + ".yaw")){
-				getSpawns().set(world.getName() + ".yaw", 0);
-			}
-			
-			// set pitch to 0 if it does not exist
-			if (!getSpawns().contains(world.getName() + ".pitch")){
-				getSpawns().set(world.getName() + ".pitch", 0);
-			}
-			
-			float yaw = (float) getSpawns().getDouble(world.getName() + ".yaw");
-			float pitch = (float) getSpawns().getDouble(world.getName() + ".pitch");
-			
-			Location l = new Location(world, x, y, z, yaw, pitch);
-			Teleportation.delayedTeleport(player, l);
-			
-			if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
-				LogHelper.showInfo("spawnGoWorld", sender);
-			} else {
-				LogHelper.showInfo("spawnGoGlobal", sender);
+		} else {
+			target = (Player) sender;
+		}
+		
+		if (sender instanceof Player){
+			if (Utils.checkCommandSpam((Player) sender, "spawn-go")){
+				return true;
 			}
 		}
-        return true;
+
+		World world;
+
+		if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
+			world = target.getWorld();
+		} else {
+			if (!getSpawns().contains("globalSpawnWorld")){
+				getSpawns().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
+			}
+
+			world = Bukkit.getWorld(getSpawns().getString("globalSpawnWorld"));
+		}
+
+		Location spawn = world.getSpawnLocation();
+
+		double x = spawn.getX();
+		double y = spawn.getY();
+		double z = spawn.getZ();
+
+		// set yaw to 0 if it does not exist
+		if (!getSpawns().contains(world.getName() + ".yaw")){
+			getSpawns().set(world.getName() + ".yaw", 0);
+		}
+
+		// set pitch to 0 if it does not exist
+		if (!getSpawns().contains(world.getName() + ".pitch")){
+			getSpawns().set(world.getName() + ".pitch", 0);
+		}
+
+		float yaw = (float) getSpawns().getDouble(world.getName() + ".yaw");
+		float pitch = (float) getSpawns().getDouble(world.getName() + ".pitch");
+
+		Location l = new Location(world, x, y, z, yaw, pitch);
+		Teleportation.delayedTeleport(target, l);
+
+		if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
+			if (sender.equals(target)){
+				LogHelper.showInfo("spawnGoWorld", sender);
+			} else {
+				LogHelper.showInfo("[" + target.getName() + " #####spawnGoWorldOtherConfirm", sender);
+				LogHelper.showInfo("[" + sender.getName() + " #####spawnGoWorldOtherNotify", target);
+			}
+		} else {
+			if (sender.equals(target)){
+				LogHelper.showInfo("spawnGoGlobal", sender);
+			} else {
+				LogHelper.showInfo("[" + target.getName() + " #####spawnGoGlobalOtherConfirm", sender);
+				LogHelper.showInfo("[" + sender.getName() + " #####spawnGoGlobalOtherNotify", target);
+			}
+		}
+		return true;
 	}
 	
 	/***
