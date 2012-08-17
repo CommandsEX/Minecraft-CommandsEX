@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -7,21 +8,21 @@ import com.github.zathrus_writer.commandsex.Vault;
 
 public class Permissions {
 	
-	public static Boolean checkPermEx(Player player, String perm) {
-		if (CommandsEX.vaultPresent) {
-			return Vault.checkPerm(player, perm);
+	public static Boolean checkPermEx(CommandSender sender, String perm) {
+		if (CommandsEX.vaultPresent && sender instanceof Player) {
+			return Vault.checkPerm((Player) sender, perm);
 		} else {
-			return player.hasPermission(perm);
+			return sender.hasPermission(perm);
 		}
 	}
 	
 	/***
 	 * Check whether given player has required permission.
-	 * @param player
+	 * @param sender
 	 * @param customPerm
 	 * @return
 	 */
-	public static Boolean checkPerms(Player player, String... customPerm) {
+	public static Boolean checkPerms(CommandSender sender, String... customPerm) {
 		// if we have custom permissions to check, the behaviour is as follows...
 		// the first parameter MUST BE either "AND" or "OR" (exception = when only 1 node is being checked)
 		// ... this will allow us to see if we should check whether the player has either one
@@ -31,12 +32,12 @@ public class Permissions {
 		int cLength = customPerm.length;
 		if (cLength == 1) {
 			// only a single node is being checked
-			hasPerms = checkPermEx(player, customPerm[0]);
+			hasPerms = checkPermEx(sender, customPerm[0]);
 		} else if (cLength > 1) {
 			// multiple nodes check
 			if (customPerm[0].equals("OR") || customPerm[0].equals("AND")) {
 				for (int i = 1; i < cLength; i++) {
-					hasPerms = checkPermEx(player, customPerm[i]);
+					hasPerms = checkPermEx(sender, customPerm[i]);
 
 					// only 1 permission node must be present, check if this one can pull it off
 					if (customPerm[0].equals("OR") && hasPerms) {
@@ -45,7 +46,7 @@ public class Permissions {
 					
 					// all permissions must be true if we're handling "AND", check it here
 					if (customPerm[0].equals("AND") && !hasPerms) {
-						LogHelper.showWarning("insufficientPerms", player);
+						LogHelper.showWarning("insufficientPerms", sender);
 						return false;
 					}
 				}
@@ -61,7 +62,7 @@ public class Permissions {
 		}
 		
 		if (!hasPerms) {
-			LogHelper.showWarning("insufficientPerms", player);
+			LogHelper.showWarning("insufficientPerms", sender);
 		}
 		
 		return hasPerms;
