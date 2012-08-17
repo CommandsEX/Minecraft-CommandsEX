@@ -55,7 +55,7 @@ public class Command_cex_warp extends Warps {
 					}
 				} else if ((args.length == 1 || args.length == 2) && (Permissions.checkPerms(sender, "cex.warp.own") || Permissions.checkPerms(sender, "cex.warp")) && hasPerms) {
 					/***
-					 * WARP <Name>
+					 * WARP [Player] <Name>
 					 */
 					warp(sender, args, "warp", alias);
 				} else if (hasPerms) {

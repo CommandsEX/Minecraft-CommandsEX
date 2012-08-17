@@ -165,6 +165,9 @@ permissions:
   cex.warp.others:
     default: op
     description: Allows the player to teleport any other player to any warp they have permission to
+  cex.warp.*:
+    default: op
+    description: Allows access to all warps
   cex.ban:
     default: op
     description: Allows player to ban players from the server.

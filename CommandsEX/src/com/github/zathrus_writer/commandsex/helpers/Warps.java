@@ -233,7 +233,7 @@ public class Warps {
 						numWarps++;
 						foundWarpName = res.getString("warp_name");
 						// check if player is allowed to go to this warp
-						if (!sender.hasPermission("cex.warp.any") && !res.getBoolean("is_public") && !res.getString("owner_name").equals(sName)) {
+						if (!sender.hasPermission("cex.warp.any") && !res.getBoolean("is_public") && !res.getString("owner_name").equals(sName) && !sender.hasPermission("cex.warp." + foundWarpName)) {
 							// player is not allowed in
 							LogHelper.showWarning("warpNotAllowed", sender);
 							return true;
