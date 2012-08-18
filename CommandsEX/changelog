@@ -9,6 +9,7 @@ Key:
 Beta 1.90
 ---------
 
++ added command /seed to show the seed of any world, even from the console
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
 + players with permission can now teleport other players to any warp they have permission to
 + the warp command now has support for per-warp permissions
@@ -22,6 +23,7 @@ Beta 1.90
 # new perm cex.warp.others
 # new perm cex.warp.*
 # new perm cex.spawn.others
+# new perm cex.seed
 
 Beta 1.85
 ---------

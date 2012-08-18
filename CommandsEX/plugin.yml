@@ -578,6 +578,9 @@ permissions:
   cex.nick.others:
     default: op
     description: Allows the player to set others nicknames
+  cex.seed:
+    default: op
+    description: Allows the player to use /seed
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1298,3 +1301,9 @@ commands:
     permission: cex.nick
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [nickname, nick, displayname]
+  cex_seed:
+    description: Shows a worlds seed
+    usage: /<command> [world]
+    permission: cex.seed
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [seed, worldseed]

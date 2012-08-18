@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Villager.Profession;
@@ -114,6 +116,20 @@ public class ClosestMatches {
         		return Arrays.asList(type);
             } else if (type.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(type);
+            }
+        }
+        
+        return matches;
+	}
+	
+	public static List<World> world(String input){
+		ArrayList<World> matches = new ArrayList<World>();
+        
+        for (World w : Bukkit.getWorlds()){
+        	if ((w.getName().toLowerCase().equals(input.toLowerCase()) || String.valueOf(w.getUID()).equals(input))){
+        		return Arrays.asList(w);
+            } else if (w.getName().toLowerCase().contains(input.toLowerCase())){
+            	matches.add(w);
             }
         }
         

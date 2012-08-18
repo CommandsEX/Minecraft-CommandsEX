@@ -78,6 +78,7 @@ public class Permissions {
 		if (CommandsEX.vaultPresent && Vault.permsEnabled()) {
 			Vault.perms.playerAdd(p, perm);
 		}
+		checkPerms(p, perm);
 		
 		return true;
 	}
