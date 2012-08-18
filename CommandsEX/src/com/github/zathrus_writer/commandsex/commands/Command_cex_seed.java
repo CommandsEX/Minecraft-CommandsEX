@@ -16,6 +16,14 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_seed {
 
+	/***
+	 * Seed - shows the seed of any world, even from the console
+	 * @param sender
+	 * @param alias
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		World world = null;
 		

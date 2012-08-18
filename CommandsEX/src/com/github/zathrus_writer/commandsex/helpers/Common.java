@@ -60,6 +60,9 @@ public class Common implements Listener {
 	public static List<String> godPlayers = new ArrayList<String>();
 	public static List<String> slappedPlayers = new ArrayList<String>();
 	public static List<String> invisiblePlayers = new ArrayList<String>();
+	public static List<String> keepInventoryDisabledPlayers = new ArrayList<String>();
+	
+	
 	public static Map<String, Location> slappedLastLocations = new HashMap<String, Location>();
 	public static Map<String, Integer> slappedUnslapTasks = new HashMap<String, Integer>();
 

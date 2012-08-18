@@ -13,6 +13,10 @@ import com.github.zathrus_writer.commandsex.SQLManager;
 
 public class Nicknames implements Listener {
 
+	/***
+	 * Nicknames - A collection of methods to handle nicknames
+	 */
+	
 	public Nicknames(){
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
@@ -26,6 +30,7 @@ public class Nicknames implements Listener {
 		// create the tables and columns if they do not exist
 		SQLManager.query((SQLManager.sqlType.equals("mysql") ? "" : "BEGIN; ") + "CREATE TABLE IF NOT EXISTS " + SQLManager.prefix + "nicknames (player_name varchar(32) NOT NULL, nickname varchar(32) NOT NULL)" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores players nicknames'" : "; COMMIT;"));
 		
+		// register events
 		new Nicknames();
 	}
 	

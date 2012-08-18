@@ -48,6 +48,7 @@ public class Command_cex_nickname extends Nicknames {
 			nickTo = args[1];
 		}
 		
+		// if nickto = reset then reset their nickname to default
 		if (nickTo.equalsIgnoreCase("reset")){
 			resetNick(target);
 			
