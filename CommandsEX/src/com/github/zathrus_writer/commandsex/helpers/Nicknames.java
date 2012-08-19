@@ -73,27 +73,7 @@ public class Nicknames implements Listener {
 	 */
 	
 	public static void showNick(Player player){
-		// their default nickname is their player name
-		String nickname = player.getName();
-		
-		if (CommandsEX.sqlEnabled){
-			// get results from db
-			ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", player.getName());
-			
-			try {
-				if (res.next()){
-					nickname = res.getString("nickname");
-				}
-				
-				res.close();
-			} catch (SQLException e) {
-				if (CommandsEX.getConf().getBoolean("debugMode")){
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		showNick(player, nickname);
+		showNick(player, getNick(player));
 	}
 	
 	/***
@@ -137,6 +117,36 @@ public class Nicknames implements Listener {
 		
 		// remove the entry from the database
 		SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
+	}
+	
+	/***
+	 * Function to get a players nickname
+	 * @param player
+	 * @return
+	 */
+	
+	public static String getNick(Player player){
+		// their default nickname is their player name
+		String nickname = player.getName();
+
+		if (CommandsEX.sqlEnabled){
+			// get results from db
+			ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", player.getName());
+
+			try {
+				if (res.next()){
+					nickname = res.getString("nickname");
+				}
+
+				res.close();
+			} catch (SQLException e) {
+				if (CommandsEX.getConf().getBoolean("debugMode")){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return nickname;
 	}
 	
 }
