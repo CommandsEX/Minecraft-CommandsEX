@@ -170,13 +170,27 @@ public class Nicknames implements Listener {
 	public static void saveNicks(){
 		// we can't save the nicknames if the database is disabled
 		if (CommandsEX.sqlEnabled){
+			// delete rows from the database if the key is not in the HashMap, used for when a nickname is reset
+			// and the row is no longer in the table
+			try {
+				ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
+				while (rs.next()){
+					if (!nicknames.containsKey(rs.getString("player_name"))){
+						rs.deleteRow();
+					}
+				}
+			} catch (SQLException ex){
+				if (CommandsEX.getConf().getBoolean("debugMode")){
+					ex.printStackTrace();
+				}
+			}
+			
 			for (String pName : nicknames.keySet()){
 				String nickname = nicknames.get(pName);
 				
 				// insert or replace nickname into the database
-				ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
-
 				try {
+					ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
 					// if a nickname is already in the database, overwrite it otherwise create it
 					if (!res.next()){
 						SQLManager.query("INSERT " + (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") + "INTO " + SQLManager.prefix + "nicknames (player_name, nickname) SELECT ? AS player_name, ? AS nickname", pName, nickname);
