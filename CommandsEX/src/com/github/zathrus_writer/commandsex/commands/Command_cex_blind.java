@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_blind {
@@ -62,9 +63,9 @@ public class Command_cex_blind {
 		}
 		
 		target.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 0));
-		LogHelper.showInfo("blindConfirm#####[" + target.getName(), sender, ChatColor.AQUA);
+		LogHelper.showInfo("blindConfirm#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
 		if (sender != target){
-			LogHelper.showInfo("blindNotify#####[" + sender.getName(), target, ChatColor.AQUA);
+			LogHelper.showInfo("blindNotify#####[" + Nicknames.getNick(sender.getName()), target, ChatColor.AQUA);
 		}
 		
 		return true;

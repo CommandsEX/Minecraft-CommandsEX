@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.zathrus_writer.commandsex.handlers.Handler_nanosuit;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -131,10 +132,10 @@ public class Command_cex_clear {
 			// tell the cleaner and the player whose inventory we cleared
 			LogHelper.showInfo("inventoryCleared", sender);
 			if (!p.getName().equals(sender.getName())) {
-				if (sender.getName().toLowerCase() == "console") {
+				if (sender instanceof Player) {
 					LogHelper.showInfo("yourInventoryCleared", p);
 				} else {
-					LogHelper.showInfo("inventoryClearedBy#####[" + sender.getName(), p);
+					LogHelper.showInfo("inventoryClearedBy#####[" + Nicknames.getNick(sender.getName()), p);
 				}
 				
 			}

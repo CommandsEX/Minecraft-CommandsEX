@@ -36,7 +36,7 @@ public class Command_cex_ban extends Bans {
 			
 			// permissions ok
 			if (hasBypass) {
-				LogHelper.showWarning("[" + beingBanned.getName() + " #####bansBanBypassMessage", sender);
+				LogHelper.showWarning("[" + beingBanned.getDisplayName() + " #####bansBanBypassMessage", sender);
 				return true;
 			}
 			if (hasPerms) {

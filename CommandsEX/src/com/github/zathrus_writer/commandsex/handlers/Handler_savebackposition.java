@@ -40,7 +40,6 @@ public class Handler_savebackposition implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void saveBackPosition(PlayerTeleportEvent e) {
 		String pName = e.getPlayer().getName();
-		
 		// remove player from omitted players once we determine not to store their position here
 		if (omittedPlayers.contains(pName)) {
 			omittedPlayers.remove(pName);

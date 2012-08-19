@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_blindall {
@@ -40,7 +41,7 @@ public class Command_cex_blindall {
 		for (Player player : Bukkit.getOnlinePlayers()){
 			if (sender != player){
 				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, time, 0));
-				LogHelper.showInfo("blindNotify#####[" + sender.getName(), player, ChatColor.AQUA);
+				LogHelper.showInfo("blindNotify#####[" + Nicknames.getNick(sender.getName()), player, ChatColor.AQUA);
 			}
 		}
 		LogHelper.showInfo("blindAllConfirm", sender, ChatColor.AQUA);

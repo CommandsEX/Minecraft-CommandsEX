@@ -45,6 +45,8 @@ public class Bans {
     		this.pName = pName;
     	}
     	
+    	String pDispName = Nicknames.getNick(this.pName);
+    	
     	public void run() {
     		// update database info if we can
     		if (CommandsEX.sqlEnabled) {
@@ -63,7 +65,7 @@ public class Bans {
     		
     		// tell everyone if not disallowed in config or not an IP address (so we don't foolishly reveal IP addresses that were banned :))
 			if (!CommandsEX.getConf().getBoolean("silentBans") && !ipMatched) {
-				CommandsEX.plugin.getServer().broadcastMessage(ChatColor.GREEN + this.pName + " " + _("bansPlayerPardoned", ""));
+				CommandsEX.plugin.getServer().broadcastMessage(ChatColor.GREEN + pDispName + " " + _("bansPlayerPardoned", ""));
 			}
     	}
     }
@@ -182,6 +184,14 @@ public class Bans {
 			pName = p.getName();
 		}
 		
+		String pDispName;
+		
+		try {
+			pDispName = Nicknames.getNick(pName);
+		} catch (Exception ex){
+			pDispName = pName;
+		}
+		
 		// check if we have expiration date present
 		Map<String, Integer> t;
 		try {
@@ -250,7 +260,7 @@ public class Bans {
 
 		// tell everyone if not disallowed in config
 		if (!CommandsEX.getConf().getBoolean("silentBans")) {
-			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!reason.equals("") ? (pName + " " + _("bansBeingBannedForMessage", "") + reason) : pName + " " + _("bansBeingBannedMessage", "")) + (!t.containsKey("not_found") ? " " + _("for", "") + " " + args[1].replace("t:", "") : ""));
+			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!reason.equals("") ? (pDispName + " " + _("bansBeingBannedForMessage", "") + reason) : pDispName + " " + _("bansBeingBannedMessage", "")) + (!t.containsKey("not_found") ? " " + _("for", "") + " " + args[1].replace("t:", "") : ""));
 		}
 
 		// at last, kick the player if still online
@@ -384,6 +394,8 @@ public class Bans {
 					pName = p.getName();
 				}
 				
+				String pDispName = Nicknames.getNick(pName);
+
 				ResultSet res = SQLManager.query_res("SELECT player_name, creation_date, expiration_date, creator, reason FROM " + SQLManager.prefix + "bans WHERE player_name = ? AND active = 1", pName);
 				while (res.next()) {
 					// assemble readable dates
@@ -392,7 +404,7 @@ public class Bans {
 					final String expiration_date = dateFormat.format(res.getTimestamp("expiration_date").getTime());
 					
 					// return info about the player and his current ban
-					LogHelper.showInfo("[" + res.getString("player_name") + " #####bansPlayerIsBanned#####[" + creation_date + " #####byPlayer#####[ " + res.getString("creator") + "#####[.", sender);
+					LogHelper.showInfo("[" + pDispName + " #####bansPlayerIsBanned#####[" + creation_date + " #####byPlayer#####[ " + Nicknames.getNick(res.getString("creator")) + "#####[.", sender);
 					LogHelper.showInfo("bansReason#####[" + res.getString("reason"), sender, ChatColor.YELLOW);
 					
 					// return data with regards to permanent / temporary ban duration
@@ -427,7 +439,7 @@ public class Bans {
 				res.close();
 				
 				// if we're here, it means the player has no ban history whatsoever
-				LogHelper.showInfo("[" + pName + " #####bansPlayerNotBanned", sender);
+				LogHelper.showInfo("[" + pDispName + " #####bansPlayerNotBanned", sender);
 			} catch (Throwable e) {
 				// unable to ban the IP
 				LogHelper.showWarning("internalError", sender);
@@ -470,6 +482,8 @@ public class Bans {
 					pName = p.getName();
 				}
 				
+				String pDispName = Nicknames.getNick(pName);
+				
 				ResultSet res = SQLManager.query_res("SELECT player_name, creation_date, expiration_date, creator, reason FROM " + SQLManager.prefix + "bans WHERE player_name = ?", pName);
 				List<String> finalResult = new ArrayList<String>();
 				finalResult.add(ChatColor.AQUA + _("bansHistory1", ""));
@@ -482,7 +496,7 @@ public class Bans {
 					final String expiration_date = dateFormat.format(res.getTimestamp("expiration_date").getTime());
 					
 					// return info about the player and his current ban
-					finalResult.add(ChatColor.YELLOW + res.getString("player_name") + " " + _("bansPlayerIsBanned", "") + creation_date + " " + _("byPlayer", "") + " " + res.getString("creator") + ".");
+					finalResult.add(ChatColor.YELLOW + pDispName + " " + _("bansPlayerIsBanned", "") + creation_date + " " + _("byPlayer", "") + " " + Nicknames.getNick(res.getString("creator")) + ".");
 					finalResult.add(ChatColor.YELLOW + _("bansReason", "") + res.getString("reason"));
 					
 					// return data with regards to permanent / temporary ban duration
@@ -521,7 +535,7 @@ public class Bans {
 				
 				if (finalResult.size() == 2) {
 					// no ban history for the player
-					LogHelper.showInfo("[" + pName + " #####bansNoBanHistory", sender);
+					LogHelper.showInfo("[" + pDispName + " #####bansNoBanHistory", sender);
 				} else {
 					// show what we've got :)
 					for (String s : finalResult) {

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_burn {
@@ -93,8 +94,8 @@ public class Command_cex_burn {
 		}
 		
 		target.setFireTicks(time);
-		if (target != sender){ LogHelper.showInfo("burnSuccess#####[" + target.getName() + " #####for#####[ " + time / 20 + " #####seconds", sender, ChatColor.AQUA); }
-		LogHelper.showInfo("burnNotify#####[" + target.getName() + " #####for#####[ " + time / 20 + " #####seconds", target, ChatColor.AQUA);
+		if (target != sender){ LogHelper.showInfo("burnSuccess#####[" + Nicknames.getNick(target.getName()) + " #####for#####[ " + time / 20 + " #####seconds", sender, ChatColor.AQUA); }
+		LogHelper.showInfo("burnNotify#####[" + Nicknames.getNick(sender.getName()) + " #####for#####[ " + time / 20 + " #####seconds", target, ChatColor.AQUA);
 		return true;
 	}
 	
