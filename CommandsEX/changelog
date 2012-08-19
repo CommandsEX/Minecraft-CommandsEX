@@ -25,6 +25,7 @@ Beta 1.90
 * fixed 2 bugs in /butcher command
 * fixed message when being notified that someone has used /burn on you
 * fixed some bad code in /clear command
+* fixed /inv not working if fakeJoin and/or fakeLeave messages are disabled
 
 # new perm cex.warp.others
 # new perm cex.warp.*

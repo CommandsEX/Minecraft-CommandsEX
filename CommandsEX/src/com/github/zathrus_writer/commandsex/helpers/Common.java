@@ -449,6 +449,7 @@ public class Common implements Listener {
 		String pName = player.getName();
 		Boolean isInvisible = invisiblePlayers.contains(pName);
 		
+		// use VanishNoPacket to handle invisibility if found
 		if (CommandsEX.vanishNoPacketPresent){
 			try {
 				VanishNoPacket.toggleVanishSilent(player);
@@ -466,11 +467,16 @@ public class Common implements Listener {
 				((CraftServer) player.getServer()).getHandle().sendAll(
 						new Packet201PlayerInfo(ePlayer.listName, false, 9999));
 				
-				
+				for (Player p : Bukkit.getOnlinePlayers()){
+					p.hidePlayer(player);
+				}
 			} else {
 				invisiblePlayers.remove(pName);
 				((CraftServer) player.getServer()).getHandle().sendAll(
 						new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
+				for (Player p : Bukkit.getOnlinePlayers()){
+					p.showPlayer(player);
+				}
 			}
 			
 			// if there are no more frozen players left, we don't need our event listeners, so unregister them
@@ -490,6 +496,7 @@ public class Common implements Listener {
 			}
 		}
 		
+		// send fake messages
 		if (isInvisible){
 			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
@@ -499,8 +506,6 @@ public class Common implements Listener {
 					} catch (Exception ex){
 						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
 					}
-					
-					p.hidePlayer(player);
 				}
 			}
 		} else {
@@ -512,8 +517,6 @@ public class Common implements Listener {
 					} catch (Exception ex){
 						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
 					}
-
-					p.showPlayer(player);
 				}
 			}
 		}
