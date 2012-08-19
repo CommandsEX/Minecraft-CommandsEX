@@ -42,6 +42,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
+import org.kitteh.vanish.staticaccess.VanishNoPacket;
+import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -447,13 +449,48 @@ public class Common implements Listener {
 		String pName = player.getName();
 		Boolean isInvisible = invisiblePlayers.contains(pName);
 		
-		EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
-		
-		if (!isInvisible) {
-			invisiblePlayers.add(pName);
-			((CraftServer) player.getServer()).getHandle().sendAll(
-					new Packet201PlayerInfo(ePlayer.listName, false, 9999));
+		if (CommandsEX.vanishNoPacketPresent){
+			try {
+				VanishNoPacket.toggleVanishSilent(player);
+				isInvisible = VanishNoPacket.isVanished(pName);
+			} catch (VanishNotLoadedException e) {
+				if (CommandsEX.getConf().getBoolean("debugMode")){
+					e.printStackTrace();
+				}
+			}
+		} else {
+			EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
 			
+			if (!isInvisible) {
+				invisiblePlayers.add(pName);
+				((CraftServer) player.getServer()).getHandle().sendAll(
+						new Packet201PlayerInfo(ePlayer.listName, false, 9999));
+				
+				
+			} else {
+				invisiblePlayers.remove(pName);
+				((CraftServer) player.getServer()).getHandle().sendAll(
+						new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
+			}
+			
+			// if there are no more frozen players left, we don't need our event listeners, so unregister them
+			if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
+				HandlerList.unregisterAll(Common.plugin);
+			} else {
+				CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
+			}
+
+			if (showMessages) {
+				// inform the player
+				if (isInvisible) {
+					LogHelper.showInfo("invYouAreVisible", sender);
+				} else {
+					LogHelper.showInfo("invYouAreInvisible", sender);
+				}
+			}
+		}
+		
+		if (isInvisible){
 			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
 					try {
@@ -467,10 +504,6 @@ public class Common implements Listener {
 				}
 			}
 		} else {
-			invisiblePlayers.remove(pName);
-			((CraftServer) player.getServer()).getHandle().sendAll(
-					new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
-			
 			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
 					try {
@@ -485,22 +518,6 @@ public class Common implements Listener {
 			}
 		}
 		
-		// if there are no more frozen players left, we don't need our event listeners, so unregister them
-		if ((frozenPlayers.size() == 0) && (godPlayers.size() == 0) && (slappedPlayers.size() == 0) && (invisiblePlayers.size() == 0)) {
-			HandlerList.unregisterAll(Common.plugin);
-		} else {
-			CommandsEX.plugin.getServer().getPluginManager().registerEvents(Common.plugin, CommandsEX.plugin);
-		}
-
-		if (showMessages) {
-			// inform the player
-			if (isInvisible) {
-				LogHelper.showInfo("invYouAreVisible", sender);
-			} else {
-				LogHelper.showInfo("invYouAreInvisible", sender);
-			}
-		}
-
 		return true;
 	}
 

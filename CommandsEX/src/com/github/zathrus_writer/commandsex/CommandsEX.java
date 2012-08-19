@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
@@ -69,6 +70,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static List<String> onDisableFunctions = new ArrayList<String>();
 	// true if Vault plugin was found in the server installation
 	public static Boolean vaultPresent = false;
+	// true if VanishNoPacket plugin was found in the server installation
+	public static Boolean vanishNoPacketPresent = false;
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
 
@@ -96,6 +99,12 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			new Vault();
 			vaultPresent = true;
 		} catch (Throwable e) {}
+		
+		// check for VanishNoPacket plugin presence
+		try {
+			new VanishNoPacket();
+			vanishNoPacketPresent = true;
+		} catch (Throwable e){}
 		
 		// set up commands listener
 		cListener = new Commands(this);

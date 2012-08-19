@@ -5,7 +5,7 @@ name: CommandsEX
 load: postworld
 version: 'Beta 1.85'
 website: http://dev.bukkit.org/server-mods/commandsex
-softdepend: [Vault]
+softdepend: [Vault, VanishNoPacket]
 permissions:
   cex.allowspamcommands:
     default: op

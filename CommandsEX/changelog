@@ -13,6 +13,7 @@ Beta 1.90
 + added command /nick to set a players nickname
 + added command /whois to find out the username behind a nickname
 + added AutoSave functionality to auto-save players, worlds & nicknames
++ added VanishNoPacket support, if a player does /inv when VanishNoPacket is installed VanishNoPacket will be used instead
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
 + players with permission can now teleport other players to any warp they have permission to
 + the warp command now has support for per-warp permissions
@@ -29,6 +30,7 @@ Beta 1.90
 # new perm cex.warp.*
 # new perm cex.spawn.others
 # new perm cex.seed
+# new perm cex.whois
 
 Beta 1.85
 ---------
