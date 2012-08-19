@@ -504,7 +504,10 @@ public class Common implements Listener {
 						Handler_condensejoins.fakeLeaves.add(pName);
 						Handler_condensejoins.handleLeave(pName);
 					} catch (Exception ex){
-						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
+						// if condense joins is not found, send it manually
+						if (p.hasPermission("cex.seejoins")){
+							p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
+						}
 					}
 				}
 			}
@@ -515,7 +518,10 @@ public class Common implements Listener {
 						Handler_condensejoins.fakeJoins.add(pName);
 						Handler_condensejoins.handleJoin(pName);
 					} catch (Exception ex){
-						p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
+						// if condense joins is not found, send it manually
+						if (p.hasPermission("cex.seeleaves")){
+							p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
+						}
 					}
 				}
 			}
