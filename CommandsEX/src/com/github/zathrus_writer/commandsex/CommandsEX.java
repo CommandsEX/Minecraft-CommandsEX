@@ -31,6 +31,7 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Metrics;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CommandsEX extends JavaPlugin implements Listener {
@@ -236,6 +237,12 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	 */
 	@Override
 	public void onDisable() {
+		// save nicknames to database from HashMap
+		try {
+			Nicknames.saveNicks();
+		} catch (Exception ex){
+		}
+		
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
 		
