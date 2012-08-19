@@ -120,18 +120,38 @@ public class Nicknames implements Listener {
 	}
 	
 	/***
+	 * Function to reset a players nickname
+	 * @param pName
+	 */
+	
+	public static void resetNick(String pName){
+		// remove the entry from the database
+		SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
+	}
+	
+	/***
 	 * Function to get a players nickname
 	 * @param player
 	 * @return
 	 */
 	
 	public static String getNick(Player player){
+		return getNick(player.getName());
+	}
+	
+	/***
+	 * Function to get a players nickname
+	 * @param pName
+	 * @return
+	 */
+	
+	public static String getNick(String pName){
 		// their default nickname is their player name
-		String nickname = player.getName();
+		String nickname = pName;
 
 		if (CommandsEX.sqlEnabled){
 			// get results from db
-			ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", player.getName());
+			ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
 
 			try {
 				if (res.next()){
