@@ -581,6 +581,9 @@ permissions:
   cex.seed:
     default: op
     description: Allows the player to use /seed
+  cex.whois:
+    default: op
+    description: Allows the player to use /whois
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1307,3 +1310,9 @@ commands:
     permission: cex.seed
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [seed, worldseed]
+  cex_whois:
+    description: Shows the username behind a nickname
+    usage: /<command> <player-nickname> [result-number]
+    permission: cex.whois
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [whois]

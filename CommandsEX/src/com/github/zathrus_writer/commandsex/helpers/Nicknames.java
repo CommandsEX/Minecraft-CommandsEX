@@ -45,7 +45,7 @@ public class Nicknames implements Listener {
 		if (CommandsEX.sqlEnabled){
 			// insert or replace nickname into the database
 			ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
-			
+
 			try {
 				// if a nickname is already in the database, overwrite it otherwise create it
 				if (!res.next()){
@@ -54,9 +54,7 @@ public class Nicknames implements Listener {
 					SQLManager.query("UPDATE " + SQLManager.prefix + "nicknames SET player_name = ?, nickname = ? WHERE player_name = ?", pName, nickname, pName);
 				}
 			} catch (SQLException e) {
-				if (CommandsEX.getConf().getBoolean("debugMode")){
-					e.printStackTrace();
-				}
+				// catch the exception if the table does not exist
 			}
 		}
 		
@@ -115,8 +113,12 @@ public class Nicknames implements Listener {
 		player.setDisplayName(pName);
 		player.setPlayerListName(pName);
 		
-		// remove the entry from the database
-		SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
+		try {
+			// remove the entry from the database
+			SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
+		} catch (Exception ex){
+			// catch the exception if the table does not exist
+		}
 	}
 	
 	/***
@@ -160,9 +162,7 @@ public class Nicknames implements Listener {
 
 				res.close();
 			} catch (SQLException e) {
-				if (CommandsEX.getConf().getBoolean("debugMode")){
-					e.printStackTrace();
-				}
+				// catch the exception if the table does not exist
 			}
 		}
 		

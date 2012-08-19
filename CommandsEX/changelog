@@ -10,6 +10,8 @@ Beta 1.90
 ---------
 
 + added command /seed to show the seed of any world, even from the console
++ added command /nick to set a players nickname
++ added command /whois to find out the username behind a nickname
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
 + players with permission can now teleport other players to any warp they have permission to
 + the warp command now has support for per-warp permissions
@@ -19,6 +21,8 @@ Beta 1.90
 @ /give and /item command now works the vanilla way too (/give iKeirNez 90 5 2) meaning you won't have to edit TooManyItem's settings if you use that
 
 * fixed 2 bugs in /butcher command
+* fixed message when being notified that someone has used /burn on you
+* fixed some bad code in /clear command
 
 # new perm cex.warp.others
 # new perm cex.warp.*
