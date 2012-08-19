@@ -677,6 +677,9 @@ permissions:
   Init.Nicknames:
     default: true
     description: Placeholder for initialization function used to set players nicknames.
+  Init.AutoSaving:
+    default: true
+    description: Placeholder for initialization function used to autosave various things
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

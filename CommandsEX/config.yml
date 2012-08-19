@@ -414,3 +414,16 @@ perWorldSpawn: false
 
 # This will appear before a players name if they have a nickname
 nicknamePrefix: '~'
+
+autoSave:
+  time: 1800
+  players: true
+  worlds: true
+  nicknames: true
+  prefix: '&d[AutoSave] '
+  messagesBegin:
+    - '&6The server is now being saved'
+    - '&6Some lag may occur during this'
+  messagesFinish:
+    - '&6The server has finished saving'
+    - '&6Gameplay will return to normal'

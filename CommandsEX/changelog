@@ -12,6 +12,7 @@ Beta 1.90
 + added command /seed to show the seed of any world, even from the console
 + added command /nick to set a players nickname
 + added command /whois to find out the username behind a nickname
++ added AutoSave functionality to auto-save players, worlds & nicknames
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
 + players with permission can now teleport other players to any warp they have permission to
 + the warp command now has support for per-warp permissions
