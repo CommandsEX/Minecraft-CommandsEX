@@ -586,7 +586,7 @@ permissions:
     description: Allows the player to use /whois
   cex.whois.ip:
     default: op
-    descriptionL Allows the player to see user IP addresses in /whois
+    description: Allows the player to see user IP addresses in /whois
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.

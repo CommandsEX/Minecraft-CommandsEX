@@ -43,7 +43,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
 import org.kitteh.vanish.staticaccess.VanishNoPacket;
-import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -454,7 +453,7 @@ public class Common implements Listener {
 			try {
 				VanishNoPacket.toggleVanishSilent(player);
 				isInvisible = VanishNoPacket.isVanished(pName);
-			} catch (VanishNotLoadedException e) {
+			} catch (Exception e) {
 				if (CommandsEX.getConf().getBoolean("debugMode")){
 					e.printStackTrace();
 				}
