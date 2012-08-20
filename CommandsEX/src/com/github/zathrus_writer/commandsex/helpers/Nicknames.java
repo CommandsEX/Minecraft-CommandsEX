@@ -157,7 +157,7 @@ public class Nicknames implements Listener {
 		String nickname = pName;
 		
 		if (nicknames.containsKey(pName)){
-			nickname = nicknames.get(pName);
+			nickname = Utils.replaceChatColors(nicknames.get(pName));
 		}
 		
 		return nickname;
