@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -24,7 +25,7 @@ public class Command_cex_tpall extends Teleportation {
 		if (PlayerHelper.checkIsPlayer(sender)){
 			Player player = (Player) sender;
 
-			if (Utils.checkCommandSpam(player, "cex_calculator")){
+			if (Utils.checkCommandSpam(player, "cex_tpall")){
 				return true;
 			}
 
@@ -42,7 +43,7 @@ public class Command_cex_tpall extends Teleportation {
 						if (player2 != tpTo){
 							String[] newargs = {tpTo.getName(), player2.getName()};
 							tp_common(sender, newargs, "tpto", alias);
-							LogHelper.showInfo("tpTeleport#####[" + " " + player.getName(), player2, ChatColor.GREEN);
+							LogHelper.showInfo("tpTeleport#####[ " + Nicknames.getNick(player.getName()), player2, ChatColor.GREEN);
 						}
 					}
 					LogHelper.showInfo("tpAllSuccess", player, ChatColor.GREEN);

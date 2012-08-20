@@ -124,7 +124,7 @@ public class Chat implements Listener {
 		CommandsEX.plugin.getServer().getPluginManager().registerEvents(Chat.plugin, CommandsEX.plugin);
 		
 		// inform muted player and command sender
-		LogHelper.showInfo("[" + pName + " #####chatPlayerMuted#####" + ((plusValue > 0) ? "for#####" + "[ " + plusValue + "#####[ #####seconds" : "chatPlayerMutedIndefinite"), sender);
+		LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####chatPlayerMuted#####" + ((plusValue > 0) ? "for#####" + "[ " + plusValue + "#####[ #####seconds" : "chatPlayerMutedIndefinite"), sender);
 		LogHelper.showInfo("chatPlayerYouAreMuted", p);
 		
 		return true;
@@ -155,7 +155,7 @@ public class Chat implements Listener {
 				CommandsEX.plugin.getServer().getScheduler().cancelTask(Integer.parseInt(s[1]));
 			}
 			mutedPlayers.remove(pName);
-			LogHelper.showInfo("[" + pName + " #####chatPlayerUnmuted", sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####chatPlayerUnmuted", sender);
 			
 			// unregister listener if we don't need it anymore
 			if (mutedPlayers.size() == 0) {
@@ -163,7 +163,7 @@ public class Chat implements Listener {
 			}
 		} else {
 			// player is not muted
-			LogHelper.showInfo("[" + pName + " #####chatPlayerNotMuted", sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####chatPlayerNotMuted", sender);
 		}
 	
 		return true;

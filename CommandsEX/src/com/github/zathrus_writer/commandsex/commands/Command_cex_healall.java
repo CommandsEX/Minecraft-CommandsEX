@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_healall {
@@ -31,7 +32,7 @@ public class Command_cex_healall {
 		if (args.length == 0){
 			for (Player p : Bukkit.getOnlinePlayers()){
 				p.setHealth(20);
-				LogHelper.showInfo("healHealedBySomeoneElse#####[" + sender.getName(), p, ChatColor.AQUA);
+				LogHelper.showInfo("healHealedBySomeoneElse#####[" + Nicknames.getNick(sender.getName()), p, ChatColor.AQUA);
 			}
 			LogHelper.showInfo("healAllSuccess", sender, ChatColor.GREEN);
 		} else {

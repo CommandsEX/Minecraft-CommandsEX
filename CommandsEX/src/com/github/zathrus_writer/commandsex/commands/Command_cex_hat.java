@@ -72,7 +72,6 @@ public class Command_cex_hat {
 			
 			// Send message
 			LogHelper.showInfo("hatNew", sender);
-			LogHelper.showInfo("hatHowToRem", sender);
 			
 			// done.
 		}

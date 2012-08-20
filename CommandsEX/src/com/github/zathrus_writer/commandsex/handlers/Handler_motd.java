@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Handler_motd implements Listener {
@@ -30,7 +31,7 @@ public class Handler_motd implements Listener {
 			for (String s : Vault.perms.getPlayerGroups((Player) p)) {
 				if (!conf.getString("motd_" + s, "").equals("")) {
 					privateMOTDsent = true;
-					String[] msg = CommandsEX.getConf().getString("motd_" + s).replace("{playername}", p.getName()).split("\\{newline\\}");
+					String[] msg = CommandsEX.getConf().getString("motd_" + s).replace("{playername}", Nicknames.getNick(p.getName())).split("\\{newline\\}");
 					for (String s1 : msg) {
 						p.sendMessage(Utils.replaceChatColors(s1));
 					}
@@ -39,13 +40,13 @@ public class Handler_motd implements Listener {
 			
 			// show generic MOTD in case we did not find a custom one for this player's group
 			if (!privateMOTDsent) {
-				String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", p.getName()).split("\\{newline\\}");
+				String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", Nicknames.getNick(p.getName())).split("\\{newline\\}");
 				for (String s1 : msg) {
 					p.sendMessage(Utils.replaceChatColors(s1));
 				}
 			}
 		} else {
-			String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", p.getName()).split("\\{newline\\}");
+			String[] msg = CommandsEX.getConf().getString("motd").replace("{playername}", Nicknames.getNick(p.getName())).split("\\{newline\\}");
 			for (String s1 : msg) {
 				p.sendMessage(Utils.replaceChatColors(s1));
 			}

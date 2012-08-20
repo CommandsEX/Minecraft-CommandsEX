@@ -163,7 +163,7 @@ public class Common implements Listener {
 		
 		if (showMessages) {
 			// inform both players
-			LogHelper.showInfo("[" + pName + " #####freezePlayerFrozen", sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####freezePlayerFrozen", sender);
 			LogHelper.showInfo("freezeYouAreFrozen1", p);
 			LogHelper.showInfo("freezeYouAreFrozen2", p);
 		}
@@ -205,7 +205,7 @@ public class Common implements Listener {
 		// kick player and tell everyone if set up in the config file
 		p.kickPlayer(ChatColor.RED + (leaveReason.equals("") ? _("kickGenericReason", "") : leaveReason));
 		if (!CommandsEX.getConf().getBoolean("silentKicks")) {
-			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!leaveReason.equals("") ? (pName + " " + _("kickBeingKickedForMessage", "") + leaveReason) : pName + " " + _("kickBeingKickedMessage", "")));
+			CommandsEX.plugin.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + (!leaveReason.equals("") ? (Nicknames.getNick(pName) + " " + _("kickBeingKickedForMessage", "") + leaveReason) : Nicknames.getNick(pName) + " " + _("kickBeingKickedMessage", "")));
 		}
 		
 		return true;
@@ -359,7 +359,7 @@ public class Common implements Listener {
 				LogHelper.showInfo("godModeEnabledForYou", sender);
 			} else {
 				LogHelper.showInfo("godModeEnabledForYou", p);
-				LogHelper.showInfo("[" + pName + " #####godModeEnabled", sender);
+				LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####godModeEnabled", sender);
 			}
 		}
 		
@@ -418,12 +418,12 @@ public class Common implements Listener {
 		if (showMessages) {
 			// inform both players
 			if (!sender.getName().equalsIgnoreCase(target.getName())){
-				LogHelper.showInfo("playerYouWereSlapped#####[" + sender.getName(), target, ChatColor.YELLOW);
+				LogHelper.showInfo("playerYouWereSlapped#####[" + Nicknames.getNick(sender.getName()), target, ChatColor.YELLOW);
 			}
 
 			// Only do this if the command was slap
 			if (command.equalsIgnoreCase("slap")){
-				LogHelper.showInfo("playerSlapped#####[" + tName, sender);
+				LogHelper.showInfo("playerSlapped#####[" + Nicknames.getNick(tName), sender);
 			}
 		}
 

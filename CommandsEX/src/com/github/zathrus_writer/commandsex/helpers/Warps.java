@@ -266,8 +266,8 @@ public class Warps {
 						// teleport player to the warp point
 						Teleportation.delayedTeleport(target, l);
 						if (!sender.equals(target)){
-							LogHelper.showInfo("warpOtherConfirm#####[" + target.getName() + "#####to#####[ " + foundWarpName, sender);
-							LogHelper.showInfo("[" + sender.getName() + " #####warpOtherNotify#####[" + foundWarpName, target);
+							LogHelper.showInfo("warpOtherConfirm#####[" + Nicknames.getNick(target.getName()) + "#####to#####[ " + foundWarpName, sender);
+							LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####warpOtherNotify#####[" + foundWarpName, target);
 						} else {
 							LogHelper.showInfo("warpYouHaveWarpedTo#####[" + foundWarpName, sender);
 						}

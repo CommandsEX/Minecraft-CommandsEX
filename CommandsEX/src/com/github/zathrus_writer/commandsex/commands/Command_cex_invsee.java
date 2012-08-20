@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_invsee {
@@ -40,7 +41,7 @@ public class Command_cex_invsee {
 		
 		Inventory inv = target.getInventory();
 		player.openInventory(inv);
-		LogHelper.showInfo("invSeeNowEditing#####[" + target.getName(), sender, ChatColor.AQUA);
+		LogHelper.showInfo("invSeeNowEditing#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
 		
 		return true;
 	}

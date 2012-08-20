@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -398,5 +399,15 @@ public class Utils {
 		}
 		
 		return type;
+	}
+	
+	/***
+	 * Splits a comma separated string list into a List<String>
+	 * @param s
+	 * @return
+	 */
+	
+	public static List<String> separateCommaList(String s){
+		return Arrays.asList(s.split("\\s*,\\s*"));
 	}
 }

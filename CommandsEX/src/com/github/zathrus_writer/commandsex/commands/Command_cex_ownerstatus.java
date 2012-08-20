@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 
 public class Command_cex_ownerstatus {
 	
@@ -72,31 +73,31 @@ public class Command_cex_ownerstatus {
 		
 		// Is owner is offline 
 		if(owner == null) {
-			LogHelper.showInfo("[" + ownerS + " #####ownerOffline", sender, ChatColor.RED);
+			LogHelper.showInfo("[" + Nicknames.getNick(ownerS) + " #####ownerOffline", sender, ChatColor.RED);
 			return true;
 		}
 		
 		// If owner is dnd
 		if(ownerStatus.equalsIgnoreCase("dnd")) {
-			LogHelper.showInfo("[" + ownerS + " #####ownerDoNotDisturb", sender, ChatColor.DARK_RED);
+			LogHelper.showInfo("[" + Nicknames.getNick(ownerS) + " #####ownerDoNotDisturb", sender, ChatColor.DARK_RED);
 			return true;
 		}
 		
 		// If owner is afk
 		if(ownerStatus.equalsIgnoreCase("afk")) {
-			LogHelper.showInfo("[" + ownerS + " #####ownerAwayFromKeyboard", sender, ChatColor.RED);
+			LogHelper.showInfo("[" + Nicknames.getNick(ownerS) + " #####ownerAwayFromKeyboard", sender, ChatColor.RED);
 			return true;
 		}
 		
 		// Is owner is busy
 		if(ownerStatus.equalsIgnoreCase("busy")) {
-			LogHelper.showInfo("[" + ownerS + " #####ownerBusy", sender, ChatColor.RED);
+			LogHelper.showInfo("[" + Nicknames.getNick(ownerS) + " #####ownerBusy", sender, ChatColor.RED);
 			return true;
 		}
 		
 		// If they are just online
 		if(ownerStatus.equalsIgnoreCase("online")) {
-			LogHelper.showInfo("[" + ownerS + " #####ownerOnline", sender, ChatColor.GREEN);
+			LogHelper.showInfo("[" + Nicknames.getNick(ownerS) + " #####ownerOnline", sender, ChatColor.GREEN);
 			return true;
 		}
 		

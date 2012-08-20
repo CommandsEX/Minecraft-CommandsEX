@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_gm {
@@ -93,8 +94,8 @@ public class Command_cex_gm {
 		
 		target.setGameMode(toGM);
 		if (sender != target){
-			LogHelper.showInfo("gamemodeToSender#####[" + target.getName() + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
-			LogHelper.showInfo("gamemodeNotify#####[" + sender.getName() + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), target, ChatColor.AQUA);
+			LogHelper.showInfo("gamemodeToSender#####[" + Nicknames.getNick(target.getName()) + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
+			LogHelper.showInfo("gamemodeNotify#####[" + Nicknames.getNick(sender.getName()) + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), target, ChatColor.AQUA);
 		} else {
 			LogHelper.showInfo("gamemodeSelf#####[" + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
 		}

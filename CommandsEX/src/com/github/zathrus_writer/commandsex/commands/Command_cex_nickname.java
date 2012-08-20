@@ -53,8 +53,8 @@ public class Command_cex_nickname extends Nicknames {
 			resetNick(target);
 			
 			if (!sender.equals(target)){
-				LogHelper.showInfo("nickResetConfirm#####[" + target.getName(), sender, ChatColor.AQUA);
-				LogHelper.showInfo("[" + sender.getName() + " #####nickResetNotify", target, ChatColor.AQUA);
+				LogHelper.showInfo("nickResetConfirm#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
+				LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####nickResetNotify", target, ChatColor.AQUA);
 			} else {
 				LogHelper.showInfo("nickResetSelf", sender, ChatColor.AQUA);
 			}
@@ -65,8 +65,8 @@ public class Command_cex_nickname extends Nicknames {
 		setNick(target.getName(), nickTo);
 		
 		if (!sender.equals(target)){
-			LogHelper.showInfo("nickConfirm#####[" + target.getName() + " #####nickSetTo#####[" + Utils.replaceChatColors(nickTo), sender, ChatColor.AQUA);
-			LogHelper.showInfo("[" + sender.getName() + " #####nickNotify#####[" + Utils.replaceChatColors(nickTo), target, ChatColor.AQUA);
+			LogHelper.showInfo("nickConfirm#####[" + Nicknames.getNick(target.getName()) + " #####nickSetTo#####[" + Utils.replaceChatColors(nickTo), sender, ChatColor.AQUA);
+			LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####nickNotify#####[" + Utils.replaceChatColors(nickTo), target, ChatColor.AQUA);
 		} else {
 			LogHelper.showInfo("nickSelf#####[" + Utils.replaceChatColors(nickTo), sender, ChatColor.AQUA);
 		}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -73,12 +72,12 @@ public class Teleportation {
 			 */
 			if ((command.equals("tp") && (aLength == 1)) || command.equals("tpto")) {
 				// simple tp to another person
-				sender.sendMessage(ChatColor.GRAY + "Teleporting...");
 				delayedTeleport(player2, player1.getLocation());
+				LogHelper.showInfo("tpTeleport#####[ " + Nicknames.getNick(player2.getName()), sender);
 			} else if ((command.equals("tphere")) || (command.equals("tp") && (aLength > 1))) {
 				// teleporting another player to our position OR first player to second player (via arguments)
-				sender.sendMessage(ChatColor.GRAY + "Teleporting...");
 				delayedTeleport(player1, player2.getLocation());
+				LogHelper.showInfo("[" + Nicknames.getNick(player2.getName()) + "tpHereTeleport", sender);
 			}
 		}
         return true;

@@ -17,6 +17,7 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.ExperienceManager;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_pinfo {
@@ -91,7 +92,7 @@ public class Command_cex_pinfo {
 
 
 		if (function == null || function.equalsIgnoreCase("username") || function.equalsIgnoreCase("ign")) { LogHelper.showInfo("pinfoUsername#####[" + ChatColor.GOLD + target.getName(), sender, ChatColor.GRAY); }
-		if (function == null || function.equalsIgnoreCase("dispname") || function.equalsIgnoreCase("displayname")){ LogHelper.showInfo("pinfoDispName#####[" + ChatColor.GOLD + target.getDisplayName(), sender, ChatColor.GRAY); }
+		if (function == null || function.equalsIgnoreCase("dispname") || function.equalsIgnoreCase("displayname")){ LogHelper.showInfo("pinfoDispName#####[" + ChatColor.GOLD + Nicknames.getNick(target.getName()), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("gamemode") || function.equalsIgnoreCase("gm")) { LogHelper.showInfo("pinfoGameMode#####[" + ChatColor.GOLD + Utils.userFriendlyNames(target.getGameMode().name()), sender, ChatColor.GRAY); }
 		if (function == null || function.equalsIgnoreCase("ip") || function.equalsIgnoreCase("ipaddress")){
 			if (sender != target && !sender.hasPermission("cex.pinfo.others.ip")){

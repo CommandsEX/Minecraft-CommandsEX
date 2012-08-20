@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
@@ -68,7 +69,7 @@ public class Command_cex_tpa {
 						
 						// add names of TPA players and send message
 						Teleportation.tpaRequests.add(id);
-						tpaPlayer.sendMessage(ChatColor.GREEN + player.getName() + " " + _("tpRequest1", sender.getName()));
+						tpaPlayer.sendMessage(ChatColor.GREEN + Nicknames.getNick(player.getName()) + " " + _("tpRequest1", sender.getName()));
 						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
 						tpaPlayer.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
 						
@@ -104,7 +105,7 @@ public class Command_cex_tpa {
 		String[] s = id.split("#####");
 		Player tpaPlayer = Bukkit.getServer().getPlayer(s[0]);
 		if (tpaPlayer != null) {
-			tpaPlayer.sendMessage(ChatColor.RED + _("tpRequestCancelled", tpaPlayer.getName()) + s[1] + ".");
+			tpaPlayer.sendMessage(ChatColor.RED + _("tpRequestCancelled", Nicknames.getNick(tpaPlayer.getName())) + s[1] + ".");
 		}
 	}
 }

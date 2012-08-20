@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
 import com.github.zathrus_writer.commandsex.helpers.TpRequestCanceller;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
@@ -72,7 +73,7 @@ public class Command_cex_tpaall {
 				String id = to.getName() + "#####" + player.getName();
 				Teleportation.tpaallRequests.add(id);
 				// set timeout function that will cancel TPA request if timeout is reached
-				player.sendMessage(ChatColor.GREEN + to.getName() + " " + _("tpRequest1", sender.getName()));
+				player.sendMessage(ChatColor.GREEN + Nicknames.getNick(to.getName()) + " " + _("tpRequest1", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
 				sent++;

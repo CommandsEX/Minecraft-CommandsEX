@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.ExperienceManager;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 
 public class Command_cex_xp {
 
@@ -92,7 +93,7 @@ public class Command_cex_xp {
 				return true;
 			}
 			
-			LogHelper.showInfo((sender != target ? "[" + target.getName() + " #####xpHas#####[" : "xpViewSelf#####[") + expman.getCurrentExp() + " #####xpExperience", sender, ChatColor.AQUA);
+			LogHelper.showInfo((sender != target ? "[" + Nicknames.getNick(target.getName()) + " #####xpHas#####[" : "xpViewSelf#####[") + expman.getCurrentExp() + " #####xpExperience", sender, ChatColor.AQUA);
 			return true;
 		}
 
@@ -116,9 +117,9 @@ public class Command_cex_xp {
 			// If the amount is over the limit, notify the sender
 			if (overLimit) { LogHelper.showInfo("xpCouldNotAddAll", sender, ChatColor.RED); }
 			// Send a message to the target with the actual amount of XP that was set
-			if (sender != target) { LogHelper.showInfo("xpSet#####[" + target.getName() +  " #####xpTo#####[" + (overLimit ? xpMax : amountint), sender, ChatColor.AQUA); }
-			// Send a success message to the sender with the actual amount of XP that was set
-			LogHelper.showInfo((sender != target ? "[" + sender.getName() + " #####xpSetMsgToTarget1#####[" : "xpSetMsgToTarget2#####[") + (overLimit ? xpMax : amountint), target, ChatColor.AQUA);
+			if (sender != target) { LogHelper.showInfo("xpSet#####[" + Nicknames.getNick(target.getName()) +  " #####xpTo#####[" + (overLimit ? xpMax : amountint), sender, ChatColor.AQUA); }
+			// Send a success message to the target with the actual amount of XP that was set
+			LogHelper.showInfo((sender != target ? "[" + Nicknames.getNick(sender.getName()) + " #####xpSetMsgToTarget1#####[" : "xpSetMsgToTarget2#####[") + (overLimit ? xpMax : amountint), target, ChatColor.AQUA);
 		}
 
 		// Add function to add to a players current experience
@@ -146,9 +147,9 @@ public class Command_cex_xp {
 				expman.changeExp(amountint);
 			}
 			// Send a success message to the target with the actual amount of XP that was added
-			if (sender != target) { LogHelper.showInfo("xpAdded#####[" + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience#####[ #####xpTo#####[" + target.getName(), sender, ChatColor.AQUA); }
+			if (sender != target) { LogHelper.showInfo("xpAdded#####[" + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience#####[ #####xpTo#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA); }
 			// Send a success message to the sender with the actual amount of XP that was added
-			LogHelper.showInfo((sender != target ? "[" + sender.getName() + " #####xpAddedGave1#####[" : "xpAddedGave2#####[") + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience", target, ChatColor.AQUA);
+			LogHelper.showInfo((sender != target ? "[" + Nicknames.getNick(sender.getName()) + " #####xpAddedGave1#####[" : "xpAddedGave2#####[") + (overLimit ? xpMax - oldXP : amountint) + " #####xpExperience", target, ChatColor.AQUA);
 		}
 
 		// Take function to take XP from a player
@@ -172,9 +173,9 @@ public class Command_cex_xp {
 			// Send a message to sender saying the target didn't have that amount
 			if (!hasXP) { LogHelper.showInfo("xpNotEnough", sender, ChatColor.RED); }
 			// Alert the target that some of his XP has been stolen and the actual amount of XP taken
-			if (sender != target) { LogHelper.showInfo("xpTaken#####[" + (hasXP ? amountint : oldXP) + " #####xpExperience#####[ #####xpFrom#####[" + target.getName(), sender, ChatColor.AQUA); }
+			if (sender != target) { LogHelper.showInfo("xpTaken#####[" + (hasXP ? amountint : oldXP) + " #####xpExperience#####[ #####xpFrom#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA); }
 			// Send a message to the sender with the actual amount of XP taken
-			LogHelper.showInfo((sender != target ? "[" + sender.getName() + " #####xpTakenTook1#####[" : "xpTakenTook2#####[") + (hasXP ? amountint : oldXP) + " #####xpExperience", target, ChatColor.AQUA);
+			LogHelper.showInfo((sender != target ? "[" + Nicknames.getNick(sender.getName()) + " #####xpTakenTook1#####[" : "xpTakenTook2#####[") + (hasXP ? amountint : oldXP) + " #####xpExperience", target, ChatColor.AQUA);
 		}
 		return true;
 	}

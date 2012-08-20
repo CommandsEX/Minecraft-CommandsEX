@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_info {
@@ -19,7 +20,7 @@ public class Command_cex_info {
 		
 		// Command Variables
 		Player player = (Player)sender;
-		String[] infos = CommandsEX.getConf().getString("info").replace("{playername}", player.getDisplayName()).split("\\{newline\\}");
+		String[] infos = CommandsEX.getConf().getString("info").replace("{playername}", Nicknames.getNick(player)).split("\\{newline\\}");
 		
 		for (String info : infos) {
 			player.sendMessage(Utils.replaceChatColors(info));

@@ -1,13 +1,12 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
@@ -42,22 +41,22 @@ public class Command_cex_tpaccept {
 						Teleportation.tpaallRequests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
-						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
-						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request from " + sender.getName() + " Accepted");
+						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 					} else if (Teleportation.tpaRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpaRequests.remove(id);
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
-						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
-						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
+						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 					} else if (Teleportation.tpahereRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpahereRequests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
-						sender.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
-						tpaPlayer.sendMessage(ChatColor.AQUA + "Teleport Request Accepted");
+						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 					} else {
 						// no matching request found
 						LogHelper.showWarning("tpRequestNotFound", sender);

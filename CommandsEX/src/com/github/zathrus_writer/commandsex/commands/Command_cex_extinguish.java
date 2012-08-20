@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_extinguish {
@@ -42,8 +43,8 @@ public class Command_cex_extinguish {
 				if (toExt != sender){
 					if ((!(sender instanceof Player)) || ((Player) sender).hasPermission("cex.extinguish.others")){
 						toExt.setFireTicks(0);
-						LogHelper.showInfo("extExtinguishedBySomeoneElse#####[ " + sender.getName(), toExt, ChatColor.GREEN);
-						LogHelper.showInfo("extExtinguishedSomeoneElse#####[ " + toExt.getName(), sender, ChatColor.GREEN);
+						LogHelper.showInfo("extExtinguishedBySomeoneElse#####[ " + Nicknames.getNick(sender.getName()), toExt, ChatColor.GREEN);
+						LogHelper.showInfo("extExtinguishedSomeoneElse#####[ " + Nicknames.getNick(toExt.getName()), sender, ChatColor.GREEN);
 					} else {
 						LogHelper.showInfo("extOtherNoPerm", sender, ChatColor.RED);
 					}

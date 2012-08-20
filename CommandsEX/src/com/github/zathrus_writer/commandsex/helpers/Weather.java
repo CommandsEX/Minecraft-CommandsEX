@@ -115,7 +115,7 @@ public class Weather implements Listener {
 			
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (!player.equals(p) && Permissions.checkPermEx(player, "cex.weather.notify")) {
-					LogHelper.showInfo("weatherChangedBy#####[" + pName, player);
+					LogHelper.showInfo("weatherChangedBy#####[" + Nicknames.getNick(pName), player);
 				}
 			}
     	}
@@ -136,7 +136,7 @@ public class Weather implements Listener {
 			
     		for (Player player : Bukkit.getOnlinePlayers()) {
 				if (!player.equals(p) && Permissions.checkPermEx(player, "cex.weather.notify")) {
-					LogHelper.showInfo("weatherChangedBy#####[" + pName, player);
+					LogHelper.showInfo("weatherChangedBy#####[" + Nicknames.getNick(pName), player);
 				}
 			}
     	}

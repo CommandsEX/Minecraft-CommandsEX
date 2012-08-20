@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_explode {
@@ -72,9 +73,9 @@ public class Command_cex_explode {
 		target.setHealth(0);
 		target.getWorld().createExplosion(target.getLocation(), explosionStrength);
 		target.setLastDamageCause(new EntityDamageEvent(target, DamageCause.ENTITY_EXPLOSION, 20));
-		LogHelper.showInfo("explodePlayer#####[" + target.getName(), sender, ChatColor.AQUA);
+		LogHelper.showInfo("explodePlayer#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
 		if (CommandsEX.getConf().getBoolean("showMessageOnExplode") && sender != target){
-			LogHelper.showInfo("explodeRecieveExplode#####[" + sender.getName(), sender, ChatColor.RED);
+			LogHelper.showInfo("explodeRecieveExplode#####[" + Nicknames.getNick(sender.getName()), sender, ChatColor.RED);
 		}
 		
 		return true;

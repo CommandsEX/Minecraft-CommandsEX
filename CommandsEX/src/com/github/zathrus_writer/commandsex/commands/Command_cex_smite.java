@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -40,14 +41,14 @@ public class Command_cex_smite {
 				smited.setHealth(0);
 			
 				// show the sender a message
-				LogHelper.showInfo("smitePlayer#####[" + smited.getName(), sender);
+				LogHelper.showInfo("smitePlayer#####[" + Nicknames.getNick(smited.getName()), sender);
 				
 				// config variable
 				Boolean showMessageOnSmite = CommandsEX.getConf().getBoolean("showMessageOnSmite");
 				
 				// show who smited the smitee (is that a word)
 				if(showMessageOnSmite == true) {
-					LogHelper.showWarning("smiteRecieveSmite#####[" + sender.getName(), smited);
+					LogHelper.showWarning("smiteRecieveSmite#####[" + Nicknames.getNick(sender.getName()), smited);
 				}
 				
 			} else {

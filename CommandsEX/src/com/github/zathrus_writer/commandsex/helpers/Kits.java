@@ -259,13 +259,13 @@ public class Kits implements Listener {
 				if (!suppressWarnings) {
 					if (forOtherPlayer) {
 						// tell receiving player as well
-						LogHelper.showInfo("kitsAddedToOtherPlayer1#####" + (sender.getName().equalsIgnoreCase("console") ? "kitsServerAdmin" : "[" + sender.getName()), player);
+						LogHelper.showInfo("kitsAddedToOtherPlayer1#####" + (sender.getName().equalsIgnoreCase("console") ? "kitsServerAdmin" : "[" + Nicknames.getNick(sender.getName())), player);
 						LogHelper.showInfo("kitsAddedToOtherPlayer2", player);
 						// now tell the sender
 						LogHelper.showInfo("kitsAddedToPlayer", sendingPlayer);
 						// and broadcast, if we have it enabled
 						if (CommandsEX.getConf().getBoolean("kitsBroadcastGifts", true)) {
-							Bukkit.getServer().broadcastMessage(player.getName() + " " + _("kitsGiftBroadcast", "") + sender.getName() + "!");
+							Bukkit.getServer().broadcastMessage(player.getName() + " " + _("kitsGiftBroadcast", "") + Nicknames.getNick(sender.getName()) + "!");
 						}
 					} else {
 						LogHelper.showInfo("kitsAdded", sendingPlayer);

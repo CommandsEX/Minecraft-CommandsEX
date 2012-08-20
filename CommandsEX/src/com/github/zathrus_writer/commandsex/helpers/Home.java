@@ -150,7 +150,7 @@ public class Home {
 					// all done :-)
 					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "homes (player_name, world_name, x, y, z, yaw, pitch) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch)" : ""), pName, player.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch())) {
 						// home successfuly created
-						LogHelper.showInfo("homeSetComplete#####[" + pName + "!", sender);
+						LogHelper.showInfo("homeSetComplete#####[" + Nicknames.getNick(pName) + "!", sender);
 					} else {
 						// an error has occured...
 						LogHelper.showWarning("internalError", sender);
@@ -247,7 +247,7 @@ public class Home {
 					} else if (numHomes == 1) {
 						// teleport player home and welcome him :-)
 						Teleportation.delayedTeleport(player, l);
-						LogHelper.showInfo((pName.equals(homePlayerName) ? "homeSetComplete#####[" + pName + "!" : "homeWelcomeTo#####[" + foundPlayerName + "#####homePlayersHome"), sender);
+						LogHelper.showInfo((pName.equals(homePlayerName) ? "homeSetComplete#####[" + Nicknames.getNick(pName) + "!" : "homeWelcomeTo#####[" + Nicknames.getNick(foundPlayerName) + "#####homePlayersHome"), sender);
 						return true;
 					}
 					
@@ -260,7 +260,7 @@ public class Home {
 								LogHelper.showInfos(sender, new String[] {"homeNoHomeOwner1", "homeNoHomeOwner2"});
 							}
 						} else {
-							LogHelper.showInfo("[" + homePlayerName + " #####homeNoHomeVisitor" + (multiHomesEnabled ? "#####homeInCurrentWorld" : ""), sender);
+							LogHelper.showInfo("[" + Nicknames.getNick(homePlayerName) + " #####homeNoHomeVisitor" + (multiHomesEnabled ? "#####homeInCurrentWorld" : ""), sender);
 						}
 					}
 				} catch (Throwable e) {
@@ -330,12 +330,12 @@ public class Home {
 						SQLManager.query("UPDATE " + SQLManager.prefix + "homes SET allowed_players = ? WHERE id_home = ?", allowedPlayers, res.getInt("id_home"));
 						
 						// inform user that his friend was invited
-						LogHelper.showInfos(sender, "[" + args[1] + " #####homeInviteSuccessful");
+						LogHelper.showInfos(sender, "[" + Nicknames.getNick(args[1]) + " #####homeInviteSuccessful");
 						
 						// if the actual friend is online, inform him as well
 						Player p = Bukkit.getServer().getPlayer(args[1]);
 						if (p != null) {
-							LogHelper.showInfos(p, "homeYouHaveBeenInvited1#####[" + pName + "#####homeYouHaveBeenInvited2", "homeYouHaveBeenInvited3#####[" + pName + " #####homeYouHaveBeenInvited4");
+							LogHelper.showInfos(p, "homeYouHaveBeenInvited1#####[" + Nicknames.getNick(pName) + "#####homeYouHaveBeenInvited2", "homeYouHaveBeenInvited3#####[" + Nicknames.getNick(pName) + " #####homeYouHaveBeenInvited4");
 						}
 						
 						// return here, since we can only invite to a single home
@@ -411,7 +411,7 @@ public class Home {
 							
 							// the requested player is not invited to this home
 							if (!playerFound) {
-								LogHelper.showInfo("[" + args[1] + " #####homePlayerUninviteNotFound", sender);
+								LogHelper.showInfo("[" + Nicknames.getNick(args[1]) + " #####homePlayerUninviteNotFound", sender);
 								return true;
 							}
 						} else {
@@ -424,12 +424,12 @@ public class Home {
 						SQLManager.query("UPDATE " + SQLManager.prefix + "homes SET allowed_players = ? WHERE id_home = ?", Utils.implode(newAllowedPlayers, ","), res.getInt("id_home"));
 						
 						// inform user that the player was uninvited
-						LogHelper.showInfos(sender, "[" + args[1] + " #####homePlayerUninvited");
+						LogHelper.showInfos(sender, "[" + Nicknames.getNick(args[1]) + " #####homePlayerUninvited");
 						
 						// if the actual player is online, inform him as well
 						Player p = Bukkit.getServer().getPlayer(args[1]);
 						if (p != null) {
-							LogHelper.showInfos(p, "homePlayerUninviteNotify#####[" + pName + "#####homeYouHaveBeenInvited2");
+							LogHelper.showInfos(p, "homePlayerUninviteNotify#####[" + Nicknames.getNick(pName) + "#####homeYouHaveBeenInvited2");
 						}
 						
 						// return here, since we can only uninvite a single player
@@ -481,7 +481,7 @@ public class Home {
 				ResultSet res = SQLManager.query_res("SELECT player_name, world_name FROM " + SQLManager.prefix + "homes WHERE allowed_players = ? OR allowed_players LIKE ? OR allowed_players LIKE ?", pName, pName + ",%", "%," + pName);
 				List<Object> homes = new ArrayList<Object>();
 				while (res.next()) {
-					homes.add(res.getString("player_name") + (multiHomesEnabled ? " (" + res.getString("world_name") + ")" : ""));
+					homes.add(Nicknames.getNick(res.getString("player_name")) + (multiHomesEnabled ? " (" + res.getString("world_name") + ")" : ""));
 				}
 				res.close();
 
@@ -544,7 +544,8 @@ public class Home {
 			if (!Utils.checkCommandSpam(player, "home-ilist")) {
 				try {
 					String pName = player.getName();
-					String players = "";
+					// holds players invited to homes in nickname form
+					List<String> nickPlayers = new ArrayList<String>();
 					ResultSet res;
 					if (multiHomesEnabled) {
 						res = SQLManager.query_res("SELECT allowed_players FROM " + SQLManager.prefix + "homes WHERE player_name = ? AND world_name = ?", pName, player.getWorld().getName());
@@ -553,13 +554,15 @@ public class Home {
 					}
 					
 					while (res.next()) {
-						players = res.getString("allowed_players").replace(",", ", ");
+						for (String s : Utils.separateCommaList(res.getString("allowed_players").replace(",", ", "))){
+							nickPlayers.add(Nicknames.getNick(s));
+						}
 					}
 					res.close();
 
-					if (!players.equals("")) {
+					if (nickPlayers.size() > 0) {
 						// tell player who is invited to his home
-						LogHelper.showInfo("homeInvotedToYourHome" + (multiHomesEnabled ? "[ #####homeInCurrentWorld" : "") + "#####[: " + players, sender);
+						LogHelper.showInfo("homeInvotedToYourHome" + (multiHomesEnabled ? "[ #####homeInCurrentWorld" : "") + "#####[: " + Utils.implode(nickPlayers, ", "), sender);
 					} else {
 						// the player is not invited into anybody's home
 						LogHelper.showInfo("homeNoPlayersInvited1" + (multiHomesEnabled ? "#####homeInCurrentWorld#####[ " : "") + "#####homeNoPlayersInvited2", sender);
@@ -594,11 +597,12 @@ public class Home {
 			// check who is invited to player's home, if we didn't spam too much :)
 			if (!Utils.checkCommandSpam(player, "home-listall")) {
 				try {
+					// holds the names of players with houses in nickname form
 					List<Object> homes = new ArrayList<Object>();
 					ResultSet res;
 					res = SQLManager.query_res("SELECT player_name, world_name FROM " + SQLManager.prefix + "homes");
 					while (res.next()) {
-						homes.add(res.getString("player_name") + (multiHomesEnabled ? " (" + res.getString("world_name") + ")" : ""));
+						homes.add(Nicknames.getNick(res.getString("player_name")) + (multiHomesEnabled ? " (" + res.getString("world_name") + ")" : ""));
 					}
 					res.close();
 
@@ -794,7 +798,7 @@ public class Home {
 								LogHelper.showInfos(sender, new String[] {"homeNoHomeOwner1", "homeNoHomeOwner2"});
 							}
 						} else {
-							LogHelper.showInfo("[" + pName + " #####homeNoHomeVisitor" + (multiHomesEnabled ? "#####homeInCurrentWorld" : ""), sender);
+							LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####homeNoHomeVisitor" + (multiHomesEnabled ? "#####homeInCurrentWorld" : ""), sender);
 						}
 					}
 				} catch (Throwable e) {
@@ -947,7 +951,7 @@ public class Home {
 							// match found, teleport player
 							Teleportation.delayedTeleport(player, new Location(CommandsEX.plugin.getServer().getWorld(res.getString("world_name")), res.getInt("x"), res.getInt("y"), res.getInt("z"), (float) res.getDouble("yaw"), (float) res.getDouble("pitch")) );
 							// tell player where he is
-							LogHelper.showInfo("homeWelcomeTo#####[" + res.getString("player_name") + "#####homePlayersHome", sender);
+							LogHelper.showInfo("homeWelcomeTo#####[" + Nicknames.getNick(res.getString("player_name")) + "#####homePlayersHome", sender);
 							res.close();
 							return true;
 						}

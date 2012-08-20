@@ -138,8 +138,8 @@ public class ItemSpawning {
 
 		// Messages will be different if the player spawned the item for himself, or someone else
 		if (sender != target){
-			LogHelper.showInfo("itemYouGave#####[" + target.getName() + " " + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
-			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": "") + " #####itemFrom#####[" + sender.getName(), target, ChatColor.AQUA);
+			LogHelper.showInfo("itemYouGave#####[" + Nicknames.getNick(target.getName()) + " " + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
+			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": "") + " #####itemFrom#####[" + Nicknames.getNick(sender.getName()), target, ChatColor.AQUA);
 		} else {
 			LogHelper.showInfo("itemGiveSuccess#####[" + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
 		}

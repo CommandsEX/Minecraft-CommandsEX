@@ -75,7 +75,7 @@ public class Time {
 		LogHelper.showInfo("timeChanged#####[" + Utils.parseTime(p.getWorld().getTime()) + " #####timeOr#####[" + p.getWorld().getTime() + " #####timeTicks", sender);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (!player.equals(p) && Permissions.checkPermEx(player, "cex.time.notify")) {
-				LogHelper.showInfo("timeChangedBy1#####[" + worldName + " #####timeChangedBy2#####[" + pName, player);
+				LogHelper.showInfo("timeChangedBy1#####[" + worldName + " #####timeChangedBy2#####[" + Nicknames.getNick(pName), player);
 			}
 		}
 	}

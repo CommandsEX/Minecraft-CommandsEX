@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -48,7 +49,7 @@ public class Command_cex_remrank {
 			Vault.perms.playerRemoveGroup(player, group);
 			
 			// Notify sender and player
-			LogHelper.showInfo("[" + player.getName() + " #####remrankToSender#####[" + group, sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(player.getName()) + " #####remrankToSender#####[" + group, sender);
 			LogHelper.showInfo("remrankToPlayer#####[" + group, player);
 		}
 		

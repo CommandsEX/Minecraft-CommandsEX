@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
@@ -45,7 +46,7 @@ public class Command_cex_tpdeny {
 					
 					// send message to the requesting player (if online)
 					if (tpaPlayer != null) {
-						LogHelper.showWarning("tpRequestDenied1#####["+player.getName()+" #####tpRequestDenied2", tpaPlayer);
+						LogHelper.showWarning("tpRequestDenied1#####["+ Nicknames.getNick(player.getName()) +" #####tpRequestDenied2", tpaPlayer);
 					}
 					
 					// send confirmation message to the denier

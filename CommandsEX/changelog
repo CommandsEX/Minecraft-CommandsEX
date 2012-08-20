@@ -28,6 +28,7 @@ Beta 1.90
 * fixed /inv not working if fakeJoin and/or fakeLeave messages are disabled
 * fixed seeJoins and seeLeaves permission nodes being ignored when sending fakeJoins and fakeLeaves with /inv when Condense Joins is disabled
 * fixed single join and leave messages not appearing in the correct language
+* fixed some teleport messages
 
 # new perm cex.warp.others
 # new perm cex.warp.*

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_feed {
@@ -44,14 +45,14 @@ public class Command_cex_feed {
 				LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 				return true;
 			}
+
+			beingFed.setFoodLevel(20);
 			
 			if (sender.getName().equalsIgnoreCase(beingFed.getName())){
-				beingFed.setFoodLevel(20);
 				LogHelper.showInfo("feedFed", sender, ChatColor.AQUA);
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.feed.others"))){
-				beingFed.setFoodLevel(20);
-				LogHelper.showInfo("feedFedBySomeoneElse#####[" + sender.getName(), beingFed, ChatColor.AQUA);
-				LogHelper.showInfo("feedFedSomeoneElse#####[" + beingFed.getName(), sender, ChatColor.AQUA);
+				LogHelper.showInfo("feedFedBySomeoneElse#####[" + Nicknames.getNick(sender.getName()), beingFed, ChatColor.AQUA);
+				LogHelper.showInfo("feedFedSomeoneElse#####[" + Nicknames.getNick(beingFed.getName()), sender, ChatColor.AQUA);
 			} else {
 				LogHelper.showInfo("feedOthersNoPerm", sender, ChatColor.RED);
 				return true;

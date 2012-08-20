@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -53,7 +54,7 @@ public class Command_cex_online {
 					
 					// Using the method above, choose whether or not to add the player
 					if (addPlayer){
-						players.add((Common.invisiblePlayers.contains(player.getName()) ? ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW: "#####[") + player.getName());
+						players.add((Common.invisiblePlayers.contains(player.getName()) ? ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW: "#####[") + Nicknames.getNick(player.getName()));
 					}
 				}
 				
@@ -61,10 +62,10 @@ public class Command_cex_online {
 			} else {
 				// check if a given player is online
 				Player p = Bukkit.getServer().getPlayer(args[0]);
-				if (p == null) {
-					LogHelper.showInfo("[" + args[0] + " #####isOffline", sender);
+				if (p == null || Common.invisiblePlayers.contains(p.getName())) {
+					LogHelper.showInfo("[" + Nicknames.getNick(args[0]) + " #####isOffline", sender);
 				} else {
-					LogHelper.showInfo("[" + p.getName() + " #####isOnline", sender);
+					LogHelper.showInfo("[" + Nicknames.getNick(p.getName()) + " #####isOnline", sender);
 				}
 			}
 		}

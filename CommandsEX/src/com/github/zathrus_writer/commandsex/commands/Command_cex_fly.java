@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_fly extends Common {
@@ -47,8 +48,8 @@ public class Command_cex_fly extends Common {
 					}
 					
 					setFlyMode(target);
-					LogHelper.showInfo("flyMsgToTarget#####[" + sender.getName(), target, ChatColor.AQUA);
-					LogHelper.showInfo("flyOtherSuccess#####[" + target.getName(), sender, ChatColor.AQUA);
+					LogHelper.showInfo("flyMsgToTarget#####[" + Nicknames.getNick(sender.getName()), target, ChatColor.AQUA);
+					LogHelper.showInfo("flyOtherSuccess#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
 				} else {
 					LogHelper.showInfo("flyOtherNoPerm", sender, ChatColor.RED);
 				}

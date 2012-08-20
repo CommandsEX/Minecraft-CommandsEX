@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Handler_deathmessages implements Listener {
@@ -52,7 +53,7 @@ public class Handler_deathmessages implements Listener {
 		
 		// check if player died via pvp
 		if (killer instanceof Player){
-			message = replacements(config.getString("deathPvP"), victim).replaceAll("%killer%", ((Player) killer).getName());
+			message = replacements(config.getString("deathPvP"), victim).replaceAll("%killer%", Nicknames.getNick(((Player) killer).getName()));
 		}
 		
 		// check if drowned
@@ -136,7 +137,7 @@ public class Handler_deathmessages implements Listener {
 				Arrow arrow = (Arrow) killer;
 				if (arrow.getShooter() instanceof Player){
 					// player shot the arrow
-					message = replacements(config.getString("deathShotByPlayer"), victim).replaceAll("%killer%", ((Player) arrow.getShooter()).getName());
+					message = replacements(config.getString("deathShotByPlayer"), victim).replaceAll("%killer%", Nicknames.getNick(((Player) arrow.getShooter()).getName()));
 				} else if (arrow.getShooter() instanceof Skeleton) {
 					// skeleton shot the arrow
 					message = replacements(config.getString("deathShotBySkeleton"), victim).replaceAll("%killer%", Utils.userFriendlyNames(arrow.getShooter().getType().getName()));
@@ -182,6 +183,6 @@ public class Handler_deathmessages implements Listener {
 	}
 	
 	public String replacements(String string, Player victim){
-		return Utils.replaceChatColors(string).replaceAll("%victim%", victim.getName()).replaceAll("%world%", victim.getWorld().getName());
+		return Utils.replaceChatColors(string).replaceAll("%victim%", Nicknames.getNick(victim.getName())).replaceAll("%world%", victim.getWorld().getName());
 	}
 }

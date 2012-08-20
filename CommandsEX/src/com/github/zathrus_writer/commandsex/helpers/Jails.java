@@ -93,7 +93,7 @@ public class Jails {
 
 			// inform the command sender and the player
 			if (showMessages) {
-				LogHelper.showInfo("[" + pName + " #####jailsPlayerUnJailed", sender);
+				LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####jailsPlayerUnJailed", sender);
 				if (isOnline) {
 					LogHelper.showInfo("jailsEndMessage", p);
 				}
@@ -137,7 +137,7 @@ public class Jails {
 
 		if (showMessages) {
 			// inform both players
-			LogHelper.showInfo("[" + pName + " #####jailsPlayerJailed", sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(pName) + " #####jailsPlayerJailed", sender);
 			LogHelper.showInfo("jailsYouAreJailed1", p);
 			LogHelper.showInfo("jailsYouAreJailed2", p);
 		}

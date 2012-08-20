@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_heal {
@@ -50,8 +51,8 @@ public class Command_cex_heal {
 				LogHelper.showInfo("healHealed", sender, ChatColor.AQUA);
 			} else if ((!(sender instanceof Player)) || (((Player) sender).hasPermission("cex.heal.others"))){
 				beingHealed.setHealth(20);
-				LogHelper.showInfo("healHealedBySomeoneElse#####[" + sender.getName(), beingHealed, ChatColor.AQUA);
-				LogHelper.showInfo("healHealedSomeoneElse#####[" + beingHealed.getName(), sender, ChatColor.AQUA);
+				LogHelper.showInfo("healHealedBySomeoneElse#####[" + Nicknames.getNick(sender.getName()), beingHealed, ChatColor.AQUA);
+				LogHelper.showInfo("healHealedSomeoneElse#####[" + Nicknames.getNick(beingHealed.getName()), sender, ChatColor.AQUA);
 			} else {
 				LogHelper.showInfo("healOthersNoPerm", sender, ChatColor.RED);
 				return true;
