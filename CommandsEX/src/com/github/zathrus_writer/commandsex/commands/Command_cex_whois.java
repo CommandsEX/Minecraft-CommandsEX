@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -92,8 +93,11 @@ public class Command_cex_whois {
 			pNick = players.values().toArray()[0].toString();
 		}
 		
-		LogHelper.showInfo("whoisName#####[" + ChatColor.GOLD + pName, sender, ChatColor.AQUA);
-		LogHelper.showInfo("whoisNick#####[" + ChatColor.GOLD + pNick, sender, ChatColor.AQUA);
+		LogHelper.showInfo("whoisName#####[" + ChatColor.GOLD + pName, sender);
+		LogHelper.showInfo("whoisNick#####[" + ChatColor.GOLD + pNick, sender);
+		if (sender.hasPermission("cex.whois.ip")){
+			LogHelper.showInfo("whoisIP#####" + ChatColor.GOLD + (Bukkit.getPlayer(pName) == null ? "whoisIPOffline" : "[" + CommandsEX.playerIPs.get(pName)), sender);
+		}
 
 		return true;
 	}

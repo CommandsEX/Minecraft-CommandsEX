@@ -8,6 +8,7 @@ Key:
 
 Beta 1.90
 ---------
+# support for CraftBukkit 1.3.1 RB R2.0
 
 + added command /seed to show the seed of any world, even from the console
 + added command /nick to set a players nickname
@@ -35,6 +36,7 @@ Beta 1.90
 # new perm cex.spawn.others
 # new perm cex.seed
 # new perm cex.whois
+# new perm cex.whois.ip
 
 Beta 1.85
 ---------
