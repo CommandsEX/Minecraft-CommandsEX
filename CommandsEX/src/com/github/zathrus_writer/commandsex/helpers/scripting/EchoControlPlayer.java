@@ -774,4 +774,24 @@ public class EchoControlPlayer extends EchoControl implements Player {
 		@Override public boolean isValid() {
 			return ((Player)wrappedSender).isValid();
 		}
+
+		@Override
+		public float getFlySpeed() {
+			return ((Player)wrappedSender).getFlySpeed();
+		}
+
+		@Override
+		public float getWalkSpeed() {
+			return ((Player)wrappedSender).getWalkSpeed();
+		}
+
+		@Override
+		public void setFlySpeed(float arg0) throws IllegalArgumentException {
+			((Player)wrappedSender).setFlySpeed(arg0);
+		}
+
+		@Override
+		public void setWalkSpeed(float arg0) throws IllegalArgumentException {
+			((Player)wrappedSender).setWalkSpeed(arg0);
+		}
 }
