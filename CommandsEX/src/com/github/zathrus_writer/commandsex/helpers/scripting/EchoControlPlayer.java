@@ -794,4 +794,9 @@ public class EchoControlPlayer extends EchoControl implements Player {
 		public void setWalkSpeed(float arg0) throws IllegalArgumentException {
 			((Player)wrappedSender).setWalkSpeed(arg0);
 		}
+
+		@Override
+		public Inventory getEnderChest() {
+			return ((Player)wrappedSender).getEnderChest();
+		}
 }
