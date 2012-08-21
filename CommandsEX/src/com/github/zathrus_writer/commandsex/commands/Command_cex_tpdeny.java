@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
@@ -44,8 +45,8 @@ public class Command_cex_tpdeny {
 						return true;
 					}
 					
-					// send message to the requesting player (if online)
-					if (tpaPlayer != null) {
+					// send message to the requesting player (if online) and is not invisible
+					if (tpaPlayer != null && !Common.invisiblePlayers.contains(sender.getName())) {
 						LogHelper.showWarning("tpRequestDenied1#####["+ Nicknames.getNick(player.getName()) +" #####tpRequestDenied2", tpaPlayer);
 					}
 					

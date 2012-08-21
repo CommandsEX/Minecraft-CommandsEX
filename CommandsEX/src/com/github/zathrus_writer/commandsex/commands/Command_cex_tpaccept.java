@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
@@ -42,21 +43,27 @@ public class Command_cex_tpaccept {
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						if (!Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						}
 					} else if (Teleportation.tpaRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpaRequests.remove(id);
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						if (!Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						}
 					} else if (Teleportation.tpahereRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpahereRequests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						if (!Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						}
 					} else {
 						// no matching request found
 						LogHelper.showWarning("tpRequestNotFound", sender);
