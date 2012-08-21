@@ -587,6 +587,12 @@ permissions:
   cex.whois.ip:
     default: op
     description: Allows the player to see user IP addresses in /whois
+  cex.enderchest:
+    default: op
+    description: Allows the player to use /enderchest
+  cex.enderchest.others:
+    default: op
+    description: Allows the player to view other players ender chests
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1322,3 +1328,9 @@ commands:
     permission: cex.whois
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [whois]
+  cex_enderchest:
+    description: Opens a players enderchest
+    usage: /<command> <player>
+    permission: cex.enderchest
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [enderchest, ec, echest]

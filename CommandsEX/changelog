@@ -13,6 +13,7 @@ Beta 1.90
 + added command /seed to show the seed of any world, even from the console
 + added command /nick to set a players nickname
 + added command /whois to find out the username behind a nickname
++ added command /enderchest to open a players Ender Chest
 + added AutoSave functionality to auto-save players, worlds & nicknames
 + added VanishNoPacket support, if a player does /inv when VanishNoPacket is installed VanishNoPacket will be used instead
 + when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
