@@ -1,6 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,8 +25,7 @@ public class Command_cex_repair {
 
 			// Get some variables
 			Player player = (Player)sender;
-			String playerS = player.getName();
-			ItemStack itemInHand = Bukkit.getPlayer(playerS).getItemInHand();
+			ItemStack itemInHand = player.getItemInHand();
 			int itemdura = itemInHand.getDurability();
 			Material material = Material.getMaterial(itemInHand.getTypeId());
 			
