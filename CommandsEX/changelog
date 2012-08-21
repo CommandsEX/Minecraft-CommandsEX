@@ -32,6 +32,7 @@ Beta 1.90
 * fixed single join and leave messages not appearing in the correct language
 * fixed some teleport messages
 * fixed some bad code in /repair
+* fixed invisible players showing in the /tpaall count
 
 # new perm cex.warp.others
 # new perm cex.warp.*

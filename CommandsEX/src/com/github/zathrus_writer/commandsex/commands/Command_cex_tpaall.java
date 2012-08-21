@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
+import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Teleportation;
@@ -76,7 +77,10 @@ public class Command_cex_tpaall {
 				player.sendMessage(ChatColor.GREEN + Nicknames.getNick(to.getName()) + " " + _("tpRequest1", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
-				sent++;
+				// don't increase the sent count if the player is invisible
+				if (!Common.invisiblePlayers.contains(to.getName())){
+					sent++;
+				}
 				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpaall", id), (20 * tTimeout));
 			}
 		}
