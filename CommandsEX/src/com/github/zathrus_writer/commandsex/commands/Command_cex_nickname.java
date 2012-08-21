@@ -21,6 +21,9 @@ public class Command_cex_nickname extends Nicknames {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		if (sender instanceof Player && Utils.checkCommandSpam((Player) sender, "cex_nickname")){
+			return true;
+		}
 		
 		if (args.length == 0 || args.length > 2 || (args.length == 1 && !(sender instanceof Player))){
 			Commands.showCommandHelpAndUsage(sender, "cex_nickname", alias);

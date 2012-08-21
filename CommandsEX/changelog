@@ -39,6 +39,8 @@ Beta 1.90
 # new perm cex.seed
 # new perm cex.whois
 # new perm cex.whois.ip
+# new perm cex.enderchest
+# new perm cex.enderchest.others
 
 Beta 1.85
 ---------

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -18,6 +19,10 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 public class Command_cex_whois {
 
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		if (sender instanceof Player && Utils.checkCommandSpam((Player) sender, "cex_whois")){
+			return true;
+		}
+		
 		if (args.length > 2 || args.length == 0){
 			Commands.showCommandHelpAndUsage(sender, "cex_whois", alias);
 			return true;

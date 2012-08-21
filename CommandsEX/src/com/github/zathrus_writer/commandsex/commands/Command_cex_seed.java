@@ -25,6 +25,10 @@ public class Command_cex_seed {
 	 */
 
 	public static Boolean run(CommandSender sender, String alias, String[] args){
+		if (sender instanceof Player && Utils.checkCommandSpam((Player) sender, "cex_seed")){
+			return true;
+		}
+		
 		World world = null;
 
 		if (args.length > 1){

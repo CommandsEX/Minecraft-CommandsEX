@@ -13,6 +13,14 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_enderchest {
 
+	/***
+	 * Ender Chest - Opens a players Ender Chest
+	 * @param sender
+	 * @param alias
+	 * @param args
+	 * @return
+	 */
+	
 	public static Boolean run(CommandSender sender, String alias, String[] args){
 		if (!PlayerHelper.checkIsPlayer(sender)){
 			return true;
