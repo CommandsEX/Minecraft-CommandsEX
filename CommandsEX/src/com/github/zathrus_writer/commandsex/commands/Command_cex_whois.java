@@ -96,7 +96,7 @@ public class Command_cex_whois {
 		LogHelper.showInfo("whoisName#####[" + ChatColor.GOLD + pName, sender);
 		LogHelper.showInfo("whoisNick#####[" + ChatColor.GOLD + pNick, sender);
 		if (sender.hasPermission("cex.whois.ip")){
-			LogHelper.showInfo("whoisIP#####" + ChatColor.GOLD + (Bukkit.getPlayer(pName) == null ? "whoisIPOffline" : "[" + CommandsEX.playerIPs.get(pName)), sender);
+			LogHelper.showInfo("whoisIP#####[" + ChatColor.GOLD + (Bukkit.getPlayer(pName) == null ? "#####whoisIPOffline" : CommandsEX.playerIPs.get(pName.toLowerCase())), sender);
 		}
 
 		return true;
