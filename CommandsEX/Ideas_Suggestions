@@ -24,6 +24,6 @@ Ideas, Suggestions and bugs. please write any here:
 - Make invisible players not display in sent int in tpaall
 - tp and tppos?
 - map auto save
-- annonoymouse /msg?
+- annonoymous /msg?
 
-- fix bad code on line 30 of /repair
+- look at MYSQL connections and check if they drop
