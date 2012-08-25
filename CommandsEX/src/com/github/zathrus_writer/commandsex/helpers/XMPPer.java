@@ -256,7 +256,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		try {
 			// try to condense this join if we have this plugin part available
 			if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
-				Handler_condensejoins.handleJoin(joiner);
+				Handler_condensejoins.joins.add("#" + joiner);
 			}
 			participantNicks.put(participant, actor.getNick());
 		} catch (Throwable e) {
@@ -274,7 +274,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		try {
 			// try to condense this leave if we have this plugin part available
 			if (CommandsEX.getConf().getBoolean("xmppNotifyChatJoin", true)) {
-				Handler_condensejoins.handleLeave(actorNick);
+				Handler_condensejoins.leaves.add("#" + actorNick);
 			}
 			participantNicks.remove(participant);
 		} catch (Throwable e) {

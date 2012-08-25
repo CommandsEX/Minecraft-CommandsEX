@@ -57,7 +57,7 @@ public class Handler_condensejoins implements Listener {
 			}
 		}, (20 * taskTime), (20 * taskTime));
 	}
-	
+
 	public static void handleJoin(String pName) {
 		// get player's name and store it
 		if (!joins.contains(pName)) {
@@ -83,19 +83,30 @@ public class Handler_condensejoins implements Listener {
 		// remove a player if they are invisible
 		for(int x=0; x < joins.size(); x++){
 			String pName = joins.get(x);
-			if (fakeJoins.contains(pName)){
-				fakeJoins.remove(pName);
-			} else if (Common.invisiblePlayers.contains(pName)){
-				joins.remove(pName);
+			if (!pName.startsWith("#")){
+				if (fakeJoins.contains(pName)){
+					fakeJoins.remove(pName);
+					
+					String nickname = pName;
+					try {
+						nickname = Nicknames.getNick(pName);
+					} catch (Exception ex){}
+					joinNicks.add(nickname);
+				} else if (Common.invisiblePlayers.contains(pName)){
+					joins.remove(pName);
+				} else {
+					String nickname = pName;
+					try {
+						nickname = Nicknames.getNick(pName);
+					} catch (Exception ex){}
+					joinNicks.add(nickname);
+				}
 			} else {
-				String nickname = pName;
-				try {
-					nickname = Nicknames.getNick(pName);
-				} catch (Exception ex){}
-				joinNicks.add(nickname);
+				joinNicks.add(pName.replaceFirst("#", ""));
 			}
-			joins.clear();
 		}
+		
+		joins.clear();
 
 		// save the last name, as we put it to the end of list after an "and"
 		Integer jSize = joinNicks.size();
@@ -105,37 +116,59 @@ public class Handler_condensejoins implements Listener {
 				String lName = (String) joinNicks.get(jSize - 1);
 				joinNicks.remove(jSize - 1);
 				
+				List<String> toSend = new ArrayList<String>();
+				for (String s : joinNicks){
+					if (s.startsWith("#")){
+						toSend.add(s.replaceFirst("#", ""));
+					} else {
+						toSend.add(s);
+					}
+				}
+				
 				// send each player the join message in their own language
 				for (Player p : Bukkit.getOnlinePlayers()){
 					if (p.hasPermission("cex.seejoins")){
-						String msg = ChatColor.WHITE + Utils.implode(joinNicks, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", p.getName());
+						String msg = ChatColor.WHITE + Utils.implode(joinNicks, ", ") + " " + ChatColor.YELLOW + _("and", "") + ChatColor.WHITE + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", p.getName());
 						p.sendMessage(msg);
 					}
 				}
 				
-				// forward the broadcast to XMPP connector, if present
-				try {
-					// send xmpp message in default language
-					String xmppMessage = ChatColor.WHITE + Utils.implode(joinNicks, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+				List<String> ingameNicks = new ArrayList<String>();
+				for (String s : joinNicks){
+					if (!s.startsWith("#")){
+						ingameNicks.add(s);
+					}
+				}
+				
+				if (ingameNicks.size() > 0){
+					// forward the broadcast to XMPP connector, if present
+					try {
+						// send xmpp message in default language
+						String xmppMessage = ChatColor.WHITE + Utils.implode(ingameNicks, ", ") + " " + ChatColor.YELLOW + _("and", "") + ChatColor.WHITE + " " + lName + " " + ChatColor.YELLOW + _("chatJoins", "");
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			} else {
 				// send each player the join message in their own language
 				for (Player p : Bukkit.getOnlinePlayers()){
 					if (p.hasPermission("cex.seejoins")){
-						String msg = ChatColor.WHITE + (String) joinNicks.get(0) + " " + ChatColor.YELLOW + _("chatJoins", p.getName());
+						String msg = ChatColor.WHITE + (String) (joinNicks.get(0).startsWith("#") ? joinNicks.get(0).replaceFirst("#", "") : joinNicks.get(0)) + " " + ChatColor.YELLOW + _("chatJoins", p.getName());
 						p.sendMessage(msg);
 					}
 				}
-				// forward the broadcast to XMPP connector, if present
-				try {
-					// send the xmpp message in default language
-					String xmppMessage = ChatColor.WHITE + (String) joinNicks.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+				
+				if (!joinNicks.get(0).startsWith("#")){
+					// forward the broadcast to XMPP connector, if present
+					try {
+						// send the xmpp message in default language
+						String xmppMessage = ChatColor.WHITE + (String) joinNicks.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
+						System.out.println("Forwarded: " + xmppMessage);
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			}
 		}
@@ -188,20 +221,31 @@ public class Handler_condensejoins implements Listener {
 		// remove a player if they are invisible
 		for(int x=0; x < leaves.size(); x++){
 			String pName = leaves.get(x);
-			if (fakeLeaves.contains(pName)){
-				fakeLeaves.remove(pName);
-			} else if (Common.invisiblePlayers.contains(pName)){
-				leaves.remove(pName);
+			if (!pName.startsWith("#")){
+				if (fakeLeaves.contains(pName)){
+					fakeLeaves.remove(pName);
+					
+					String nickname = pName;
+					try {
+						nickname = Nicknames.getNick(pName);
+					} catch (Exception ex){}
+					leaveNicks.add(nickname);
+				} else if (Common.invisiblePlayers.contains(pName)){
+					leaves.remove(pName);
+				} else {
+					String nickname = pName;
+					try {
+						nickname = Nicknames.getNick(pName);
+					} catch (Exception ex){}
+					leaveNicks.add(nickname);
+				}
 			} else {
-				String nickname = pName;
-				try {
-					nickname = Nicknames.getNick(pName);
-				} catch (Exception ex){}
-				leaveNicks.add(nickname);
+				leaveNicks.add(pName);
 			}
 		}
+		
 		leaves.clear();
-
+		
 		// save the last name, as we put it to the end of list after an "and"
 		Integer lSize = leaveNicks.size();
 		// make sure the list is not empty
@@ -210,43 +254,64 @@ public class Handler_condensejoins implements Listener {
 				String lName = (String) leaveNicks.get(lSize - 1);
 				leaveNicks.remove(lSize - 1);
 				
+				List<String> toSend = new ArrayList<String>();
+				for (String s : leaveNicks){
+					if (s.startsWith("#")){
+						toSend.add(s.replaceFirst("#", ""));
+					} else {
+						toSend.add(s);
+					}
+				}
+				
 				// send the leave message to the player in their own language
 				for (Player p : Bukkit.getOnlinePlayers()){
 					if (p.hasPermission("cex.seeleaves")){
-						String msg = ChatColor.WHITE + Utils.implode(leaveNicks, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName());
+						String msg = ChatColor.WHITE + Utils.implode(leaveNicks, ", ") + " " + ChatColor.YELLOW + _("and", "") + ChatColor.WHITE + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName());
 						p.sendMessage(msg);
 					}
 				}
 				
-				// forward the broadcast to XMPP connector, if present
-				try {
-					// send the xmpp message in the default language
-					String xmppMessage = ChatColor.WHITE + Utils.implode(leaveNicks, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+				List<String> ingameNicks = new ArrayList<String>();
+				for (String s : leaveNicks){
+					if (!s.startsWith("#")){
+						ingameNicks.add(s);
+					}
+				}
+				
+				if (ingameNicks.size() > 0){
+					// forward the broadcast to XMPP connector, if present
+					try {
+						// send the xmpp message in the default language
+						String xmppMessage = ChatColor.WHITE + Utils.implode(ingameNicks, ", ") + " " + _("and", "") + " " + lName + " " + ChatColor.YELLOW + _("chatLeaves", "");
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			} else {
 				// send the leave message to the player in their own language
 				for (Player p : Bukkit.getOnlinePlayers()){
 					if (p.hasPermission("cex.seeleaves")){
-						String msg = ChatColor.WHITE + (String) leaveNicks.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", p.getName());
+						String msg = ChatColor.WHITE + (String) (leaveNicks.get(0).startsWith("#") ? leaveNicks.get(0).replaceFirst("#", "") : leaveNicks.get(0)) + " " + ChatColor.YELLOW + _("chatLeaves", p.getName());
 						p.sendMessage(msg);
 					}
 				}
-				// forward the broadcast to XMPP connector, if present
-				try {
-					// send the xmpp message in the default language
-					String xmppMessage = ChatColor.WHITE + (String) leaveNicks.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", "");
-					XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
-				} catch (Throwable e) {
-					// nothing bad happens if we don't have XMPP module present :)
+				
+				if (!leaveNicks.get(0).startsWith("#")){
+					// forward the broadcast to XMPP connector, if present
+					try {
+						// send the xmpp message in the default language
+						String xmppMessage = ChatColor.WHITE + (String) leaveNicks.get(0) + " " + ChatColor.YELLOW + _("chatLeaves", "");
+						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
+					} catch (Throwable e) {
+						// nothing bad happens if we don't have XMPP module present :)
+					}
 				}
 			}
 
 			// empty leaves array
 			lastLeaveTime = Utils.getUnixTimestamp(0L);
-			leaves.clear();
+			leaveNicks.clear();
 
 			// save the time when last leave message was shown
 			lastLeaveTime = leaveStamp;
