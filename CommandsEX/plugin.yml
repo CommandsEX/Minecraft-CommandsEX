@@ -560,18 +560,54 @@ permissions:
   cex.joinfull:
     default: op
     description: Allows the player to join the server even if it is full
-  cex.keepinventory.*:
+  cex.death.keep:
     default: op
     description: Allows the player to keep their inventory, xp and armor on death
-  cex.keepinventory.inventory:
+    children:
+      cex.death.keep.*: true
+  cex.death.keep.*:
     default: op
-    description: Allows the player to keep their inventory on death
-  cex.keepinventory.armor:
+    description: Allows the player to keep their inventory, xp and armor on death
+    children:
+      cex.death.keep.inventory.*: true
+      cex.death.keep.armor.*: true
+      cex.death.keep.xp: true
+  cex.death.keep.inventory:
+    default: op
+    description: Allows the player to keep all items in their inventory on death.
+    children:
+      cex.death.keep.inventory.*: true
+  cex.death.keep.inventory.*:
+    default: op
+    description: Allows the player to keep all items in their inventory on death.
+  cex.death.keep.armor:
     default: op
     description: Allows the player to keep their armor on death
-  cex.keepinventory.xp:
+    children:
+      cex.death.keep.armor.*: true
+  cex.death.keep.armor.*:
     default: op
-    description: Allows the player to keep their xp on death.
+    description: Allows the player to keep their armor on death
+    children:
+      cex.death.keep.armor.helmet: true
+      cex.death.keep.armor.chestplate: true
+      cex.death.keep.armor.leggings: true
+      cex.death.keep.armor.boots: true
+  cex.death.keep.armor.helmet:
+    default: op
+    description: Allows the player to keep their armor on death
+  cex.death.keep.armor.chestplate:
+    default: op
+    description: Allows the player to keep their armor on death
+  cex.death.keep.armor.leggings:
+    default: op
+    description: Allows the player to keep their armor on death
+  cex.death.keep.armor.boots:
+    default: op
+    description: Allows the player to keep their armor on death
+  cex.death.keep.xp:
+    default: op
+    description: Allows the player to keep their xp on death
   cex.nick:
     default: op
     description: Allows access to the /nick command
