@@ -144,7 +144,7 @@ public class ClosestMatches {
 				|| input.equals("end") || input.equals("theend") || input.equals("the_end")
 				|| input.equals("overworld") || input.equals("theoverworld") || input.equals("the_overworld")){
 			String cWorld = currWorld.getName();
-			String wBase = cWorld.split(":")[0];
+			String wBase = cWorld.split("_")[0];
 			String toWorld = null;
 			
 			if (input.contains("nether")){
