@@ -137,13 +137,20 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void interceptChat(AsyncPlayerChatEvent e) {
-		try {
-			chatRoom.sendMessage(filterOutgoing(String.format(e.getFormat(), e.getPlayer().getName(), e.getMessage())));
-			XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
-		} catch(XMPPException ex) {
-			LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
-		}
+	public void interceptChat(final AsyncPlayerChatEvent e) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					chatRoom.sendMessage(filterOutgoing(String.format(e.getFormat(), Nicknames.getNick(e.getPlayer().getName()), e.getMessage())));
+					XMPPer.lastMessageStamp = Utils.getUnixTimestamp(0L);
+				} catch(XMPPException ex) {
+					LogHelper.logDebug("Message: " + ex.getMessage() + ", cause: " + ex.getCause());
+				}
+			}
+			
+		});
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -151,7 +158,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 		String cmd = e.getMessage();
 		String[] s = cmd.split(" ");
 		if (s.length >= 3) {
-			String sName = e.getPlayer().getName();
+			String sName = Nicknames.getNick(e.getPlayer().getName());
 	
 			if (CommandsEX.getConf().getList("privateMsgCommands").contains(s[0].substring(1))) {
 				if (s.length >= 3) {
