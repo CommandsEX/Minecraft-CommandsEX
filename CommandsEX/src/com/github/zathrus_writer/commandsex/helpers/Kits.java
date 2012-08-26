@@ -46,7 +46,8 @@ public class Kits implements Listener {
 		if (!CommandsEX.sqlEnabled) return;
 		
 		// next create kits table if it's not present yet
-		SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"kits_usage (player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", kit_name varchar(75) NOT NULL, PRIMARY KEY (player_name, kit_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stored info about which one-time kits were already used by which players'" : ""));
+		// COMMENT='stored info about which one-time kits were already used by which players'
+		SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"kits_usage (player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", kit_name varchar(75) NOT NULL, PRIMARY KEY (player_name, kit_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8" : ""));
 		
 		// load kits of players that have been playing recently to speed up database lookups
 		ResultSet res = SQLManager.query_res("SELECT player_name, kit_name FROM " + SQLManager.prefix + "kits_usage");

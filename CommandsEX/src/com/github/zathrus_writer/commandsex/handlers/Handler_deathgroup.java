@@ -42,7 +42,8 @@ public class Handler_deathgroup implements Listener {
 		
 		if (CommandsEX.sqlEnabled) {
 			// create old groups table if it's not present yet
-			SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"old_groups (player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", group_name varchar(50) NOT NULL, PRIMARY KEY (player_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores old player groups where players belonged when they died, so we can revive them back into those groups'" : ""));
+			// COMMENT='stores old player groups where players belonged when they died, so we can revive them back into those groups'
+			SQLManager.query("CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"old_groups (player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", group_name varchar(50) NOT NULL, PRIMARY KEY (player_name))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8" : ""));
 			
 			// load old player groups from database and delete the ones that did not play for a configured amount of time
 			ResultSet res = SQLManager.query_res("SELECT * FROM "+ SQLManager.prefix +"old_groups");
