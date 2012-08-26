@@ -13,6 +13,12 @@ public class AutoSaving {
 	public static void init(CommandsEX plugin){
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 			public void run() {
+				// don't send any messages if all functions are disabled
+				if (!CommandsEX.getConf().getBoolean("autoSave.players") && !CommandsEX.getConf().getBoolean("autoSave.worlds")
+						&& !CommandsEX.getConf().getBoolean("autoSave.nicknames")){
+					return;
+				}
+				
 				for (String s : CommandsEX.getConf().getStringList("autoSave.messagesBegin")){
 					Bukkit.broadcastMessage(Utils.replaceChatColors(CommandsEX.getConf().getString("autoSave.prefix") + s));
 				}
