@@ -116,7 +116,7 @@ public class ItemSpawning {
 			try {
 				amount = Integer.valueOf(amountArg);
 			} catch (Exception e){
-				LogHelper.showInfo("itemIncorrectDamageValue", sender, ChatColor.RED);
+				LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
 				Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
 				return;
 			}
