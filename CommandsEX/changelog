@@ -50,6 +50,18 @@ Beta 1.90
 # new perm cex.whois.ip
 # new perm cex.enderchest
 # new perm cex.enderchest.others
+# new perm cex.death.keep
+# new perm cex.death.keep.*
+# new perm cex.death.keep.inventory
+# new perm cex.death.keep.inventory.*
+# new perm cex.death.keep.inventory.<block>
+# new perm cex.death.keep.armor
+# new perm cex.death.keep.armor.*
+# new perm cex.death.keep.armor.helmet
+# new perm cex.death.keep.armor.chestplate
+# new perm cex.death.keep.armor.leggings
+# new perm cex.death.keep.armor.boots
+# new perm cex.death.keep.xp
 
 Beta 1.85
 ---------
