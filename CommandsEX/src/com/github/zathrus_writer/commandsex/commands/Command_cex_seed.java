@@ -45,60 +45,26 @@ public class Command_cex_seed {
 				return true;
 			}
 		} else {
-			if (sender instanceof Player && (args[0].equalsIgnoreCase("nether") || args[0].equalsIgnoreCase("end")
-					|| args[0].equalsIgnoreCase("theend") || args[0].equalsIgnoreCase("the_end")
-					|| args[0].equalsIgnoreCase("overworld"))){
-				World cWorld = ((Player) sender).getWorld();
-				String worldName = cWorld.getName();
-				if (worldName.contains("_")){
-					worldName = worldName.split("_")[0];
-				}
-				
-				if (args[0].equalsIgnoreCase("overworld")){
-					World nWorld = Bukkit.getWorld(worldName);
-					if (nWorld != null){
-						world = nWorld;
-					} else {
-						LogHelper.showInfo("seedOverworldNotExist", sender, ChatColor.RED);
-						return true;
-					}
-				}
-				
-				if (args[0].equalsIgnoreCase("nether")){
-					World nWorld = Bukkit.getWorld(worldName + "_nether");
-					if (nWorld != null){
-						world = nWorld;
-					} else {
-						LogHelper.showInfo("seedNetherNotExist", sender, ChatColor.RED);
-						return true;
-					}
-				}
-				
-				if (args[0].contains("end")){
-					World nWorld = Bukkit.getWorld(worldName + "_the_end");
-					if (nWorld != null){
-						world = nWorld;
-					} else {
-						LogHelper.showInfo("seedEndNotExist", sender, ChatColor.RED);
-						return true;
-					}
+			if (sender instanceof Player){
+				List<World> matches = ClosestMatches.intellWorld(args[0], ((Player) sender).getWorld());
+				if (matches.size() > 0){
+					world = matches.get(0);
 				}
 			} else {
-				List<World> matches = ClosestMatches.world(args[0]);
-
-				if (matches.size() == 0){
-					List<String> worldNames = new ArrayList<String>();
-					for (World w : Bukkit.getWorlds()){
-						worldNames.add(w.getName());
-					}
-					LogHelper.showInfo("seedInvalidWorld", sender, ChatColor.RED);
-					LogHelper.showInfo("seedInvalidWorldList#####[" + ChatColor.GOLD
-							+ Utils.implode(worldNames, ChatColor.AQUA + ", " + ChatColor.GOLD), sender);
-					return true;
-				}
-
-				world = ClosestMatches.world(args[0]).get(0);
+				Commands.showCommandHelpAndUsage(sender, "cex_seed", alias);
+				return true;
 			}
+		}
+
+		if (world == null){
+			List<String> worldNames = new ArrayList<String>();
+			for (World w : Bukkit.getWorlds()){
+				worldNames.add(w.getName());
+			}
+			LogHelper.showInfo("seedInvalidWorld", sender, ChatColor.RED);
+			LogHelper.showInfo("seedInvalidWorldList#####[" + ChatColor.GOLD
+					+ Utils.implode(worldNames, ChatColor.AQUA + ", " + ChatColor.GOLD), sender);
+			return true;
 		}
 
 		LogHelper.showInfo("seedShow#####[" + ChatColor.GOLD + world.getName() + ChatColor.AQUA + " #####is#####["

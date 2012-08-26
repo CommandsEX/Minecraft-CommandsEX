@@ -123,8 +123,8 @@ public class ClosestMatches {
 	}
 	
 	public static List<World> world(String input){
-		ArrayList<World> matches = new ArrayList<World>();
-        
+		List<World> matches = new ArrayList<World>();
+		
         for (World w : Bukkit.getWorlds()){
         	if ((w.getName().toLowerCase().equals(input.toLowerCase()) || String.valueOf(w.getUID()).equals(input))){
         		return Arrays.asList(w);
@@ -134,5 +134,41 @@ public class ClosestMatches {
         }
         
         return matches;
+	}
+	
+	public static List<World> intellWorld(String input, World currWorld){
+		List<World> matches = new ArrayList<World>();
+		input = input.toLowerCase();
+		
+		if (input.equals("nether") || input.equals("thenether") || input.equals("the_nether")
+				|| input.equals("end") || input.equals("theend") || input.equals("the_end")
+				|| input.equals("overworld") || input.equals("theoverworld") || input.equals("the_overworld")){
+			String cWorld = currWorld.getName();
+			String wBase = cWorld.split(":")[0];
+			String toWorld = null;
+			
+			if (input.contains("nether")){
+				toWorld = wBase + "_nether";
+			}
+			
+			if (input.contains("end")){
+				toWorld = wBase + "_the_end";
+			}
+			
+			if (input.contains("overworld")){
+				toWorld = wBase;
+			}
+			
+			World toSend = Bukkit.getWorld(toWorld);
+			if (toSend != null){
+				matches.add(toSend);
+			}
+		}
+		
+		if (matches.size() == 0){
+			matches = world(input);
+		}
+		
+		return matches;
 	}
 }
