@@ -94,8 +94,8 @@ public class Command_cex_gm {
 		
 		target.setGameMode(toGM);
 		if (sender != target){
-			LogHelper.showInfo("gamemodeToSender#####[" + Nicknames.getNick(target.getName()) + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
-			LogHelper.showInfo("gamemodeNotify#####[" + Nicknames.getNick(sender.getName()) + " #####to#####[ " + Utils.userFriendlyNames(toGM.name()), target, ChatColor.AQUA);
+			LogHelper.showInfo("gamemodeToSender#####[" + Nicknames.getNick(target.getName()) + " #####to#####[" + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
+			LogHelper.showInfo("gamemodeNotify#####[" + Nicknames.getNick(sender.getName()) + " #####to#####[" + Utils.userFriendlyNames(toGM.name()), target, ChatColor.AQUA);
 		} else {
 			LogHelper.showInfo("gamemodeSelf#####[" + Utils.userFriendlyNames(toGM.name()), sender, ChatColor.AQUA);
 		}
