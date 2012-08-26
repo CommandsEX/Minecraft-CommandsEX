@@ -6,14 +6,11 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
 
-public class Nicknames implements Listener {
+public class Nicknames {
 
 	/***
 	 * Nicknames - A collection of methods to handle nicknames
@@ -21,11 +18,6 @@ public class Nicknames implements Listener {
 	
 	// holds all player names and nicknames
 	static HashMap<String, String> nicknames = new HashMap<String, String>();
-	
-	public Nicknames(){
-		// register events
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
-	}
 	
 	public static void init(CommandsEX plugin){
 		// we can't restore nicknames if the database is disabled
@@ -49,15 +41,6 @@ public class Nicknames implements Listener {
 				ex.printStackTrace();
 			}
 		}
-		
-		// register events
-		new Nicknames();
-	}
-	
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e){
-		Player player = e.getPlayer();
-		showNick(player);
 	}
 	
 	/***
