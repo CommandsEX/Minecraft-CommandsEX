@@ -45,9 +45,8 @@ public class Bans {
     		this.pName = pName;
     	}
     	
-    	String pDispName = Nicknames.getNick(this.pName);
-    	
     	public void run() {
+    		String pDispName = Nicknames.getNick(this.pName);
     		// update database info if we can
     		if (CommandsEX.sqlEnabled) {
     			SQLManager.query("UPDATE " + SQLManager.prefix + "bans SET active = 0 WHERE player_name = ?", this.pName);

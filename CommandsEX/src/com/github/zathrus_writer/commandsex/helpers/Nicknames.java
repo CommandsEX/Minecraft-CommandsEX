@@ -5,9 +5,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -53,6 +54,12 @@ public class Nicknames implements Listener {
 		new Nicknames();
 	}
 	
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent e){
+		Player player = e.getPlayer();
+		showNick(player);
+	}
+	
 	/***
 	 * Set a players nickname
 	 * @param pName
@@ -68,18 +75,9 @@ public class Nicknames implements Listener {
 		
 		// if the player is online, set their nickname
 		Player player = Bukkit.getPlayerExact(pName);
-		if (!player.equals(null)){
-			showNick(player, nickname);
+		if (player != null){
+			showNick(player);
 		}
-	}
-	
-	/***
-	 * Shows a players nickname
-	 * @param player
-	 */
-	
-	public static void showNick(Player player){
-		showNick(player, getNick(player));
 	}
 	
 	/***
@@ -88,21 +86,8 @@ public class Nicknames implements Listener {
 	 * @param nickname
 	 */
 	
-	public static void showNick(Player player, String nickname){
-		// skip if nickname is equal to the players name
-		if (nickname.equals(player.getName())){
-			return;
-		}
-		
-		// allow colours in nicknames
-		nickname = Utils.replaceChatColors(nickname) + ChatColor.RESET;
-		String prefix = CommandsEX.getConf().getString("nicknamePrefix");
-		if (prefix.equals(null)){
-			prefix = "";
-		}
-		
-		// add the prefix
-		nickname = prefix + nickname;
+	public static void showNick(Player player){
+		String nickname = getNick(player.getName());
 		
 		// set their display name a TAB list name
 		player.setDisplayName(nickname);
@@ -153,13 +138,28 @@ public class Nicknames implements Listener {
 	 */
 	
 	public static String getNick(String pName){
+		String nickname = pName;
+		if (nicknames.containsKey(pName)){
+			nickname = Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + getRealNick(pName);
+		}
+		
+		return nickname;
+	}
+	
+	/***
+	 * Function to get a players real nickname, without the nicknamePrefix (default ~)
+	 * @param pName
+	 * @return
+	 */
+	
+	public static String getRealNick(String pName){
 		// their default nickname is their player name
 		String nickname = pName;
-		
+
 		if (nicknames.containsKey(pName)){
 			nickname = Utils.replaceChatColors(nicknames.get(pName));
 		}
-		
+
 		return nickname;
 	}
 	

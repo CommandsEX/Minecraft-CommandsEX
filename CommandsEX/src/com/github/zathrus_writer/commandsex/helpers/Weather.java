@@ -64,7 +64,7 @@ public class Weather implements Listener {
     	public void run() {
     		// broadcast weather change message to all players in the world
     		for (Player p : Bukkit.getOnlinePlayers()) {
-    			if (p.getWorld().getName() == worldName) {
+    			if (p.getWorld().getName().equals(worldName)) {
     				LogHelper.showInfo("weatherChangePlayerNotify", p);
     			}
     		}

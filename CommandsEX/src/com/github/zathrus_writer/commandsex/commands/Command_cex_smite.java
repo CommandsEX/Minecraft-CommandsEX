@@ -24,7 +24,7 @@ public class Command_cex_smite {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (!Utils.checkCommandSpam((Player) sender, "smite") && (!(sender instanceof Player) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.smite")))) {
+		if (!Utils.checkCommandSpam((Player) sender, "smite") && ((!(sender instanceof Player)) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.smite")))) {
 			if(args.length > 0) {
 				// get variables about the player 
 				Player smited = Bukkit.getServer().getPlayer(args[0]);

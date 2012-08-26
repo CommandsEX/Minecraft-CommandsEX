@@ -23,7 +23,7 @@ public class Command_cex_setrank {
 	 */
 	
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
-		if (!Utils.checkCommandSpam((Player) sender, "setrank") && (!(sender instanceof Player) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.setrank")))) {
+		if (!Utils.checkCommandSpam((Player) sender, "setrank") && ((!(sender instanceof Player)) || ((sender instanceof Player) && Permissions.checkPerms((Player) sender, "cex.setrank")))) {
 			// Check for Vault/Permissions
 			if(Vault.permsEnabled() != true) {
 				 LogHelper.logSevere(_("permissionsNotFound", ""));

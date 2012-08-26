@@ -151,7 +151,7 @@ public class Chat implements Listener {
 		if (mutedPlayers.containsKey(pName)) {
 			// remove player's unmute timer as well, if set
 			String[] s = mutedPlayers.get(pName).split("-");
-			if (s[1] != "0") {
+			if (!s[1].equals("0")) {
 				CommandsEX.plugin.getServer().getScheduler().cancelTask(Integer.parseInt(s[1]));
 			}
 			mutedPlayers.remove(pName);

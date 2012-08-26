@@ -80,7 +80,7 @@ public class Handler_bankickreason implements Listener {
 					String kickReason = ChatColor.RED + _("bansHeader", pName) + ChatColor.AQUA + "\n" + _("bansReason", pName)
 							+ ChatColor.GOLD + reason + "\n" + ChatColor.AQUA + _("bansExpires", pName) + ChatColor.GOLD + expireDate + "\n"
 							+ ChatColor.AQUA + _("bansBanTime", pName) + ChatColor.GOLD + createDate + " " + ChatColor.AQUA + _("by", pName)
-							+ ChatColor.GOLD + " " + bannerName + (!timeLeft.equals(null) ? "\n" + timeLeft : "");
+							+ ChatColor.GOLD + " " + bannerName + (timeLeft != null ? "\n" + timeLeft : "");
 					
 					e.setKickMessage(kickReason);
 

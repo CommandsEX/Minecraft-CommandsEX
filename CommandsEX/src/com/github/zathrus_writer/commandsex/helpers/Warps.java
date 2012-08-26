@@ -197,7 +197,7 @@ public class Warps {
 				}
 			}
 			
-			if (target.equals(null)){
+			if (target == null){
 				LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 				return true;
 			}
@@ -219,7 +219,7 @@ public class Warps {
 
 						target = Bukkit.getPlayer(args[0]);
 
-						if (target.equals(null)){
+						if (target == null){
 							LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 							return true;
 						}

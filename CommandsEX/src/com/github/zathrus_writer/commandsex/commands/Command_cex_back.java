@@ -1,6 +1,5 @@
 package com.github.zathrus_writer.commandsex.commands;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +26,8 @@ public class Command_cex_back {
     	}
     	
     	public void run() {
-    		if (lastLocations.containsKey(p)) {
-    			lastLocations.remove(p);
+    		if (lastLocations.containsKey(p.getName())) {
+    			lastLocations.remove(p.getName());
     		}
     	}
     }

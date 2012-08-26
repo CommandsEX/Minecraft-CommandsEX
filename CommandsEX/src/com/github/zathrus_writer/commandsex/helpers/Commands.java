@@ -130,7 +130,7 @@ public class Commands implements CommandExecutor {
 				usage = usage.replaceAll("<command>", alias);
 				
 				if (usage.contains("\n") || usage.contains("\r")) {
-					usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
+					usage = usage.replaceAll("\r", "\n").replaceAll("\n\n", "");
 					String[] splitted = usage.split("\n");
 					sender.sendMessage(ChatColor.RED + _("usage", sender.getName()) + ":");
 					for (String rVal : splitted) {

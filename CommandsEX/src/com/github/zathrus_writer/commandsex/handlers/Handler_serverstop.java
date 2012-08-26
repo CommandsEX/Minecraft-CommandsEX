@@ -10,11 +10,11 @@ public class Handler_serverstop extends Thread {
 
 	public Handler_serverstop(){
 		// custom shutdown kick messages
-		Runtime.getRuntime().addShutdownHook(new shutdownHook());
+		Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 	}
 }
 
-class shutdownHook extends Thread {
+class ShutdownHook extends Thread {
 	
 	public void run() {
 		String kickMsg = Utils.replaceChatColors(CommandsEX.getConf().getString("shutdownKickMessage"));

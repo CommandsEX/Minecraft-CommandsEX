@@ -25,6 +25,8 @@ Beta 1.90
 @ /give and /item command now works the vanilla way too (/give iKeirNez 90 5 2) meaning you won't have to edit TooManyItem's settings if you use that
 @ if an invisible player accepts a tp request while invisible, the requesting player will not be notified
 
+* fixed tones of tiny bugs everywhere by using the FindBugs plugin for Eclipse
+* fixed delayed removals of /back locations
 * fixed 2 bugs in /butcher command
 * fixed message when being notified that someone has used /burn on you
 * fixed some bad code in /clear command
@@ -34,6 +36,10 @@ Beta 1.90
 * fixed some teleport messages
 * fixed some bad code in /repair
 * fixed invisible players showing in the /tpaall count
+* fixed some bad code in /ownerstatus
+* fixed some bad code in unmuting
+* fixed XMPP join messages being re-relayed through XMPP
+* fixed join and quit colors
 
 # new perm cex.warp.others
 # new perm cex.warp.*

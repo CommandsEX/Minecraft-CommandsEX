@@ -34,7 +34,7 @@ public class Command_cex_ownerstatus {
 		if(player == owner) {
 						
 			// If they ain't used any correct args
-			if(args.length != 1 || args[0]=="help" || args[0]=="check") {
+			if(args.length != 1 || args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("check")) {
 				
 				// Tell them what they are
 				LogHelper.showInfo("ownerCheckStatus#####" + "[" + ownerStatus, sender);
