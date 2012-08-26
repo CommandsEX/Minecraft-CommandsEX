@@ -124,7 +124,7 @@ public class Nicknames {
 	public static String getNick(String pName){
 		String nickname = pName;
 		if (nicknames.containsKey(pName)){
-			nickname = Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + getRealNick(pName);
+			nickname = ChatColor.WHITE + Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + getRealNick(pName) + ChatColor.RESET;
 		}
 		
 		return nickname;
