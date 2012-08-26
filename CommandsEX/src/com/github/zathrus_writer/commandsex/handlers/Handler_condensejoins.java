@@ -165,7 +165,6 @@ public class Handler_condensejoins implements Listener {
 						// send the xmpp message in default language
 						String xmppMessage = ChatColor.WHITE + (String) joinNicks.get(0) + " " + ChatColor.YELLOW + _("chatJoins", "");
 						XMPPer.chatRoom.sendMessage(XMPPer.filterOutgoing(xmppMessage));
-						System.out.println("Forwarded: " + xmppMessage);
 					} catch (Throwable e) {
 						// nothing bad happens if we don't have XMPP module present :)
 					}
