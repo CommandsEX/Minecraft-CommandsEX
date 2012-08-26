@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
@@ -73,8 +74,8 @@ public class Nicknames {
 		String nickname = getNick(player.getName());
 		
 		// set their display name a TAB list name
-		player.setDisplayName(nickname);
-		player.setPlayerListName(nickname);
+		player.setDisplayName(nickname + ChatColor.RESET);
+		player.setPlayerListName(nickname + ChatColor.RESET);
 	}
 	
 	/***
