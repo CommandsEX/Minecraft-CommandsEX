@@ -159,8 +159,9 @@ public class Nicknames {
 			try {
 				ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
 				while (rs.next()){
-					if (!nicknames.containsKey(rs.getString("player_name"))){
-						rs.deleteRow();
+					String rsName = rs.getString("player_name");
+					if (!nicknames.containsKey(rsName)){
+						SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", rsName);
 					}
 				}
 			} catch (SQLException ex){
@@ -181,6 +182,7 @@ public class Nicknames {
 					} else {
 						SQLManager.query("UPDATE " + SQLManager.prefix + "nicknames SET player_name = ?, nickname = ? WHERE player_name = ?", pName, nickname, pName);
 					}
+					res.close();
 				} catch (SQLException e) {
 				}
 			}
