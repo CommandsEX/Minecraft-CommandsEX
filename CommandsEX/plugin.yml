@@ -629,6 +629,21 @@ permissions:
   cex.enderchest.others:
     default: op
     description: Allows the player to view other players ender chests
+  cex.enchant:
+    default: op
+    description: Allows the player to use the /enchant command
+  cex.enchant.all:
+    default: op
+    description: Allows the player to use the "all" function with /enchant
+  cex.enchant.remove:
+    default: op
+    description: Allows the player to use the "remove" function with /enchant
+  cex.enchant.clear:
+    default: op
+    description: Allows the player to use the "removeall" function with /enchant
+  cex.enchant.*:
+    default: op
+    description: Allows access to all enchantments
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1370,3 +1385,9 @@ commands:
     permission: cex.enderchest
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [enderchest, ec, echest]
+  cex_enchant:
+    description: Enchants the item in a players hand
+    usage: /<command> [all/list/enchantment] [level]
+    permission: cex.enchant
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [enchant]

@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ocelot.Type;
 import org.bukkit.entity.Villager.Profession;
@@ -167,6 +168,20 @@ public class ClosestMatches {
 		
 		if (matches.size() == 0){
 			matches = world(input);
+		}
+		
+		return matches;
+	}
+	
+	public static List<Enchantment> enchantments(String input){
+		List<Enchantment> matches = new ArrayList<Enchantment>();
+		
+		for (Enchantment ench : Enchantment.values()){
+			if (ench.getName().replaceAll("_", "").equalsIgnoreCase(input) || String.valueOf(ench.getId()).equals(input)){
+				return Arrays.asList(ench);
+			} else if (ench.getName().toLowerCase().replaceAll("_", "").contains(input.toLowerCase())){
+				matches.add(ench);
+			}
 		}
 		
 		return matches;

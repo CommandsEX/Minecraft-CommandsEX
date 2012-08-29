@@ -10,6 +10,7 @@ Beta 1.90
 ---------
 # support for CraftBukkit 1.3.1 RB R2.0
 
++ added command /enchant for all enchanting needs
 + added command /seed to show the seed of any world, even from the console
 + added command /nick to set a players nickname
 + added command /whois to find out the username behind a nickname
@@ -41,6 +42,7 @@ Beta 1.90
 * fixed XMPP join messages being re-relayed through XMPP
 * fixed join and quit colors
 * fixed broken Minecraft -> XMPP chat
+* fixed all MySQL databases
 
 # new perm cex.warp.others
 # new perm cex.warp.*
@@ -62,6 +64,12 @@ Beta 1.90
 # new perm cex.death.keep.armor.leggings
 # new perm cex.death.keep.armor.boots
 # new perm cex.death.keep.xp
+# new perm cex.enchant
+# new perm cex.enchant.*
+# new perm cex.enchant.<enchantment name>
+# new perm cex.enchant.all
+# new perm cex.enchant.remove
+# new perm cex.enchant.clear
 
 Beta 1.85
 ---------
