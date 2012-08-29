@@ -1,7 +1,10 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -61,21 +64,34 @@ public class Time {
 		}
 		
 		// now move the time :)
-		Player p = (Player) sender;
-		String pName = p.getName();
-		String worldName = p.getWorld().getName();
+		String pName = Nicknames.getNick(sender.getName());
+		World cWorld = (sender instanceof Player ? ((Player) sender).getWorld() : Bukkit.getWorlds().get(0));
+		World world;
+		
+		if (args.length > 2){
+			List<World> matches = ClosestMatches.intellWorld(args[2], cWorld);
+			
+			if (matches.size() > 0){
+				world = matches.get(0);
+			} else {
+				LogHelper.showInfo("invalidWorld", sender, ChatColor.RED);
+				return;
+			}
+		} else {
+			world = cWorld;
+		}
 		
 		if (args[0].equalsIgnoreCase("set")) {
-			p.getWorld().setTime(moveBy);
+			world.setTime(moveBy);
 		} else {
-			p.getWorld().setTime(p.getWorld().getTime() + moveBy);
+			world.setTime(world.getTime() + moveBy);
 		}
 		
 		// tell the player and anyone with permission to see what happened
-		LogHelper.showInfo("timeChanged#####[" + Utils.parseTime(p.getWorld().getTime()) + " #####timeOr#####[" + p.getWorld().getTime() + " #####timeTicks", sender);
+		LogHelper.showInfo("timeChanged#####[" + Utils.parseTime(world.getTime()) + " #####timeOr#####[" + world.getTime() + " #####timeTicks" + (!cWorld.equals(world) ? "#####in#####[ " + world.getName() : ""), sender);
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (!player.equals(p) && Permissions.checkPermEx(player, "cex.time.notify")) {
-				LogHelper.showInfo("timeChangedBy1#####[" + worldName + " #####timeChangedBy2#####[" + Nicknames.getNick(pName), player);
+			if (!player.equals(sender) && Permissions.checkPermEx(player, "cex.time.notify")) {
+				LogHelper.showInfo("timeChangedBy1#####[" + world.getName() + " #####timeChangedBy2#####[" + Nicknames.getNick(pName), player);
 			}
 		}
 	}

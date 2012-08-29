@@ -61,7 +61,7 @@ public class Command_cex_seed {
 			for (World w : Bukkit.getWorlds()){
 				worldNames.add(w.getName());
 			}
-			LogHelper.showInfo("seedInvalidWorld", sender, ChatColor.RED);
+			LogHelper.showInfo("invalidWorld", sender, ChatColor.RED);
 			LogHelper.showInfo("seedInvalidWorldList#####[" + ChatColor.GOLD
 					+ Utils.implode(worldNames, ChatColor.AQUA + ", " + ChatColor.GOLD), sender);
 			return true;

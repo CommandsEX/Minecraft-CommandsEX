@@ -24,6 +24,7 @@ Beta 1.90
 
 @ merged functions from /item and /give into one class file, this will make it easier to change them in the future
 @ /give and /item command now works the vanilla way too (/give iKeirNez 90 5 2) meaning you won't have to edit TooManyItem's settings if you use that
+@ /time command can now be used from the console and multiple worlds
 @ if an invisible player accepts a tp request while invisible, the requesting player will not be notified
 
 * fixed tones of tiny bugs everywhere by using the FindBugs plugin for Eclipse
