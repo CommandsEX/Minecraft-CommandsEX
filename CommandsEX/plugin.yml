@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 'Beta 1.85'
+version: 'Beta 1.90'
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault, VanishNoPacket]
 permissions:
@@ -1355,12 +1355,6 @@ commands:
     permission: cex.butcher
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [butcher]
-  cex_disguise:
-    description: Disguise as a mob.
-    usage: /<command>
-    permission: cex.disguise
-    permission-message: You don't have sufficient permissions to use this command.
-    aliases: [disguise]
   cex_nickname:
     description: Set your own nickname
     usage: /<command> [player] <nickname/reset>
