@@ -25,7 +25,7 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CexCommands {
 	
-	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile", "replacements", "xmppUser", "xmppHost", "xmppPassword", "xmppRoom.name", "xmppRoom.password", "xmppBotNick", "xmppCommandPrefix", "xmppAdmins", "timedPromote", "ecoPromote", "quizDiff", "quizzes", "kits", "deathGroupChanges"};
+	protected static String[] unconfigurables = {"enableDatabase", "sqlType", "database", "host", "port", "name", "password", "prefix", "chatReplaceFile", "playerCommandsReplaceFile", "consoleCommandsReplaceFile", "replacements", "xmppUser", "xmppHost", "xmppPassword", "xmppRoom.name", "xmppRoom.password", "xmppBotNick", "xmppCommandPrefix", "xmppAdmins", "timedPromote", "ecoPromote", "quizDiff", "quizzes", "kits", "deathGroupChanges", "autoSave"};
 	
 	/***
 	 * Handles reactions on the /cex command.
@@ -328,6 +328,8 @@ public class CexCommands {
 						sender.sendMessage(ChatColor.YELLOW + _("configButcherDefaultRadius", sender.getName()) + p.getConfig().getInt("butcherDefaultRadius"));
 					} else if (v.equals("perworldspawn")){
 						sender.sendMessage(ChatColor.YELLOW + _("configPerWorldSpawn", sender.getName()) + p.getConfig().getBoolean("perWorldSpawn"));
+					} else if (v.equals("nicknamePrefix")){
+						sender.sendMessage(ChatColor.YELLOW + _("configNicknamePrefix", sender.getName()) + p.getConfig().getString("nicknamePrefix"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}
@@ -1065,6 +1067,10 @@ public class CexCommands {
 						p.getConfig().set("perWorldSpawn", !p.getConfig().getBoolean("perWorldSpawn"));
 						p.saveConfig();
 						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + (p.getConfig().getBoolean("perWorldSpawn") ? ChatColor.GREEN + _("configStatusTrue", sender.getName()) : ChatColor.RED + _("configStatusFalse", sender.getName())));
+					} else if (v.equals("nicknameprefix")){
+						p.getConfig().set("nicknamePrefix", (args[0].equals("cs") ? args[2] : args[3]));
+						p.saveConfig();
+						sender.sendMessage(ChatColor.YELLOW + _("configUpdated", sender.getName()) + ChatColor.WHITE + p.getConfig().getString("nicknamePrefix"));
 					} else {
 						LogHelper.showWarning("configUnrecognized", sender);
 					}

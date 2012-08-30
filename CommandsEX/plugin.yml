@@ -701,9 +701,6 @@ permissions:
   Listener.bankickreason:
     default: true
     description: Placeholder for event function to kick banned players for the correct reason
-  Listener.joinfull:
-    default: true
-    description: Placeholder for event function to allow players with a certain a permission to join while the server is full
   Listener.keepinventory:
     default: true
     description: Placeholder for event function to allow players with a permission node to keep their inventories on death
@@ -1015,7 +1012,7 @@ commands:
     aliases: [weather]
   cex_time:
     description: Allows player to change time in the current world.
-    usage: /<command> (set/add/view) (value/day/morning/noon/evening/night)
+    usage: /<command> (set/add/view) (value/day/morning/noon/evening/night) [world]
     permission: cex.time
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [time]
