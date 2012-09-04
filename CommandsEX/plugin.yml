@@ -982,7 +982,7 @@ commands:
     aliases: [clearinventory,clear,clearinvent,ci]
   cex_broadcast:
     description: Broadcasts a message from player to everyone on the server in the /say way.
-    usage: /<command> <Message>
+    usage: /<command> [-p, -t] <Message>
     permission: cex.broadcast
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [broadcast,bcast]

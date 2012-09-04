@@ -22,10 +22,16 @@ public class Command_cex_broadcast {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			if (args.length > 0) {
 				Player player = (Player)sender;
-				
 				if (!Utils.checkCommandSpam(player, "broadcast") && Permissions.checkPerms(player, "cex.broadcast")) {
-					Bukkit.getServer().broadcastMessage(ChatColor.BLUE + "[" + ChatColor.GREEN + "Broadcast" + ChatColor.BLUE +  "]"+ ChatColor.GREEN + ": " + Utils.replaceChatColors(Utils.implode(args, " ")));
-					//Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[" + player.getName() + "]: " + Utils.implode(args, " "));
+					String toBroadcast = "";
+					if(args[0].equalsIgnoreCase("-t")) { // ahem no == :P
+						toBroadcast += Utils.replaceChatColors(args[1]) + Utils.replaceChatColors(Utils.implode(args, " "));
+					} else if(args[0].equalsIgnoreCase("-p")) {
+						toBroadcast = ChatColor.LIGHT_PURPLE + "[" + player.getName() + "]: " + Utils.replaceChatColors(Utils.implode(args, " "));
+					} else {
+						toBroadcast = ChatColor.BLUE + "[" + ChatColor.GREEN + "Broadcast" + ChatColor.BLUE +  "]"+ ChatColor.GREEN + ": " + Utils.replaceChatColors(Utils.implode(args, " "));
+					}
+					Bukkit.getServer().broadcastMessage(toBroadcast);
 				}
 			} else {
 				// show usage
