@@ -982,7 +982,7 @@ commands:
     aliases: [clearinventory,clear,clearinvent,ci]
   cex_broadcast:
     description: Broadcasts a message from player to everyone on the server in the /say way.
-    usage: /<command> <Message>
+    usage: /<command> [-p, -t] <Message>
     permission: cex.broadcast
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [broadcast,bcast]
@@ -1382,3 +1382,9 @@ commands:
     permission: cex.enchant
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [enchant]
+  cex_urbandictionary:
+    description: Gets the definition of a word from the Urban Dictionary
+    usage: /<command> [word]
+    permission: cex.urbandictionary
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [urbandictionary, urban, dictionary, define, ud]
