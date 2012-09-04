@@ -1387,4 +1387,4 @@ commands:
     usage: /<command> [word]
     permission: cex.urbandictionary
     permission-message: You don't have sufficient permissions to use this command.
-    aliases: [urban, dictionary, define, ud]
+    aliases: [urbandictionary, urban, dictionary, define, ud]
