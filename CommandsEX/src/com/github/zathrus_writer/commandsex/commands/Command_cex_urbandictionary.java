@@ -30,6 +30,7 @@ public class Command_cex_urbandictionary {
 			if(args.length == 1) {
 				String def = null;
 				try {
+					LogHelper.showInfo("urbanDictionaryPleaseWait", sender);
 					HttpURLConnection url = (HttpURLConnection) new URL("http://urbanscraper.herokuapp.com/define/" + args[0] + ".json").openConnection();
 					url.setConnectTimeout(10000);
 					url.setReadTimeout(10000);
