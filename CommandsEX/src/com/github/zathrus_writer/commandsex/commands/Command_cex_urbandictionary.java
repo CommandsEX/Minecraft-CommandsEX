@@ -46,7 +46,7 @@ public class Command_cex_urbandictionary {
 				Matcher matcher = pattern.matcher(def);
 				if (matcher.find()) {
 				    def = matcher.group(1);
-				    LogHelper.showInfo("urbanDictionaryDef#####[" + def, sender);
+				    LogHelper.showInfo("urbanDictionaryDef#####[" + def.replaceAll("\\\\r", "\n"), sender);
 				} else {
 					LogHelper.showWarnings(sender, "urbanDictionaryError");
 				}
