@@ -427,3 +427,7 @@ autoSave:
   messagesFinish:
     - '&6The server has finished saving'
     - '&6Gameplay will return to normal'
+    
+Email:
+  Host: 'mail.example.net'
+  From: 'your.email.net'

@@ -11,5 +11,6 @@
 			<attribute name="javadoc_location" value="http://mythcraft.dyndns.org/javadoc/vault/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
