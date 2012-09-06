@@ -644,6 +644,9 @@ permissions:
   cex.enchant.*:
     default: op
     description: Allows access to all enchantments
+  cex.email:
+    default: op
+    description: Allows sending of E-Mails
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1388,3 +1391,9 @@ commands:
     permission: cex.urbandictionary
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [urbandictionary, urban, dictionary, define, ud]
+  cex_email:
+    description: Sends an E-Mail from within game
+    usage: /<command> [help|new|delete|subject|recipient|message|send] [value]
+    permission: cex.email
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [email]
