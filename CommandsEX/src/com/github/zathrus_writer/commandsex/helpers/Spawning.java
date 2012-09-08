@@ -129,7 +129,7 @@ public class Spawning {
 				getSpawns().set("globalSpawnWorld", world.getName());
 			}
 			
-			world.setSpawnLocation((int) loc.getX(), (int) loc.getY(), (int) loc.getZ());
+			world.setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 			getSpawns().set(world.getName() + ".yaw", loc.getYaw());
 			getSpawns().set(world.getName() + ".pitch", loc.getPitch());
 			saveSpawns();
