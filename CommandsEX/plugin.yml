@@ -1387,7 +1387,7 @@ commands:
     aliases: [enderchest, ec, echest]
   cex_enchant:
     description: Enchants the item in a players hand
-    usage: /<command> [all/list/enchantment] [level]
+    usage: /<command> [list/clear/remove/all/enchantment] [level] [flags]
     permission: cex.enchant
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [enchant]

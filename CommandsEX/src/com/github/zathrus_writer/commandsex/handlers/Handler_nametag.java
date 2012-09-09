@@ -23,12 +23,9 @@ public class Handler_nametag implements Listener {
 		String pName = tagPlayer.getName();
 		String tag = Nametags.getTag(pName);
 		if (!tag.equals(pName)){
-			if (tagPlayer.hasPermission("cex.nametag.color")){
-				tag = Utils.replaceChatColors(tag);
-			}
-			
+			tag = Utils.replaceChatColors(tag);
 			e.setTag(tag);
 		}
 	}
-	
+
 }
