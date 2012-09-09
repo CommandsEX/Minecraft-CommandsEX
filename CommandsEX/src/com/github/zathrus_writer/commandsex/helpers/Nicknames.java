@@ -15,6 +15,7 @@ public class Nicknames {
 
 	/***
 	 * Nicknames - A collection of methods to handle nicknames
+	 * @author iKeirNez
 	 */
 	
 	// holds all player names and nicknames

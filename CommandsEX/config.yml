@@ -420,6 +420,7 @@ autoSave:
   players: true
   worlds: true
   nicknames: true
+  nametags: true
   prefix: '&d[AutoSave] '
   messagesBegin:
     - '&6The server is now being saved'

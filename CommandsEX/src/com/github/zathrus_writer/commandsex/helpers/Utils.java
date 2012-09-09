@@ -262,6 +262,24 @@ public class Utils {
 	}
 	
 	/***
+	 * Checks a string for any chat colors, useful for restricting players from using colors
+	 * @param s
+	 * @return
+	 */
+	
+	public static boolean hasChatColor(String s) {
+		boolean hasChatColor = false;
+		
+		for (ChatColor c : ChatColor.values()){
+			if (s.contains("&" + c.getChar())){
+				hasChatColor = true;
+			}
+		}
+		
+		return hasChatColor;
+	}
+	
+	/***
 	 * Takes a value e.g. a material name and makes it look more user friendly. E.g. GLASS_PANE would become Glass Pane
 	 */
 	

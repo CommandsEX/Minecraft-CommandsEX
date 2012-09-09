@@ -38,8 +38,13 @@ public class AutoSaving {
 				if (CommandsEX.getConf().getBoolean("autoSave.nicknames")){
 					try {
 						Nicknames.saveNicks();
-					} catch (Exception ex){
-					}
+					} catch (Exception ex){}
+				}
+				
+				if (CommandsEX.getConf().getBoolean("autoSave.nametags")){
+					try {
+						Nametags.saveTags();
+					} catch (Exception ex){}
 				}
 				
 				for (String s : CommandsEX.getConf().getStringList("autoSave.messagesFinish")){

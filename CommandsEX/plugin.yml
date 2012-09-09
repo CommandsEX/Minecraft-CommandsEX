@@ -5,7 +5,7 @@ name: CommandsEX
 load: postworld
 version: 'Beta 1.90'
 website: http://dev.bukkit.org/server-mods/commandsex
-softdepend: [Vault, VanishNoPacket]
+softdepend: [Vault, VanishNoPacket, TagAPI]
 permissions:
   cex.allowspamcommands:
     default: op
@@ -602,6 +602,15 @@ permissions:
   cex.nick.others:
     default: op
     description: Allows the player to set others nicknames
+  cex.nametag:
+    default: op
+    description: Allows access to the /nametag command
+  cex.nametag.others:
+    default: op
+    description: Allows the player to set others nametags
+  cex.nametag.color:
+    default: op
+    description: Allows the player to use color codes in their nametag
   cex.seed:
     default: op
     description: Allows the player to use /seed
@@ -698,6 +707,9 @@ permissions:
   Listener.nicknames:
     default: true
     description: Placeholder for event function to handle nicknames
+  Listener.nametag:
+    default: true
+    description: Placeholder for event function to handle nametags
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
@@ -1349,6 +1361,12 @@ commands:
     permission: cex.nick
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [nickname, nick, displayname]
+  cex_nametag:
+    description: Set your own nickname
+    usage: /<command> [player] <nickname/reset>
+    permission: cex.nametag
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [nametag, tag, displaytag]
   cex_seed:
     description: Shows a worlds seed
     usage: /<command> [world]

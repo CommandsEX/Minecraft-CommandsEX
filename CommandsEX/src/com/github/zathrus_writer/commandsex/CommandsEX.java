@@ -26,12 +26,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.tag.TagAPI;
 import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Metrics;
+import com.github.zathrus_writer.commandsex.helpers.Nametags;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -72,6 +74,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static Boolean vaultPresent = false;
 	// true if VanishNoPacket plugin was found in the server installation
 	public static Boolean vanishNoPacketPresent = false;
+	// true if TagAPI plugin was found in server installation
+	public static Boolean tagAPIPresent = false;
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
 
@@ -104,6 +108,12 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		try {
 			new VanishNoPacket();
 			vanishNoPacketPresent = true;
+		} catch (Throwable e){}
+		
+		// check for TagAPI plugin presence
+		try {
+			new TagAPI();
+			tagAPIPresent = true;
 		} catch (Throwable e){}
 		
 		// set up commands listener
@@ -251,10 +261,16 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			Nicknames.saveNicks();
 		} catch (Exception ex){
 		}
-		
+
+		// save nametags to database from HashMap
+		try {
+			Nametags.saveTags();
+		} catch (Exception ex){
+		}
+
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
-		
+
 		// execute everything that should be executed on disable
 		if (onDisableFunctions.size() > 0) {
 			Class<?>[] proto = new Class[] {this.getClass()};

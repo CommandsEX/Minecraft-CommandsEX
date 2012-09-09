@@ -6,6 +6,15 @@ Key:
 ~ = New bug
 # = Note
 
+Beta 1.95
+---------
+
++ added command /nametag to change your nametag/skin, TagAPI required
+
+# new perm cex.nametag
+# new perm cex.nametag.color
+# new perm cex.nametag.others
+
 Beta 1.90
 ---------
 # support for CraftBukkit 1.3.1 RB R2.0
