@@ -13,6 +13,12 @@ Beta 1.95
 + added command /workbench to open a virtual workbench
 + added command /enchantingtable to open a virtual enchanting table
 
+@ updated the UpdateAlerter to h31ix's version
+
+# version formatting has changed slightly
+
+# replaced perm cex.update.announce with cex.update.alert
+
 # new perm cex.nametag
 # new perm cex.nametag.color
 # new perm cex.nametag.others

@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
@@ -78,7 +79,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static Boolean tagAPIPresent = false;
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
-
+	public static File file;
+	
 	/***
 	 * Class constructor.
 	 * We need the static plugin declaration for getting config from other modules.
@@ -93,7 +95,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		startTimer();
-
+		file = getFile();
+		
 		// save default config if not saved yet
 		getConfig().options().copyDefaults(true);
 		saveConfig();
