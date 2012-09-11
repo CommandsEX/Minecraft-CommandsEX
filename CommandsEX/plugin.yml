@@ -644,6 +644,18 @@ permissions:
   cex.email:
     default: op
     description: Allows sending of E-Mails
+  cex.workbench: 
+    default: op
+    description: Allows access to virtual workbench
+  cex.workbench.others: 
+    default: op
+    description: Allows access to open a virtual workbench for someone else
+  cex.enchantingtable:
+    default: op
+    description: Allows access to virtual enchanting table
+  cex.enchantingtable.others:
+    default: op
+    description: Allows access to open a virtual enchanting table for someone else
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1406,3 +1418,15 @@ commands:
     permission: cex.email
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [email]
+  cex_workbench:
+    description: Brings up a virtual workbench
+    usage: /<command> [player]
+    permission: cex.workbench
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [workbench, craftingtable, crafting]
+  cex_enchantingtable:
+    description: Brings up a virtual enchanting table
+    usage: /<command> [player]
+    permission: cex.enchantingtable
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [enchantingtable, enchanting]

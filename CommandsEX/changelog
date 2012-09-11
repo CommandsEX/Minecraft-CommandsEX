@@ -10,10 +10,16 @@ Beta 1.95
 ---------
 
 + added command /nametag to change your nametag/skin, TagAPI required
++ added command /workbench to open a virtual workbench
++ added command /enchantingtable to open a virtual enchanting table
 
 # new perm cex.nametag
 # new perm cex.nametag.color
 # new perm cex.nametag.others
+# new perm cex.workbench
+# new perm cex.workbench.others
+# new perm cex.enchantingtable
+# new perm cex.enchantingtable.others
 
 Beta 1.90
 ---------
