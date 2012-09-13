@@ -19,9 +19,7 @@ public class Handler_email {
 		try {
 			ClasspathHacker.addFile(f);
 			classpathAdded = true;
-			System.out.println("ADDED");
 		} catch (Exception e){
-			System.out.println("ERROR");
 		}
 	}
 	
