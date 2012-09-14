@@ -17,6 +17,7 @@ Beta 1.95
 @ added promoteSet to the config, this will set a players group on promote rather than add
 
 * fixed a bug allowing any player to teleport to anyones home
+* fixed teleporting messages reporting incorrect players
 
 # version formatting has changed slightly
 # replaced perm cex.update.announce with cex.update.alert

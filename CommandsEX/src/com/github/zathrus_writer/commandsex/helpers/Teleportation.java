@@ -73,11 +73,11 @@ public class Teleportation {
 			if ((command.equals("tp") && (aLength == 1)) || command.equals("tpto")) {
 				// simple tp to another person
 				delayedTeleport(player2, player1.getLocation());
-				LogHelper.showInfo("tpTeleport#####[ " + Nicknames.getNick(player2.getName()), sender);
+				LogHelper.showInfo("tpTeleport#####[ " + Nicknames.getNick(player1.getName()), sender);
 			} else if ((command.equals("tphere")) || (command.equals("tp") && (aLength > 1))) {
 				// teleporting another player to our position OR first player to second player (via arguments)
 				delayedTeleport(player1, player2.getLocation());
-				LogHelper.showInfo("[" + Nicknames.getNick(player2.getName()) + "#####tpHereTeleport", sender);
+				LogHelper.showInfo("[" + Nicknames.getNick(player1.getName()) + " #####tpHereTeleport", sender);
 			}
 		}
         return true;
