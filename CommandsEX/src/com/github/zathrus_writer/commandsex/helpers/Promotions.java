@@ -88,7 +88,18 @@ public class Promotions {
 			
 			// if we have a promotion to deliver, do it here
 			if (!promotedTo.equals("")) {
-				Vault.perms.playerAddGroup(p, promotedTo);
+				if (CommandsEX.getConf().getBoolean("promoteSet")){
+					// if promoteSet is true, REMOVE all groups from the player
+					// and then add the group the player is being promoted to
+					for (String group : Vault.perms.getPlayerGroups(p)){
+						Vault.perms.playerRemoveGroup(p, group);
+					}
+					
+					Vault.perms.playerAddGroup(p, promotedTo);
+				} else {
+					// if promoteSet is false, simply add the group to the player
+					Vault.perms.playerAddGroup(p, promotedTo);
+				}
 				LogHelper.showInfo("timedPromoteMessage1", p, ChatColor.GREEN);
 				LogHelper.showInfo("timedPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
 			}
@@ -163,7 +174,18 @@ public class Promotions {
 			
 			// if we have a promotion to deliver, do it here
 			if (!promotedTo.equals("")) {
-				Vault.perms.playerAddGroup(p, promotedTo);
+				if (CommandsEX.getConf().getBoolean("promoteSet")){
+					// if promoteSet is true, remove all groups from a player
+					// and then add the promoted group, making it their default group
+					for (String group : Vault.perms.getPlayerGroups(p)){
+						Vault.perms.playerRemoveGroup(p, group);
+					}
+					
+					Vault.perms.playerAddGroup(p, promotedTo);
+				} else {
+					// if promoteSet is false, add the group to the player
+					Vault.perms.playerAddGroup(p, promotedTo);
+				}
 				LogHelper.showInfo("ecoPromoteMessage1", p, ChatColor.GREEN);
 				LogHelper.showInfo("ecoPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
 			}

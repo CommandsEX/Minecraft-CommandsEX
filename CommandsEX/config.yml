@@ -185,6 +185,9 @@ ecoPromoteExclude: [admin]
 # if this is true, players that drop below treshold of their own group will be removed from this group (i.e. demoted)
 ecoPromoteAutoDemote: true
 
+# if TRUE this will REMOVE players from all other groups when promoted, if FALSE the group will be ADDED to them
+promoteSet: false
+
 # list of all commands that are used for private messaging, so CommandsEX can intercept them
 # IMPORTANT: PLEASE USE LOWERCASE LETTERS FOR THESE COMMANDS OR SPY MODE WILL NOT WORK FOR THEM!
 privateMsgCommands: [tell,msg]

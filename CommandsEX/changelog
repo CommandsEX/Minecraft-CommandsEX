@@ -14,6 +14,7 @@ Beta 1.95
 + added command /enchantingtable to open a virtual enchanting table
 
 @ updated the UpdateAlerter to h31ix's version
+@ added promoteSet to the config, this will set a players group on promote rather than add
 
 # version formatting has changed slightly
 
@@ -26,6 +27,8 @@ Beta 1.95
 # new perm cex.workbench.others
 # new perm cex.enchantingtable
 # new perm cex.enchantingtable.others
+
+# new config node promoteSet
 
 Beta 1.90
 ---------
