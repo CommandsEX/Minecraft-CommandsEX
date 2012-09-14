@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nametags;
@@ -27,7 +26,7 @@ public class Command_cex_nametag extends Nametags {
 			return true;
 		}
 		
-		if (!CommandsEX.tagAPIPresent){
+		if (!Nametags.tagAPIPresent){
 			LogHelper.showWarning("tagNoTagAPI", sender);
 			return true;
 		}

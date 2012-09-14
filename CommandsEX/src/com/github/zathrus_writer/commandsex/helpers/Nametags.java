@@ -7,23 +7,27 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.kitteh.tag.TagAPI;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
 
-public class Nametags {
+public class Nametags implements Listener {
 
 	/***
 	 * Common methods used with nametags
 	 * Most code from the Nicknames class
 	 * @author iKeirNez
 	 */
-	
+
 	// stores all nicknames
 	public static HashMap<String, String> nametags = new HashMap<String, String>();
-	
-	public static void init(CommandsEX plugin){
+	public static boolean tagAPIPresent = false;
+
+	public Nametags(){
 		// we can't restore nametags if the database is disabled
 		if (!CommandsEX.sqlEnabled){
 			return;
@@ -45,8 +49,29 @@ public class Nametags {
 				ex.printStackTrace();
 			}
 		}
+
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 
+	public static void init(CommandsEX plugin){
+		Plugin pl = Bukkit.getPluginManager().getPlugin("TagAPI");
+		if (pl != null && pl.isEnabled()){
+			tagAPIPresent = true;
+			new Nametags();
+		}
+	}
+
+	@EventHandler
+	public void onNameTag(org.kitteh.tag.PlayerReceiveNameTagEvent e){
+		Player tagPlayer = e.getNamedPlayer();
+		String pName = tagPlayer.getName();
+		String tag = Nametags.getTag(pName);
+		if (!tag.equals(pName)){
+			tag = Utils.replaceChatColors(tag);
+			e.setTag(tag);
+		}
+	}
+	
 	/***
 	 * Set a players nametag
 	 * @param pName
@@ -61,7 +86,7 @@ public class Nametags {
 		nametags.put(pName, nametag);
 		Player player = Bukkit.getPlayerExact(pName);
 		if (player != null){
-			TagAPI.refreshPlayer(player);
+			org.kitteh.tag.TagAPI.refreshPlayer(player);
 		}
 	}
 

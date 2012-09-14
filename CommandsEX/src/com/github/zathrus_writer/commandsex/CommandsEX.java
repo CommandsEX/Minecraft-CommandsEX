@@ -27,7 +27,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.kitteh.tag.TagAPI;
 import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 import com.github.zathrus_writer.commandsex.helpers.Commands;
@@ -75,8 +74,6 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static Boolean vaultPresent = false;
 	// true if VanishNoPacket plugin was found in the server installation
 	public static Boolean vanishNoPacketPresent = false;
-	// true if TagAPI plugin was found in server installation
-	public static Boolean tagAPIPresent = false;
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
 	public static File file;
@@ -111,12 +108,6 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		try {
 			new VanishNoPacket();
 			vanishNoPacketPresent = true;
-		} catch (Throwable e){}
-		
-		// check for TagAPI plugin presence
-		try {
-			new TagAPI();
-			tagAPIPresent = true;
 		} catch (Throwable e){}
 		
 		// set up commands listener
