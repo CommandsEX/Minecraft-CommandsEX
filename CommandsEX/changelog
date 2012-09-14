@@ -16,8 +16,9 @@ Beta 1.95
 @ updated the UpdateAlerter to h31ix's version
 @ added promoteSet to the config, this will set a players group on promote rather than add
 
-# version formatting has changed slightly
+* fixed a bug allowing any player to teleport to anyones home
 
+# version formatting has changed slightly
 # replaced perm cex.update.announce with cex.update.alert
 
 # new perm cex.nametag

@@ -219,7 +219,7 @@ public class Home {
 						res.getString("allowed_players");
 						Boolean noPlayers = res.wasNull();
 						// check if player is allowed to go to this home
-						if (!Permissions.checkPermEx(player, "cex.bypassinvite") && !res.getBoolean("is_public") && !res.getString("player_name").equals(homePlayerName) && (noPlayers || (!noPlayers && !res.getString("allowed_players").equals(pName) && !res.getString("allowed_players").contains("," + pName) && !res.getString("allowed_players").contains(pName + ",")))) {
+						if (!Permissions.checkPermEx(player, "cex.bypassinvite") && !res.getBoolean("is_public") && !res.getString("player_name").equals(sender.getName()) && (noPlayers || (!noPlayers && !res.getString("allowed_players").equals(pName) && !res.getString("allowed_players").contains("," + pName) && !res.getString("allowed_players").contains(pName + ",")))) {
 							// player is not allowed in
 							LogHelper.showWarning("homeNotAllowed" + (multiHomesEnabled ? "#####homeInCurrentWorld" : ""), sender);
 							return true;
