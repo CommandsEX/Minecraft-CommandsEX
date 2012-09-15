@@ -19,7 +19,7 @@ public class Nicknames {
 	 */
 	
 	// holds all player names and nicknames
-	static HashMap<String, String> nicknames = new HashMap<String, String>();
+	public static HashMap<String, String> nicknames = new HashMap<String, String>();
 	
 	public static void init(CommandsEX plugin){
 		// we can't restore nicknames if the database is disabled
