@@ -27,6 +27,10 @@ public class FreezeAPI {
 			new Common();
 		}
 		
-		Common.frozenPlayers.add(player.getName());
+		if (isPlayerFrozen(player)){
+			Common.frozenPlayers.remove(player.getName());
+		} else {
+			Common.frozenPlayers.add(player.getName());
+		}
 	}
 }
