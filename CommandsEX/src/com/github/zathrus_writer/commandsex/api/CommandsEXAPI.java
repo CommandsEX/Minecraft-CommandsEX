@@ -8,4 +8,9 @@ public class CommandsEXAPI {
 	
 	public static NicknameAPI nicknameAPI = new NicknameAPI();
 	
+	/**
+	 * The API for Nametags
+	 */
+	
+	public static NametagAPI nametagAPI = new NametagAPI();
 }

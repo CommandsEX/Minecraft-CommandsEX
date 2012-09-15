@@ -15,16 +15,12 @@ public class NicknameAPI {
 	 */
 	
 	public static boolean isNicknamesEnabled(){
-		boolean toReturn;
-		
 		try {
 			new Nicknames();
-			toReturn =true;
+			return true;
 		} catch (Exception e){
-			toReturn = false;
+			return false;
 		}
-		
-		return toReturn;
 	}
 	
 	/**

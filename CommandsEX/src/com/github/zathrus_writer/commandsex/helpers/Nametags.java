@@ -89,7 +89,16 @@ public class Nametags implements Listener {
 			org.kitteh.tag.TagAPI.refreshPlayer(player);
 		}
 	}
-
+	
+	/**
+	 * Refresh's a players nametag
+	 * @param player The players nametag to be refreshed
+	 */
+	
+	public static void refreshTag(Player player){
+		TagAPI.refreshPlayer(player);
+	}
+	
 	/***
 	 * Function to reset a players nametag
 	 * @param player
