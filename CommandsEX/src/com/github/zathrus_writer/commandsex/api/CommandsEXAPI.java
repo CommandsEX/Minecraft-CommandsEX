@@ -13,4 +13,10 @@ public class CommandsEXAPI {
 	 */
 	
 	public static NametagAPI nametagAPI = new NametagAPI();
+	
+	/**
+	 * The API for Freeze
+	 */
+	
+	public static FreezeAPI freezeAPI = new FreezeAPI();
 }
