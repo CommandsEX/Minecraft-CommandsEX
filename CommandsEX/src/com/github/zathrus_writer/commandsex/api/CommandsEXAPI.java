@@ -19,4 +19,10 @@ public class CommandsEXAPI {
 	 */
 	
 	public static FreezeAPI freezeAPI = new FreezeAPI();
+	
+	/**
+	 * The API for God
+	 */
+	
+	public static GodAPI godAPI = new GodAPI();
 }
