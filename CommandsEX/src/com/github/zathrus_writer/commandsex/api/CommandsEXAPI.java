@@ -25,4 +25,10 @@ public class CommandsEXAPI {
 	 */
 	
 	public static GodAPI godAPI = new GodAPI();
+	
+	/**
+	 * The API for XMPP
+	 */
+	
+	public static XMPPAPI xmppAPI = new XMPPAPI();
 }
