@@ -18,6 +18,7 @@ Beta 1.95
 
 * fixed a bug allowing any player to teleport to anyones home
 * fixed teleporting messages reporting incorrect players
+* fixed fake join and leave messages when using /inv
 
 # version formatting has changed slightly
 # replaced perm cex.update.announce with cex.update.alert

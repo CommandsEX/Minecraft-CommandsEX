@@ -497,20 +497,6 @@ public class Common implements Listener {
 		
 		// send fake messages
 		if (isInvisible){
-			if (CommandsEX.getConf().getBoolean("fakeQuitMessage", true)) {
-				for (Player p : Bukkit.getOnlinePlayers()){
-					try {
-						Handler_condensejoins.fakeLeaves.add(pName);
-						Handler_condensejoins.handleLeave(pName);
-					} catch (Exception ex){
-						// if condense joins is not found, send it manually
-						if (p.hasPermission("cex.seejoins")){
-							p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
-						}
-					}
-				}
-			}
-		} else {
 			if (CommandsEX.getConf().getBoolean("fakeJoinMessage", true)) {
 				for (Player p : Bukkit.getOnlinePlayers()){
 					try {
@@ -518,8 +504,22 @@ public class Common implements Listener {
 						Handler_condensejoins.handleJoin(pName);
 					} catch (Exception ex){
 						// if condense joins is not found, send it manually
-						if (p.hasPermission("cex.seeleaves")){
+						if (p.hasPermission("cex.seejoins")){
 							p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatJoins", p.getName()));
+						}
+					}
+				}
+			}
+		} else {
+			if (CommandsEX.getConf().getBoolean("fakeLeaveMessage", true)) {
+				for (Player p : Bukkit.getOnlinePlayers()){
+					try {
+						Handler_condensejoins.fakeLeaves.add(pName);
+						Handler_condensejoins.handleLeave(pName);
+					} catch (Exception ex){
+						// if condense joins is not found, send it manually
+						if (p.hasPermission("cex.seeleaves")){
+							p.sendMessage(ChatColor.WHITE + pName + " " + ChatColor.YELLOW + _("chatLeaves", p.getName()));
 						}
 					}
 				}
