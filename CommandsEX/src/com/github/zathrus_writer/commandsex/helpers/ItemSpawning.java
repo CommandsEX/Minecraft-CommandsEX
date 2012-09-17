@@ -1,10 +1,10 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,14 +34,6 @@ public class ItemSpawning {
 			return;
 		}
 
-		String itemArg = (function.equals("give") ? args[1] : args[0]);
-		String amountArg = (function.equals("give") ? (args.length > 2 ? args[2] : null) : (args.length > 1 ? args[1] : null));
-		String damageArg = (function.equals("give") ? (args.length > 3 ? args[3] : null) : (args.length > 2 ? args[2] : null));
-		
-		Material item;
-		short damage = 0;
-		int amount = -1;
-
 		Player target;
 
 		if (function.equals("give")){
@@ -60,82 +52,28 @@ public class ItemSpawning {
 			target = (Player) sender;
 		}
 		
+		String itemArg = (function.equals("give") ? args[1] : args[0]);
+		String amountArg = (function.equals("give") ? (args.length > 2 ? args[2] : null) : (args.length > 1 ? args[1] : null));
+		String damageArg = (function.equals("give") ? (args.length > 3 ? args[3] : null) : (args.length > 2 ? args[2] : null));
+		
 		if (itemArg.contains(":") && damageArg != null){
 			Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
 			return;
 		}
 		
-		if (!itemArg.contains(":")){
-			List<Material> matches = ClosestMatches.material(itemArg);
-
-			if (matches.size() > 0){
-				item = matches.get(0);
-			} else {
-				LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
-				return;
-			}
-		} else {
-			String[] data = itemArg.split(":");
-			if (ClosestMatches.material(data[0]).size() > 0){
-				item = ClosestMatches.material(data[0]).get(0);
-			} else {
-				LogHelper.showInfo("itemNotFound", sender, ChatColor.RED);
-				return;
-			}
-
-			try {
-				damage = Short.valueOf(data[1]);
-			} catch (Exception e) {
-				if (item == Material.WOOL && ClosestMatches.dyeColor(data[1]).size() > 0){
-					damage = ClosestMatches.dyeColor(data[1]).get(0).getData();
-				} else {
-					LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
-					Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
-					return;
-				}
-			}
-		}
-
-		if (damageArg != null){
-			try {
-				damage = Short.valueOf(damageArg);
-			} catch (Exception e) {
-				List<DyeColor> matches = ClosestMatches.dyeColor(damageArg);
-				
-				if (item == Material.WOOL && matches.size() > 0){
-					damage = matches.get(0).getData();
-				} else {
-					LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
-					Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
-					return;
-				}
-			}
-		}
+		List<String> listArgs = new ArrayList<String>();
+		if (itemArg != null){ listArgs.add(itemArg); }
+		if (amountArg != null){ listArgs.add(amountArg); }
+		if (damageArg != null){ listArgs.add(damageArg); }
 		
-		if (amountArg != null){
-			try {
-				amount = Integer.valueOf(amountArg);
-			} catch (Exception e){
-				LogHelper.showInfo("itemIncorrectDamage", sender, ChatColor.RED);
-				Commands.showCommandHelpAndUsage(sender, "cex_" + function, alias);
-				return;
-			}
-		}
-
-
-
-		ItemStack stack = new ItemStack(item);
-
-		if (amount == -1){
-			amount = stack.getMaxStackSize();
-		}
-
-		stack.setAmount(amount);
-		// Set the stacks durability (damage value)
-		stack.setDurability(damage);
-
+		ItemStack stack = ItemStackParser.parse(listArgs.toArray(new String[]{}), sender);
+		if (stack == null){ return; }
 		target.getInventory().addItem(stack);
 
+		Material item = stack.getType();
+		int amount = stack.getAmount();
+		short damage = stack.getDurability();
+		
 		// Messages will be different if the player spawned the item for himself, or someone else
 		if (sender != target){
 			LogHelper.showInfo("itemYouGave#####[" + Nicknames.getNick(target.getName()) + " " + amount + " " + Utils.userFriendlyNames(item.name()) + (damage != 0 ? " (" + damage + ")": ""), sender, ChatColor.AQUA);
