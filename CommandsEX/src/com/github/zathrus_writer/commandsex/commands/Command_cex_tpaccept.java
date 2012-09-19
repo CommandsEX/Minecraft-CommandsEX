@@ -43,7 +43,12 @@ public class Command_cex_tpaccept {
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (!Common.invisiblePlayers.contains(sender.getName())){
+						// catch if Common does not exist
+						try {
+							if (!Common.invisiblePlayers.contains(sender.getName())){
+								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+							}
+						} catch (Exception e){
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else if (Teleportation.tpaRequests.contains(id)) {
@@ -52,7 +57,12 @@ public class Command_cex_tpaccept {
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (!Common.invisiblePlayers.contains(sender.getName())){
+						// catch if Common does not exist
+						try {
+							if (!Common.invisiblePlayers.contains(sender.getName())){
+								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+							}
+						} catch (Exception e){
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else if (Teleportation.tpahereRequests.contains(id)) {
@@ -61,7 +71,12 @@ public class Command_cex_tpaccept {
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (!Common.invisiblePlayers.contains(sender.getName())){
+						// catch if Common does not exist
+						try {
+							if (!Common.invisiblePlayers.contains(sender.getName())){
+								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+							}
+						} catch (Exception e){
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else {
