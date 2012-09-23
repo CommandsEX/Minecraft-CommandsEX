@@ -53,7 +53,8 @@ public class UpdateAlerter implements Listener
     private String versionTitle;
     private String versionLink;
     private long totalSize; // Holds the total size of the file
-    private double downloadedSize; // TODO: Holds the number of bytes downloaded
+    @SuppressWarnings("unused")
+	private double downloadedSize; // TODO: Holds the number of bytes downloaded
     private int sizeLine; // Used for detecting file size
     private int multiplier; // Used for determining when to broadcast download updates
     private boolean announce; // Whether to announce file downloads
@@ -363,7 +364,8 @@ public class UpdateAlerter implements Listener
             File fSourceZip = new File(file);
             String zipPath = file.substring(0, file.length()-4);
             ZipFile zipFile = new ZipFile(fSourceZip);
-            Enumeration e = zipFile.entries();
+            @SuppressWarnings("rawtypes")
+			Enumeration e = zipFile.entries();
             while(e.hasMoreElements())
             {
                 ZipEntry entry = (ZipEntry)e.nextElement();
@@ -563,7 +565,6 @@ public class UpdateAlerter implements Listener
     /**
      * Part of RSS Reader by Vogella, modified by H31IX for use with Bukkit
      */     
-    @SuppressWarnings("null")
     private void readFeed() 
     {
         try 
