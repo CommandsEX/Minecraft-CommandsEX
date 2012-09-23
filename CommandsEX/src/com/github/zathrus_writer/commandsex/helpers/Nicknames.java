@@ -3,8 +3,6 @@ package com.github.zathrus_writer.commandsex.helpers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,6 +52,9 @@ public class Nicknames implements Listener {
 				ex.printStackTrace();
 			}
 		}
+		
+		// add onDisable to onDisableFunctions so that nicknames will be saved when the server is shutdown
+		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Nicknames#####onDisable");
 	}
 	
 	@EventHandler
@@ -62,6 +63,14 @@ public class Nicknames implements Listener {
 		showNick(player);
 	}
 	
+	/**
+	 * Saves nicknames when the server is shutdown
+	 */
+
+	public static void onDisable(CommandsEX p){
+		saveNicks();
+	}
+
 	/***
 	 * Set a players nickname
 	 * @param pName
@@ -172,54 +181,38 @@ public class Nicknames implements Listener {
 	public static void saveNicks(){
 		// we can't save the nicknames if the database is disabled
 		if (CommandsEX.sqlEnabled){
-			// create ExecutorService to manage threads                        
-			ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
-			threadExecutor.execute(new NicknamesSaveNicks()); // execute the save nicknames to database thread
-			threadExecutor.shutdown(); // shutdown worker threads
+			// delete rows from the database if the key is not in the HashMap, used for when a nickname is reset
+			 // and the row is no longer in the table
+			 try {
+				 ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
+				 while (rs.next()){
+					 String rsName = rs.getString("player_name");
+					 if (!Nicknames.nicknames.containsKey(rsName)){
+						 SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", rsName);
+					 }
+				 }
+			 } catch (SQLException ex){
+				 if (CommandsEX.getConf().getBoolean("debugMode")){
+					 ex.printStackTrace();
+				 }
+			 }
+
+			 for (String pName : Nicknames.nicknames.keySet()){
+				 String nickname = Nicknames.nicknames.get(pName);
+
+				 // insert or replace nickname into the database
+				 try {
+					 ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
+					 // if a nickname is already in the database, overwrite it otherwise create it
+					 if (!res.next()){
+						 SQLManager.query("INSERT " + (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") + "INTO " + SQLManager.prefix + "nicknames (player_name, nickname) SELECT ? AS player_name, ? AS nickname", pName, nickname);
+					 } else {
+						 SQLManager.query("UPDATE " + SQLManager.prefix + "nicknames SET player_name = ?, nickname = ? WHERE player_name = ?", pName, nickname, pName);
+					 }
+					 res.close();
+				 } catch (SQLException e) {
+				 }
+			 }
 		}
 	}
 }
-
-/**
- * Class to save Nicknames to a database using Multithreading
- */
-
-class NicknamesSaveNicks implements Runnable {
-
-	 @Override
-	 public void run() {
-		 // delete rows from the database if the key is not in the HashMap, used for when a nickname is reset
-		 // and the row is no longer in the table
-		 try {
-			 ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
-			 while (rs.next()){
-				 String rsName = rs.getString("player_name");
-				 if (!Nicknames.nicknames.containsKey(rsName)){
-					 SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", rsName);
-				 }
-			 }
-		 } catch (SQLException ex){
-			 if (CommandsEX.getConf().getBoolean("debugMode")){
-				 ex.printStackTrace();
-			 }
-		 }
-
-		 for (String pName : Nicknames.nicknames.keySet()){
-			 String nickname = Nicknames.nicknames.get(pName);
-
-			 // insert or replace nickname into the database
-			 try {
-				 ResultSet res = SQLManager.query_res("SELECT player_name, nickname FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", pName);
-				 // if a nickname is already in the database, overwrite it otherwise create it
-				 if (!res.next()){
-					 SQLManager.query("INSERT " + (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") + "INTO " + SQLManager.prefix + "nicknames (player_name, nickname) SELECT ? AS player_name, ? AS nickname", pName, nickname);
-				 } else {
-					 SQLManager.query("UPDATE " + SQLManager.prefix + "nicknames SET player_name = ?, nickname = ? WHERE player_name = ?", pName, nickname, pName);
-				 }
-				 res.close();
-			 } catch (SQLException e) {
-			 }
-		 }
-	 }
-
- }

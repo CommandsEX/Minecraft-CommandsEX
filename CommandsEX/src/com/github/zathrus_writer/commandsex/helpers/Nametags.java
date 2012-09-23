@@ -49,6 +49,9 @@ public class Nametags implements Listener {
 				ex.printStackTrace();
 			}
 		}
+		
+		// add the onDisable function to onDisableFunctions so that Nametags will be saved when the server is shutdown
+		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.helpers.Nametags#####onDisable");
 	}
 
 	public static void init(CommandsEX plugin){
@@ -68,6 +71,14 @@ public class Nametags implements Listener {
 			tag = Utils.replaceChatColors(tag);
 			e.setTag(tag);
 		}
+	}
+	
+	/**
+	 * Save nametags when the server is shutdown
+	 */
+	
+	public static void onDisable(CommandsEX p){
+		saveTags();
 	}
 	
 	/***
