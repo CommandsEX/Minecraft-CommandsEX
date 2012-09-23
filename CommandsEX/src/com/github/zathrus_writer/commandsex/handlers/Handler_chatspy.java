@@ -62,6 +62,11 @@ public class Handler_chatspy implements Listener {
 		if (s.length >= 3) {
 			String sName = e.getPlayer().getName();
 	
+			// don't send if player is offline or if the message is to themself
+			if (Bukkit.getPlayer(sName) == null || Bukkit.getPlayer(sName) == e.getPlayer()){
+				return;
+			}
+			
 			// check if we're executing a private message command
 			if (CommandsEX.getConf().getList("privateMsgCommands").contains(s[0].substring(1))) {
 				// spy out :-D
