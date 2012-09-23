@@ -719,6 +719,9 @@ permissions:
   Listener.email:
     default: true
     description: Placeholder for event function to hack email.jar to the classpath
+  Listener.joinfull:
+    default: true
+    description: Placeholder for event function to allow players with permission to join even when the server is full
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

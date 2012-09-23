@@ -14,6 +14,7 @@ Beta 1.95
 + added command /workbench to open a virtual workbench
 + added command /enchantingtable to open a virtual enchanting table
 + added command /email, email any email address from within Minecraft
++ added a feature to allow players with the permission "cex.joinfull" to join even when the server is full
 
 @ updated the UpdateAlerter to h31ix's version
 @ added promoteSet to the config, this will set a players group on promote rather than add
@@ -34,6 +35,7 @@ Beta 1.95
 # new perm cex.workbench.others
 # new perm cex.enchantingtable
 # new perm cex.enchantingtable.others
+# new perm cex.joinfull
 
 # new config node promoteSet
 
