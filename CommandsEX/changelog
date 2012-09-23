@@ -15,6 +15,7 @@ Beta 1.95
 + added command /enchantingtable to open a virtual enchanting table
 + added command /email, email any email address from within Minecraft
 + added command /message and /reply, send a private message to any player
++ added command /amessage, send an anonymous message to a player
 + added a feature to allow players with the permission "cex.joinfull" to join even when the server is full
 
 @ updated the UpdateAlerter to h31ix's version
@@ -39,8 +40,10 @@ Beta 1.95
 # new perm cex.enchantingtable.others
 # new perm cex.joinfull
 # new perm cex.message
+# new perm cex.amessage
 
 # new config node promoteSet
+# new config node aMessagePrefix
 
 Beta 1.90
 ---------

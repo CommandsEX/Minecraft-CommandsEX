@@ -659,6 +659,9 @@ permissions:
   cex.message:
     default: op
     description: Allows the player to privately message another player
+  cex.amessage:
+    default: op
+    description: Allows the player to send an anonymous message to another player
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1448,3 +1451,9 @@ commands:
     permission: cex.message
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [reply, r, respond]
+  cex_amessage:
+    description: Sends an anonymous message to a player
+    usage: /<command> <player> <message>
+    permission: cex.amessage
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [amessage, anonymousmessage]
