@@ -7,12 +7,12 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
+import com.github.zathrus_writer.commandsex.handlers.Handler_nametags;
 
 public class Nametags implements Listener {
 
@@ -27,7 +27,8 @@ public class Nametags implements Listener {
 	public static boolean tagAPIPresent = false;
 
 	public Nametags(){
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
+		// register events
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(new Handler_nametags(), CommandsEX.plugin);
 		// we can't restore nametags if the database is disabled
 		if (!CommandsEX.sqlEnabled){
 			return;
@@ -62,17 +63,6 @@ public class Nametags implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onNameTag(org.kitteh.tag.PlayerReceiveNameTagEvent e){
-		Player tagPlayer = e.getNamedPlayer();
-		String pName = tagPlayer.getName();
-		String tag = Nametags.getTag(pName);
-		if (!tag.equals(pName)){
-			tag = Utils.replaceChatColors(tag);
-			e.setTag(tag);
-		}
-	}
-	
 	/**
 	 * Save nametags when the server is shutdown
 	 */
