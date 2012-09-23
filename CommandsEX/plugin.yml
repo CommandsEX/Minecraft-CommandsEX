@@ -716,12 +716,6 @@ permissions:
   Listener.keepinventory:
     default: true
     description: Placeholder for event function to allow players with a permission node to keep their inventories on death
-  Listener.nicknames:
-    default: true
-    description: Placeholder for event function to handle nicknames
-  Listener.nametag:
-    default: true
-    description: Placeholder for event function to handle nametags
   Listener.email:
     default: true
     description: Placeholder for event function to hack email.jar to the classpath
@@ -755,6 +749,12 @@ permissions:
   Init.AutoSaving:
     default: true
     description: Placeholder for initialization function used to autosave various things
+  Init.Nametags:
+    default: true
+    description: Placeholder for initialization function used to handle Nametags
+  Init.Nicknames:
+    default: true
+    description: Placeholder for initialization function used to handle Nicknames
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.kitteh.tag.TagAPI;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -23,11 +22,12 @@ public class Nametags implements Listener {
 	 * @author iKeirNez
 	 */
 
-	// stores all nicknames
+	// stores all nametags
 	public static HashMap<String, String> nametags = new HashMap<String, String>();
 	public static boolean tagAPIPresent = false;
 
 	public Nametags(){
+		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 		// we can't restore nametags if the database is disabled
 		if (!CommandsEX.sqlEnabled){
 			return;
@@ -49,8 +49,6 @@ public class Nametags implements Listener {
 				ex.printStackTrace();
 			}
 		}
-
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(this, CommandsEX.plugin);
 	}
 
 	public static void init(CommandsEX plugin){
@@ -96,7 +94,7 @@ public class Nametags implements Listener {
 	 */
 	
 	public static void refreshTag(Player player){
-		TagAPI.refreshPlayer(player);
+		org.kitteh.tag.TagAPI.refreshPlayer(player);
 	}
 	
 	/***
@@ -121,7 +119,7 @@ public class Nametags implements Listener {
 		
 		Player player = Bukkit.getPlayerExact(pName);
 		if (player != null){
-			TagAPI.refreshPlayer(player);
+			org.kitteh.tag.TagAPI.refreshPlayer(player);
 		}
 	}
 	
@@ -160,7 +158,7 @@ public class Nametags implements Listener {
 			// delete rows from the database if the key is not in the HashMap, used for when a nametag is reset
 			// and the row is no longer in the table
 			try {
-				ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nametag");
+				ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nametags");
 				while (rs.next()){
 					String rsName = rs.getString("player_name");
 					if (!nametags.containsKey(rsName)){
