@@ -190,7 +190,7 @@ promoteSet: false
 
 # list of all commands that are used for private messaging, so CommandsEX can intercept them
 # IMPORTANT: PLEASE USE LOWERCASE LETTERS FOR THESE COMMANDS OR SPY MODE WILL NOT WORK FOR THEM!
-privateMsgCommands: [tell,msg]
+privateMsgCommands: [tell, msg, message]
 
 # time (in seconds) after which to start a periodic quiz, set to 0 to disable timer
 # ... if 0, admins can still force a new quiz by issuing command /quiz start
