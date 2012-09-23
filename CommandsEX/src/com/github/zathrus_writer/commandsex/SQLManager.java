@@ -67,9 +67,6 @@ public class SQLManager {
 			}
 		}
 
-		// close connection on plugin disable
-		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.SQLManager#####onDisable");
-		
 		// create core tables
 		query("CREATE TABLE IF NOT EXISTS "+ prefix +"playtime (player_name varchar(32) NOT NULL, seconds_played int(10) " + (sqlType.equals("mysql") ? "unsigned " : "") + "NOT NULL DEFAULT '0', PRIMARY KEY (player_name))" + (sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='holds playtime of each player on the server'" : ""));
 		query("CREATE TABLE IF NOT EXISTS "+ prefix +"user2lang (username varchar(50) NOT NULL, lang varchar(5) NOT NULL, PRIMARY KEY (`username`))" + (sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores per-user selected plugin language'" : ""));

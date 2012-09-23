@@ -265,11 +265,27 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				} catch (Throwable e) {
 					LogHelper.logSevere("[CommandsEX] " + _("errorFunctionOnDisableExecute", "") + s);
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					e.printStackTrace();
 				}
 			}
 		}
 		
 		// close all database connections
+		if (getConf().getBoolean("enableDatabase")) {
+			Class<?>[] proto = new Class[] {this.getClass()};
+			Object[] params = new Object[] {this};
+			try {
+				Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.SQLManager");
+				Method method = c.getDeclaredMethod("onDisable", proto);
+				method.invoke(null, params);
+			} catch (ClassNotFoundException e) {
+				// this is OK, since we won't neccessarily have this class in each build
+			} catch (Throwable e) {
+				LogHelper.logSevere(_("dbError", ""));
+				LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+			}
+		}
+		
 		LogHelper.logInfo("[" + this.getDescription().getName() + "] " + _("disableMsg", ""));
 	}
 

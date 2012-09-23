@@ -27,8 +27,10 @@ public class Nametags implements Listener {
 	public static boolean tagAPIPresent = false;
 
 	public Nametags(){
-		// register events
-		CommandsEX.plugin.getServer().getPluginManager().registerEvents(new Handler_nametags(), CommandsEX.plugin);
+		if (tagAPIPresent){
+			// register events
+			CommandsEX.plugin.getServer().getPluginManager().registerEvents(new Handler_nametags(), CommandsEX.plugin);
+		}
 		// we can't restore nametags if the database is disabled
 		if (!CommandsEX.sqlEnabled){
 			return;
@@ -51,20 +53,21 @@ public class Nametags implements Listener {
 			}
 		}
 		
-		// add the onDisable function to onDisableFunctions so that Nametags will be saved when the server is shutdown
-		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.helpers.Nametags#####onDisable");
+		// add shutdown function
+		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Nametags#####onDisable");
 	}
 
 	public static void init(CommandsEX plugin){
 		Plugin pl = Bukkit.getPluginManager().getPlugin("TagAPI");
 		if (pl != null && pl.isEnabled()){
 			tagAPIPresent = true;
-			new Nametags();
 		}
+		
+		new Nametags();
 	}
-
+	
 	/**
-	 * Save nametags when the server is shutdown
+	 * Saves nametags to database when the server is shutdown
 	 */
 	
 	public static void onDisable(CommandsEX p){

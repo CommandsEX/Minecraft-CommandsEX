@@ -5,7 +5,6 @@ Ideas, Suggestions and bugs. please write any here:
 - Customisable Whitelist Message
 - PowerTool
 - alias for /help CommandsEX
-- Mob/Player disguise, like Mob Disguise
 - silent chest opening when invisible
 - Rewrite Ptime and support other players
 - redo /pinfo
@@ -27,5 +26,4 @@ Ideas, Suggestions and bugs. please write any here:
 - look at MYSQL connections and check if they drop
 - automatically give kit on promotion
 - Fix teleporting inside of blocks and dying
-- Finish join full
 - get time working with TooManyItems

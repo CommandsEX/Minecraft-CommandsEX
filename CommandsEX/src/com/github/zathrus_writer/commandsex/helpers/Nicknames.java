@@ -53,8 +53,16 @@ public class Nicknames implements Listener {
 			}
 		}
 		
-		// add onDisable to onDisableFunctions so that nicknames will be saved when the server is shutdown
+		// add shutdown functions
 		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Nicknames#####onDisable");
+	}
+	
+	/**
+	 * Saves all nicknames to the database when the server is shutdown
+	 */
+	
+	public static void onDisable(CommandsEX p){
+		saveNicks();
 	}
 	
 	@EventHandler
@@ -63,14 +71,6 @@ public class Nicknames implements Listener {
 		showNick(player);
 	}
 	
-	/**
-	 * Saves nicknames when the server is shutdown
-	 */
-
-	public static void onDisable(CommandsEX p){
-		saveNicks();
-	}
-
 	/***
 	 * Set a players nickname
 	 * @param pName
@@ -184,13 +184,18 @@ public class Nicknames implements Listener {
 			// delete rows from the database if the key is not in the HashMap, used for when a nickname is reset
 			 // and the row is no longer in the table
 			 try {
-				 ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
-				 while (rs.next()){
-					 String rsName = rs.getString("player_name");
-					 if (!Nicknames.nicknames.containsKey(rsName)){
-						 SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", rsName);
+				 ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames ");
+				 
+				 if (rs != null){
+					 while (rs.next()){
+						 String rsName = rs.getString("player_name");
+						 if (!Nicknames.nicknames.containsKey(rsName)){
+							 SQLManager.query("DELETE FROM " + SQLManager.prefix + "nicknames WHERE player_name = ?", rsName);
+						 }
 					 }
 				 }
+				 
+				 rs.close();
 			 } catch (SQLException ex){
 				 if (CommandsEX.getConf().getBoolean("debugMode")){
 					 ex.printStackTrace();
