@@ -656,6 +656,9 @@ permissions:
   cex.enchantingtable.others:
     default: op
     description: Allows access to open a virtual enchanting table for someone else
+  cex.message:
+    default: op
+    description: Allows the player to privately message another player
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1433,3 +1436,15 @@ commands:
     permission: cex.enchantingtable
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [enchantingtable, enchanting]
+  cex_message:
+    description: Privately message another Player
+    usage: /<command> <player> <message>
+    permission: cex.message
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [message, msg, tell, whisper]
+  cex_reply:
+    description: Reply to the last player to message you
+    usage: /<command> <message>
+    permission: cex.message
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [reply, r, respond]

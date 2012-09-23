@@ -14,6 +14,7 @@ Beta 1.95
 + added command /workbench to open a virtual workbench
 + added command /enchantingtable to open a virtual enchanting table
 + added command /email, email any email address from within Minecraft
++ added command /message and /reply, send a private message to any player
 + added a feature to allow players with the permission "cex.joinfull" to join even when the server is full
 
 @ updated the UpdateAlerter to h31ix's version
@@ -23,7 +24,7 @@ Beta 1.95
 * fixed teleporting messages reporting incorrect players
 * fixed fake join and leave messages when using /inv
 * fixed ClassNotFoundException when using tp commands
-* fixed fake join and leave messages when using /inv
+* fixed Nicknames and Database when CommandsEX is disabled
 
 # version formatting has changed slightly
 # replaced perm cex.update.announce with cex.update.alert
@@ -36,6 +37,7 @@ Beta 1.95
 # new perm cex.enchantingtable
 # new perm cex.enchantingtable.others
 # new perm cex.joinfull
+# new perm cex.message
 
 # new config node promoteSet
 
