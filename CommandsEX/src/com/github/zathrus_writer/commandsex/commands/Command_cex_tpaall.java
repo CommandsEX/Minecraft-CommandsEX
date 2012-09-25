@@ -77,21 +77,18 @@ public class Command_cex_tpaall {
 				player.sendMessage(ChatColor.GREEN + Nicknames.getNick(to.getName()) + " " + _("tpRequest1", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest2", sender.getName()));
 				player.sendMessage(ChatColor.GREEN + _("tpRequest3", sender.getName()));
-				// catch if Common does not exist
-				try {
-					// don't increase the sent count if the player is invisible
-					if (!Common.invisiblePlayers.contains(to.getName())){
-						sent++;
-					}
-				} catch (Exception e){
+				// don't increase the sent count if the player is invisible
+				if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(to.getName())){
+					sent++;
+				} else {
 					sent++;
 				}
 				CommandsEX.plugin.getServer().getScheduler().scheduleSyncDelayedTask(CommandsEX.plugin, new TpRequestCanceller("tpaall", id), (20 * tTimeout));
 			}
 		}
-		
+
 		LogHelper.showInfo("[" + sent + " #####tpaAllRequestsSent", sender, ChatColor.AQUA);
-		
+
 		return true;
 	}
 	

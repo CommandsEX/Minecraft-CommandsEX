@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Common;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
@@ -43,12 +44,9 @@ public class Command_cex_tpaccept {
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						// catch if Common does not exist
-						try {
-							if (!Common.invisiblePlayers.contains(sender.getName())){
-								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-							}
-						} catch (Exception e){
+						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						} else {
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else if (Teleportation.tpaRequests.contains(id)) {
@@ -57,12 +55,9 @@ public class Command_cex_tpaccept {
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						// catch if Common does not exist
-						try {
-							if (!Common.invisiblePlayers.contains(sender.getName())){
-								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-							}
-						} catch (Exception e){
+						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						} else {
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else if (Teleportation.tpahereRequests.contains(id)) {
@@ -71,12 +66,9 @@ public class Command_cex_tpaccept {
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
 						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						// catch if Common does not exist
-						try {
-							if (!Common.invisiblePlayers.contains(sender.getName())){
-								LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-							}
-						} catch (Exception e){
+						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
+							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						} else {
 							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
 						}
 					} else {
