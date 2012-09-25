@@ -75,6 +75,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	// reference our plugin timer
 	private long startTime, stopTime, finalTime;
 	public static File file;
+	// stores all loaded commands, listeners and init's
+	public static List<String> loadedClasses = new ArrayList<String>();
 	
 	/***
 	 * Class constructor.
@@ -135,6 +137,11 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			}
 		}
 		
+		// add all commands to the loadedClasses List
+		for (String cmd : CommandsEX.pdfFile.getCommands().keySet()){
+			loadedClasses.add("Command_" + cmd);
+		}
+		
 		// enable existing classes that are listening to events - determine names from permissions
 		// ... also call init() function for each helper class that requires initialization (has Init prefix in permissions)
 		List<Permission> perms = CommandsEX.pdfFile.getPermissions();
@@ -146,6 +153,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				if (s.length == 0) continue;
 				try {
 					Class.forName("com.github.zathrus_writer.commandsex.handlers.Handler_" + s[1]).newInstance();
+					// add class to loadedClasses if successfull
+					loadedClasses.add("Handler_" + s[1]);
 				} catch (ClassNotFoundException e) {
 					// this is OK, since we won't neccessarily have this class in each build
 				} catch (Throwable e) {
@@ -159,6 +168,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 					Class<?> c = Class.forName("com.github.zathrus_writer.commandsex.helpers." + s[1]);
 					Method method = c.getDeclaredMethod("init", proto);
 					method.invoke(null, params);
+					// add class to loadedClasses is successful
+					loadedClasses.add("Init_" + s[1]);
 				} catch (ClassNotFoundException e) {
 					// this is OK, since we won't neccessarily have this class in each build
 				} catch (Throwable e) {
