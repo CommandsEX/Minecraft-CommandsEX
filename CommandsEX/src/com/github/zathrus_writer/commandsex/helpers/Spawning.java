@@ -65,23 +65,22 @@ public class Spawning {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
+			// load each worlds current spawn point if they have not already been added to the database
+			for (World w : Bukkit.getWorlds()){
+				if (!worldSpawns.containsKey(w.getName())){
+					Location spawn = w.getSpawnLocation();
+					worldSpawns.put(w.getName(), spawn);
+				}
+			}
 
 			if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
-				// load each worlds current spawn point if they have not already been added to the database
-				for (World w : Bukkit.getWorlds()){
-					if (!worldSpawns.containsKey(w.getName())){
-						Location spawn = w.getSpawnLocation();
-						worldSpawns.put(w.getName(), spawn);
-					}
-				}
-				
 				// set the default world if it has not already been set
 				if (!CommandsEX.getConf().contains("globalSpawnWorld")){
 					CommandsEX.getConf().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
 					CommandsEX.plugin.saveConfig();
 				}
 			} else {
-				// load default worlds spawn into the config
 				World w = Bukkit.getWorld(CommandsEX.getConf().getString("globalSpawnWorld"));
 				
 				// if the world in the config does not exist
@@ -89,12 +88,6 @@ public class Spawning {
 					LogHelper.logDebug("globalSpawnWorld in config.yml does not exist, resetting to default");
 					CommandsEX.getConf().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
 					w = Bukkit.getWorld(CommandsEX.getConf().getString("globalSpawnWorld"));
-				}
-				
-				// add the default world to the database if it has not already been added
-				if (!worldSpawns.containsKey(w.getName())){
-					Location spawn = w.getSpawnLocation();
-					worldSpawns.put(w.getName(), spawn);
 				}
 			}
 			
@@ -115,6 +108,14 @@ public class Spawning {
 			
 			// save the database when the server is shutdown
 			CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Spawning#####onDisable");
+		}
+	}
+	
+	public static Location getWorldSpawn(World w){
+		if (worldSpawns.containsKey(w.getName())){
+			return worldSpawns.get(w.getName());
+		} else {
+			return w.getSpawnLocation();
 		}
 	}
 	
