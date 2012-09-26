@@ -33,9 +33,8 @@ public class Command_cex_tploc extends Teleportation {
 			        	if (args[0].contains(",")) {
 			        		args = args[0].split(",");
 			        	} else {
-			        		// no commas found in the argument, return error
-			        		LogHelper.showWarning("tpInvalidArgument", sender);
-			        		return false;
+			        		Commands.showCommandHelpAndUsage(sender, "cex_tploc", alias);
+			        		return true;
 			        	}
 			        }
 			    	
