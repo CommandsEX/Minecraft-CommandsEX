@@ -20,6 +20,7 @@ Beta 1.95
 
 @ updated the UpdateAlerter to h31ix's version
 @ added promoteSet to the config, this will set a players group on promote rather than add
+@ world spawns are now stored in the database and so the spawns.yml file in the database is no longer of use
 
 * fixed a bug allowing any player to teleport to anyones home
 * fixed teleporting messages reporting incorrect players

@@ -764,6 +764,9 @@ permissions:
   Init.Nicknames:
     default: true
     description: Placeholder for initialization function used to handle Nicknames
+  Init.Spawning:
+    default: true
+    description: Placeholder for initialization function used to handle World Spawns
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

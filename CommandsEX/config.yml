@@ -424,6 +424,7 @@ autoSave:
   worlds: true
   nicknames: true
   nametags: true
+  spawns: true
   prefix: '&d[AutoSave] '
   messagesBegin:
     - '&6The server is now being saved'
@@ -436,4 +437,4 @@ Email:
   Host: 'mail.example.net'
   From: 'your.email.net'
   
-aMessagePrefix: &c[ADMIN] 
+aMessagePrefix: '&c[ADMIN]' 

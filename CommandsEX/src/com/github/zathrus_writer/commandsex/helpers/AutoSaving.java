@@ -36,15 +36,21 @@ public class AutoSaving {
 				}
 				
 				if (CommandsEX.getConf().getBoolean("autoSave.nicknames")){
-					try {
+					if (CommandsEX.loadedClasses.contains("Init_Nicknames")){
 						Nicknames.saveNicks();
-					} catch (Exception ex){}
+					}
 				}
 				
 				if (CommandsEX.getConf().getBoolean("autoSave.nametags")){
-					try {
+					if (CommandsEX.loadedClasses.contains("Init_Nametags")){
 						Nametags.saveTags();
-					} catch (Exception ex){}
+					}
+				}
+				
+				if (CommandsEX.getConf().getBoolean("autoSave.spawns")){
+					if (CommandsEX.loadedClasses.contains("Init_Spawns")){
+						Spawning.saveDatabase();
+					}
 				}
 				
 				for (String s : CommandsEX.getConf().getStringList("autoSave.messagesFinish")){

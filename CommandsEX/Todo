@@ -9,7 +9,6 @@ Ideas, Suggestions and bugs. please write any here:
 - Rewrite Ptime and support other players
 - redo /pinfo
 - change /time set day to /time day, same for others
-- /msg, be able to tell which were sent and which were recieved
 - unblind all
 - fix spawnmob command
 - improve blind and blind
@@ -21,7 +20,6 @@ Ideas, Suggestions and bugs. please write any here:
 - Server info, ram usage and TPS
 - Sign edit commands.
 - tp and tppos?
-- annonoymous /msg?
 
 - look at MYSQL connections and check if they drop
 - automatically give kit on promotion

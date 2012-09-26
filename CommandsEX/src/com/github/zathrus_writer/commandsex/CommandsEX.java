@@ -160,6 +160,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				} catch (Throwable e) {
 					LogHelper.logSevere(_("loadTimeError", ""));
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					e.printStackTrace();
 				}
 			} else if (pName.startsWith("Init")) {
 				String[] s = pName.split("\\.");
@@ -175,6 +176,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				} catch (Throwable e) {
 					LogHelper.logSevere(_("loadTimeError", ""));
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
+					e.printStackTrace();
 				}
 			}
 		}
@@ -276,7 +278,6 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				} catch (Throwable e) {
 					LogHelper.logSevere("[CommandsEX] " + _("errorFunctionOnDisableExecute", "") + s);
 					LogHelper.logDebug("Message: " + e.getMessage() + ", cause: " + e.getCause());
-					e.printStackTrace();
 				}
 			}
 		}
