@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.Server;
+import org.bukkit.Sound;
 import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -798,5 +799,10 @@ public class EchoControlPlayer extends EchoControl implements Player {
 		@Override
 		public Inventory getEnderChest() {
 			return ((Player)wrappedSender).getEnderChest();
+		}
+
+		@Override
+		public void playSound(Location arg0, Sound arg1, float arg2, float arg3) {
+			((Player) wrappedSender).playSound(arg0, arg1, arg2, arg3);
 		}
 }
