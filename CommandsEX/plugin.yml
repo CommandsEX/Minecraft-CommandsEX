@@ -662,6 +662,12 @@ permissions:
   cex.amessage:
     default: op
     description: Allows the player to send an anonymous message to another player
+  cex.tpworld:
+    default: op
+    description: Allows the player to teleport to another world
+  cex.tpworld.others:
+    default: op
+    description: Allows the player to teleport another player to a world
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1460,3 +1466,9 @@ commands:
     permission: cex.amessage
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [amessage, anonymousmessage]
+  cex_tpworld:
+    description: Teleport to another world
+    usage: /<command> <world> [player]
+    permission: cex.tpworld
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [tpworld, world]

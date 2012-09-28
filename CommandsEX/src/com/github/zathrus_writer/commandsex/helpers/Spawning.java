@@ -44,7 +44,7 @@ public class Spawning {
 		
 		// delete old data directory if empty
 		File oldDataDirectory = new File(CommandsEX.plugin.getDataFolder() + "/data");
-		if (oldDataDirectory.listFiles().length < 1){
+		if (oldDataDirectory.exists() && oldDataDirectory.listFiles().length < 1){
 			LogHelper.logDebug("Old data folder detected and empty, deleting...");
 			oldDataDirectory.delete();
 		}

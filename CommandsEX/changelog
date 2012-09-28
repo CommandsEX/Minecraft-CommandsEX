@@ -16,6 +16,7 @@ Beta 1.95
 + added command /email, email any email address from within Minecraft
 + added command /message and /reply, send a private message to any player
 + added command /amessage, send an anonymous message to a player
++ added command /tpworld, teleport to any worlds spawn
 + added a feature to allow players with the permission "cex.joinfull" to join even when the server is full
 
 @ updated the UpdateAlerter to h31ix's version
