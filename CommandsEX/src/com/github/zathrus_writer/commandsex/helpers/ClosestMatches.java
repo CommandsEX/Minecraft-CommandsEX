@@ -40,10 +40,10 @@ public class ClosestMatches {
             	matches.add(mat);
             } else if ("stonebrick".contains(input.toLowerCase())){
         		return Arrays.asList(Material.SMOOTH_BRICK);
-        	} else if ("stickypiston".contains(input.toLowerCase())){
-        		return Arrays.asList(Material.PISTON_STICKY_BASE);
         	} else if ("doubleslab".contains(input.toLowerCase())){
         		return Arrays.asList(Material.DOUBLE_STEP);
+        	} else if ("clock".contains(input.toLowerCase())){
+        		return Arrays.asList(Material.WATCH);
         	}
         }
         

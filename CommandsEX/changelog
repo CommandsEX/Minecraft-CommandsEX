@@ -29,6 +29,7 @@ Beta 1.95
 * fixed ClassNotFoundException when using tp commands
 * fixed Nicknames and Database when CommandsEX is disabled
 * fixed chat spy messages being sent if the reciever is offline or is the sender of the command
+* fixed some minor bugs with string -> item matching
 
 # version formatting has changed slightly
 # replaced perm cex.update.announce with cex.update.alert
