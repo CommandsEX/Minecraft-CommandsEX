@@ -437,4 +437,4 @@ Email:
   Host: 'mail.example.net'
   From: 'your.email.net'
   
-aMessagePrefix: '&c[ADMIN]' 
+aMessagePrefix: '&c[ADMIN] ' 

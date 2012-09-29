@@ -45,7 +45,7 @@ public class Command_cex_message {
 		// get all args after the targets name
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i < args.length; i++){
-			sb.append(args[i]);
+			sb.append(args[i] + " ");
 		}
 		
 		String message = sb.toString();

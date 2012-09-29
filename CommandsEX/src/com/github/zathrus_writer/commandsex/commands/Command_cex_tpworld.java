@@ -73,8 +73,8 @@ public class Command_cex_tpworld {
 		if (sender == target){
 			LogHelper.showInfo("tpWorldSelf#####[" + world.getName(), sender);
 		} else {
-			LogHelper.showInfo("tpLocSuccess#####[" + Nicknames.getNick(target.getName()) + "#####to#####[" + world.getName(), sender);
-			LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + "#####tpWorldOtherNotify", target);
+			LogHelper.showInfo("tpLocSuccess#####[" + Nicknames.getNick(target.getName()) + " #####to#####[" + world.getName(), sender);
+			LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####tpWorldOtherNotify#####[" + world.getName(), target);
 		}
 		
 		return true;

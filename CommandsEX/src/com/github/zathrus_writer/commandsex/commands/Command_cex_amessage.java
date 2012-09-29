@@ -40,8 +40,8 @@ public class Command_cex_amessage {
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < args.length; i++){
-			sb.append(args[i]);
+		for (int i = 1; i < args.length; i++){
+			sb.append(args[i] + " ");
 		}
 		
 		String message = sb.toString();
