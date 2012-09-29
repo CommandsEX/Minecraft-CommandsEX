@@ -82,7 +82,7 @@ public class UpdateAlerter implements Listener
     	Player player = e.getPlayer();
     	if (result.equals(UpdateResult.UPDATE_AVAILABLE) && player.hasPermission("cex.update.alert")){
     		player.sendMessage(ChatColor.AQUA + "A new version of CommandsEX is available!");
-        	player.sendMessage(ChatColor.AQUA + getLatestVersionString());
+        	//player.sendMessage(ChatColor.AQUA + getLatestVersionString());
         	player.sendMessage(ChatColor.AQUA + "Please visit http://http://dev.bukkit.org/server-mods/commandsex/ or the CommandsEX Builder to download!");
     	}
     }
@@ -251,7 +251,7 @@ public class UpdateAlerter implements Listener
         
         if (result.equals(UpdateResult.UPDATE_AVAILABLE)){
         	LogHelper.logInfo("A new version of CommandsEX is available!");
-        	LogHelper.logInfo(getLatestVersionString());
+        	//LogHelper.logInfo(getLatestVersionString());
         	LogHelper.logInfo("Please visit http://dev.bukkit.org/server-mods/commandsex/ or the CommandsEX Builder to download!");
         }
     }
