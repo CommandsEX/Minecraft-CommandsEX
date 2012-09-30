@@ -6,6 +6,13 @@ Key:
 ~ = New bug
 # = Note
 
+Beta 2.00
+---------
+
++ added spawning api
+
+@ moved argument collecting to Utils
+
 Beta 1.95
 ---------
 

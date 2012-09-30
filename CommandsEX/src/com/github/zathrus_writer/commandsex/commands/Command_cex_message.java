@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_message {
 
@@ -42,13 +43,7 @@ public class Command_cex_message {
 			return true;
 		}
 		
-		// get all args after the targets name
-		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i < args.length; i++){
-			sb.append(args[i] + " ");
-		}
-		
-		String message = sb.toString();
+		String message = Utils.collectArgs(args, 1);
 		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
 		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
 		

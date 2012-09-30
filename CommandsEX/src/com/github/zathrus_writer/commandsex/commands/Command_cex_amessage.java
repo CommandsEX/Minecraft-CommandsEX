@@ -39,12 +39,7 @@ public class Command_cex_amessage {
 			return true;
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i < args.length; i++){
-			sb.append(args[i] + " ");
-		}
-		
-		String message = sb.toString();
+		String message = Utils.collectArgs(args, 1);
 		target.sendMessage(Utils.replaceChatColors(CommandsEX.getConf().getString("aMessagePrefix")) + message);
 		LogHelper.showInfo("aMessageSent", sender);
 		
