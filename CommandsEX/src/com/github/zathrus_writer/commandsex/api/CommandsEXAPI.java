@@ -31,4 +31,10 @@ public class CommandsEXAPI {
 	 */
 	
 	public static XMPPAPI xmppAPI = new XMPPAPI();
+	
+	/**
+	 * The API for Spawning
+	 */
+	
+	public static SpawnAPI spawnAPI = new SpawnAPI();
 }

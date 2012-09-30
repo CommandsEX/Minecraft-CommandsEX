@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -226,7 +228,22 @@ public class Spawning {
 		
         return true;
 	}
+
+	/**
+	 * Saves the spawn database using Multiple Threads, this allows other things to happen while the database is saving
+	 * Not recommended to use this when the server is shutting down, otherwise the database could be closed before this can finish
+	 */
 	
+	public static void saveDatabaseMultiThreaded(){
+		ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+		threadExecutor.execute(new Runnable() {
+			public void run() {
+				saveDatabase();
+			}
+		});
+		threadExecutor.shutdown();
+	}
+
 	/**
 	 * Function to save the worldSpawns hashmap to the CommandsEX database
 	 */

@@ -458,4 +458,30 @@ public class Utils {
 		
 		return airBlocks.contains(mat.getId());
 	}
+	
+	/**
+	 * Collects all arguments into a string
+	 * @param args
+	 * @return
+	 */
+	
+	public static String collectArgs(String[] args){
+		return collectArgs(args, 0);
+	}
+	
+	/**
+	 * Collects all arguments into a string
+	 * @param args
+	 * @param startAt
+	 * @return
+	 */
+	
+	public static String collectArgs(String[] args, int startAt){
+		StringBuilder sb = new StringBuilder();
+		for (int i = startAt; i < args.length; i++){
+			sb.append(args[i]).append(" ");
+		}
+		
+		return sb.toString().trim();
+	}
 }
