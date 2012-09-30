@@ -12,6 +12,12 @@ Beta 2.00
 + added spawning api
 
 @ moved argument collecting to Utils
+@ rewrote /time command
+@ rewrote /ptime command
+
+# removed perm cex.ptime.set
+
+# new perm cex.ptime.others
 
 Beta 1.95
 ---------

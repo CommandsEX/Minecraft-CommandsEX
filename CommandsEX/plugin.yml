@@ -461,9 +461,9 @@ permissions:
   cex.ptime:
      default: true
      description: Allows the player to see their current player time.
-  cex.ptime.set:
-     default: op
-     description: Allows the player to set their player time.
+  cex.ptime.others:
+     default: true
+     description: Allows the player to manage others player times
   cex.xp:
      default: op
      description: Allows access to /xp command
@@ -1324,7 +1324,7 @@ commands:
     aliases: [fly, flying]
   cex_ptime:
     description: Sets a players time.
-    usage: /<command> (set/add/view/reset) (value/day/morning/noon/evening/night)
+    usage: /<command> (set/add/reset) (value/day/morning/noon/evening/night) [player]
     permission: cex.ptime
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [ptime, playertime]
