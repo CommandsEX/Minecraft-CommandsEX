@@ -186,11 +186,14 @@ public class Handler_condensejoins implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseJoins(PlayerJoinEvent e) {
-		handleJoin(e.getPlayer().getName());
-		// prevent join message to show up
-		e.setJoinMessage("");
+		// check if another plugin has already cancelled the join message
+		if (!e.getJoinMessage().equals("")){
+		    handleJoin(e.getPlayer().getName());
+		    // prevent join message to show up
+		    e.setJoinMessage("");	
+		}
 	}
 	
 	public static void handleLeave(String pName) {
@@ -323,14 +326,17 @@ public class Handler_condensejoins implements Listener {
 	 * @param e
 	 * @return
 	 */
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseLeaves(PlayerQuitEvent e) {
-		handleLeave(e.getPlayer().getName());		
-		// prevent quit message to show up
-		e.setQuitMessage("");
+		// check if another plugin has not already cancelled the quit message
+		if (!e.getQuitMessage.equals("")){
+	            handleLeave(e.getPlayer().getName());		
+		    // prevent quit message to show up
+		    e.setQuitMessage("");
+		}
 	}
 	
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseLeaves1(PlayerKickEvent e){
 		// prevent kick message showing
 		e.setLeaveMessage("");
