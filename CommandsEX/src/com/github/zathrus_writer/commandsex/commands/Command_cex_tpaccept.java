@@ -43,33 +43,27 @@ public class Command_cex_tpaccept {
 						Teleportation.tpaallRequests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
-						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-						} else {
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(tpaPlayer.getName()), sender);
+						if ((CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())) || !CommandsEX.loadedClasses.contains("Command_cex_inv")){
+							LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####tpAcceptNotify", tpaPlayer);
 						}
 					} else if (Teleportation.tpaRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpaRequests.remove(id);
 						// teleport us to the given player
 						Teleportation.delayedTeleport(tpaPlayer, player.getLocation());
-						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-						} else {
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(tpaPlayer.getName()), sender);
+						if ((CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())) || !CommandsEX.loadedClasses.contains("Command_cex_inv")){
+							LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) +  " #####tpAcceptNotify", tpaPlayer);
 						}
 					} else if (Teleportation.tpahereRequests.contains(id)) {
 						// remove pending request
 						Teleportation.tpahereRequests.remove(id);
 						// teleport the player to us
 						Teleportation.delayedTeleport(player, tpaPlayer.getLocation());
-						LogHelper.showInfo("[" + Nicknames.getNick(tpaPlayer.getName()) + "#####tpAcceptNotify", sender);
-						if (CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())){
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
-						} else {
-							LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(sender.getName()), tpaPlayer);
+						LogHelper.showInfo("tpAccept#####[" + Nicknames.getNick(tpaPlayer.getName()), sender);
+						if ((CommandsEX.loadedClasses.contains("Command_cex_inv") && !Common.invisiblePlayers.contains(sender.getName())) || !CommandsEX.loadedClasses.contains("Command_cex_inv")){
+							LogHelper.showInfo("[" + Nicknames.getNick(sender.getName()) + " #####tpAcceptNotify", tpaPlayer);
 						}
 					} else {
 						// no matching request found

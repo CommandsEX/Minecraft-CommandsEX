@@ -6,7 +6,7 @@ Key:
 ~ = New bug
 # = Note
 
-Beta 2.00
+Beta 1.95a
 ---------
 
 + added spawning api
@@ -14,6 +14,13 @@ Beta 2.00
 @ moved argument collecting to Utils
 @ rewrote /time command
 @ rewrote /ptime command
+@ updated the UpdateAlerter class
+@ version updates are now reported correctly
+
+* fixed tpaccept messages
+* fixed economy and timed promotions when used with promoteTime
+* fixed NPE in Spawning
+* fixed sending join and quit messages when another plugin has cancelled them
 
 # removed perm cex.ptime.set
 

@@ -53,8 +53,7 @@ public class UpdateAlerter implements Listener
     private String versionTitle;
     private String versionLink;
     private long totalSize; // Holds the total size of the file
-    @SuppressWarnings("unused")
-	private double downloadedSize; // TODO: Holds the number of bytes downloaded
+    //private double downloadedSize; TODO: Holds the number of bytes downloaded
     private int sizeLine; // Used for detecting file size
     private int multiplier; // Used for determining when to broadcast download updates
     private boolean announce; // Whether to announce file downloads
@@ -68,7 +67,7 @@ public class UpdateAlerter implements Listener
     // Strings for reading RSS
     private static final String TITLE = "title";
     private static final String LINK = "link";
-    private static final String ITEM = "item";
+    private static final String ITEM = "item";    
     
     public static void init(CommandsEX plugin){
 		if (CommandsEX.getConf().getBoolean("updateAlerter")){
@@ -83,7 +82,7 @@ public class UpdateAlerter implements Listener
     	if (result.equals(UpdateResult.UPDATE_AVAILABLE) && player.hasPermission("cex.update.alert")){
     		player.sendMessage(ChatColor.AQUA + "A new version of CommandsEX is available!");
         	//player.sendMessage(ChatColor.AQUA + getLatestVersionString());
-        	player.sendMessage(ChatColor.AQUA + "Please visit http://http://dev.bukkit.org/server-mods/commandsex/ or the CommandsEX Builder to download!");
+        	player.sendMessage(ChatColor.AQUA + "http://http://dev.bukkit.org/server-mods/commandsex/");
     	}
     }
     
@@ -252,7 +251,7 @@ public class UpdateAlerter implements Listener
         if (result.equals(UpdateResult.UPDATE_AVAILABLE)){
         	LogHelper.logInfo("A new version of CommandsEX is available!");
         	//LogHelper.logInfo(getLatestVersionString());
-        	LogHelper.logInfo("Please visit http://dev.bukkit.org/server-mods/commandsex/ or the CommandsEX Builder to download!");
+        	LogHelper.logInfo("http://dev.bukkit.org/server-mods/commandsex/");
         }
     }
 
@@ -364,8 +363,7 @@ public class UpdateAlerter implements Listener
             File fSourceZip = new File(file);
             String zipPath = file.substring(0, file.length()-4);
             ZipFile zipFile = new ZipFile(fSourceZip);
-            @SuppressWarnings("rawtypes")
-			Enumeration e = zipFile.entries();
+            Enumeration<? extends ZipEntry> e = zipFile.entries();
             while(e.hasMoreElements())
             {
                 ZipEntry entry = (ZipEntry)e.nextElement();
@@ -564,7 +562,7 @@ public class UpdateAlerter implements Listener
     
     /**
      * Part of RSS Reader by Vogella, modified by H31IX for use with Bukkit
-     */     
+     */ 
     private void readFeed() 
     {
         try 
