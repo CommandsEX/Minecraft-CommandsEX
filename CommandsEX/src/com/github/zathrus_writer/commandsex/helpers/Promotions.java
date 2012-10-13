@@ -33,6 +33,7 @@ public class Promotions {
 		// load up settings from config file
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("timedPromote");
+		boolean promoteSet = CommandsEX.getConf().getBoolean("promoteSet");
 		
 		// no groups defined
 		if (configGroups == null) {
@@ -77,29 +78,52 @@ public class Promotions {
 					playerGroups.add(s);
 				}
 			}
-			// check player's playtime against config settings
-			Iterator<Entry<String, Integer>> it2 = settings.entrySet().iterator();
-			while (it2.hasNext()) {
-				Map.Entry<String, Integer> configPairs = (Map.Entry<String, Integer>)it2.next();
-				if ((playerValue >= configPairs.getValue()) && !playerGroups.contains(configPairs.getKey())) {
-					promotedTo = configPairs.getKey();
+
+			// if promote set is enabled, we will find the highest group
+			// that the player can afford to go to
+			if (promoteSet){
+				int highest = 0;
+				Iterator<Entry<String, Integer>> it2 = settings.entrySet().iterator();
+				while (it2.hasNext()) {
+					Map.Entry<String, Integer> configPairs = (Map.Entry<String, Integer>)it2.next();
+					if (configPairs.getValue() > highest && playerValue >= configPairs.getValue()){
+						highest = configPairs.getValue();
+					}
+				}
+				
+				List<Object> keyMatches = Utils.getKeysFromValue(settings, highest);
+				if (keyMatches.size() < 1){
+					return;
+				}
+				
+				String groupTo = keyMatches.get(0).toString();
+				
+				if (!playerGroups.contains(groupTo)){
+					promotedTo = groupTo;
+				}
+			} else {
+				// check player's playtime against config settings
+				Iterator<Entry<String, Integer>> it2 = settings.entrySet().iterator();
+				while (it2.hasNext()) {
+					Map.Entry<String, Integer> configPairs = (Map.Entry<String, Integer>)it2.next();
+					if ((playerValue >= configPairs.getValue()) && !playerGroups.contains(configPairs.getKey())) {
+						promotedTo = configPairs.getKey();
+					}
 				}
 			}
-			
+
 			// if we have a promotion to deliver, do it here
 			if (!promotedTo.equals("")) {
-				if (CommandsEX.getConf().getBoolean("promoteSet")){
+				if (promoteSet){
 					// if promoteSet is true, REMOVE all groups from the player
 					// and then add the group the player is being promoted to
 					for (String group : Vault.perms.getPlayerGroups(p)){
 						Vault.perms.playerRemoveGroup(p, group);
 					}
-					
-					Vault.perms.playerAddGroup(p, promotedTo);
-				} else {
-					// if promoteSet is false, simply add the group to the player
-					Vault.perms.playerAddGroup(p, promotedTo);
 				}
+				
+				Vault.perms.playerAddGroup(p, promotedTo);
+				
 				LogHelper.showInfo("timedPromoteMessage1", p, ChatColor.GREEN);
 				LogHelper.showInfo("timedPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
 			}
@@ -119,6 +143,7 @@ public class Promotions {
 		// load up settings from config file
 		FileConfiguration f = CommandsEX.getConf();
 		ConfigurationSection configGroups = f.getConfigurationSection("ecoPromote");
+		boolean promoteSet = CommandsEX.getConf().getBoolean("promoteSet");
 		
 		// no groups defined
 		if (configGroups == null) {
@@ -155,26 +180,54 @@ public class Promotions {
 					playerGroups.add(s);
 				}
 			}
-			// check player's playtime against config settings
-			Iterator<Entry<String, Double>> it2 = settings.entrySet().iterator();
-			while (it2.hasNext()) {
-				Map.Entry<String, Double> configPairs = (Map.Entry<String, Double>)it2.next();
+			
+			// if promote set is enabled, we will find the highest group
+			// that the player can afford to go to
+			if (promoteSet){
+				// collect all the balances
+				List<Double> balances = new ArrayList<Double>();
+				balances.addAll(settings.values());
 				
-				// check for promotions
-				if ((balance >= configPairs.getValue()) && !playerGroups.contains(configPairs.getKey())) {
-					promotedTo = configPairs.getKey();
+				// checks each balance if it is higher than highest and if
+				// the player has enough money to rank up to it
+				double highest = 0;
+				for (double b : balances){
+					if (b > highest && balance >= b){
+						highest = b;
+					}
 				}
 				
-				//check for demotions
-				if (checkDemotions && playerGroups.contains(configPairs.getKey()) && (balance < configPairs.getValue())) {
-					demotions.add(configPairs.getKey());
-					Vault.perms.playerRemoveGroup(p, configPairs.getKey());
+				// uses a Util function to get all the keys that match the value of
+				// highest and then gets the first one.
+				String highestGroup = Utils.getKeysFromValue(settings, highest).get(0).toString();
+				
+				// if the player is not already in the highest group, set promotedTo the
+				// highest groups name
+				if (!playerGroups.contains(highestGroup)){
+					promotedTo = Utils.getKeysFromValue(settings, highest).get(0).toString();
+				}
+			} else {
+				// check player's playtime against config settings
+				Iterator<Entry<String, Double>> it2 = settings.entrySet().iterator();
+				while (it2.hasNext()) {
+					Map.Entry<String, Double> configPairs = (Map.Entry<String, Double>)it2.next();
+
+					// check for promotions
+					if ((balance >= configPairs.getValue()) & !playerGroups.contains(configPairs.getKey())) {
+						promotedTo = configPairs.getKey();
+					}
+
+					//check for demotions
+					if (checkDemotions && playerGroups.contains(configPairs.getKey()) && (balance < configPairs.getValue())) {
+						demotions.add(configPairs.getKey());
+						Vault.perms.playerRemoveGroup(p, configPairs.getKey());
+					}
 				}
 			}
 
 			// if we have a promotion to deliver, do it here
 			if (!promotedTo.equals("")) {
-				if (CommandsEX.getConf().getBoolean("promoteSet")){
+				if (promoteSet){
 					// if promoteSet is true, remove all groups from a player
 					for (String group : Vault.perms.getPlayerGroups(p)){
 						Vault.perms.playerRemoveGroup(p, group);
