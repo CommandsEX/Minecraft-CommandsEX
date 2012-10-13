@@ -295,29 +295,29 @@ public class Utils {
 	 * @return
 	 */
 	public static Player getOfflinePlayer(String player) {
-		// Taken from the OpenInv Source
-		// https://github.com/lishd/OpenInv/blob/master/src/lishid/openinv/commands/OpenInvPluginCommand.java#L106
-		Player player2 = null;
-		try {
-			File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
-			for (File playerfile : playerfolder.listFiles()) {
-				String filename = playerfile.getName();
-				String playername = filename.substring(0, filename.length() - 4);
+		Player player2 = Bukkit.getPlayerExact(player);
+		
+		if (player2 == null){
+			try {
+				File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+				for (File playerfile : playerfolder.listFiles()) {
+					String filename = playerfile.getName();
+					String playername = filename.substring(0, filename.length() - 4);
 
-				if (playername.trim().equalsIgnoreCase(player)) {
-					final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
-					final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
-					player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
-					if (player2 != null) {
-						player2.loadData();
-					} else {
-
+					if (playername.trim().equalsIgnoreCase(player)) {
+						final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
+						final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new ItemInWorldManager(server.getWorldServer(0)));
+						player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
+						if (player2 != null) {
+							player2.loadData();
+						} else {
+							return null;
+						}
 					}
 				}
-			}
-		} catch (final Exception e) {
-			// Exception :0
+			} catch (final Exception e) {}
 		}
+		
 		return player2;
 	}
 	
