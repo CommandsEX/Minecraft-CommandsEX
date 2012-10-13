@@ -462,7 +462,7 @@ permissions:
      default: true
      description: Allows the player to see their current player time.
   cex.ptime.others:
-     default: true
+     default: op
      description: Allows the player to manage others player times
   cex.xp:
      default: op
