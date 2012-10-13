@@ -19,8 +19,6 @@ import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -429,34 +427,6 @@ public class Utils {
 	
 	public static List<String> separateCommaList(String s){
 		return Arrays.asList(s.split("\\s*,\\s*"));
-	}
-	
-	public static boolean isTransparentBlock(World w, int x, int y, int z){
-		return isTransparentBlock(w.getBlockAt(x, y, z).getType());
-	}
-	
-	/***
-	 * Determines whether a block is a transparent block (used in teleporting)
-	 * @param mat
-	 * @return
-	 */
-	
-	public static boolean isTransparentBlock(Material mat){
-		List<? extends Object> airBlocks = Arrays.asList(Material.WOODEN_DOOR.getId(), 
-		Material.AIR.getId(), Material.RED_MUSHROOM.getId(), Material.REDSTONE_WIRE.getId(), 
-		Material.STONE_PLATE.getId(), Material.IRON_DOOR_BLOCK.getId(), 
-		Material.RAILS.getId(), Material.WALL_SIGN.getId(), Material.SEEDS.getId(), 
-		Material.PUMPKIN_STEM.getId(), Material.TORCH.getId(), Material.REDSTONE_TORCH_OFF.getId(), 
-		Material.TRAP_DOOR.getId(), Material.MELON_STEM.getId(), Material.SAPLING.getId(), 
-		Material.RED_ROSE.getId(), Material.WATER_LILY.getId(), Material.POWERED_RAIL.getId(), 
-		Material.DIODE_BLOCK_OFF.getId(), Material.SIGN_POST.getId(), Material.LEVER.getId(), 
-		Material.YELLOW_FLOWER.getId(), Material.DEAD_BUSH.getId(), Material.SUGAR_CANE_BLOCK.getId(), 
-		Material.REDSTONE_TORCH_ON.getId(), Material.NETHER_WARTS.getId(), Material.DIODE_BLOCK_ON.getId(), 
-		Material.DETECTOR_RAIL.getId(), Material.LADDER.getId(), Material.STONE_BUTTON.getId(), 
-		Material.WOOD_PLATE.getId(), Material.VINE.getId(), Material.BROWN_MUSHROOM.getId(), 
-		Material.LONG_GRASS.getId());
-		
-		return airBlocks.contains(mat.getId());
 	}
 	
 	/**
