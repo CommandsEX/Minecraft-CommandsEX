@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
+import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_amessage {
@@ -41,7 +42,7 @@ public class Command_cex_amessage {
 		
 		String message = Utils.collectArgs(args, 1);
 		target.sendMessage(Utils.replaceChatColors(CommandsEX.getConf().getString("aMessagePrefix")) + message);
-		LogHelper.showInfo("aMessageSent", sender);
+		LogHelper.showInfo("aMessageSent#####[" + Nicknames.getNick(target.getName()), sender);
 		
 		return true;
 	}
