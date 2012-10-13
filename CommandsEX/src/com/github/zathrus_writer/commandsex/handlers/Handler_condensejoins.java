@@ -329,7 +329,7 @@ public class Handler_condensejoins implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseLeaves(PlayerQuitEvent e) {
 		// check if another plugin has not already cancelled the quit message
-		if (!e.getQuitMessage.equals("")){
+		if (!e.getQuitMessage().equals("")){
 	            handleLeave(e.getPlayer().getName());		
 		    // prevent quit message to show up
 		    e.setQuitMessage("");
