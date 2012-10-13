@@ -3,7 +3,7 @@ description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
 load: postworld
-version: 1.95
+version: 1.96
 website: http://dev.bukkit.org/server-mods/commandsex
 softdepend: [Vault, VanishNoPacket, TagAPI]
 permissions:
