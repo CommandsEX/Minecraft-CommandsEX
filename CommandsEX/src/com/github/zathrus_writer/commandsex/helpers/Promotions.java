@@ -171,29 +171,26 @@ public class Promotions {
 					Vault.perms.playerRemoveGroup(p, configPairs.getKey());
 				}
 			}
-			
+
 			// if we have a promotion to deliver, do it here
 			if (!promotedTo.equals("")) {
 				if (CommandsEX.getConf().getBoolean("promoteSet")){
 					// if promoteSet is true, remove all groups from a player
-					// and then add the promoted group, making it their default group
 					for (String group : Vault.perms.getPlayerGroups(p)){
 						Vault.perms.playerRemoveGroup(p, group);
 					}
-					
-					Vault.perms.playerAddGroup(p, promotedTo);
-				} else {
-					// if promoteSet is false, add the group to the player
-					Vault.perms.playerAddGroup(p, promotedTo);
 				}
+				
+				Vault.perms.playerAddGroup(p, promotedTo);
+				
 				LogHelper.showInfo("ecoPromoteMessage1", p, ChatColor.GREEN);
 				LogHelper.showInfo("ecoPromoteMessage2#####[" + ChatColor.AQUA + promotedTo, p, ChatColor.GREEN);
-			}
-			
-			// for demotions, do the same
-			if (demotions.size() > 0) {
-				LogHelper.showInfo("ecoDemoteMessage1", p);
-				LogHelper.showInfo("ecoDemoteMessage2#####[" + ChatColor.AQUA + Utils.implode(demotions, ", "), p);
+
+				// for demotions, do the same
+				if (demotions.size() > 0) {
+					LogHelper.showInfo("ecoDemoteMessage1", p);
+					LogHelper.showInfo("ecoDemoteMessage2#####[" + ChatColor.AQUA + Utils.implode(demotions, ", "), p);
+				}
 			}
 			
 			// exit here if we requested a single player
