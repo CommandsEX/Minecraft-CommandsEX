@@ -83,12 +83,11 @@ public class Spawning {
 					CommandsEX.plugin.saveConfig();
 				}
 			} else {
-			       // if the world in the config does not exist
-                               if (CommandsEX.getConf().contains("globalSpawnWorld")){
-                                   LogHelper.logDebug("globalSpawnWorld in config.yml does not exist, resetting to default");
-				   CommandsEX.getConf().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
-				   w = Bukkit.getWorld(CommandsEX.getConf().getString("globalSpawnWorld"));
-                               }
+				// if the world in the config does not exist
+				if (!CommandsEX.getConf().contains("globalSpawnWorld")){
+					LogHelper.logDebug("globalSpawnWorld in config.yml does not exist, resetting to default");
+					CommandsEX.getConf().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
+				}
 			}
 			
 			for (String s : worldSpawns.keySet()){
