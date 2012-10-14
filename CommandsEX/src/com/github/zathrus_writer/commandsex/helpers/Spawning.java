@@ -107,6 +107,10 @@ public class Spawning {
 			
 			// save the database when the server is shutdown
 			CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Spawning#####onDisable");
+		} else {
+			for (World w : Bukkit.getWorlds()){
+				worldSpawns.put(w.getName(), w.getSpawnLocation());
+			}
 		}
 	}
 	
@@ -216,6 +220,10 @@ public class Spawning {
 			
 			worldSpawns.put(world.getName(), loc);
 			
+			if (!CommandsEX.sqlEnabled){
+				world.setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+			}
+			
 			if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
 				LogHelper.showInfo("spawnSetWorld", sender);
 			} else {
@@ -246,38 +254,40 @@ public class Spawning {
 	 */
 	
 	public static void saveDatabase(){
-		// add or update spawns that are in the hashmap
-		for (String w : worldSpawns.keySet()){
-			ResultSet rs = SQLManager.query_res("SELECT world_name FROM " + SQLManager.prefix + "spawns WHERE world_name = ?", w);
-			
-			try {
-				Location loc = worldSpawns.get(w);
+		if (CommandsEX.sqlEnabled){
+			// add or update spawns that are in the hashmap
+			for (String w : worldSpawns.keySet()){
+				ResultSet rs = SQLManager.query_res("SELECT world_name FROM " + SQLManager.prefix + "spawns WHERE world_name = ?", w);
 				
-				if (!rs.next()){
-					SQLManager.query("INSERT " + (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") + "INTO " + SQLManager.prefix + "spawns (world_name, x, y, z, yaw, pitch) SELECT ? AS world_name, ? AS x, ? AS y, ? AS z, ? AS yaw, ? AS pitch", w, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
-				} else {
-					SQLManager.query("UPDATE " + SQLManager.prefix + "spawns SET world_name = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ?", w, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+				try {
+					Location loc = worldSpawns.get(w);
+					
+					if (!rs.next()){
+						SQLManager.query("INSERT " + (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") + "INTO " + SQLManager.prefix + "spawns (world_name, x, y, z, yaw, pitch) SELECT ? AS world_name, ? AS x, ? AS y, ? AS z, ? AS yaw, ? AS pitch", w, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+					} else {
+						SQLManager.query("UPDATE " + SQLManager.prefix + "spawns SET world_name = ?, x = ?, y = ?, z = ?, yaw = ?, pitch = ?", w, loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
+					}
+					
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// delete all entries in the database that are no longer in the worldSpawns hashmap
+			ResultSet rs = SQLManager.query_res("SELECT world_name FROM " + SQLManager.prefix + "spawns");
+			try {
+				while (rs.next()){
+					String wName = rs.getString("world_name");
+					if (!worldSpawns.containsKey(wName)){
+						SQLManager.query("DELETE FROM " + SQLManager.prefix + "spawns WHERE world_name = ?", wName);
+					}
 				}
 				
 				rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		// delete all entries in the database that are no longer in the worldSpawns hashmap
-		ResultSet rs = SQLManager.query_res("SELECT world_name FROM " + SQLManager.prefix + "spawns");
-		try {
-			while (rs.next()){
-				String wName = rs.getString("world_name");
-				if (!worldSpawns.containsKey(wName)){
-					SQLManager.query("DELETE FROM " + SQLManager.prefix + "spawns WHERE world_name = ?", wName);
-				}
-			}
-			
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 }

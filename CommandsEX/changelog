@@ -6,6 +6,11 @@ Key:
 ~ = New bug
 # = Note
 
+Release 2.0
+-----------
+
+@ Setting the spawn location now works without a Database, however yaw and pitch's will not be saved without a database
+
 Beta 1.97
 -----------
 
