@@ -668,6 +668,9 @@ permissions:
   cex.tpworld.others:
     default: op
     description: Allows the player to teleport another player to a world
+  cex.fireball:
+    default: op
+    description: Allows the player to fire a fireball
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1475,3 +1478,9 @@ commands:
     permission: cex.tpworld
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [tpworld, world]
+  cex_fireball:
+    description: Fires a fireball
+    usage: /<command> [small]
+    permission: cex.fireball
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [fireball, fb, ghast]
