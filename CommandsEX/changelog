@@ -6,11 +6,13 @@ Key:
 ~ = New bug
 # = Note
 
-Release 2.0
+Beta 1.97
 -----------
 
 + added a CommandBook converter, currently it will convert Homes and Warps
 + added command /fireball, like a ghast
+
+- removed sk language from default config as we no longer have that translation
 
 @ Condensed Joins and /online now also check to see if a player is invisible with VanishNoPacket
 

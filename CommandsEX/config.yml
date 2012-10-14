@@ -41,7 +41,7 @@ defaultLang: en
 
 # list of all languages that will be available to your users,
 # should you decide to allow them to change their language on per-user basis
-availableLangs: [en, sk]
+availableLangs: [en]
 
 # Whether or not the time it took to load CommandsEx should be displayed
 startupTimer: false
