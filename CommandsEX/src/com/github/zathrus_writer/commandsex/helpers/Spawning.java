@@ -85,7 +85,7 @@ public class Spawning {
 			} else {
 				// if the world in the config does not exist
 				if (!CommandsEX.getConf().contains("globalSpawnWorld")){
-					LogHelper.logDebug("globalSpawnWorld in config.yml does not exist, resetting to default");
+					LogHelper.logDebug("globalSpawnWorld in config.yml does not exist, setting to default");
 					CommandsEX.getConf().set("globalSpawnWorld", Bukkit.getWorlds().get(0).getName());
 				}
 			}
