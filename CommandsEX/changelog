@@ -9,6 +9,9 @@ Key:
 Release 2.0
 -----------
 
++ added a CommandBook converter, currently it will convert Homes and Warps
++ added command /fireball, like a ghast
+
 @ Condensed Joins and /online now also check to see if a player is invisible with VanishNoPacket
 
 * fixed some issues while going invisible with VanishNoPacket disabled
