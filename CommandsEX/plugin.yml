@@ -773,6 +773,9 @@ permissions:
   Init.Spawning:
     default: true
     description: Placeholder for initialization function used to handle World Spawns
+  Init.CommandBookConverter:
+    default: true
+    description: Placeholder for initialization function used to convert CommandBook files to CommandsEX files
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.

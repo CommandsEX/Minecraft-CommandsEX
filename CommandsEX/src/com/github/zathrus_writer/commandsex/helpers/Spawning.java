@@ -75,7 +75,7 @@ public class Spawning {
 					worldSpawns.put(w.getName(), spawn);
 				}
 			}
-
+			
 			if (CommandsEX.getConf().getBoolean("perWorldSpawn")){
 				// set the default world if it has not already been set
 				if (!CommandsEX.getConf().contains("globalSpawnWorld")){

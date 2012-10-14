@@ -142,13 +142,8 @@ public class Home {
 					// all ok, let's save our home
 					Location l = player.getLocation();
 					
-					// if player cannot have multiworld homes, we need to delete their home first
-					if (!CommandsEX.getConf().getBoolean("allowMultiworldHomes")) {
-						SQLManager.query("DELETE FROM " + SQLManager.prefix + "homes WHERE player_name = ?", pName);
-					}
-					
 					// all done :-)
-					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "homes (player_name, world_name, x, y, z, yaw, pitch) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch)" : ""), pName, player.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch())) {
+					if (setHome(pName, l)) {
 						// home successfuly created
 						LogHelper.showInfo("homeSetComplete#####[" + Nicknames.getNick(pName) + "!", sender);
 					} else {
@@ -171,6 +166,23 @@ public class Home {
 		}
 		
         return true;
+	}
+	
+	/**
+	 * This method actually sets the home for the player and deletes all other homes
+	 * if allowMultiworldHomes are disabled
+	 * @param pName
+	 * @param l
+	 * @return
+	 */
+	
+	public static boolean setHome(String pName, Location l){
+		// if player cannot have multiworld homes, we need to delete their home first
+		if (!CommandsEX.getConf().getBoolean("allowMultiworldHomes")) {
+			SQLManager.query("DELETE FROM " + SQLManager.prefix + "homes WHERE player_name = ?", pName);
+		}
+		
+		return SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "homes (player_name, world_name, x, y, z, yaw, pitch) VALUES(?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch)" : ""), pName, l.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
 	}
 	
 	/***

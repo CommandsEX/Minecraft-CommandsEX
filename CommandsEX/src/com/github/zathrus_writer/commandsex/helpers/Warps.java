@@ -131,7 +131,8 @@ public class Warps {
 					}
 
 					Location l = player.getLocation();
-					if (SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, yaw, pitch, is_public) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch), is_public = VALUES(is_public)" : ""), (createForOther ? args[2] : pName), player.getWorld().getName(), args[1], l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(), ((args.length > 2) && args[2].equals("public")) ? 1 : 0)) {
+					l.setWorld(player.getWorld());
+					if (createWarp((createForOther ? args[2] : pName), args[1], ((args.length > 2) && args[2].equals("public")) ? true : false,  l)) {
 						// warp successfuly created
 						LogHelper.showInfo("warpCreated#####[" + args[1], sender);
 
@@ -159,6 +160,10 @@ public class Warps {
 		}
 
 		return true;
+	}
+	
+	public static boolean createWarp(String pName, String warpName, boolean isPublic, Location l){
+		return SQLManager.query("INSERT "+ (SQLManager.sqlType.equals("mysql") ? "" : "OR REPLACE ") +"INTO " + SQLManager.prefix + "warps (owner_name, world_name, warp_name, x, y, z, yaw, pitch, is_public) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)" + (SQLManager.sqlType.equals("mysql") ? " ON DUPLICATE KEY UPDATE owner_name = VALUES(owner_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch), is_public = VALUES(is_public)" : ""), pName, l.getWorld().getName(), warpName, l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(), (isPublic ? 1 : 0));
 	}
 
 	/***
