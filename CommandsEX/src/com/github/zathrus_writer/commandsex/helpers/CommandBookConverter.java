@@ -45,79 +45,85 @@ public class CommandBookConverter {
 
 		File cmdBkHomes = new File(plugin.getDataFolder() + "/convert/CommandBookHomes.csv");
 		if (cmdBkHomes.exists()){
-			try {
-				LogHelper.logInfo("Started CommandBook Home Conversion");
-				File oldConversion = new File(plugin.getDataFolder() + "/old-conversions/CommandBookHomes" + dateString + ".csv");
-				// begin reading the CSV file
-				BufferedReader CSVFile = new BufferedReader(new FileReader(cmdBkHomes.getAbsolutePath()));
-				// Read the first line
-				String dataRow = CSVFile.readLine();
+			if (CommandsEX.sqlEnabled){
+				try {
+					LogHelper.logInfo("Started CommandBook Home Conversion");
+					File oldConversion = new File(plugin.getDataFolder() + "/old-conversions/CommandBookHomes" + dateString + ".csv");
+					// begin reading the CSV file
+					BufferedReader CSVFile = new BufferedReader(new FileReader(cmdBkHomes.getAbsolutePath()));
+					// Read the first line
+					String dataRow = CSVFile.readLine();
 
-				// run this, while there are more rows
-				while (dataRow != null){
-					// split the rows values into an array
-					String[] dataArray = dataRow.split(",");
+					// run this, while there are more rows
+					while (dataRow != null){
+						// split the rows values into an array
+						String[] dataArray = dataRow.split(",");
 
-					// remove the first and last " on all arguments
-					for (int i = 0; i < dataArray.length; i++){
-						dataArray[i] = dataArray[i].substring(1, dataArray[i].length() - 1);
-					}
-					
-					// get some variables from the CSV file
-					String homeName = dataArray[0];
-					String ownerName = dataArray[2];
-					String worldName = dataArray[1];
-					World world = Bukkit.getWorld(worldName);
+						// remove the first and last " on all arguments
+						for (int i = 0; i < dataArray.length; i++){
+							dataArray[i] = dataArray[i].substring(1, dataArray[i].length() - 1);
+						}
+						
+						// get some variables from the CSV file
+						String homeName = dataArray[0];
+						String ownerName = dataArray[2];
+						String worldName = dataArray[1];
+						World world = Bukkit.getWorld(worldName);
 
-					// if the world does not exist, don't continue
-					if (world == null){
-						LogHelper.logWarning("Home for " + ownerName + " could not be converted from CommandBook -> CommandsEX");
-						LogHelper.logWarning("ERROR: World " + worldName + " does not exist, skipping...");
-					} else {
-						double x = Double.parseDouble(dataArray[3]);
-						double y = Double.parseDouble(dataArray[4]);
-						double z = Double.parseDouble(dataArray[5]);
-						float yaw = Float.parseFloat(dataArray[6]);
-						float pitch = Float.parseFloat(dataArray[7]);
-
-						// construct the location
-						Location l = new Location(world, x, y, z, yaw, pitch);
-
-						// only convert to home if it is the players PRIMARY home as CommandsEX
-						// otherwise we will try to convert it to a private warp
-						if (homeName.equals(ownerName)){
-							// This sets the players home, deleting all other homes IF allowMultiworldHomes is false
-							Home.setHome(ownerName, l);
-							// alert to console
-							LogHelper.logInfo("Set home for " + ownerName + " successfully!");
+						// if the world does not exist, don't continue
+						if (world == null){
+							LogHelper.logWarning("Home for " + ownerName + " could not be converted from CommandBook -> CommandsEX");
+							LogHelper.logWarning("ERROR: World " + worldName + " does not exist, skipping...");
 						} else {
-							LogHelper.logInfo("Home named " + homeName + " is not the primary home of " + ownerName);
-							if (CommandsEX.loadedClasses.contains("Command_cex_warp")){
-								LogHelper.logInfo("Instead we will convert this home to a warp, owned by " + ownerName);
-								Warps.createWarp(ownerName, homeName, false, l);
-								LogHelper.logInfo("Successfully created private warp called " + homeName + " for " + ownerName);
+							double x = Double.parseDouble(dataArray[3]);
+							double y = Double.parseDouble(dataArray[4]);
+							double z = Double.parseDouble(dataArray[5]);
+							float yaw = Float.parseFloat(dataArray[6]);
+							float pitch = Float.parseFloat(dataArray[7]);
+
+							// construct the location
+							Location l = new Location(world, x, y, z, yaw, pitch);
+
+							// only convert to home if it is the players PRIMARY home as CommandsEX
+							// otherwise we will try to convert it to a private warp
+							if (homeName.equals(ownerName)){
+								// This sets the players home, deleting all other homes IF allowMultiworldHomes is false
+								Home.setHome(ownerName, l);
+								// alert to console
+								LogHelper.logInfo("Set home for " + ownerName + " successfully!");
 							} else {
-								LogHelper.logInfo("Warps have not been enabled, therefore we cannot convert this home to a warp");
+								LogHelper.logInfo("Home named " + homeName + " is not the primary home of " + ownerName);
+								if (CommandsEX.loadedClasses.contains("Command_cex_warp")){
+									LogHelper.logInfo("Instead we will convert this home to a warp, owned by " + ownerName);
+									Warps.createWarp(ownerName, homeName, false, l);
+									LogHelper.logInfo("Successfully created private warp called " + homeName + " for " + ownerName);
+								} else {
+									LogHelper.logInfo("Warps have not been enabled, therefore we cannot convert this home to a warp");
+								}
 							}
 						}
+
+						// Read next line of data
+						dataRow = CSVFile.readLine();
 					}
+					// Close the file once all data has been read.
+					CSVFile.close();
 
-					// Read next line of data
-					dataRow = CSVFile.readLine();
+					// Copy CommandBookHomes.csv to the oldConversion folder, with a unique suffix
+					Utils.copyFile(cmdBkHomes, oldConversion);
+					cmdBkHomes.delete();
+
+					// alert to console
+					LogHelper.logInfo("CommandBook Home Conversion Finished, CommandBookHomes.csv moved to old-conversions");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();// this should never be thrown as we check if the file exists above
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				// Close the file once all data has been read.
-				CSVFile.close();
-
-				// Copy CommandBookHomes.csv to the oldConversion folder, with a unique suffix
-				Utils.copyFile(cmdBkHomes, oldConversion);
-				cmdBkHomes.delete();
-
-				// alert to console
-				LogHelper.logInfo("CommandBook Home Conversion Finished, CommandBookHomes.csv moved to old-conversions");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();// this should never be thrown as we check if the file exists above
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				// TODO move this to lang.properties
+				LogHelper.logWarning("Cannot convert CommandBook warps because the SQL database is disabled");
+				LogHelper.logWarning("Please enable it in the config");
 			}
 		}
 		
@@ -128,67 +134,73 @@ public class CommandBookConverter {
 		File cmdBkWarps = new File(plugin.getDataFolder() + "/convert/CommandBookWarps.csv");
 
 		if (cmdBkWarps.exists()){
-			try {
-				LogHelper.logInfo("Started CommandBook Warp Conversion");
-				File oldConversion = new File(plugin.getDataFolder() + "/old-conversions/CommandBookWarps" + dateString + ".csv");
-				// begin reading the CSV file
-				BufferedReader CSVFile = new BufferedReader(new FileReader(cmdBkWarps.getAbsolutePath()));
-				// Read the first line
-				String dataRow = CSVFile.readLine();
+			if (CommandsEX.sqlEnabled){
+				try {
+					LogHelper.logInfo("Started CommandBook Warp Conversion");
+					File oldConversion = new File(plugin.getDataFolder() + "/old-conversions/CommandBookWarps" + dateString + ".csv");
+					// begin reading the CSV file
+					BufferedReader CSVFile = new BufferedReader(new FileReader(cmdBkWarps.getAbsolutePath()));
+					// Read the first line
+					String dataRow = CSVFile.readLine();
 
-				// run this, while there are more rows
-				while (dataRow != null){
-					// split the rows values into an array
-					String[] dataArray = dataRow.split(",");
+					// run this, while there are more rows
+					while (dataRow != null){
+						// split the rows values into an array
+						String[] dataArray = dataRow.split(",");
 
-					// remove the first and last " on all arguments
-					for (int i = 0; i < dataArray.length; i++){
-						dataArray[i] = dataArray[i].substring(1, dataArray[i].length() - 1);
+						// remove the first and last " on all arguments
+						for (int i = 0; i < dataArray.length; i++){
+							dataArray[i] = dataArray[i].substring(1, dataArray[i].length() - 1);
+						}
+						
+						// get some variables from the CSV file
+						String warpName = dataArray[0];
+						String ownerName = dataArray[2];
+						String worldName = dataArray[1];
+						World world = Bukkit.getWorld(worldName);
+
+						// if the world does not exist, don't continue
+						if (world == null){
+							LogHelper.logWarning("Warp named " + warpName + " could not be converted from CommandBook -> CommandsEX");
+							LogHelper.logWarning("ERROR: World " + worldName + " does not exist, skipping...");
+						} else {
+							double x = Double.parseDouble(dataArray[3]);
+							double y = Double.parseDouble(dataArray[4]);
+							double z = Double.parseDouble(dataArray[5]);
+							float yaw = Float.parseFloat(dataArray[6]);
+							float pitch = Float.parseFloat(dataArray[7]);
+
+							// construct the location
+							Location l = new Location(world, x, y, z, yaw, pitch);
+
+							// This creates the public warp
+							Warps.createWarp(ownerName, warpName, true, l);
+							// alert to console
+							LogHelper.logInfo("Created warp " + warpName + " successfully!");
+						}
+						
+						// Read next row of data
+						dataRow = CSVFile.readLine();
 					}
-					
-					// get some variables from the CSV file
-					String warpName = dataArray[0];
-					String ownerName = dataArray[2];
-					String worldName = dataArray[1];
-					World world = Bukkit.getWorld(worldName);
 
-					// if the world does not exist, don't continue
-					if (world == null){
-						LogHelper.logWarning("Warp named " + warpName + " could not be converted from CommandBook -> CommandsEX");
-						LogHelper.logWarning("ERROR: World " + worldName + " does not exist, skipping...");
-					} else {
-						double x = Double.parseDouble(dataArray[3]);
-						double y = Double.parseDouble(dataArray[4]);
-						double z = Double.parseDouble(dataArray[5]);
-						float yaw = Float.parseFloat(dataArray[6]);
-						float pitch = Float.parseFloat(dataArray[7]);
+					// Close the file once all data has been read.
+					CSVFile.close();
 
-						// construct the location
-						Location l = new Location(world, x, y, z, yaw, pitch);
+					// Copy CommandBookWarps.csv to the oldConversion folder, with a unique suffix
+					Utils.copyFile(cmdBkWarps, oldConversion);
+					cmdBkWarps.delete();
 
-						// This creates the public warp
-						Warps.createWarp(ownerName, warpName, true, l);
-						// alert to console
-						LogHelper.logInfo("Created warp " + warpName + " successfully!");
-					}
-					
-					// Read next row of data
-					dataRow = CSVFile.readLine();
+					// alert to console
+					LogHelper.logInfo("CommandBook Warp Conversion Finished, CommandBookWarps.csv moved to old-conversions");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();// this should never be thrown as we check if the file exists above
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-
-				// Close the file once all data has been read.
-				CSVFile.close();
-
-				// Copy CommandBookWarps.csv to the oldConversion folder, with a unique suffix
-				Utils.copyFile(cmdBkWarps, oldConversion);
-				cmdBkWarps.delete();
-
-				// alert to console
-				LogHelper.logInfo("CommandBook Warp Conversion Finished, CommandBookWarps.csv moved to old-conversions");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();// this should never be thrown as we check if the file exists above
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				// TODO move this to lang.properties
+				LogHelper.logWarning("Cannot convert CommandBook warps because the SQL database is disabled");
+				LogHelper.logWarning("Please enable it in the config");
 			}
 		}
 	}
