@@ -6,6 +6,13 @@ Key:
 ~ = New bug
 # = Note
 
+Release 2.0
+-----------
+
+@ Condensed Joins and /online now also check to see if a player is invisible with VanishNoPacket
+
+* fixed some issues while going invisible with VanishNoPacket disabled
+
 Beta 1.96
 ---------
 

@@ -92,7 +92,7 @@ public class Handler_condensejoins implements Listener {
 						nickname = Nicknames.getNick(pName);
 					} catch (Exception ex){}
 					joinNicks.add(nickname);
-				} else if (Common.invisiblePlayers.contains(pName)){
+				} else if (Common.isInvisible(pName)){
 					joins.remove(pName);
 				} else {
 					String nickname = pName;
@@ -232,7 +232,7 @@ public class Handler_condensejoins implements Listener {
 						nickname = Nicknames.getNick(pName);
 					} catch (Exception ex){}
 					leaveNicks.add(nickname);
-				} else if (Common.invisiblePlayers.contains(pName)){
+				} else if (Common.isInvisible(pName)){
 					leaves.remove(pName);
 				} else {
 					String nickname = pName;

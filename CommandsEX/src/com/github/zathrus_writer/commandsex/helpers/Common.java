@@ -42,7 +42,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.util.Vector;
-import org.kitteh.vanish.staticaccess.VanishNoPacket;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
@@ -451,8 +450,8 @@ public class Common implements Listener {
 		// use VanishNoPacket to handle invisibility if found
 		if (CommandsEX.vanishNoPacketPresent){
 			try {
-				VanishNoPacket.toggleVanishSilent(player);
-				isInvisible = VanishNoPacket.isVanished(pName);
+				org.kitteh.vanish.staticaccess.VanishNoPacket.toggleVanishSilent(player);
+				isInvisible = org.kitteh.vanish.staticaccess.VanishNoPacket.isVanished(pName);
 			} catch (Exception e) {
 				if (CommandsEX.getConf().getBoolean("debugMode")){
 					e.printStackTrace();
@@ -528,7 +527,31 @@ public class Common implements Listener {
 		
 		return true;
 	}
-
+	
+	/**
+	 * Checks if a player is invisible
+	 * @param player
+	 * @return
+	 */
+	
+	public static boolean isInvisible(String player){
+		boolean toReturn = false;
+		
+		if (CommandsEX.vanishNoPacketPresent){
+			try {
+				if (!org.kitteh.vanish.staticaccess.VanishNoPacket.isVanished(player)){
+					toReturn = true;
+				}
+			} catch (Exception e) {}
+		}
+		
+		if (CommandsEX.loadedClasses.contains("Command_cex_inv") && Common.invisiblePlayers.contains(player)){
+			toReturn = true;
+		}
+		
+		return toReturn;
+	}
+	
 	/***
 	 * Function to set a players fly mode without breaking Creative Mode
 	 * @author iKeirNez

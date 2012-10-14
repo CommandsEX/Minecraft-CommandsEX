@@ -35,15 +35,12 @@ public class Command_cex_online {
 		// permissions ok, list players
 		if (hasPerms) {
 			if (args.length == 0) {
-				
 				ArrayList<String> players = new ArrayList<String>();
 				for (Player player : Bukkit.getOnlinePlayers()){
 					// Determine whether or not to show the player
 					boolean addPlayer;
 					if (Common.invisiblePlayers.contains(player.getName())){
-						if (sender.hasPermission("cex.online.hidden")){
-							addPlayer = true;
-						} else if (sender.getName().equalsIgnoreCase(player.getName())){
+						if (sender.hasPermission("cex.online.hidden") || sender.getName().equalsIgnoreCase(player.getName())){
 							addPlayer = true;
 						} else {
 							addPlayer = false;
@@ -54,7 +51,8 @@ public class Command_cex_online {
 					
 					// Using the method above, choose whether or not to add the player
 					if (addPlayer){
-						players.add((Common.invisiblePlayers.contains(player.getName()) ? ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW: "#####[") + Nicknames.getNick(player.getName()));
+						String hiddenPrefix = ChatColor.AQUA + "#####onlinePlayerHidden#####[" + ChatColor.YELLOW;
+						players.add((Common.isInvisible(player.getName()) ? hiddenPrefix: "#####[") + Nicknames.getNick(player.getName()));
 					}
 				}
 				
