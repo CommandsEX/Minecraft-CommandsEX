@@ -438,3 +438,9 @@ Email:
   From: 'your.email.net'
   
 aMessagePrefix: '&c[ADMIN] ' 
+
+economy:
+  currencySymbol: $
+  currencyPlural: Dollars
+  currencySingular: Dollar
+  defaultBalance: 5.00

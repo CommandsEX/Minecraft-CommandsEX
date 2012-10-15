@@ -189,7 +189,7 @@ public class Handler_condensejoins implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseJoins(PlayerJoinEvent e) {
 		// check if another plugin has already cancelled the join message
-		if (!e.getJoinMessage().equals("")){
+		if (e.getJoinMessage() != null || !e.getJoinMessage().equals("")){
 		    handleJoin(e.getPlayer().getName());
 		    // prevent join message to show up
 		    e.setJoinMessage("");	
@@ -329,7 +329,7 @@ public class Handler_condensejoins implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void condenseLeaves(PlayerQuitEvent e) {
 		// check if another plugin has not already cancelled the quit message
-		if (!e.getQuitMessage().equals("")){
+		if (e.getQuitMessage() != null || !e.getQuitMessage().equals("")){
 			handleLeave(e.getPlayer().getName());		
 			// prevent quit message to show up
 			e.setQuitMessage("");

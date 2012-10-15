@@ -6,10 +6,12 @@ Key:
 ~ = New bug
 # = Note
 
-Release 2.0
------------
+Beta 1.98
+---------
 
 @ Setting the spawn location now works without a Database, however yaw and pitch's will not be saved without a database
+
+* fixed join condensing throwing an NPE with null join/quit messages
 
 Beta 1.97
 -----------

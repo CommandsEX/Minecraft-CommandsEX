@@ -54,7 +54,6 @@ public class Spawning {
 		if (CommandsEX.sqlEnabled){
 			SQLManager.query((SQLManager.sqlType.equals("mysql") ? "" : "BEGIN; ") + "CREATE TABLE IF NOT EXISTS " + SQLManager.prefix + "spawns (world_name varchar(32), x double precision, y double precision, z double precision, yaw float(32), pitch float(32))" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores world spawns'" : "; COMMIT;"));
 			ResultSet rs = SQLManager.query_res("SELECT * FROM " + SQLManager.prefix + "spawns");
-
 			// add all worlds that are in the database to the inDatabase list
 			try {
 				while (rs.next()){
