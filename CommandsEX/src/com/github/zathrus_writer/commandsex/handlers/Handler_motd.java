@@ -24,7 +24,8 @@ public class Handler_motd implements Listener {
 	
 	public static void displayMOTD(CommandSender p) {
 		// check if we can use Vault to determine player's group
-		if (Vault.permsEnabled() && (p instanceof Player)) {
+		// check we aren't using SuperPerms, SuperPerms no like groups!
+		if (Vault.permsEnabled() && !Vault.perms.getName().equals("SuperPerms") && (p instanceof Player)) {
 			// check if we have extra MOTD for this group set up
 			FileConfiguration conf = CommandsEX.getConf();
 			Boolean privateMOTDsent = false;
