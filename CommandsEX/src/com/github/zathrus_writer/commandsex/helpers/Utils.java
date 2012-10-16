@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -506,5 +507,10 @@ public class Utils {
 				destination.close();
 			}
 		}
+	}
+	
+	public static String twoDecimalPlaces(double input){
+		DecimalFormat df = new DecimalFormat("####0.00");
+		return df.format(input);
 	}
 }

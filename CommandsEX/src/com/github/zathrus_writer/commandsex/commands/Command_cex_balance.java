@@ -28,7 +28,7 @@ public class Command_cex_balance {
 				 return true;
 			}
 	
-			LogHelper.showInfo("economyBalance#####[" + Vault.econ.getBalance(sender.getName()) + "#####[ " + Vault.econ.currencyNamePlural(), sender);
+			LogHelper.showInfo("economyBalance#####[" + Utils.twoDecimalPlaces(Vault.econ.getBalance(sender.getName())) + " " + Vault.econ.currencyNamePlural(), sender);
 		}
 		
 		return true;

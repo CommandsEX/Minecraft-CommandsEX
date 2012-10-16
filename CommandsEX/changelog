@@ -6,6 +6,13 @@ Key:
 ~ = New bug
 # = Note
 
+Release 2.00
+------------
+
++ added the long awaited Economy Support, with Vault support!
+
+@ /balance will now display your balance with two decimal places
+
 Beta 1.98
 ---------
 

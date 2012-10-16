@@ -100,8 +100,7 @@ public class Economy extends EconomyAPI {
 	 */
 	
 	public static String fixDecimals(double input){
-		DecimalFormat df = new DecimalFormat("####0.00");
-		return df.format(input);
+		return Utils.twoDecimalPlaces(input);
 	}
 	
 	/**
