@@ -444,3 +444,4 @@ economy:
   currencyPlural: Dollars
   currencySingular: Dollar
   defaultBalance: 5.00
+  requestExpireTime: 300

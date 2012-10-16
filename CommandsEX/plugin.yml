@@ -671,6 +671,42 @@ permissions:
   cex.fireball:
     default: op
     description: Allows the player to fire a fireball
+  cex.economy:
+    default: true
+    description: Allows access to the /economy command
+  cex.economy.balance:
+    default: true
+    description: Allows you current balance
+  cex.economy.others:
+    default: op
+    description: Allows you to see other players balance
+  cex.economy.spawn:
+    default: true
+    description: Allows the player to spawn money
+  cex.economy.pay:
+    default: true
+    description: Allows the player to send money to another player
+  cex.economy.take:
+    default: op
+    description: Allows the player to take money from a player
+  cex.economy.request:
+    default: true
+    description: Allows the player to request money from a player
+  cex.economy.request.accept:
+    default: true
+    description: Allows the player to accept a money request
+  cex.economy.request.deny:
+    default: true
+    description: Allows the player deny a money request
+  cex.economy.purge:
+    default: op
+    description: Allows the player to purge all accounts with the default balance
+  cex.economy.save:
+    default: op
+    description: Allows the player to save the Economy database
+  cex.economy.clear:
+    default: false
+    description: Allows the player to clear the Economy database, resetting all players balances
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -779,6 +815,9 @@ permissions:
   Init.CommandBookConverter:
     default: true
     description: Placeholder for initialization function used to convert CommandBook files to CommandsEX files
+  Init.Economy:
+    default: true
+    description: Placeholder for initialization function used to handle Economy related functions
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -1484,3 +1523,9 @@ commands:
     permission: cex.fireball
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [fireball, fb, ghast]
+  cex_economy:
+    description: The base command for Economy related functions
+    usage: /<command> help
+    permission: cex.economy
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [economy, money, eco, econ]

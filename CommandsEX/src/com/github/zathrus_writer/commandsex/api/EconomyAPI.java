@@ -11,11 +11,7 @@ public class EconomyAPI {
 	 */
 	
 	public static boolean isEnabled(){
-		if (CommandsEX.loadedClasses.contains("Init_Economy")){
-			return true;
-		} else {
-			return false;
-		}
+		return CommandsEX.loadedClasses.contains("Init_Economy");
 	}
 	
 	/**
@@ -63,6 +59,36 @@ public class EconomyAPI {
 	
 	public static double getBalance(String player){
 		return Economy.getBalance(player);
+	}
+	
+	/**
+	 * Gets a players balance with the currency symbol
+	 * @param player The player to check the balance of
+	 * @return The balance with the currency symbol
+	 */
+	
+	public static String getBalanceWithSymbol(String player){
+		return getCurrencySymbol() + getBalance(player);
+	}
+	
+	/**
+	 * Gets an amount of money with the appropriate suffix
+	 * @param amount The amount
+	 * @return Returns the amount with the appropriate suffix
+	 */
+	
+	public static String getAmountWithSuffix(double amount){
+		return amount + " " + (amount == 1 ? getCurrencySingular() : getCurrencyPlural());
+	}
+	
+	/**
+	 * Gets a players balance with the suffix
+	 * @param player The player to check the balance of
+	 * @return The balance with the suffix
+	 */
+	
+	public static String getBalanceWithSuffix(String player){
+		return getAmountWithSuffix(getBalance(player));
 	}
 	
 	/**
@@ -124,6 +150,16 @@ public class EconomyAPI {
 	
 	public static void deposit(String player, double amount){
 		Economy.deposit(player, amount);
+	}
+	
+	/**
+	 * Fixes the number of decimal places in a number, 5.0 will become 5.00
+	 * @param input The number to fix
+	 * @return The fixed number
+	 */
+	
+	public static String fixDecimals(double input){
+		return Economy.fixDecimals(input);
 	}
 	
 }
