@@ -2,7 +2,6 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
