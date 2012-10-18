@@ -26,18 +26,15 @@ public class Vault {
     
     private Boolean setupEconomy() {
     	if (CommandsEX.plugin.getServer().getPluginManager().getPlugin("Vault") == null) {
-    		System.out.println("Vault Null");
     		return false;
         }
 
         RegisteredServiceProvider<Economy> rsp = CommandsEX.plugin.getServer().getServicesManager().getRegistration(Economy.class);
-        System.out.println(rsp);
         if (rsp == null) {
             return false;
         }
         
         econ = rsp.getProvider();
-        System.out.println(econ);
         return econ != null;
     }
 
