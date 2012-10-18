@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.google.common.io.Files;
 
 /**
  * This class will convert all aspects of CommandBook to CommandsEX
@@ -110,7 +111,7 @@ public class CommandBookConverter {
 					CSVFile.close();
 
 					// Copy CommandBookHomes.csv to the oldConversion folder, with a unique suffix
-					Utils.copyFile(cmdBkHomes, oldConversion);
+					Files.copy(cmdBkHomes, oldConversion);
 					cmdBkHomes.delete();
 
 					// alert to console
@@ -187,7 +188,7 @@ public class CommandBookConverter {
 					CSVFile.close();
 
 					// Copy CommandBookWarps.csv to the oldConversion folder, with a unique suffix
-					Utils.copyFile(cmdBkWarps, oldConversion);
+					Files.copy(cmdBkWarps, oldConversion);
 					cmdBkWarps.delete();
 
 					// alert to console

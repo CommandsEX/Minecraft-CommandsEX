@@ -1,10 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -477,38 +473,6 @@ public class Utils {
 		return list;
 	}
 
-	/**
-	 * Copies one file to another location
-	 * @param sourceFile
-	 * @param destFile
-	 * @throws IOException
-	 */
-	
-	public static void copyFile(File sourceFile, File destFile) throws IOException {
-		if(!destFile.exists()) {
-			destFile.createNewFile();
-		}
-
-		FileChannel source = null;
-		FileChannel destination = null;
-
-		try {
-			source = new FileInputStream(sourceFile).getChannel();
-			destination = new FileOutputStream(destFile).getChannel();
-			destination.transferFrom(source, 0, source.size());
-		}
-		
-		finally {
-			if(source != null) {
-				source.close();
-			}
-			
-			if(destination != null) {
-				destination.close();
-			}
-		}
-	}
-	
 	public static String twoDecimalPlaces(double input){
 		DecimalFormat df = new DecimalFormat("####0.00");
 		return df.format(input);
