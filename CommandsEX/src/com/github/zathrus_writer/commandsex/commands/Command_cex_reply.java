@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_reply {
 
@@ -33,16 +34,10 @@ public class Command_cex_reply {
 			return true;
 		}
 		
-		// get all args
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < args.length; i++){
-			sb.append(args[i]);
-		}
+		String message = Utils.collectArgs(args, 1);
 		
-		String message = sb.toString();
-		
-		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
-		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
+		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
+		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
 		
 		if (Command_cex_message.lastMessageFrom.containsKey(target.getName())){
 			Command_cex_message.lastMessageFrom.remove(target.getName());

@@ -44,8 +44,8 @@ public class Command_cex_message {
 		}
 		
 		String message = Utils.collectArgs(args, 1);
-		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
-		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + " -> " + Nicknames.getNick(target.getName()) + ") " + ChatColor.AQUA + message);
+		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
+		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
 		
 		if (lastMessageFrom.containsKey(target.getName())){
 			lastMessageFrom.remove(target.getName());

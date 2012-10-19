@@ -14,6 +14,9 @@ Release 2.00
 
 @ /balance will now display your balance with two decimal places
 
+* fixed string collecting in /r
+* fixed /message and /r inheriting colors from a players Nickname
+
 Beta 1.98
 ---------
 
