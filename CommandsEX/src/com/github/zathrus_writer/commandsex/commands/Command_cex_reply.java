@@ -34,7 +34,7 @@ public class Command_cex_reply {
 			return true;
 		}
 		
-		String message = Utils.collectArgs(args, 1);
+		String message = Utils.collectArgs(args, 0);
 		
 		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
 		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);

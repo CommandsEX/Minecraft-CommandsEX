@@ -151,7 +151,7 @@ public class Nicknames implements Listener {
 	public static String getNick(String pName){
 		String nickname = pName;
 		if (nicknames.containsKey(pName)){
-			nickname = ChatColor.WHITE + Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + getRealNick(pName) + ChatColor.RESET;
+			nickname = Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + getRealNick(pName) + ChatColor.RESET;
 		}
 		
 		return nickname;
