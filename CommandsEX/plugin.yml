@@ -707,6 +707,12 @@ permissions:
   cex.economy.clear:
     default: false
     description: Allows the player to clear the Economy database, resetting all players balances
+  cex.afk:
+    default: true
+    description: Allows the player to use /afk
+  cex.afk.auto:
+    default: true
+    description: Allows the player to go AFK automatically if they stay idle
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -818,6 +824,9 @@ permissions:
   Init.Economy:
     default: true
     description: Placeholder for initialization function used to handle Economy related functions
+  Init.AFK:
+    default: true
+    description: Placeholder for initialization function used to handle player AFKs
 commands:
   cex:
     description: Displays version information and allows getting/setting configuration options.
@@ -1529,3 +1538,9 @@ commands:
     permission: cex.economy
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [economy, money, eco, econ]
+  cex_afk:
+    description: Toggles the players AFK state
+    usage: /<command>
+    permission: cex.afk
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [afk, away, awayfromkeyboard]

@@ -37,4 +37,16 @@ public class CommandsEXAPI {
 	 */
 	
 	public static SpawnAPI spawnAPI = new SpawnAPI();
+
+	/**
+	 * The API for Economy
+	 */
+	
+	public static EconomyAPI economyAPI = new EconomyAPI();
+	
+	/**
+	 * The API for AFK
+	 */
+	
+	public static AFKAPI afkAPI = new AFKAPI();
 }

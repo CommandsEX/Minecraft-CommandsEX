@@ -445,3 +445,7 @@ economy:
   currencySingular: Dollar
   defaultBalance: 5.00
   requestExpireTime: 300
+  
+afk:
+  autoAfk: true
+  idleTime: 300

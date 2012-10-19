@@ -9,7 +9,8 @@ Key:
 Release 2.00
 ------------
 
-+ added the long awaited Economy Support, with Vault support!
++ added the long awaited Economy Support, with Vault integration!
++ added AFK support, players can go AFK by using /afk or automatically by staying idle
 
 @ /balance will now display your balance with two decimal places
 
