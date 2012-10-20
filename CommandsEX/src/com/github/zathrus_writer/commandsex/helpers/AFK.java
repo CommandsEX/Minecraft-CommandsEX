@@ -100,9 +100,9 @@ public class AFK implements Listener {
 	
 	public static void toggleAfk(String player){
 		if (afkPlayers.contains(player)){
-			setAfk(player);
-		} else {
 			setNotAfk(player);
+		} else {
+			setAfk(player);
 		}
 	}
 	

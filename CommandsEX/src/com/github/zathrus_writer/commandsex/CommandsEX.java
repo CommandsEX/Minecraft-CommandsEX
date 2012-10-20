@@ -6,18 +6,21 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -77,6 +80,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static File file;
 	// stores all loaded commands, listeners and init's
 	public static List<String> loadedClasses = new ArrayList<String>();
+	// store metrics
+	public static Metrics metrics;
 	
 	/***
 	 * Class constructor.
@@ -224,10 +229,101 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		// don't start metrics if the user has disabled it
 		if (getConf().getBoolean("pluginMetrics")){
 			try {
-			    Metrics metrics = new Metrics(plugin);
+			    metrics = new Metrics(plugin);
+			    
+			    if (loadedClasses.contains("Init_Home")){
+			    	metrics.addCustomData(new Metrics.Plotter("Homes Set") {
+						@Override
+						public int getValue() {
+							int count = 0;
+							try {
+								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "homes");
+								rs.last();
+								count = rs.getRow();
+								rs.close();
+							} catch (SQLException e){}
+							
+							return count;
+						}
+					});
+			    }
+			    
+			    if (loadedClasses.contains("Init_Warps")){
+			    	metrics.addCustomData(new Metrics.Plotter("Warps Set") {
+						@Override
+						public int getValue() {
+							int count = 0;
+							try {
+								ResultSet rs = SQLManager.query_res("SELECT owner_name FROM " + SQLManager.prefix + "warps");
+								rs.last();
+								count = rs.getRow();
+								rs.close();
+							} catch (SQLException e){}
+							
+							return count;
+						}
+					});
+			    }
+			    
+			    if (loadedClasses.contains("Init_Nicknames")){
+			    	metrics.addCustomData(new Metrics.Plotter("Nicknames Set") {
+						@Override
+						public int getValue() {
+							int count = 0;
+							try {
+								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
+								rs.last();
+								count = rs.getRow();
+								rs.close();
+							} catch (SQLException e){}
+							
+							return count;
+						}
+					});
+			    }
+			    
+			    if (loadedClasses.contains("Init_Nametags")){
+			    	metrics.addCustomData(new Metrics.Plotter("Nametags Set") {
+						@Override
+						public int getValue() {
+							int count = 0;
+							try {
+								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nametags");
+								rs.last();
+								count = rs.getRow();
+								rs.close();
+							} catch (SQLException e){}
+							
+							return count;
+						}
+					});
+			    }
+			    
+			    if (loadedClasses.contains("Init_Kits")){
+			    	metrics.addCustomData(new Metrics.Plotter("Kits Set") {
+						@Override
+						public int getValue() {
+							int count = 0;
+							FileConfiguration f = CommandsEX.getConf();
+							ConfigurationSection configGroups = f.getConfigurationSection("kits");
+							if (configGroups != null){
+								Set<String> kitGroups = configGroups.getKeys(false);
+
+								for (String group : kitGroups) {
+									ConfigurationSection kits = f.getConfigurationSection("kits." + group);
+									Set<String> kitNames = kits.getKeys(false);
+									count = count + kitNames.size();
+								}
+							} 
+							
+							return count;
+						}
+					});
+			    }
+			    
 			    metrics.start();
 			} catch (IOException e) {
-
+				e.printStackTrace();
 			}
 		}
 		stopTimer();
