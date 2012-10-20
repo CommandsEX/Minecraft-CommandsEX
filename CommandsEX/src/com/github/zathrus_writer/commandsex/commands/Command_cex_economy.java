@@ -126,6 +126,31 @@ public class Command_cex_economy extends EconomyAPI {
 					}
 				}
 			}
+		} else if (function.equalsIgnoreCase("set")){
+			if (args.length != 3){
+				sender.sendMessage(getEconomyHelp(sender));
+			} else {
+				Player target = Bukkit.getPlayer(args[1]);
+				if (target != null){
+					try {
+						double amount = Double.parseDouble(args[2]);
+						
+						// this avoids players giving a negative number
+						// which allows them to basically spawn money
+						if (amount < 0){
+							LogHelper.showWarning("economyNegative", sender);
+							return true;
+						}
+						
+						setBalance(target.getName(), amount);
+						LogHelper.showInfo("economySet#####[" + target.getName() + " #####to#####[" + fixDecimals(amount), sender);
+					} catch (NumberFormatException e){
+						LogHelper.showWarning("economyIncorrectAmount", sender);
+					}
+				} else {
+					LogHelper.showWarning("invalidPlayer", sender);
+				}
+			}
 		} else if (function.equalsIgnoreCase("request")){
 			if (args.length == 3 || args.length == 2){
 				if (PlayerHelper.checkIsPlayer(sender)){
@@ -348,6 +373,7 @@ public class Command_cex_economy extends EconomyAPI {
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "spawn [player] <amount>" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpSpawn", sName),
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "pay <player> <amount>" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpPay", sName),
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "take <player> <amount>" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpTake", sName),
+				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "set <player> <amount>" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpSet", sName),
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "request <player> <amount>" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpRequest", sName),
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "request accept" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpRequestAccept", sName),
 				ChatColor.YELLOW + "/economy " + ChatColor.BOLD + "purge" + ChatColor.RESET + ChatColor.YELLOW + " - " + ChatColor.AQUA + _("economyHelpPurge", sName),
