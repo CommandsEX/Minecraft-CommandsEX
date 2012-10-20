@@ -13,9 +13,12 @@ Release 2.00
 + added AFK support, players can go AFK by using /afk or automatically by staying idle
 
 @ /balance will now display your balance with two decimal places
+@ /broadcast is now executable from the console
 
 * fixed string collecting in /r
 * fixed /message and /r inheriting colors from a players Nickname
+* fixed NPE when a block ignite's and a player is frozen
+* fixed error when setting a TAB list name longer than 16 characters
 
 Beta 1.98
 ---------

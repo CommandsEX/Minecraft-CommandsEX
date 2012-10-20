@@ -102,7 +102,8 @@ public class Nicknames implements Listener {
 		
 		// set their display name a TAB list name
 		player.setDisplayName(nickname + ChatColor.RESET);
-		player.setPlayerListName(nickname + ChatColor.RESET);
+		// player list names can only be a maximum of 16 characters long
+		player.setPlayerListName((nickname.length() > 16 ? nickname.substring(0, 15) : nickname));
 	}
 	
 	/***

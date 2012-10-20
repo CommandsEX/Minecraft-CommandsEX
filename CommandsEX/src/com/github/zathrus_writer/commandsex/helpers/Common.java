@@ -608,6 +608,11 @@ public class Common implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void checkFrozenState(BlockIgniteEvent e) {
+		// blocks don't have to be ignited by a player
+		if (e.getPlayer() == null){
+			return;
+		}
+		
 		if ((Common.frozenPlayers.size() > 0) && Common.frozenPlayers.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 		}
