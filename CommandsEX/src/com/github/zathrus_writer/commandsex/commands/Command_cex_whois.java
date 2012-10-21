@@ -23,6 +23,11 @@ public class Command_cex_whois {
 			return true;
 		}
 		
+		if (!CommandsEX.loadedClasses.contains("Init_Nicknames")){
+			LogHelper.showWarning("whoisNoNicknames", sender);
+			return true;
+		}
+		
 		if (args.length > 2 || args.length == 0){
 			Commands.showCommandHelpAndUsage(sender, "cex_whois", alias);
 			return true;
