@@ -81,7 +81,7 @@ public class Command_cex_time {
 		if (function.equalsIgnoreCase("view")){
 			LogHelper.showInfo("timeCurrentTime1#####[" + Utils.parseTime(w.getTime()) + " #####timeCurrentTime2#####[" + w.getName(), sender);
 			return true;
-		} else if (function.equalsIgnoreCase("add")){
+		} else if (function.equalsIgnoreCase("add") && Permissions.checkPerms(sender, "cex.time.set")){
 			if (args.length == 2 || args.length == 3){
 				if (!args[1].matches(CommandsEX.intRegex)){
 					LogHelper.showWarning("timeAddOnlyWorksWithNumbers", sender);
@@ -92,7 +92,7 @@ public class Command_cex_time {
 			}
 			
 			w.setTime(w.getTime() + move);
-		} else if (function.equalsIgnoreCase("set")){
+		} else if (function.equalsIgnoreCase("set") && Permissions.checkPerms(sender, "cex.time.set")){
 			if (args[1].equalsIgnoreCase("dawn") || args[1].equalsIgnoreCase("day")){
 				move = 0L;
 			} else if (args[1].equalsIgnoreCase("morning")){

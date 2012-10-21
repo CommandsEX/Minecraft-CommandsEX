@@ -19,6 +19,7 @@ Release 2.00
 * fixed /message and /r inheriting colors from a players Nickname
 * fixed NPE when a block ignite's and a player is frozen
 * fixed error when setting a TAB list name longer than 16 characters
+* fixed any player being able to set the time without the permission node
 
 Beta 1.98
 ---------
