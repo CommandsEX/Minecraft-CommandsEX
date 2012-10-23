@@ -9,6 +9,7 @@ import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.handlers.Handler_email;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Email;
+import com.github.zathrus_writer.commandsex.helpers.Email.RecipientAction;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
@@ -27,7 +28,7 @@ public class Command_cex_email {
 			return true;
 		}
 		
-		File jar = new File(CommandsEX.plugin.getDataFolder() + "/mail.jar");
+		File jar = new File(CommandsEX.plugin.getDataFolder() + "/commons-email-1.2.jar");
 		
 		if (!jar.exists()){
 			LogHelper.showWarning("emailNoJar", sender);
@@ -45,7 +46,11 @@ public class Command_cex_email {
 			} else {
 				//Compose email
 				if(args[0].equalsIgnoreCase("new")) {
-					Email.compose(sender);
+					if(args[1] == null || !(args[1].equalsIgnoreCase("simple") || args[1].equalsIgnoreCase("multi") || args[1].equalsIgnoreCase("html"))) {
+						LogHelper.showWarning("emailComposeTypeError", sender);
+					} else {
+						Email.compose(sender, args[1]);
+					}
 					return true;
 				}
 
@@ -75,7 +80,44 @@ public class Command_cex_email {
 
 				//Edit recipient
 				if(args[0].equalsIgnoreCase("recipient")) {
-					Email.recipient(sender, args);
+					RecipientAction action = null;
+					switch (args[1].toLowerCase()) {
+					case "add": action = RecipientAction.ADD; Email.recipient(sender, args[2], action);
+					case "addbcc": action = RecipientAction.ADD_BCC; Email.recipient(sender, args[2], action);
+					case "addcc": action = RecipientAction.ADD_CC; Email.recipient(sender, args[2], action);
+					case "delete": action = RecipientAction.DELETE; Email.recipient(sender, args[2], action);
+					case "list": action = RecipientAction.LIST; Email.recipient(sender, args[2], action);
+					default: LogHelper.showWarning("emailRecipientTypeNotSet", sender);
+					}
+					return true;
+				}
+				
+				//Set HTML message
+				if(args[0].equalsIgnoreCase("htmlmessage")) {
+					Email.setHtmlMessage(sender, args);
+					return true;
+				}
+				
+				//Set Non HTML message
+				if(args[0].equalsIgnoreCase("nonhtmlmessage")) {
+					Email.setNonHtmlMessage(sender, args);
+					return true;
+				}
+				
+				//Set bounceback
+				if(args[0].equalsIgnoreCase("bounceback")) {
+					Email.setBounceback(sender, args[1]);
+					return true;
+				}
+				
+				//Add attachment
+				if(args[0].equalsIgnoreCase("attachment")) {
+					String file = args[1], name = args[2], description = args[3];
+					if(file == null || name == null || description == null) {
+						LogHelper.showWarning("emailAttachmentSyntax", sender);
+					} else {
+						Email.addAttachment(sender, file, name, description);
+					}
 					return true;
 				}
 
