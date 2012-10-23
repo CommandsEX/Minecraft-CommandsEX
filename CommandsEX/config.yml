@@ -436,6 +436,8 @@ autoSave:
 Email:
   Host: 'mail.example.net'
   From: 'your.email.net'
+  Username: 'someUsername@your.email.net' #Leave blank if your SMTP server does not require authentication
+  Password: 'somePassword123' #Leave blank if your SMTP server does not require authentication
   
 aMessagePrefix: '&c[ADMIN] ' 
 
