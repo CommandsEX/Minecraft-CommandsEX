@@ -5,21 +5,24 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import com.github.zathrus_writer.commandsex.SQLManager;
-
 import com.github.zathrus_writer.commandsex.CommandsEX;
+import com.github.zathrus_writer.commandsex.SQLManager;
 
 public class Authentication {
 	private final static int ITERATION_NUMBER = 1000;
 	
 	public static void init(CommandsEX plugin){
 		SQLManager.query((SQLManager.sqlType.equals("mysql") ? "" : "BEGIN; ") + "CREATE TABLE IF NOT EXISTS "+ SQLManager.prefix +"userinfo (id_user integer " + (SQLManager.sqlType.equals("mysql") ? "unsigned " : "") +"NOT NULL" + (SQLManager.sqlType.equals("mysql") ? " AUTO_INCREMENT" : "") +", player_name varchar(32) NOT NULL" + (SQLManager.sqlType.equals("mysql") ? "" : " COLLATE 'NOCASE'") + ", creation_date " + (SQLManager.sqlType.equals("mysql") ? "TIMESTAMP" : "DATETIME") + " NOT NULL DEFAULT CURRENT_TIMESTAMP, expiration_date " + (SQLManager.sqlType.equals("mysql") ? "TIMESTAMP" : "DATETIME") + " NOT NULL DEFAULT '0000-00-00 00:00:00', creator VARCHAR(32) NOT NULL, reason VARCHAR(120) DEFAULT NULL, active BOOLEAN NOT NULL DEFAULT '1', PRIMARY KEY (id_ban)" + (SQLManager.sqlType.equals("mysql") ? ", KEY player_name (player_name), KEY expiration_date (expiration_date), KEY active (active)" : "" ) + ")" + (SQLManager.sqlType.equals("mysql") ? " ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='holds ban records for players along with reasons and ban expiration times' AUTO_INCREMENT=1" : "") + (SQLManager.sqlType.equals("mysql") ? "" : "; CREATE INDEX IF NOT EXISTS player_name ON "+ SQLManager.prefix +"bans (player_name); CREATE INDEX IF NOT EXISTS expiration_date ON "+ SQLManager.prefix +"bans (expiration_date); CREATE INDEX IF NOT EXISTS active ON "+ SQLManager.prefix +"bans (active); COMMIT;"));
+		for(int i=0; i< ALPHABET.length; i++){
+            toInt[ALPHABET[i]]= i;
+        }
 	}
 
 	 /**
@@ -192,26 +195,66 @@ public class Authentication {
 	       }
 	   }
 	 
+	   
+	   private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+	   private static int[]  toInt   = new int[128];
 	 
 	   /**
-	    * From a base 64 representation, returns the corresponding byte[] 
+	    * From a base 64 representation, returns the corresponding byte[]
+	    * @author GeorgeK (http://stackoverflow.com/users/518568/georgek)
 	    * @param data String The base64 representation
 	    * @return byte[]
 	    * @throws IOException
 	    */
 	   public static byte[] base64ToByte(String data) throws IOException {
-	       BASE64Decoder decoder = new BASE64Decoder();
-	       return decoder.decodeBuffer(data);
+		   int delta = data.endsWith( "==" ) ? 2 : data.endsWith( "=" ) ? 1 : 0;
+	       byte[] buffer = new byte[data.length()*3/4 - delta];
+	       int mask = 0xFF;
+	       int index = 0;
+	       for(int i=0; i< data.length(); i+=4){
+	           int c0 = toInt[data.charAt( i )];
+	           int c1 = toInt[data.charAt( i + 1)];
+	           buffer[index++]= (byte)(((c0 << 2) | (c1 >> 4)) & mask);
+	           if(index >= buffer.length){
+	               return buffer;
+	           }
+	           int c2 = toInt[data.charAt( i + 2)];
+	           buffer[index++]= (byte)(((c1 << 4) | (c2 >> 2)) & mask);
+	           if(index >= buffer.length){
+	               return buffer;
+	           }
+	           int c3 = toInt[data.charAt( i + 3 )];
+	           buffer[index++]= (byte)(((c2 << 6) | c3) & mask);
+	       }
+	       return buffer;
 	   }
 	 
 	   /**
 	    * From a byte[] returns a base 64 representation
+	    * @author GeorgeK (http://stackoverflow.com/users/518568/georgek)
 	    * @param data byte[]
 	    * @return String
 	    * @throws IOException
 	    */
-	   public static String byteToBase64(byte[] data){
-	       BASE64Encoder endecoder = new BASE64Encoder();
-	       return endecoder.encode(data);
-	   }
+	   public static String byteToBase64(byte[] data) {
+		   int size = data.length;
+		   char[] ar = new char[((size + 2) / 3) * 4];
+		   int a = 0;
+		   int i=0;
+		   while(i < size){
+		       byte b0 = data[i++];
+		       byte b1 = (i < size) ? data[i++] : 0;
+		       byte b2 = (i < size) ? data[i++] : 0;
+               int mask = 0x3F;
+	           ar[a++] = ALPHABET[(b0 >> 2) & mask];
+	           ar[a++] = ALPHABET[((b0 << 4) | ((b1 & 0xFF) >> 4)) & mask];
+	           ar[a++] = ALPHABET[((b1 << 2) | ((b2 & 0xFF) >> 6)) & mask];
+	           ar[a++] = ALPHABET[b2 & mask];
+	       }
+	       switch(size % 3){
+	           case 1: ar[--a]  = '=';
+	           case 2: ar[--a]  = '=';
+	       }
+	       return new String(ar);
+	}
 }
