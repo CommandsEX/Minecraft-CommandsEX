@@ -779,6 +779,9 @@ permissions:
   Listener.joinfull:
     default: true
     description: Placeholder for event function to allow players with permission to join even when the server is full
+  Listener.chattedlinkshorten:
+  	default: true
+  	description: Placeholder for event function to automatically shorten URLs in the chat
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.
