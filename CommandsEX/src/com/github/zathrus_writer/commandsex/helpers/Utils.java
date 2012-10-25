@@ -1,6 +1,11 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -477,4 +482,22 @@ public class Utils {
 		DecimalFormat df = new DecimalFormat("####0.00");
 		return df.format(input);
 	}
+	
+	/**
+	 * Shortens a URL using v.gd
+	 * @param urlToShorten
+	 * @return 
+	 */
+	public static URL shortenURL(URL urlToShorten) throws IOException {
+		URL vGD = new URL("http://v.gd/create.php?format=simple&url=" + urlToShorten.getPath());
+		URLConnection con = vGD.openConnection();
+		BufferedReader content = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String shortened;
+        while ((shortened = content.readLine()) != null) {
+           	content.close();
+           	return new URL(shortened);
+        }
+		return null;
+	}
+	
 }
