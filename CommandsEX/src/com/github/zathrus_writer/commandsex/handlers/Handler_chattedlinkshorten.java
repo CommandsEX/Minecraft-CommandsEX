@@ -1,11 +1,8 @@
 package com.github.zathrus_writer.commandsex.handlers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -58,26 +55,14 @@ public class Handler_chattedlinkshorten implements Listener {
 		Iterator<Entry<URL, Integer>> it = urlToShorten.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<URL, Integer> set = (Entry<URL, Integer>)it.next();
-		    message[set.getValue()] = shortenURL(set.getKey());
+		    try {
+				message[set.getValue()] = Utils.shortenURL(set.getKey()).getPath();
+			} catch (IOException e) {
+				LogHelper.logWarning("chatLinkShortenError#####" + set.getKey().getPath() + "#####:#####" + e.getMessage());
+			}
 		    it.remove();
 		}
 		return Utils.implode(message, " ");
-	}
-	
-	String shortenURL(URL url) {
-		try {
-			URL vGD = new URL("http://v.gd/create.php?format=simple&url=" + url.getPath());
-			URLConnection con = vGD.openConnection();
-			BufferedReader content = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			String shortened;
-            while ((shortened = content.readLine()) != null) {
-            	content.close();
-            	return shortened;
-            }
-		} catch (IOException e) {
-			LogHelper.logWarning("chatLinkShortenError#####" + url.getPath() + "#####:#####" + e.getMessage());
-		}
-		return null;
 	}
 
 }

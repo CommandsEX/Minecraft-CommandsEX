@@ -1,4 +1,4 @@
-authors: [Zathrus Writer, Keir Nellyer, Carlos Arias, EnvisionRed, Flumpy111]
+authors: [Zathrus Writer, Keir Nellyer, kezz101, Carlos Arias, EnvisionRed, Flumpy111]
 description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
@@ -1547,3 +1547,9 @@ commands:
     permission: cex.afk
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [afk, away, awayfromkeyboard]
+  cex_shorten:
+    description: Shortens a URL using v.gd
+    usage: /<command> <url>
+    permission: cex.shorten
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [shorten, shorturl]
