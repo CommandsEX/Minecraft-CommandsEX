@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -498,6 +501,16 @@ public class Utils {
            	return new URL(shortened);
         }
 		return null;
+	}
+	
+	/**
+	 * Returns the current time
+	 * @return
+	 */
+	public static String getTime() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		return dateFormat.format(cal.getTime());
 	}
 	
 }
