@@ -1,4 +1,4 @@
-authors: [Zathrus Writer, Keir Nellyer, kezz101, Carlos Arias, EnvisionRed, Flumpy111]
+authors: [Zathrus Writer, Keir Nellyer, Kezz101, Carlos Arias, EnvisionRed, Flumpy111]
 description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
@@ -1553,3 +1553,9 @@ commands:
     permission: cex.shorten
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [shorten, shorturl]
+  cex_cmdu:
+  	description: Runs a command as another player
+  	usage: /<command> <player> <command to run> [args]
+  	permission: cex.cmdu
+  	permission-message: You don't have sufficient permissions to use this command.
+  	aliases: [cmdu, sudo]
