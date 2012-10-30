@@ -451,3 +451,5 @@ economy:
 afk:
   autoAfk: true
   idleTime: 300
+  
+BlockloggingEnabled: false
