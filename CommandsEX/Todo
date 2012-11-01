@@ -26,4 +26,4 @@ Ideas, Suggestions and bugs. please write any here:
 - Fix teleporting inside of blocks and dying
 - get time working with TooManyItems
 
-- change over to this database engine - http://forums.bukkit.org/threads/library-the-database-driver-of-the-future.95579/
+- when a payment is made with Economy functions, notify players

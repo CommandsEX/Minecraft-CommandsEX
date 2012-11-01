@@ -97,10 +97,16 @@ public class ClosestMatches {
 	
 	public static List<DyeColor> dyeColor(String input){
 		ArrayList<DyeColor> matches = new ArrayList<DyeColor>();
+		byte b = -1;
+		try {
+			b = Byte.parseByte(input);
+		} catch (NumberFormatException e){}
 		
         for (DyeColor dye : DyeColor.values()){
         	if (dye.name().replace("_", "").toLowerCase().equals(input.toLowerCase())){
         		return Arrays.asList(dye);
+            } else if ((b != -1 ? dye.getData() == b : false)){
+            	return Arrays.asList(dye);
             } else if (dye.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(dye);
             }

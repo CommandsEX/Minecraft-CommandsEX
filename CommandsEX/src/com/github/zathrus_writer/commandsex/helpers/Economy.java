@@ -4,8 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
+import com.github.zathrus_writer.commandsex.Vault;
 import com.github.zathrus_writer.commandsex.api.EconomyAPI;
 
 public class Economy extends EconomyAPI {
@@ -174,6 +178,28 @@ public class Economy extends EconomyAPI {
 			setBalance(player, getBalance(player) + amount);
 		} else {
 			createAccount(player, defaultBalance + amount);
+		}
+	}
+	
+	public static void transfer(String sender, String reciever, double amount){
+		if (!CommandsEX.vaultPresent || !Vault.ecoEnabled()){
+			return;
+		}
+		
+		Vault.econ.withdrawPlayer(sender, amount);
+		Vault.econ.depositPlayer(reciever, amount);
+		
+		Player s = Bukkit.getPlayerExact(sender);
+		Player r = Bukkit.getPlayerExact(reciever);
+		
+		String a = Vault.econ.format(amount).replaceFirst(String.valueOf(amount), fixDecimals(amount));
+		
+		if (s != null){
+			LogHelper.showInfo("economyPay#####[" + a + " #####to#####[" + reciever, s);
+		}
+		
+		if (r != null){
+			LogHelper.showInfo("[" + sender + " #####economyPayNotify1#####[" + a + " #####economyPayNotify2", r);
 		}
 	}
 }

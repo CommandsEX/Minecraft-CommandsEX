@@ -713,6 +713,24 @@ permissions:
   cex.afk.auto:
     default: true
     description: Allows the player to go AFK automatically if they stay idle
+  cex.sign.create.balance:
+    default: op
+    description: Allows the player to create a balance command sign
+  cex.sign.create.pay:
+    default: op
+    description: Allows the player to create a pay sign
+  cex.sign.create.item:
+    default: op
+    description: Allows the player to create an item sign
+  cex.sign.use.balance:
+    default: true
+    description: Allows the player to use the balance command sign
+  cex.sign.use.pay:
+    default: true
+    description: Allows the player to use a pay sign
+  cex.sign.use.item:
+    default: true
+    description: Allows the player to use an item sign
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -779,6 +797,9 @@ permissions:
   Listener.joinfull:
     default: true
     description: Placeholder for event function to allow players with permission to join even when the server is full
+  Listener.commandsigns:
+    default: true
+    description: Placeholder for event function to allow functionality of command signs
   Init.Home:
     default: true
     description: Placeholder for initialization function used to import MyHome database file into CommandsEX.

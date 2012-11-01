@@ -36,6 +36,7 @@ import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.Jails;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Metrics;
+import com.github.zathrus_writer.commandsex.helpers.Metrics.Graph;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class CommandsEX extends JavaPlugin implements Listener {
@@ -231,17 +232,21 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			try {
 			    metrics = new Metrics(plugin);
 			    
+			    Graph graph = metrics.createGraph("Feature Statistics");
 			    if (loadedClasses.contains("Init_Home")){
-			    	metrics.addCustomData(new Metrics.Plotter("Homes Set") {
+			    	graph.addPlotter(new Metrics.Plotter("Homes Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
 							try {
 								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "homes");
-								rs.last();
-								count = rs.getRow();
+								while (rs.next()){
+									count++;
+								}
 								rs.close();
-							} catch (SQLException e){}
+							} catch (SQLException e){
+								e.printStackTrace();
+							}
 							
 							return count;
 						}
@@ -249,16 +254,19 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Warps")){
-			    	metrics.addCustomData(new Metrics.Plotter("Warps Set") {
+			    	graph.addPlotter(new Metrics.Plotter("Warps Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
 							try {
 								ResultSet rs = SQLManager.query_res("SELECT owner_name FROM " + SQLManager.prefix + "warps");
-								rs.last();
-								count = rs.getRow();
+								while (rs.next()){
+									count++;
+								}
 								rs.close();
-							} catch (SQLException e){}
+							} catch (SQLException e){
+								e.printStackTrace();
+							}
 							
 							return count;
 						}
@@ -266,16 +274,19 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Nicknames")){
-			    	metrics.addCustomData(new Metrics.Plotter("Nicknames Set") {
+			    	graph.addPlotter(new Metrics.Plotter("Nicknames Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
 							try {
 								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nicknames");
-								rs.last();
-								count = rs.getRow();
+								while (rs.next()){
+									count++;
+								}
 								rs.close();
-							} catch (SQLException e){}
+							} catch (SQLException e){
+								e.printStackTrace();
+							}
 							
 							return count;
 						}
@@ -283,16 +294,19 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Nametags")){
-			    	metrics.addCustomData(new Metrics.Plotter("Nametags Set") {
+			    	graph.addPlotter(new Metrics.Plotter("Nametags Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
 							try {
 								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "nametags");
-								rs.last();
-								count = rs.getRow();
+								while (rs.next()){
+									count++;
+								}
 								rs.close();
-							} catch (SQLException e){}
+							} catch (SQLException e){
+								e.printStackTrace();
+							}
 							
 							return count;
 						}
@@ -300,7 +314,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Kits")){
-			    	metrics.addCustomData(new Metrics.Plotter("Kits Set") {
+			    	graph.addPlotter(new Metrics.Plotter("Kits Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
