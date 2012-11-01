@@ -1581,8 +1581,8 @@ commands:
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [shorten, shorturl]
   cex_cmdu:
-  	description: Runs a command as another player
-  	usage: /<command> <player> <command to run> [args]
-  	permission: cex.cmdu
-  	permission-message: You don't have sufficient permissions to use this command.
-  	aliases: [cmdu, sudo]
+    description: Runs a command as another player
+    usage: /<command> <player> <command to run> [args]
+    permission: cex.cmdu
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [cmdu, sudo]

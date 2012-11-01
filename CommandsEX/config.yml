@@ -451,5 +451,8 @@ economy:
 afk:
   autoAfk: true
   idleTime: 300
-  
+  kick:
+    enabled: true
+    time: 600
+    message: '&cYou have been kicked for being afk too long!'
 BlockloggingEnabled: false

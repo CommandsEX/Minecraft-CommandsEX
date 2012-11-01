@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -35,10 +36,14 @@ public class AFK implements Listener {
 	public static List<String> afkPlayers = new ArrayList<String>();
 	
 	public static int idleTime = CommandsEX.getConf().getInt("afk.idleTime");
+	public static boolean kickEnabled = CommandsEX.getConf().getBoolean("afk.kick.enabled");
+	public static int kickTime = CommandsEX.getConf().getInt("afk.kick.time");
+	public static String kickMessage = ChatColor.translateAlternateColorCodes("&".charAt(0), CommandsEX.getConf().getString("afk.kick.message"));
 	
 	public AFK(){
 		Bukkit.getPluginManager().registerEvents(this, CommandsEX.plugin);
 		
+		int scheduleTime = (idleTime <= kickTime ? idleTime : kickTime);
 		if (CommandsEX.getConf().getBoolean("afk.autoAfk")){
 			Bukkit.getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable(){
 				@Override
@@ -46,7 +51,7 @@ public class AFK implements Listener {
 					checkPlayerIdleTimes();
 				}
 				
-			}, idleTime * 20L, idleTime * 20L);
+			}, scheduleTime * 20L, scheduleTime * 20L);
 		}
 	}
 
@@ -56,7 +61,19 @@ public class AFK implements Listener {
 	
 	public static void checkPlayerIdleTimes(){
 		for (String player : playerIdleTime.keySet()){
-			if ((System.currentTimeMillis() - playerIdleTime.get(player)) / 1000 >= idleTime){
+			Player p = Bukkit.getPlayerExact(player);
+			if (p == null){
+				continue;
+			}
+			
+			if (kickEnabled && p.hasPermission("cex.afk.kick") && (System.currentTimeMillis() - playerIdleTime.get(player)) / 1000 >= kickTime){
+				p.kickPlayer(kickMessage);
+				
+				// send the kick message to each player in their own language
+				for (Player pl : Bukkit.getOnlinePlayers()){
+					LogHelper.showWarning("[" + ChatColor.RED + player + " #####afkKickNotify", pl);
+				}
+			} else if ((System.currentTimeMillis() - playerIdleTime.get(player)) / 1000 >= idleTime){
 				setAfk(player);
 			}
 		}
