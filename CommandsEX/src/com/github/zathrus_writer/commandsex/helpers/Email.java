@@ -403,9 +403,8 @@ public class Email {
 		LogHelper.showWarning("emailException#####" + e.getMessage(), sender);
 	}
 	
-	@SuppressWarnings("unchecked") //Could you look at this error for me @iKeirNez ? It keeps on turning up...
 	static SimpleEmail removeRecipient(SimpleEmail email, String emailToRemove) throws EmailException {
-		List<String> to = email.getToAddresses(), cc = email.getCcAddresses(), bcc = email.getBccAddresses();
+		List<String> to = Utils.noGenericTypeToStringType(email.getToAddresses()), cc = Utils.noGenericTypeToStringType(email.getCcAddresses()), bcc = Utils.noGenericTypeToStringType(email.getBccAddresses());
 		if(to.contains(emailToRemove)) {
 			to.remove(emailToRemove);
 			email.setTo(to);
@@ -419,9 +418,8 @@ public class Email {
 		return email;
 	}
 	
-	@SuppressWarnings("unchecked")
 	static MultiPartEmail removeRecipient(MultiPartEmail email, String emailToRemove) throws EmailException {
-		List<String> to = email.getToAddresses(), cc = email.getCcAddresses(), bcc = email.getBccAddresses();
+		List<String> to = Utils.noGenericTypeToStringType(email.getToAddresses()), cc = Utils.noGenericTypeToStringType(email.getCcAddresses()), bcc = Utils.noGenericTypeToStringType(email.getBccAddresses());
 		if(to.contains(emailToRemove)) {
 			to.remove(emailToRemove);
 			email.setTo(to);
@@ -435,9 +433,8 @@ public class Email {
 		return email;
 	}
 	
-	@SuppressWarnings("unchecked")
 	static HtmlEmail removeRecipient(HtmlEmail email, String emailToRemove) throws EmailException {
-		List<String> to = email.getToAddresses(), cc = email.getCcAddresses(), bcc = email.getBccAddresses();
+		List<String> to = Utils.noGenericTypeToStringType(email.getToAddresses()), cc = Utils.noGenericTypeToStringType(email.getCcAddresses()), bcc = Utils.noGenericTypeToStringType(email.getBccAddresses());
 		if(to.contains(emailToRemove)) {
 			to.remove(emailToRemove);
 			email.setTo(to);
@@ -451,10 +448,9 @@ public class Email {
 		return email;
 	}
 	
-	@SuppressWarnings("unchecked")
 	static String[] composeReadableRecipientList(SimpleEmail email) {
 		String[] RRL = {"To: ", "Cc: ", "Bcc: "};
-		Iterator<String> toIT = email.getToAddresses().iterator(), ccIT = email.getCcAddresses().iterator(), bccIT = email.getBccAddresses().iterator();
+		Iterator<String> toIT = Utils.noGenericTypeToStringType(email.getToAddresses()).iterator(), ccIT = Utils.noGenericTypeToStringType(email.getCcAddresses()).iterator(), bccIT = Utils.noGenericTypeToStringType(email.getBccAddresses()).iterator();
 		while(toIT.hasNext()) {
 			RRL[0] += toIT.next() + ", ";
 		}
@@ -467,10 +463,9 @@ public class Email {
 		return RRL;
 	}
 	
-	@SuppressWarnings("unchecked")
 	static String[] composeReadableRecipientList(MultiPartEmail email) {
 		String[] RRL = {"To: ", "Cc: ", "Bcc: "};
-		Iterator<String> toIT = email.getToAddresses().iterator(), ccIT = email.getCcAddresses().iterator(), bccIT = email.getBccAddresses().iterator();
+		Iterator<String> toIT = Utils.noGenericTypeToStringType(email.getToAddresses()).iterator(), ccIT = Utils.noGenericTypeToStringType(email.getCcAddresses()).iterator(), bccIT = Utils.noGenericTypeToStringType(email.getBccAddresses()).iterator();
 		while(toIT.hasNext()) {
 			RRL[0] += toIT.next() + ", ";
 		}

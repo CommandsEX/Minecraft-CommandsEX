@@ -513,4 +513,17 @@ public class Utils {
 		return dateFormat.format(cal.getTime());
 	}
 	
+	/**
+	 * Converts a List to a List<String>
+	 */
+	
+	public static List<String> noGenericTypeToStringType(@SuppressWarnings("rawtypes") List list){
+		List<String> toReturn = new ArrayList<String>();
+		for (Object o : list){
+			toReturn.add(o.toString());
+		}
+		
+		return toReturn;
+	}
+	
 }
