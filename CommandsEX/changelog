@@ -14,6 +14,7 @@ Release 2.00
 + added some experimental MCStats graphs, to log Feature & Command Statistics
 + added auto link shortening and /shorten command
 + added /sudo command, execute a command as another player
++ added /csudo command, chat as another player
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console
@@ -49,6 +50,7 @@ Release 2.00
 # new perm cex.cmdu
 # new perm cex.shorten
 # new perm cex.shorten.auto
+# new perm cex.csudo
 
 Beta 1.98
 ---------

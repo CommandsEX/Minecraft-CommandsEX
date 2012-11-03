@@ -743,6 +743,9 @@ permissions:
   cex.shorten.auto:
     default: true
     description: Allows the player to automatically shorten links from chat
+  cex.csudo:
+    default: op
+    description: Allows the player to chat as another player
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
@@ -1595,3 +1598,9 @@ commands:
     permission: cex.cmdu
     permission-message: You don't have sufficient permissions to use this command.
     aliases: [cmdu, sudo]
+  cex_csudo:
+    description: Chat as another player
+    usage: /<command> <player> <chat message to send>
+    permission: cex.csudo
+    permission-message: You don't have sufficient permissions to use this command.
+    aliases: [csudo, chatsudo]
