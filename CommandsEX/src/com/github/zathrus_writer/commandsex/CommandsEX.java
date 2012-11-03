@@ -83,6 +83,8 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public static List<String> loadedClasses = new ArrayList<String>();
 	// store metrics
 	public static Metrics metrics;
+	// stores the amount of times a command has been used
+	public static HashMap<String, Integer> commandUses = new HashMap<String, Integer>();
 	
 	/***
 	 * Class constructor.
@@ -232,11 +234,11 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			try {
 			    metrics = new Metrics(plugin);
 			    
-			    Graph graph = metrics.createGraph("Feature Statistics");
+			    Graph featureGraph = metrics.createGraph("Feature Statistics");
 			    if (loadedClasses.contains("Init_Home")){
-			    	graph.addPlotter(new Metrics.Plotter("Homes Set") {
+			    	featureGraph.addPlotter(new Metrics.Plotter("Homes Set") {
 						@Override
-						public int getValue() {
+			    		public int getValue() {
 							int count = 0;
 							try {
 								ResultSet rs = SQLManager.query_res("SELECT player_name FROM " + SQLManager.prefix + "homes");
@@ -254,7 +256,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Warps")){
-			    	graph.addPlotter(new Metrics.Plotter("Warps Set") {
+			    	featureGraph.addPlotter(new Metrics.Plotter("Warps Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
@@ -274,7 +276,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Nicknames")){
-			    	graph.addPlotter(new Metrics.Plotter("Nicknames Set") {
+			    	featureGraph.addPlotter(new Metrics.Plotter("Nicknames Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
@@ -294,7 +296,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Nametags")){
-			    	graph.addPlotter(new Metrics.Plotter("Nametags Set") {
+			    	featureGraph.addPlotter(new Metrics.Plotter("Nametags Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
@@ -314,7 +316,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			    }
 			    
 			    if (loadedClasses.contains("Init_Kits")){
-			    	graph.addPlotter(new Metrics.Plotter("Kits Set") {
+			    	featureGraph.addPlotter(new Metrics.Plotter("Kits Set") {
 						@Override
 						public int getValue() {
 							int count = 0;
@@ -332,7 +334,23 @@ public class CommandsEX extends JavaPlugin implements Listener {
 							
 							return count;
 						}
-					});
+			    	});
+			    }
+
+			    // Add commands to Command Uses graph, these items must be present
+			    // when the server starts up otherwise the graph cannot be sent
+			    Graph commandUsesGraph = metrics.createGraph("Command Uses");
+			    for (final String s : loadedClasses){
+			    	if (s.startsWith("Command_cex_")){
+			    		String key = s.replaceAll("Command_cex_", "/");
+			    		
+			    		commandUsesGraph.addPlotter(new Metrics.Plotter(key) {
+				    		@Override
+				    		public int getValue() {
+				    			return (commandUses.containsKey(s) ? commandUses.get(s) : 0);
+				    		}
+				    	});
+			    	}
 			    }
 			    
 			    metrics.start();
@@ -340,6 +358,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 				e.printStackTrace();
 			}
 		}
+		
 		stopTimer();
 	}
 	
@@ -373,7 +392,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 	public void onDisable() {
 		// if we don't have per-player language loaded from DB, do not try to load it now :-)
 		avoidDB = true;
-
+		
 		// execute everything that should be executed on disable
 		if (onDisableFunctions.size() > 0) {
 			Class<?>[] proto = new Class[] {this.getClass()};

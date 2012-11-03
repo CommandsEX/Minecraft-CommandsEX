@@ -11,6 +11,7 @@ Release 2.00
 
 + added the long awaited Economy Support, with Vault integration!
 + added AFK support, players can go AFK by using /afk or automatically by staying idle
++ added some experimental MCStats graphs, to log Feature & Command Statistics
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console

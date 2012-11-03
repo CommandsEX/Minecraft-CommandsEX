@@ -352,7 +352,7 @@ public class Metrics {
      * Generic method that posts a plugin to the metrics website
      */
     private void postPlugin(final boolean isPing) throws IOException {
-        // The plugin's description file containg all of the plugin data such as name, version, author, etc
+    	// The plugin's description file containg all of the plugin data such as name, version, author, etc
         final PluginDescriptionFile description = plugin.getDescription();
 
         // Construct the post data
@@ -375,7 +375,6 @@ public class Metrics {
 
             while (iter.hasNext()) {
                 final Graph graph = iter.next();
-
                 for (Plotter plotter : graph.getPlotters()) {
                     // The key name to send to the metrics server
                     // The format is C-GRAPHNAME-PLOTTERNAME where separator - is defined at the top
@@ -385,7 +384,6 @@ public class Metrics {
                     // The value to send, which for the foreseeable future is just the string
                     // value of plotter.getValue()
                     final String value = Integer.toString(plotter.getValue());
-
                     // Add it to the http post data :)
                     encodeDataPair(data, key, value);
                 }

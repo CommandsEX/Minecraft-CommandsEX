@@ -34,6 +34,17 @@ public class Commands implements CommandExecutor {
 		String cmd = command.getName().toLowerCase();
 		String alias = cmdAlias.toLowerCase();
 		
+		// add the command use to the arraylist, this is for Metrics use
+		if (CommandsEX.getConf().getBoolean("pluginMetrics")){
+			int value = 1;
+			if (CommandsEX.commandUses.containsKey(cmd)){
+				value = CommandsEX.commandUses.get(cmd);
+				CommandsEX.commandUses.remove(cmd);
+			}
+			
+			CommandsEX.commandUses.put(cmd, value);
+		}
+		
 		// log the command if invoked by a player
 		if ((sender instanceof Player) && (this.plugin.getConfig().getBoolean("logCommands") == true)) {
 			String arguments = " ";
