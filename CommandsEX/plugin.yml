@@ -734,6 +734,15 @@ permissions:
   cex.sign.use.item:
     default: true
     description: Allows the player to use an item sign
+  cex.cmdu:
+    default: op
+    description: Run a command as another player
+  cex.shorten:
+    default: true
+    description: Allows the player to use /shorten
+  cex.shorten.auto:
+    default: true
+    description: Allows the player to automatically shorten links from chat
   Listener.replacechat:
     default: true
     description: Placeholder for event function that allows player chat text replacements.
