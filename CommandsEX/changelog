@@ -25,6 +25,31 @@ Release 2.00
 * fixed any player being able to set the time without the permission node
 * fixed /whois giving an NPE when Nicknames functionality is disabled
 
+# new perm cex.economy
+# new perm cex.economy.balance
+# new perm cex.economy.others
+# new perm cex.economy.spawn
+# new perm cex.economy.pay
+# new perm cex.economy.take
+# new perm cex.economy.request
+# new perm cex.economy.request.accept
+# new perm cex.economy.request.deny
+# new perm cex.economy.purge
+# new perm cex.economy.save
+# new perm cex.economy.clear
+# new perm cex.afk
+# new perm cex.afk.auto
+# new perm cex.afk.kick
+# new perm cex.sign.create.balance
+# new perm cex.sign.create.pay
+# new perm cex.sign.create.item
+# new perm cex.sign.use.balance
+# new perm cex.sign.use.pay
+# new perm cex.sign.use.item
+# new perm cex.cmdu
+# new perm cex.shorten
+# new perm cex.shorten.auto
+
 Beta 1.98
 ---------
 
