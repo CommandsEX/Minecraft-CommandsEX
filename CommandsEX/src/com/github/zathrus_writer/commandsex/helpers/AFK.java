@@ -45,7 +45,7 @@ public class AFK implements Listener {
 		
 		int scheduleTime = (idleTime <= kickTime ? idleTime : kickTime);
 		if (CommandsEX.getConf().getBoolean("afk.autoAfk")){
-			Bukkit.getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable(){
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(CommandsEX.plugin, new Runnable(){
 				@Override
 				public void run() {
 					checkPlayerIdleTimes();
