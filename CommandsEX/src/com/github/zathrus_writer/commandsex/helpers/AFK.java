@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex.helpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -60,7 +61,9 @@ public class AFK implements Listener {
 	}
 	
 	public static void checkPlayerIdleTimes(){
-		for (String player : playerIdleTime.keySet()){
+		Iterator<String> it = playerIdleTime.keySet().iterator();
+		while (it.hasNext()){
+			String player = it.next();
 			Player p = Bukkit.getPlayerExact(player);
 			if (p == null){
 				continue;
