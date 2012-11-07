@@ -3,13 +3,12 @@ package com.github.zathrus_writer.commandsex.commands;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.api.messaging.Messaging;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
-import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_message {
@@ -44,14 +43,8 @@ public class Command_cex_message {
 		}
 		
 		String message = Utils.collectArgs(args, 1);
-		target.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
-		sender.sendMessage(ChatColor.GRAY + "(" + Nicknames.getNick(sender.getName()) + ChatColor.GRAY + " -> " + Nicknames.getNick(target.getName()) + ChatColor.GRAY + ") " + ChatColor.AQUA + message);
+		Messaging.sendMessage(sender, target, message, false);
 		
-		if (lastMessageFrom.containsKey(target.getName())){
-			lastMessageFrom.remove(target.getName());
-		}
-		
-		lastMessageFrom.put(target.getName(), sender.getName());
 		return true;
 	}
 	
