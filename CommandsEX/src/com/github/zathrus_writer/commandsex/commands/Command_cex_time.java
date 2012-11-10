@@ -81,36 +81,40 @@ public class Command_cex_time {
 		if (function.equalsIgnoreCase("view")){
 			LogHelper.showInfo("timeCurrentTime1#####[" + Utils.parseTime(w.getTime()) + " #####timeCurrentTime2#####[" + w.getName(), sender);
 			return true;
-		} else if (function.equalsIgnoreCase("add") && Permissions.checkPerms(sender, "cex.time.set")){
-			if (args.length == 2 || args.length == 3){
-				if (!args[1].matches(CommandsEX.intRegex)){
-					LogHelper.showWarning("timeAddOnlyWorksWithNumbers", sender);
-					return true;
+		} else if (function.equalsIgnoreCase("add")){
+			if (Permissions.checkPerms(sender, "cex.time.set")){
+				if (args.length == 2 || args.length == 3){
+					if (!args[1].matches(CommandsEX.intRegex)){
+						LogHelper.showWarning("timeAddOnlyWorksWithNumbers", sender);
+						return true;
+					}
+					
+					move = Long.parseLong(args[1]);
 				}
 				
-				move = Long.parseLong(args[1]);
+				w.setTime(w.getTime() + move);
 			}
-			
-			w.setTime(w.getTime() + move);
-		} else if (function.equalsIgnoreCase("set") && Permissions.checkPerms(sender, "cex.time.set")){
-			if (args[1].equalsIgnoreCase("dawn") || args[1].equalsIgnoreCase("day")){
-				move = 0L;
-			} else if (args[1].equalsIgnoreCase("morning")){
-				move = 2500L;
-			} else if (args[1].equalsIgnoreCase("noon")){
-				move = 6000L;
-			} else if (args[1].equalsIgnoreCase("evening")){
-				move = 11000L;
-			} else if (args[1].equalsIgnoreCase("night")){
-				move = 15000L;
-			} else if (args[1].matches(CommandsEX.intRegex)){
-				move = Long.parseLong(args[1]);
-			} else {
-				LogHelper.showWarning("timeInvalidStringValue", sender);
-				return true;
-			}
+		} else if (function.equalsIgnoreCase("set")){
+			if (Permissions.checkPerms(sender, "cex.time.set")){
+				if (args[1].equalsIgnoreCase("dawn") || args[1].equalsIgnoreCase("day")){
+					move = 0L;
+				} else if (args[1].equalsIgnoreCase("morning")){
+					move = 2500L;
+				} else if (args[1].equalsIgnoreCase("noon")){
+					move = 6000L;
+				} else if (args[1].equalsIgnoreCase("evening")){
+					move = 11000L;
+				} else if (args[1].equalsIgnoreCase("night")){
+					move = 15000L;
+				} else if (args[1].matches(CommandsEX.intRegex)){
+					move = Long.parseLong(args[1]);
+				} else {
+					LogHelper.showWarning("timeInvalidStringValue", sender);
+					return true;
+				}
 
-			w.setTime(move);
+				w.setTime(move);
+			}
 		} else {
 			Commands.showCommandHelpAndUsage(sender, "cex_time", alias);
 			return true;
