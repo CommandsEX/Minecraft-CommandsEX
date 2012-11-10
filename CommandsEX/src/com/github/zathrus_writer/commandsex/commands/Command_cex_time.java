@@ -93,6 +93,8 @@ public class Command_cex_time {
 				}
 				
 				w.setTime(w.getTime() + move);
+			} else {
+				return true;
 			}
 		} else if (function.equalsIgnoreCase("set")){
 			if (Permissions.checkPerms(sender, "cex.time.set")){
@@ -114,6 +116,8 @@ public class Command_cex_time {
 				}
 
 				w.setTime(move);
+			} else {
+				return true;
 			}
 		} else {
 			Commands.showCommandHelpAndUsage(sender, "cex_time", alias);
