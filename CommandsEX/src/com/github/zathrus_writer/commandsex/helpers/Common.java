@@ -711,9 +711,11 @@ public class Common implements Listener {
 		}
 		
 		if ((Common.slappedPlayers.size() > 0) && Common.slappedPlayers.contains(pName)) {
-			// remove UnSlap task for this player
-			Bukkit.getServer().getScheduler().cancelTask(slappedUnslapTasks.get(pName));
-			slappedUnslapTasks.remove(pName);
+			if (slappedUnslapTasks.containsKey(pName)){
+				// remove UnSlap task for this player
+				Bukkit.getServer().getScheduler().cancelTask(slappedUnslapTasks.get(pName));
+				slappedUnslapTasks.remove(pName);
+			}
 			
 			if (CommandsEX.getConf().getBoolean("slapPreventDamage", true)) {
 				e.setCancelled(true);
