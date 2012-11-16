@@ -11,10 +11,13 @@ Release 2.00
 
 + added the long awaited Economy Support, with Vault integration!
 + added AFK support, players can go AFK by using /afk or automatically by staying idle
++ added AFK Auto-Kick, players who stay idle too long are kicked
 + added some experimental MCStats graphs, to log Feature & Command Statistics
 + added auto link shortening and /shorten command
 + added /sudo command, execute a command as another player
 + added /csudo command, chat as another player
+
++ added complete message sending API, including events
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console
@@ -25,6 +28,9 @@ Release 2.00
 * fixed error when setting a TAB list name longer than 16 characters
 * fixed any player being able to set the time without the permission node
 * fixed /whois giving an NPE when Nicknames functionality is disabled
+* fixed NPE when a player joins
+* fixed 2 players using the same nickname and causing errors
+* fixed NPE when a player is damaged
 
 # new perm cex.economy
 # new perm cex.economy.balance
