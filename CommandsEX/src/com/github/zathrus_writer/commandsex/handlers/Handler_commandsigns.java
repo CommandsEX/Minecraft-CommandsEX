@@ -18,8 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
+import com.github.zathrus_writer.commandsex.api.economy.Economy;
 import com.github.zathrus_writer.commandsex.helpers.ClosestMatches;
-import com.github.zathrus_writer.commandsex.helpers.Economy;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 

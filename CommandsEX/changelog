@@ -19,6 +19,7 @@ Release 2.00
 
 + added complete message sending API, including events
 + added complete Economy API and did some cleanup of the Economy code
++ added complete AFK API
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console
