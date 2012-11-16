@@ -75,9 +75,14 @@ public class Nicknames implements Listener {
 	 * Set a players nickname
 	 * @param pName
 	 * @param nickname
+	 * @return Returns false if another player is using that nickname
 	 */
 	
-	public static void setNick(String pName, String nickname){
+	public static boolean setNick(String pName, String nickname){
+		if (nicknames.containsValue(nickname)){
+			return false;
+		}
+		
 		if (nicknames.containsKey(pName)){
 			nicknames.remove(pName);
 		}
@@ -89,21 +94,42 @@ public class Nicknames implements Listener {
 		if (player != null){
 			showNick(player);
 		}
+		
+		return true;
 	}
 	
 	/***
 	 * Shows a players nickname
 	 * @param player
 	 * @param nickname
+	 * @return Returns false if another player already has that nickname
 	 */
 	
-	public static void showNick(Player player){
-		String nickname = getNick(player.getName());
+	public static boolean showNick(Player player){
+		String pName = player.getName();
+		String rNick = getRealNick(pName);
+		
+		int count = 0;
+		for (String n : nicknames.values()){
+			if (n.equals(rNick)){
+				count++;
+			}
+		}
+		
+		if (count > 1){
+			LogHelper.logWarning("Could not set nickname for " + pName);
+			LogHelper.logWarning("Another player is already using that nickname");
+			
+			return false;
+		}
+		
+		String nickname = getNick(pName);
 		
 		// set their display name a TAB list name
 		player.setDisplayName(nickname + ChatColor.RESET);
 		// player list names can only be a maximum of 16 characters long
 		player.setPlayerListName((nickname.length() > 16 ? nickname.substring(0, 15) : nickname));
+		return true;
 	}
 	
 	/***
