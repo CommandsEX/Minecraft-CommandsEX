@@ -18,6 +18,7 @@ Release 2.00
 + added /csudo command, chat as another player
 
 + added complete message sending API, including events
++ added complete Economy API and did some cleanup of the Economy code
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console

@@ -4,15 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
-import com.github.zathrus_writer.commandsex.Vault;
-import com.github.zathrus_writer.commandsex.api.economy.Economy;
 
-public class Econ extends Economy {
+public class Econ {
 
 	public static HashMap<String, Double> balances = new HashMap<String, Double>();
 	public static double defaultBalance = CommandsEX.getConf().getDouble("economy.defaultBalance");
@@ -99,14 +94,6 @@ public class Econ extends Economy {
 	}
 	
 	/**
-	 * Fixes decimals 5.0 will become 5.00 etc
-	 */
-	
-	public static String fixDecimals(double input){
-		return Utils.twoDecimalPlaces(input);
-	}
-	
-	/**
 	 * Deletes all accounts that have a default balance
 	 * Returns the amount of accounts purged
 	 */
@@ -123,83 +110,5 @@ public class Econ extends Economy {
 		
 		LogHelper.logInfo("Successfully purged " + count + " economy accounts with default balance");
 		return count;
-	}
-	
-	public static boolean hasAccount(String player){
-		if (balances.containsKey(player)){
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public static double getBalance(String player){
-		if (hasAccount(player)){
-			return balances.get(player);
-		} else {
-			return defaultBalance;
-		}
-	}
-	
-	public static void createAccount(String player){
-		createAccount(player, defaultBalance);
-	}
-	
-	public static void createAccount(String player, double initialAmount){
-		if (!hasAccount(player)){
-			balances.put(player, initialAmount);
-		}
-	}
-	
-	public static boolean has(String player, double amount){
-		double balance = getBalance(player);
-		return balance >= amount;
-	}
-	
-	public static void setBalance(String player, double amount){
-		if (hasAccount(player)){
-			balances.remove(player);
-			balances.put(player, amount);
-		} else {
-			createAccount(player, amount);
-		}
-	}
-	
-	public static void withdraw(String player, double amount){
-		if (hasAccount(player)){
-			setBalance(player, getBalance(player) - amount);
-		} else {
-			createAccount(player, defaultBalance - amount);
-		}
-	}
-	
-	public static void deposit(String player, double amount){
-		if (hasAccount(player)){
-			setBalance(player, getBalance(player) + amount);
-		} else {
-			createAccount(player, defaultBalance + amount);
-		}
-	}
-	
-	public static void transfer(String sender, String reciever, double amount){
-		if (!CommandsEX.vaultPresent || !Vault.ecoEnabled()){
-			return;
-		}
-		
-		Vault.econ.withdrawPlayer(sender, amount);
-		Vault.econ.depositPlayer(reciever, amount);
-		
-		Player s = Bukkit.getPlayerExact(sender);
-		Player r = Bukkit.getPlayerExact(reciever);
-		
-		String a = Vault.econ.format(amount).replaceFirst(String.valueOf(amount), fixDecimals(amount));
-		
-		if (s != null){
-			LogHelper.showInfo("economyPay#####[" + a + " #####to#####[" + reciever, s);
-		}
-		
-		if (r != null){
-			LogHelper.showInfo("[" + sender + " #####economyPayNotify1#####[" + a + " #####economyPayNotify2", r);
-		}
 	}
 }
