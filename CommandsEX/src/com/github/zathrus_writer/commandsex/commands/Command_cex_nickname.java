@@ -66,14 +66,10 @@ public class Command_cex_nickname extends Nicknames {
 			return true;
 		}
 		
-		for (Player p : Bukkit.getOnlinePlayers()){
-			if (getNick(p).equals(Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + nickTo + ChatColor.RESET)){
-				LogHelper.showWarning("nickAlreadyExists", sender);
-				return true;
-			}
+		if (!setNick(target.getName(), nickTo)){
+			LogHelper.showWarning("nickAlreadyExists", sender);
+			return true;
 		}
-		
-		setNick(target.getName(), nickTo);
 		
 		if (!sender.equals(target)){
 			LogHelper.showInfo("nickConfirm#####[" + Nicknames.getNick(target.getName()) + " #####nickSetTo#####[" + Utils.replaceChatColors(nickTo), sender, ChatColor.AQUA);
