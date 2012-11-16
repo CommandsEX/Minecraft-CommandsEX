@@ -21,6 +21,7 @@ Release 2.00
 
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console
+@ renamed Economy class to Econ in favor of Economy API
 
 * fixed string collecting in /r
 * fixed /message and /r inheriting colors from a players Nickname

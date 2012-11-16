@@ -9,8 +9,8 @@ import org.bukkit.craftbukkit.libs.com.google.gson.internal.Pair;
 import org.bukkit.entity.Player;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.api.EconomyAPI;
-import com.github.zathrus_writer.commandsex.helpers.Economy;
+import com.github.zathrus_writer.commandsex.api.economy.Economy;
+import com.github.zathrus_writer.commandsex.helpers.Econ;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Permissions;
 import com.github.zathrus_writer.commandsex.helpers.PlayerHelper;
@@ -18,7 +18,7 @@ import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 import static com.github.zathrus_writer.commandsex.Language._;
 
-public class Command_cex_economy extends EconomyAPI {
+public class Command_cex_economy extends Economy {
 
 	/**
 	 * Full Economy Suite (balance, pay, take, spawn, request, purge, save and clear)
@@ -312,7 +312,7 @@ public class Command_cex_economy extends EconomyAPI {
 				sender.sendMessage(getEconomyHelp(sender));
 			} else {
 				if (Permissions.checkPerms(sender, "cex.economy.purge")){
-					int amount = Economy.purgeAccounts();
+					int amount = Econ.purgeAccounts();
 					
 					if (amount > 1){
 						LogHelper.showInfo("economyPurge1#####[" + amount + " #####economyPurge2", sender);
@@ -323,7 +323,7 @@ public class Command_cex_economy extends EconomyAPI {
 			}
 		} else if (function.equalsIgnoreCase("save")){
 			if (Permissions.checkPerms(sender, "cex.economy.save")){
-				Economy.saveDatabase();
+				Econ.saveDatabase();
 				LogHelper.showInfo("economySave", sender);
 			}
 		} else if (function.equalsIgnoreCase("clear")){
@@ -349,8 +349,8 @@ public class Command_cex_economy extends EconomyAPI {
 					LogHelper.showInfo("economyClearConfirm", sender);
 					Bukkit.getScheduler().cancelTask(clearRequests.get(sName));
 					clearRequests.remove(sName);
-					Economy.balances.clear();
-					Economy.saveDatabase();
+					Econ.balances.clear();
+					Econ.saveDatabase();
 				} else {
 					LogHelper.showWarning("economyClearInvalid", sender);
 				}

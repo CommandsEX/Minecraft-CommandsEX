@@ -1,9 +1,9 @@
-package com.github.zathrus_writer.commandsex.api;
+package com.github.zathrus_writer.commandsex.api.economy;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
-import com.github.zathrus_writer.commandsex.helpers.Economy;
+import com.github.zathrus_writer.commandsex.helpers.Econ;
 
-public class EconomyAPI {
+public class Economy {
 
 	/**
 	 * Checks if the Economy feature in CommandsEX is enabled
@@ -11,7 +11,7 @@ public class EconomyAPI {
 	 */
 	
 	public static boolean isEnabled(){
-		return CommandsEX.loadedClasses.contains("Init_Economy");
+		return CommandsEX.loadedClasses.contains("Init_Econ");
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class EconomyAPI {
 	 */
 	
 	public static boolean hasAccount(String player){
-		return Economy.hasAccount(player);
+		return Econ.hasAccount(player);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class EconomyAPI {
 	 */
 	
 	public static double getBalance(String player){
-		return Economy.getBalance(player);
+		return Econ.getBalance(player);
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class EconomyAPI {
 	 */
 	
 	public static boolean has(String player, double amount){
-		return Economy.has(player, amount);
+		return Econ.has(player, amount);
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class EconomyAPI {
 	 */
 	
 	public static void createAccount(String player){
-		Economy.createAccount(player);
+		Econ.createAccount(player);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class EconomyAPI {
 	 */
 	
 	public static void createAccount(String player, double amount){
-		Economy.createAccount(player, amount);
+		Econ.createAccount(player, amount);
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class EconomyAPI {
 	 */
 	
 	public static void setBalance(String player, double amount){
-		Economy.setBalance(player, amount);
+		Econ.setBalance(player, amount);
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class EconomyAPI {
 	 */
 	
 	public static void withdraw(String player, double amount){
-		Economy.withdraw(player, amount);
+		Econ.withdraw(player, amount);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class EconomyAPI {
 	 */
 	
 	public static void deposit(String player, double amount){
-		Economy.deposit(player, amount);
+		Econ.deposit(player, amount);
 	}
 	
 	/**
@@ -159,7 +159,7 @@ public class EconomyAPI {
 	 */
 	
 	public static String fixDecimals(double input){
-		return Economy.fixDecimals(input);
+		return Econ.fixDecimals(input);
 	}
 	
 }

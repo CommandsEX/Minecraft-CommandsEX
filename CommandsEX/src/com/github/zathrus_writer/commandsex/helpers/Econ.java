@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.SQLManager;
 import com.github.zathrus_writer.commandsex.Vault;
-import com.github.zathrus_writer.commandsex.api.EconomyAPI;
+import com.github.zathrus_writer.commandsex.api.economy.Economy;
 
-public class Economy extends EconomyAPI {
+public class Econ extends Economy {
 
 	public static HashMap<String, Double> balances = new HashMap<String, Double>();
 	public static double defaultBalance = CommandsEX.getConf().getDouble("economy.defaultBalance");

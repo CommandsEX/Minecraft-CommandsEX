@@ -863,7 +863,7 @@ permissions:
   Init.CommandBookConverter:
     default: true
     description: Placeholder for initialization function used to convert CommandBook files to CommandsEX files
-  Init.Economy:
+  Init.Econ:
     default: true
     description: Placeholder for initialization function used to handle Economy related functions
   Init.AFK:
