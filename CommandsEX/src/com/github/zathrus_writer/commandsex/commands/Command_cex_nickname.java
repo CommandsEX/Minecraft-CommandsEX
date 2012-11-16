@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
@@ -63,6 +64,13 @@ public class Command_cex_nickname extends Nicknames {
 			}
 			
 			return true;
+		}
+		
+		for (Player p : Bukkit.getOnlinePlayers()){
+			if (getNick(p).equals(Utils.replaceChatColors(CommandsEX.getConf().getString("nicknamePrefix")) + nickTo + ChatColor.RESET)){
+				LogHelper.showWarning("nickAlreadyExists", sender);
+				return true;
+			}
 		}
 		
 		setNick(target.getName(), nickTo);

@@ -158,7 +158,7 @@ public class Utils {
 	}
 
 	/***
-	 * Returns parsed time value from a command in this format: (<days, 10> <hours, 3> <minutes, 24> <seconds, 11>)
+	 * Returns parsed time value from a command in this format: (<years, 1> <months, 0> <days, 10> <hours, 3> <minutes, 24> <seconds, 11>)
 	 * @param args
 	 * @return
 	 * @throws PatternSyntaxException
@@ -170,7 +170,7 @@ public class Utils {
 		for (String s : args) {
 			if (s.startsWith("t:")) {
 				dateNotFound = false;
-				Pattern Regex = Pattern.compile("(\\d+)(weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
+				Pattern Regex = Pattern.compile("(\\d+)(years?|y|months?|m|weeks?|w|days?|d|hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)",
 						Pattern.CANON_EQ | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 					Matcher RegexMatcher = Regex.matcher(s.substring(2, s.length()));
 					while (RegexMatcher.find()) {
@@ -181,7 +181,11 @@ public class Utils {
 							v = 0;
 						}
 						
-						if (RegexMatcher.group(2).startsWith("w")) {
+						if (RegexMatcher.group(2).startsWith("y")){
+							ret.put("years", v);
+						} else if (RegexMatcher.group(2).startsWith("m")){
+							ret.put("months", v);
+						} else if (RegexMatcher.group(2).startsWith("w")) {
 							ret.put("weeks", v);
 						} else if (RegexMatcher.group(2).startsWith("d")) {
 							ret.put("days", v);
@@ -208,6 +212,14 @@ public class Utils {
 		}
 		
 		// fill NULL values with zeroes
+		if (ret.get("years") == null){
+			ret.put("years", 0);
+		}
+		
+		if (ret.get("months") == null){
+			ret.put("months", 0);
+		}
+		
 		if (ret.get("weeks") == null) {
 			ret.put("weeks", 0);
 		}
@@ -232,18 +244,22 @@ public class Utils {
 	}
 	
 	/***
-	 * Parses given Unix Timestamp and returns hashmap with days, hours, minutes and seconds.
+	 * Parses given Unix Timestamp and returns hashmap with years, months, days, hours, minutes and seconds.
 	 * @param stamp
 	 * @return
 	 */
 	public static Map<String, Integer> parseTimeStamp(Long stamp) {
 		Map<String, Integer> m = new HashMap<String, Integer>();
-		Integer weeks = (int) Math.floor(stamp / 604800);
-		Integer days = (int) Math.floor(stamp / 86400);
+		Integer years = (int) Math.floor(stamp / 29030400);
+		Integer months = (int) Math.floor((stamp - (years * 29030400)) / 2419200);
+		Integer weeks = (int) Math.floor((stamp - (months * 2419200)) / 604800);
+		Integer days = (int) Math.floor((stamp - (weeks * 604800)) / 86400);
 		Integer hours = (int) Math.floor((stamp - (days * 86400)) / 3600);
 		Integer minutes = (int) Math.floor((stamp - (days * 86400) - (hours * 3600)) / 60);
 		Integer seconds = (int) (stamp - (days * 86400) - (hours * 3600) - (minutes * 60));
 		
+		m.put("years", years);
+		m.put("months", months);
 		m.put("weeks", weeks);
 		m.put("days", days);
 		m.put("hours", hours);
