@@ -791,9 +791,6 @@ permissions:
   Listener.deathmessages:
     default: true
     description: Placeholder for event function for setting death messages
-  Listener.serverstop:
-    default: true
-    description: Placeholder for event function to hook into shutdown runtime and send custom server shutdown kick messages
   Listener.colouredsigns:
     default: true
     description: Placeholder for event function to use format codes to format signs.
