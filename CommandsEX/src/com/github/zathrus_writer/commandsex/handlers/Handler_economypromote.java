@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
@@ -17,7 +18,7 @@ import com.github.zathrus_writer.commandsex.helpers.Promotions;
 
 public class Handler_economypromote extends Promotions implements Listener {
 
-	public static Integer promotionTaskID;
+	public static BukkitTask promotionTask;
 	
 	/***
 	 * Create a periodic task that will promote or demote players based on their current wealth.
@@ -32,7 +33,7 @@ public class Handler_economypromote extends Promotions implements Listener {
 		
 		// set up the periodic task
 		Integer taskTime = CommandsEX.getConf().getInt("ecoPromoteTaskTime");
-		promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+		promotionTask = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 
 			@Override
 			public void run() {

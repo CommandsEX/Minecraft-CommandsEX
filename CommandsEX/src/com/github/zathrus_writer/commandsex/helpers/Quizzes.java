@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import static com.github.zathrus_writer.commandsex.Language._;
@@ -42,7 +43,7 @@ public class Quizzes implements Listener {
 	public static String quizQuestion;
 	public static String quizDifficulty;
 	public static List<String> quizAnswers = new ArrayList<String>();
-	public static Integer quizTask;
+	public static BukkitTask quizTask;
 	
 	public Quizzes() {
 		p = this;
@@ -62,7 +63,7 @@ public class Quizzes implements Listener {
 		Quizzes.lastQuizTime = Utils.getUnixTimestamp(0L);
 		if (repeatTime > 0) {
 			// set up recurring task that throws a new quiz
-			quizTask = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+			quizTask = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 				@Override
 			    public void run() {
 					Quizzes.lastQuizTime = Utils.getUnixTimestamp(0L);

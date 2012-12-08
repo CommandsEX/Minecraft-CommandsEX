@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.server.Packet201PlayerInfo;
+import net.minecraft.server.v1_4_5.Packet201PlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_5.CraftServer;
+import org.bukkit.craftbukkit.v1_4_5.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +22,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Common;
@@ -157,11 +158,11 @@ public class Handler_nanosuit implements Listener {
 			if ((!lastUse.containsKey(pName) || ((stamp - lastUse.get(pName)) > CommandsEX.getConf().getInt("nanoSuitRechargeTime")))) {
 				
 				// set up periodic time, informing the suited person about NanoSuit power time left
-				Integer taskID = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new TimeRemaining(pName), 20, 20);
+				BukkitTask task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new TimeRemaining(pName), 20, 20);
 				
 				Map<String, Object> m = new HashMap<String, Object>();
 				m.put("timeBegin", stamp);
-				m.put("taskID", taskID);
+				m.put("taskID", task.getTaskId());
 				suitedPlayers.put(pName, m);
 				lastUse.put(pName, stamp + (time * 20));
 				// tell the player

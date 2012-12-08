@@ -582,8 +582,8 @@ public class CexCommands {
 
 								// cancel old task and create a new one with this new timeout value
 								try {
-									CommandsEX.plugin.getServer().getScheduler().cancelTask(Handler_playtimepromote.promotionTaskID);
-									Handler_playtimepromote.promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+								    Handler_playtimepromote.promotionTask.cancel();
+								    Handler_playtimepromote.promotionTask = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 										@Override
 										public void run() {
 											// create ExecutorService to manage threads                        
@@ -616,8 +616,8 @@ public class CexCommands {
 
 								// cancel old task and create a new one with this new timeout value
 								try {
-									CommandsEX.plugin.getServer().getScheduler().cancelTask(Handler_economypromote.promotionTaskID);
-									Handler_economypromote.promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+								    Handler_economypromote.promotionTask.cancel();
+								    Handler_economypromote.promotionTask = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 										@Override
 										public void run() {
 											// create ExecutorService to manage threads                        

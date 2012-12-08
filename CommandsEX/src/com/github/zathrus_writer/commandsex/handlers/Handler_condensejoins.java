@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.Common;
@@ -37,7 +38,7 @@ public class Handler_condensejoins implements Listener {
 	static Integer leaveStamp = Utils.getUnixTimestamp(0L);
 	static Integer leaveFlushTime = CommandsEX.getConf().getInt("joinSilentTime");
 	
-	public static Integer joinleaveCheckID;
+	public static BukkitTask joinleaveCheck;
 	
 	/***
 	 * Activate event listeners.
@@ -49,7 +50,7 @@ public class Handler_condensejoins implements Listener {
 		Integer taskTime = CommandsEX.getConf().getInt("joinSilentTime");
 		
 		// This function checks joins and leaves and displays the join/leave messages to all users if there are any in the queue
-		joinleaveCheckID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+		joinleaveCheck = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 			@Override
 			public void run() {
 				checkLeaves();

@@ -805,4 +805,29 @@ public class EchoControlPlayer extends EchoControl implements Player {
 		public void playSound(Location arg0, Sound arg1, float arg2, float arg3) {
 			((Player) wrappedSender).playSound(arg0, arg1, arg2, arg3);
 		}
+
+        @Override
+        public boolean getRemoveWhenFarAway() {
+            return ((Player) wrappedSender).getRemoveWhenFarAway();
+        }
+
+        @Override
+        public void setRemoveWhenFarAway(boolean arg0) {
+            ((Player) wrappedSender).setRemoveWhenFarAway(arg0);
+        }
+
+        @Override
+        public Location getLocation(Location arg0) {
+            return ((Player) wrappedSender).getLocation(arg0);
+        }
+
+        @Override
+        public void giveExpLevels(int arg0) {
+            ((Player) wrappedSender).giveExpLevels(arg0);
+        }
+
+        @Override
+        public void setBedSpawnLocation(Location arg0, boolean arg1) {
+            ((Player) wrappedSender).setBedSpawnLocation(arg0, arg1);
+        }
 }

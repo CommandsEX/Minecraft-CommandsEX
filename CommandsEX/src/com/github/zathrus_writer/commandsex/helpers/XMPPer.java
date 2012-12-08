@@ -84,7 +84,7 @@ public class XMPPer implements Listener, PacketListener, SubjectUpdatedListener,
 			// set up a recurrent task simply sending a keep-alive message, since keep-alive requests don't seem to do the trick
 			if (CommandsEX.getConf().getBoolean("xmppEnablePing", true)) {
 				Integer pingTime = CommandsEX.getConf().getInt("xmppEnablePingTime", 45);
-				Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+				Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 					@Override
 					public void run () {
 						

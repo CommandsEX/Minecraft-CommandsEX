@@ -33,7 +33,7 @@ public class Econ {
 		}
 		
 		// when CommandsEX is disabled, save the database
-		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Economy#####onDisable");
+		CommandsEX.onDisableFunctions.add("com.github.zathrus_writer.commandsex.helpers.Econ#####onDisable");
 	}
 	
 	public static void onDisable(CommandsEX p){

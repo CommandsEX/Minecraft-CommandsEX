@@ -21,14 +21,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.v1_4_5.EntityPlayer;
+import net.minecraft.server.v1_4_5.ItemInWorldManager;
+import net.minecraft.server.v1_4_5.MinecraftServer;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.craftbukkit.v1_4_5.CraftServer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -106,7 +106,7 @@ public class Utils {
 		// first of all, create a periodic cleanup task that will remove all players
 		// that are not logged-in anymore from the spam checking map to free up memory
 		if (!spamCleanupStarted) {
-			CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+			CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 				@Override
 			    public void run() {
 			        // iterate through the HashMap and save all offline players that should be removed

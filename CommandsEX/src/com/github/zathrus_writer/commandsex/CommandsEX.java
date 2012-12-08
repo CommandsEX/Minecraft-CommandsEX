@@ -191,7 +191,7 @@ public class CommandsEX extends JavaPlugin implements Listener {
 		
 		// setup a recurring task that will periodically save players' play times into DB
 		if (sqlEnabled) {
-			getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 				@Override
 			    public void run() {
 			        // flush play times only for players that have their playtime loaded initially

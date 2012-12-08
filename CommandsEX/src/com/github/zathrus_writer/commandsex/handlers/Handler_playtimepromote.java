@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.Vault;
@@ -17,7 +18,7 @@ import com.github.zathrus_writer.commandsex.helpers.Promotions;
 
 public class Handler_playtimepromote extends Promotions implements Listener {
 
-	public static Integer promotionTaskID;
+	public static BukkitTask promotionTask;
 	
 	/***
 	 * Create a periodic task that will promote players based on total time they played on the server.
@@ -39,7 +40,7 @@ public class Handler_playtimepromote extends Promotions implements Listener {
 			LogHelper.logWarning(_("timedPromoteFlushTimeLow", "") + CommandsEX.playTimesFlushTime + " " + _("seconds", ""));
 		}
 		
-		promotionTaskID = CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+		promotionTask = CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 
 			@Override
 			public void run() {

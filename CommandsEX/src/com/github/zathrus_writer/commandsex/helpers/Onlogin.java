@@ -12,7 +12,7 @@ public class Onlogin {
 		
 	}
 	public static void Init(CommandsEX plugin){
-		CommandsEX.plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(CommandsEX.plugin, new Runnable() {
+		CommandsEX.plugin.getServer().getScheduler().runTaskTimerAsynchronously(CommandsEX.plugin, new Runnable() {
 			public void run() {
 			checkForOld();
 			}

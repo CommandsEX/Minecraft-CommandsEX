@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.internal.Pair;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.api.economy.Economy;
@@ -25,9 +26,9 @@ public class Command_cex_economy extends Economy {
 	 */
 	
 	// Target, Requester, Amount, TaskID
-	public static HashMap<Pair<String, String>, Pair<Double, Integer>> requests = new HashMap<Pair<String, String>, Pair<Double, Integer>>();
+	public static HashMap<Pair<String, String>, Pair<Double, BukkitTask>> requests = new HashMap<Pair<String, String>, Pair<Double, BukkitTask>>();
 	
-	public static HashMap<String, Integer> clearRequests = new HashMap<String, Integer>();
+	public static HashMap<String, BukkitTask> clearRequests = new HashMap<String, BukkitTask>();
 	
 	public static Boolean run(final CommandSender sender, String alias, String[] args){
 		if (sender instanceof Player && Utils.checkCommandSpam((Player) sender, "cex_economy")){
@@ -169,7 +170,7 @@ public class Command_cex_economy extends Economy {
 									deposit(pair.first, amount);
 									
 									// cancel task to expire request
-									Bukkit.getScheduler().cancelTask(requests.get(pair).second);
+									requests.get(pair).second.cancel();
 									requests.remove(pair);
 								} else {
 									LogHelper.showWarning("[" + pair.first + " #####economyRequestAcceptOffline", sender);
@@ -191,7 +192,7 @@ public class Command_cex_economy extends Economy {
 									double amount = requests.get(pair).first;
 									LogHelper.showInfo("economyRequestDeny#####[" + pair.first + " #####for#####[ " + getCurrencySymbol() + fixDecimals(amount), sender);
 									LogHelper.showInfo("[" + sName + " #####economyRequestDenied#####[" + getCurrencySymbol() + fixDecimals(amount), player);
-									Bukkit.getScheduler().cancelTask(requests.get(pair).second);
+									requests.get(pair).second.cancel();
 									requests.remove(pair);
 								} else {
 									LogHelper.showWarning("[" + pair.first + " #####economyRequestDenyOffline", sender);
@@ -223,7 +224,7 @@ public class Command_cex_economy extends Economy {
 											requests.remove(pair);
 										}
 										
-										int taskId = Bukkit.getScheduler().scheduleAsyncDelayedTask(CommandsEX.plugin, new Runnable(){
+										BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(CommandsEX.plugin, new Runnable(){
 											@Override
 											public void run() {
 												requests.remove(pair);
@@ -239,7 +240,7 @@ public class Command_cex_economy extends Economy {
 											}
 										}, CommandsEX.getConf().getInt("economy.requestExpireTime") * 20);
 										
-										requests.put(pair, new Pair<Double, Integer>(amount, taskId));
+										requests.put(pair, new Pair<Double, BukkitTask>(amount, task));
 										
 										LogHelper.showInfo("economyRequest#####[" + getCurrencySymbol() + fixDecimals(amount) + " #####to#####[ " + target, sender);
 										
@@ -332,7 +333,7 @@ public class Command_cex_economy extends Economy {
 					
 				} else {
 					LogHelper.showWarnings(sender, "economyClear1", "economyClear2", "economyClear3");
-					int taskID = Bukkit.getScheduler().scheduleAsyncDelayedTask(CommandsEX.plugin, new Runnable(){
+					BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(CommandsEX.plugin, new Runnable(){
 						@Override
 						public void run() {
 							if (clearRequests.containsKey(sName)){
@@ -342,12 +343,12 @@ public class Command_cex_economy extends Economy {
 						}
 					}, 30 * 20);
 					
-					clearRequests.put(sName, taskID);
+					clearRequests.put(sName, task);
 				}
 			} else if (args.length == 2 && args[1].equalsIgnoreCase("confirm")){
 				if (clearRequests.containsKey(sName)){
 					LogHelper.showInfo("economyClearConfirm", sender);
-					Bukkit.getScheduler().cancelTask(clearRequests.get(sName));
+					clearRequests.get(sName).cancel();
 					clearRequests.remove(sName);
 					Econ.balances.clear();
 					Econ.saveDatabase();
