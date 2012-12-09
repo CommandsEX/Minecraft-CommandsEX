@@ -1,6 +1,5 @@
 package com.github.ikeirnez.commandsex.handlers;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -17,27 +16,15 @@ public class EventManager implements Listener {
         Reflections reflections = new Reflections("com.github.ikeirnez.commandsex.handlers");
         Set<Class<? extends IEvent>> commandClasses = reflections.getSubTypesOf(IEvent.class);
 
-        Iterator<Class<? extends IEvent>> it = commandClasses.iterator();
-        while (it.hasNext()){
-            Class<? extends IEvent> clazz = it.next();
-            
-            registerEvent(clazz);
-            ret++;
+        for (Class<? extends IEvent> clazz : commandClasses){
+            try {
+                Bukkit.getPluginManager().registerEvents((IEvent) clazz.newInstance(), CommandsEX.plugin);
+                ret++;
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
         }
         
         return ret;
     }
-    
-    public void registerEvent(Class<? extends IEvent> clazz){
-        try {
-            registerEvent((IEvent) clazz.newInstance());
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void registerEvent(IEvent evnt){
-        Bukkit.getServer().getPluginManager().registerEvents(evnt, CommandsEX.plugin);
-    }
-    
 }

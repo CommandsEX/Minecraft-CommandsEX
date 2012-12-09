@@ -3,7 +3,7 @@ package com.github.ikeirnez.commandsex.api.interfaces;
 import org.bukkit.command.CommandSender;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.api.HackedCommand;
+import com.github.ikeirnez.commandsex.HackedCommand;
 
 public interface ICommand {
 

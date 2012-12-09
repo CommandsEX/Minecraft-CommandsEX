@@ -9,16 +9,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
+import com.github.ikeirnez.commandsex.Builder;
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.api.HackedCommand;
-import com.github.ikeirnez.commandsex.api.annotations.Builder;
+import com.github.ikeirnez.commandsex.HackedCommand;
 import com.github.ikeirnez.commandsex.api.interfaces.ICommand;
 
 @Builder(description = "Kills yourself!")
 public class Command_cex_suicide implements ICommand {
 
     public HackedCommand init(CommandsEX cex) {
-        return new HackedCommand("cex_suicide", "Kills the player sending the command", "", Arrays.asList(new String[] {"suicide"}));
+        return new HackedCommand("cex_suicide", "Kills the player sending the command", "", new String[] {"suicide"});
     }
     
     public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex) {
