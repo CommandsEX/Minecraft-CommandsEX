@@ -12,10 +12,10 @@ Release 2.00
 + added the long awaited Economy Support, with Vault integration!
 + added AFK support, players can go AFK by using /afk or automatically by staying idle
 + added AFK Auto-Kick, players who stay idle too long are kicked
-+ added some experimental MCStats graphs, to log Feature & Command Statistics
 + added auto link shortening and /shorten command
 + added /sudo command, execute a command as another player
 + added /csudo command, chat as another player
++ added some basic command signs
 
 + added complete message sending API, including events
 + added complete Economy API and did some cleanup of the Economy code
