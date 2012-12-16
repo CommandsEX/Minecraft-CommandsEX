@@ -1,17 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ikeirnez.commandsex</groupId>
 	<artifactId>CommandsEX</artifactId>
 	<version>2.0</version>
 	<repositories>
 		<repository>
-			<id>Plugin Metrics</id>
-			<url>http://repo.mcstats.org/content/repositories/public</url>
-		</repository>
+            <id>Bukkit Repo</id>
+            <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>Plugin Metrics</id>
+            <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
 	</repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<finalName>${project.artifactId}-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -44,18 +48,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.mcstats</groupId>
-			<artifactId>metrics</artifactId>
-			<version>R6</version>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>bukkit</artifactId>
-					<groupId>org.bukkit</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.9.8</version>
@@ -71,13 +63,18 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.4.5-R0.3-SNAPSHOT</version>
-			<scope>test</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.4.5-R0.3-SNAPSHOT</version>
-			<scope>test</scope>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mcstats</groupId>
+			<artifactId>metrics</artifactId>
+			<version>R6</version>
 		</dependency>
 	</dependencies>
 </project>
