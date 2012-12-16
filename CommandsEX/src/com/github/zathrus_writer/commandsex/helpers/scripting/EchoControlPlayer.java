@@ -32,6 +32,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.InventoryView.Property;
@@ -829,5 +830,20 @@ public class EchoControlPlayer extends EchoControl implements Player {
         @Override
         public void setBedSpawnLocation(Location arg0, boolean arg1) {
             ((Player) wrappedSender).setBedSpawnLocation(arg0, arg1);
+        }
+
+        @Override
+        public boolean getCanPickupItems() {
+            return ((Player) wrappedSender).getCanPickupItems();
+        }
+
+        @Override
+        public EntityEquipment getEquipment() {
+            return ((Player) wrappedSender).getEquipment();
+        }
+
+        @Override
+        public void setCanPickupItems(boolean arg0) {
+            ((Player) wrappedSender).setCanPickupItems(arg0);
         }
 }
