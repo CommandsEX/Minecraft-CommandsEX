@@ -13,6 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/TagAPI.jar"/>
 	<classpathentry kind="lib" path="lib/commons-email-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/craftbukkit.jar"/>
+	<classpathentry kind="lib" path="lib/craftbukkit-R0.3-20121216.060228-42.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
