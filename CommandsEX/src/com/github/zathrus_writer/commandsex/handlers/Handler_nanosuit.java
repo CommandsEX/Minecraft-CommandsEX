@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.server.v1_4_5.Packet201PlayerInfo;
+import net.minecraft.server.v1_4_6.Packet201PlayerInfo;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_4_5.CraftServer;
-import org.bukkit.craftbukkit.v1_4_5.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +35,7 @@ public class Handler_nanosuit implements Listener {
 	public static Map<String, Map<String, Object>> suitedPlayers = new HashMap<String, Map<String, Object>>();
 	public static Map<String, Integer> lastUse = new HashMap<String, Integer>();
 	public static List<String> powered = new ArrayList<String>();
-	public static List<String> sped = new ArrayList<String>();
+	public static List<String> speed = new ArrayList<String>();
 	public static List<String> jumps = new ArrayList<String>();
 	
 	/***
@@ -78,9 +78,9 @@ public class Handler_nanosuit implements Listener {
 		}
 		
 		// disable speed multiplier
-		if (sped.contains(pName)) {
+		if (speed.contains(pName)) {
 			p.removePotionEffect(PotionEffectType.SPEED);
-			sped.remove(pName);
+			speed.remove(pName);
 		}
 		
 		// disable jump multiplier

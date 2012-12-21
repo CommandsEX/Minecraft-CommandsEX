@@ -27,12 +27,12 @@ public class Command_cex_speed extends Common {
 			Player player = (Player) sender;
 			String pName = sender.getName();
 			if (Handler_nanosuit.suitedPlayers.containsKey(pName)) {
-				if (Handler_nanosuit.sped.contains(pName)) {
+				if (Handler_nanosuit.speed.contains(pName)) {
 					player.removePotionEffect(PotionEffectType.SPEED);
-					Handler_nanosuit.sped.remove(pName);
+					Handler_nanosuit.speed.remove(pName);
 				} else {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) (20 * CommandsEX.getConf().getDouble("nanoSuitTime")), CommandsEX.getConf().getInt("nanoSuitSpeed")));
-					Handler_nanosuit.sped.add(pName);
+					Handler_nanosuit.speed.add(pName);
 				}
 				LogHelper.showInfo("nanoSuitSpeedMode", sender);
 			}

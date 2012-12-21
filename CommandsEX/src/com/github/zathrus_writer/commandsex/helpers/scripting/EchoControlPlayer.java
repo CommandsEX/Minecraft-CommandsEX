@@ -846,4 +846,9 @@ public class EchoControlPlayer extends EchoControl implements Player {
         public void setCanPickupItems(boolean arg0) {
             ((Player) wrappedSender).setCanPickupItems(arg0);
         }
+
+        @Override
+        public void setTexturePack(String arg0) {
+            ((Player) wrappedSender).setTexturePack(arg0);
+        }
 }
