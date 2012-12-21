@@ -1,4 +1,4 @@
-authors: [Zathrus Writer, Keir Nellyer, Kezz101, Carlos Arias, EnvisionRed, Flumpy111]
+authors: [Keir Nellyer, Kezz101, Jnorr44, Zathrus Writer]
 description: A set of commands and event handlers, built to per-request specs.
 main: com.github.zathrus_writer.commandsex.CommandsEX
 name: CommandsEX
