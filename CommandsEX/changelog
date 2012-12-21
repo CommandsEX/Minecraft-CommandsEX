@@ -21,6 +21,8 @@ Release 2.00
 + added complete Economy API and did some cleanup of the Economy code
 + added complete AFK API
 
+- removed the shutdown custom kick message feature, this was broken and replaced by a feature in CraftBukkit
+
 @ /balance will now display your balance with two decimal places
 @ /broadcast is now executable from the console
 @ renamed Economy class to Econ in favor of Economy API
