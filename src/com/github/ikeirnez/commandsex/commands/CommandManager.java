@@ -8,8 +8,8 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.craftbukkit.v1_4_5.CraftServer;
 import org.reflections.Reflections;
 
-import com.github.ikeirnez.commandsex.api.Commands;
-import com.github.ikeirnez.commandsex.api.interfaces.ICommand;
+import com.github.ikeirnez.commandsex.Commands;
+import com.github.ikeirnez.commandsex.api.ICommand;
 
 public class CommandManager extends Commands {
     public static CommandMap cmap = null;

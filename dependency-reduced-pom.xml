@@ -6,7 +6,7 @@
   <version>2.0</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <finalName>${artifactId}-${version}-test</finalName>
+    <finalName>${project.artifactId}-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -47,13 +47,13 @@
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>1.4.5-R0.3-SNAPSHOT</version>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
       <version>1.4.5-R0.3-SNAPSHOT</version>
-      <scope>test</scope>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

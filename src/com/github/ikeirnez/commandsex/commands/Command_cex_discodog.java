@@ -6,6 +6,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -14,18 +15,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
 import com.github.ikeirnez.commandsex.HackedCommand;
-import com.github.ikeirnez.commandsex.api.interfaces.ICommand;
+import com.github.ikeirnez.commandsex.api.ICommand;
 import com.github.ikeirnez.commandsex.helpers.Utils;
 
 public class Command_cex_discodog implements ICommand {
 
     private HashMap<Integer, DyeColor> discoDogging = new HashMap<Integer, DyeColor>();
     
-    public HackedCommand init(CommandsEX cex) {
+    public HackedCommand init(CommandsEX cex, FileConfiguration config) {
         return new HackedCommand("cex_discodog", "DISCODOG", "", new String[] {"discodog"});
     }
 
-    public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex) {
+    public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex, FileConfiguration config) {
         if (!(sender instanceof Player)){
             return true;
         }

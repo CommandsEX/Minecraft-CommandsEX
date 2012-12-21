@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.reflections.Reflections;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.api.interfaces.IEvent;
+import com.github.ikeirnez.commandsex.api.IEvent;
 
 public class EventManager implements Listener {
 

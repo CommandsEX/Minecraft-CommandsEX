@@ -1,4 +1,4 @@
-package com.github.ikeirnez.commandsex.api.interfaces;
+package com.github.ikeirnez.commandsex.api;
 
 import org.bukkit.event.Listener;
 

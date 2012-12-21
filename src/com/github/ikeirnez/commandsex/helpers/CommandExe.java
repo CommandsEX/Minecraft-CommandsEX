@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.api.interfaces.ICommand;
+import com.github.ikeirnez.commandsex.api.ICommand;
 
 public class CommandExe implements CommandExecutor {
 
@@ -21,7 +21,7 @@ public class CommandExe implements CommandExecutor {
             Class<?> clazz = Class.forName("com.github.ikeirnez.commandsex.commands.Command_" + c);
             Object instance = clazz.newInstance();
             ICommand iCmd = (ICommand) instance;
-            return iCmd.run(sender, args, cmdAlias, CommandsEX.plugin);
+            return iCmd.run(sender, args, cmdAlias, CommandsEX.plugin, CommandsEX.plugin.getConfig());
         } catch (Throwable e){
             e.printStackTrace();
         }

@@ -1,8 +1,6 @@
-package com.github.ikeirnez.commandsex.api;
+package com.github.ikeirnez.commandsex;
 
-import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.HackedCommand;
-import com.github.ikeirnez.commandsex.api.interfaces.ICommand;
+import com.github.ikeirnez.commandsex.api.ICommand;
 import com.github.ikeirnez.commandsex.commands.CommandManager;
 import com.github.ikeirnez.commandsex.helpers.CommandExe;
 
@@ -19,7 +17,7 @@ public class Commands {
     public void registerCommand(Class<?> clazz){
         try {
             ICommand icmd = (ICommand) clazz.newInstance();
-            HackedCommand cc = icmd.init(CommandsEX.plugin);
+            HackedCommand cc = icmd.init(CommandsEX.plugin, CommandsEX.plugin.getConfig());
             registerCommand(cc);
         } catch (Throwable e){
             e.printStackTrace();
