@@ -1,7 +1,7 @@
 package com.github.ikeirnez.commandsex.handlers;
 
 /* Breakable Imports */
-import org.bukkit.craftbukkit.v1_4_5.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftEntity;
 /* End Breakable Imports */
 
 import java.util.Random;

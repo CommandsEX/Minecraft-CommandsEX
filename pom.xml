@@ -6,7 +6,7 @@
 	<repositories>
 		<repository>
             <id>Bukkit Repo</id>
-            <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+            <url>http://repo.bukkit.org/content/repositories/public/</url>
         </repository>
         <repository>
             <id>Plugin Metrics</id>
@@ -60,21 +60,15 @@
 			<type>maven-plugin</type>
 		</dependency>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>1.4.5-R0.3-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.4.5-R0.3-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.mcstats</groupId>
 			<artifactId>metrics</artifactId>
 			<version>R6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
+			<version>1.4.6-R0.1-SNAPSHOT</version>
+			<type>jar</type>
 		</dependency>
 	</dependencies>
 </project>

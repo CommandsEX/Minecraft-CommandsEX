@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
-import org.bukkit.craftbukkit.v1_4_5.CraftServer;
+import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.reflections.Reflections;
 
 import com.github.ikeirnez.commandsex.Commands;
