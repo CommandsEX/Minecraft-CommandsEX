@@ -100,8 +100,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.4.6-R0.2-SNAPSHOT</version>
-			<scope>test</scope>
+			<version>1.4.6-R0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
