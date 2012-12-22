@@ -83,12 +83,13 @@ public class CommandsEX extends JavaPlugin {
                 e1.printStackTrace();
             }
             
-            // TODO add config option for metrics
-            try {
-                Metrics metrics = new Metrics(this);
-                metrics.start();
-            } catch (IOException e){
-                e.printStackTrace();
+            if (config.getBoolean("metricsEnabled")){
+                try {
+                    Metrics metrics = new Metrics(this);
+                    metrics.start();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
             }
             
             LogHelper.addToEventLog("CommandsEX was successfully enabled without any errors");

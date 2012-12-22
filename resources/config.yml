@@ -1,3 +1,5 @@
+metricsEnabled: true
+defaultLanguage: [en]
 availableLanguages: [en]
 database:
   type: sqlite
