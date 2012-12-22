@@ -10,16 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.server.v1_4_6.EntityPlayer;
-import net.minecraft.server.v1_4_6.Packet201PlayerInfo;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_6.CraftServer;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -458,20 +453,14 @@ public class Common implements Listener {
 				}
 			}
 		} else {
-			EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
-			
 			if (!isInvisible) {
 				invisiblePlayers.add(pName);
-				((CraftServer) player.getServer()).getHandle().sendAll(
-						new Packet201PlayerInfo(ePlayer.listName, false, 9999));
 				
 				for (Player p : Bukkit.getOnlinePlayers()){
 					p.hidePlayer(player);
 				}
 			} else {
 				invisiblePlayers.remove(pName);
-				((CraftServer) player.getServer()).getHandle().sendAll(
-						new Packet201PlayerInfo(ePlayer.listName, true, ePlayer.ping));
 				for (Player p : Bukkit.getOnlinePlayers()){
 					p.showPlayer(player);
 				}
@@ -660,8 +649,6 @@ public class Common implements Listener {
 			if (player != null) {
 				e.getPlayer().hidePlayer(player);
 				// Hide the player from the player list
-				((CraftServer) player.getServer()).getHandle().sendAll(
-						new Packet201PlayerInfo(((CraftPlayer) player).getHandle().listName, false, 9999));
 			}
 		}
 		

@@ -21,14 +21,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.minecraft.server.v1_4_6.EntityPlayer;
-import net.minecraft.server.v1_4_6.PlayerInteractManager;
-import net.minecraft.server.v1_4_6.MinecraftServer;
-
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -314,6 +309,10 @@ public class Utils {
 	/***
 	 * Allows you to use functions for an offline player like they where an online player
 	 * By creating a fake entity
+	 * 
+	 * This method will break with every single minecraft update thanks to a recent commit
+	 * All version numbers in packages will have to be changed.
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -328,8 +327,8 @@ public class Utils {
 					String playername = filename.substring(0, filename.length() - 4);
 
 					if (playername.trim().equalsIgnoreCase(player)) {
-						final MinecraftServer server = ((CraftServer) CommandsEX.plugin.getServer()).getServer();
-						final EntityPlayer entity = new EntityPlayer(server, server.getWorldServer(0), playername, new PlayerInteractManager(server.getWorldServer(0)));
+						final net.minecraft.server.v1_4_6.MinecraftServer server = ((org.bukkit.craftbukkit.v1_4_6.CraftServer) CommandsEX.plugin.getServer()).getServer();
+						final net.minecraft.server.v1_4_6.EntityPlayer entity = new net.minecraft.server.v1_4_6.EntityPlayer(server, server.getWorldServer(0), playername, new net.minecraft.server.v1_4_6.PlayerInteractManager(server.getWorldServer(0)));
 						player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
 						if (player2 != null) {
 							player2.loadData();
