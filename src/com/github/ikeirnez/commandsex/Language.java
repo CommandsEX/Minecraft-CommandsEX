@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,9 +30,14 @@ public class Language {
         langs = new HashMap<String, Properties>();
 
         for (String s : config.getStringList("availableLanguages")){
+            if (s.length() > 5){
+                LogHelper.logWarning("Language " + s + " is too long, this language file will not be available");
+                continue;
+            }
+            
             File langFile = new File(plugin.getDataFolder(), "lang_" + s + ".properties");
             if (!langFile.exists()){
-                LogHelper.addToEventLog("Couldn't find language file for language " + s, true, Level.WARNING);
+                LogHelper.logWarning("Couldn't find language file for language " + s);
                 continue;
             }
 
@@ -44,12 +48,15 @@ public class Language {
             } catch (FileNotFoundException e) {
                 // This should never be thrown as we check above whether the file exists
                 e.printStackTrace();
+                continue;
             } catch (IOException e) {
-                LogHelper.addExceptionToEventLog(e);
+                e.printStackTrace();
+                LogHelper.logSevere("IO error when reading language file for language " + s);
+                continue;
             }
 
             langs.put(s, lang);
-            LogHelper.addToEventLog("Successfully loaded language " + s);
+            LogHelper.logDebug("Successfully loaded language " + s);
         }
     }
 

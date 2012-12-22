@@ -41,11 +41,13 @@ public class Jobs {
      */
     public static void doReloadJobs(){
         for (Class<?> clazz : reloadJobs.keySet()){
+            String methodName = reloadJobs.get(clazz);
             try {
-                Method m = clazz.getDeclaredMethod(reloadJobs.get(clazz), CommandsEX.class, FileConfiguration.class);
+                Method m = clazz.getDeclaredMethod(methodName, CommandsEX.class, FileConfiguration.class);
                 m.invoke(null, CommandsEX.plugin, CommandsEX.plugin.getConfig());
             } catch (Exception e) {
-                LogHelper.addExceptionToEventLog(e);
+                e.printStackTrace();
+                LogHelper.logSevere("Error while executing reload job for class " + clazz.getName() + " method " + methodName);
             }
         }
     }
@@ -55,11 +57,12 @@ public class Jobs {
      */
     public static void doDisableJobs(){
         for (Class<?> clazz : disableJobs.keySet()){
+            String methodName = reloadJobs.get(clazz);
             try {
-                Method m = clazz.getDeclaredMethod(reloadJobs.get(clazz), CommandsEX.class, FileConfiguration.class);
+                Method m = clazz.getDeclaredMethod(methodName, CommandsEX.class, FileConfiguration.class);
                 m.invoke(null, CommandsEX.plugin, CommandsEX.plugin.getConfig());
             } catch (Exception e) {
-                LogHelper.addExceptionToEventLog(e);
+                LogHelper.logSevere("Error while executing disable job for class " + clazz.getName() + " method " + methodName);
             }
         }
     }

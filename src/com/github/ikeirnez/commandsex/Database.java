@@ -33,6 +33,7 @@ public class Database {
     private CommandsEX p = CommandsEX.plugin;
     private transient Connection conn;
     private String prefix = "cex_";
+    private String databaseName;
     private DBType dbType;
     private boolean connected = false;
 
@@ -43,14 +44,16 @@ public class Database {
      */
     public Database(String databaseName, String prefix){
         dbType = DBType.SQLITE;
-
+        this.databaseName = databaseName;
+        
         try {
             // this will throw an error if for some reason the JDBC class is unavailable
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:" + p.getDataFolder() + File.separatorChar + databaseName + ".db");
             connected = true;
         } catch (Exception e){
-            LogHelper.addExceptionToEventLog(e);
+            e.printStackTrace();
+            LogHelper.logSevere("Error while connecting to SQLITE database " + databaseName);
         }
 
         this.prefix = prefix;
@@ -74,7 +77,8 @@ public class Database {
             conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + databaseName, username, password);
             connected = true;
         } catch (Exception e){
-            LogHelper.addExceptionToEventLog(e);
+            e.printStackTrace();
+            LogHelper.logSevere("Error while connecting to MYSQL database " + databaseName);
         }
 
         this.prefix = prefix;
@@ -114,8 +118,7 @@ public class Database {
      */
     public boolean query(String query, Object... params){
         if (!connected){
-            LogHelper.logSevere("Could not run query because database is not connected");
-            LogHelper.logSevere(query);
+            LogHelper.logSevere("Could not run query because database is not connected QUERY = " + query);
             return false;
         }
         
@@ -127,9 +130,8 @@ public class Database {
                 statement.executeUpdate(query);
                 statement.close();
             } catch (Exception e){
-                LogHelper.addExceptionToEventLog(e);
-                LogHelper.logSevere(query);
-                LogHelper.logSevere("Error while writing to database");
+                e.printStackTrace();
+                LogHelper.logSevere("Error while writing to database, QUERY = " + query);
             }
         } else {
             // if we have only 1 parameter that is an ArrayList, make an array of objects out of it
@@ -180,9 +182,8 @@ public class Database {
                 prep.close();
                 prep = null;
             } catch (Exception e) {
-                LogHelper.addExceptionToEventLog(e);
-                LogHelper.logSevere(query);
-                LogHelper.logSevere("Error while writing to database");
+                e.printStackTrace();
+                LogHelper.logSevere("Error while writing to the database " + databaseName + " QUERY = " + query);
                 return false;
             }
         }
@@ -213,9 +214,8 @@ public class Database {
                 ResultSet res = statement.executeQuery(query);
                 return res;
             } catch (Exception e){
-                LogHelper.addExceptionToEventLog(e);
-                LogHelper.logSevere(query);
-                LogHelper.logSevere("Error while writing to database");
+                e.printStackTrace();
+                LogHelper.logSevere("Error while writing to the database " + databaseName + " QUERY = " + query);
             }
         } else {
             // if we have only 1 parameter that is an ArrayList, make an array of objects out of it
@@ -254,9 +254,8 @@ public class Database {
                 
                 return prep.executeQuery();
             } catch (Exception e){
-                LogHelper.addExceptionToEventLog(e);
-                LogHelper.logSevere(query);
-                LogHelper.logSevere("Error while writing to database");
+                e.printStackTrace();
+                LogHelper.logSevere("Error while writing to the database " + databaseName + " QUERY = " + query);
                 return null;
             }
         }

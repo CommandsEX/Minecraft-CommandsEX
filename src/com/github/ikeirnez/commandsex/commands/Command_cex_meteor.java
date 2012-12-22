@@ -1,7 +1,6 @@
 package com.github.ikeirnez.commandsex.commands;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
