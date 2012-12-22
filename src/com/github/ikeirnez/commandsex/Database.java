@@ -106,6 +106,8 @@ public class Database {
 
     /**
      * Executes a query on the database that does not return a ResultSet
+     * If %prefix% is used in the query, it will be replaced with the query
+     * 
      * @param query The query to execute
      * @param params Additional parameters needed
      * @return Did the query execute successfully?
@@ -116,6 +118,8 @@ public class Database {
             LogHelper.logSevere(query);
             return false;
         }
+        
+        query = query.replaceAll("%prefix%", prefix);
 
         if (params.length == 0){
             try {
@@ -188,6 +192,8 @@ public class Database {
 
     /**
      * Executes a query and returns a ResultSet
+     * If %prefix% is used in the query, it will be replaced with the query
+     * 
      * @param query The query to execute
      * @param params Additional parameters needed
      * @return The ResultSet, null if failed
@@ -198,6 +204,8 @@ public class Database {
             LogHelper.logSevere(query);
             return null;
         }
+        
+        query = query.replaceAll("%prefix%", prefix);
 
         if (params.length == 0){
             try {
