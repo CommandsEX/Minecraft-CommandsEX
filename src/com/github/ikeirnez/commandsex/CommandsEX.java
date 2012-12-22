@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,16 +19,19 @@ import com.github.ikeirnez.commandsex.helpers.LogHelper;
 public class CommandsEX extends JavaPlugin {
 
     public static CommandsEX plugin;
+    public static FileConfiguration config;
     public static Logger logger;
     public static CommandManager cmdManger;
     public static EventManager evntManager;
+    public static Database database;
     
     public void onEnable(){
         try {
             plugin = this;
             logger = Bukkit.getLogger();
-            cmdManger = new CommandManager();
-            evntManager = new EventManager();
+            config = getConfig();
+            config.options().copyDefaults(true);
+            saveConfig();
             
             PluginManager pm = getServer().getPluginManager();
 
@@ -38,6 +42,33 @@ public class CommandsEX extends JavaPlugin {
                 return;
             }
             
+            try {
+                LogHelper.logInfo("Connecting to CommandsEX database...");
+                
+                switch (config.getString("database.type").toLowerCase()){
+                case "sqlite" :
+                    database = new Database(config.getString("database.name"), config.getString("database.prefix"));
+                    break;
+                case "mysql" :
+                    database = new Database(config.getString("database.name"), config.getString("database.username"),
+                            config.getString("database.password"), config.getString("database.host"),
+                            config.getString("database.port"), config.getString("database.prefix"));
+                    break;
+                default : 
+                    LogHelper.logSevere("Incorrect database type, disabling plugin...");
+                    pm.disablePlugin(this);
+                    break;
+                }
+                
+                LogHelper.logInfo("Successfully connected to the CommandsEX database");
+            } catch (Exception e){
+                LogHelper.addExceptionToEventLog(e);
+                LogHelper.logSevere("Error while connecting to CommandsEX database, disabling plugin...");
+                pm.disablePlugin(this);
+            }
+            
+            cmdManger = new CommandManager();
+            evntManager = new EventManager();
             cmdManger.registerCommands();
             evntManager.registerEvents();
             
@@ -60,9 +91,9 @@ public class CommandsEX extends JavaPlugin {
                 e.printStackTrace();
             }
             
-            LogHelper.logMessage("CommandsEX was successfully enabled without any errors");
+            LogHelper.addToEventLog("CommandsEX was successfully enabled without any errors");
         } catch (Exception e){
-            LogHelper.logException(e);
+            LogHelper.addExceptionToEventLog(e);
         }
     }
 

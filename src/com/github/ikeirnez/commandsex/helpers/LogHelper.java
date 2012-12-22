@@ -17,8 +17,8 @@ public class LogHelper {
      * Logs a message to the EventLog, will not be printed to console, with level INFO
      * @param message The message to record to the EventLog
      */
-    public static void logMessage(String message){
-        logMessage(message, false);
+    public static void addToEventLog(String message){
+        addToEventLog(message, false);
     }
     
     /**
@@ -26,8 +26,8 @@ public class LogHelper {
      * @param message The message to record to the EventLog
      * @param print Should we print the message to the console?
      */
-    public static void logMessage(String message, boolean print){
-        logMessage(message, print, Level.INFO);
+    public static void addToEventLog(String message, boolean print){
+        addToEventLog(message, print, Level.INFO);
     }
 
     /**
@@ -36,7 +36,7 @@ public class LogHelper {
      * @param print Should we print the message to the console?
      * @param level What level should we alert the user at?
      */
-    public static void logMessage(String message, boolean print, Level level){
+    public static void addToEventLog(String message, boolean print, Level level){
         if (print){
             logger.log(level, message);
         }
@@ -48,8 +48,8 @@ public class LogHelper {
      * Logs an exception to the EventLog, while printing it to the console
      * @param e The exception
      */
-    public static void logException(Exception e){
-        logException(e, true);
+    public static void addExceptionToEventLog(Exception e){
+        addExceptionToEventLog(e, true);
     }
     
     /**
@@ -57,7 +57,7 @@ public class LogHelper {
      * @param e The exception
      * @param print Should we print the exception to the console?
      */
-    public static void logException(Exception e, boolean print){
+    public static void addExceptionToEventLog(Exception e, boolean print){
         Throwable throwable = e.getCause();
         
         if (throwable != null){
@@ -80,6 +80,30 @@ public class LogHelper {
             
             EventLog.addToLog(message);
         }
+    }
+    
+    /**
+     * Log a message with level INFO
+     * @param message The message to log
+     */
+    public static void logInfo(String message){
+        logger.log(Level.INFO, message);
+    }
+    
+    /**
+     * Log a message with level WARNING
+     * @param message The message to log
+     */
+    public static void logWarning(String message){
+        logger.log(Level.WARNING, message);
+    }
+    
+    /**
+     * Log a message with level SEVERE
+     * @param message The message to log
+     */
+    public static void logSevere(String message){
+        logger.log(Level.SEVERE, message);
     }
 
 }
