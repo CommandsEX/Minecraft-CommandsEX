@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -99,12 +101,26 @@ public class Language {
 
     /**
      * Gets the user's (player's) language
+     * Returns null if the player does not have a language set (possibly never joined server)
+     * 
      * @param user The user (player) to get the language for
      * @return The current language of the user
      */
     public static String getUserLanguage(String user){
-        // TODO get this to work, requires language database
-        return "";
+        ResultSet rs = CommandsEX.database.query_res("SELECT lang FROM %prefix%userlangs WHERE user = ?", user);
+        String lang = null;
+        
+        try {
+            if (rs.next()){
+                lang = rs.getString("lang");
+            }
+            
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return lang;
     }
 
     /**
