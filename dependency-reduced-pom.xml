@@ -28,14 +28,36 @@
             <configuration />
           </execution>
         </executions>
-        <configuration />
+        <configuration>
+          <artifactSet>
+            <includes>
+              <include>org.mcstats:metrics</include>
+              <include>org.reflections:reflections</include>
+              <include>javassist:javassist</include>
+            </includes>
+          </artifactSet>
+          <relocations>
+            <relocation>
+              <pattern>org.reflections</pattern>
+              <shadedPattern>com.github.ikeirnez.commandsex.libs.org.reflections</shadedPattern>
+            </relocation>
+            <relocation>
+              <pattern>org.mcstats</pattern>
+              <shadedPattern>com.github.ikeirnez.commandsex.libs.org.mcstats</shadedPattern>
+            </relocation>
+            <relocation>
+              <pattern>javassist</pattern>
+              <shadedPattern>com.github.ikeirnez.commandsex.libs.javassist</shadedPattern>
+            </relocation>
+          </relocations>
+        </configuration>
       </plugin>
     </plugins>
   </build>
   <repositories>
     <repository>
       <id>Bukkit Repo</id>
-      <url>http://repo.bukkit.org/content/repositories/snapshots/</url>
+      <url>http://repo.bukkit.org/content/repositories/public/</url>
     </repository>
     <repository>
       <id>Plugin Metrics</id>
@@ -44,16 +66,17 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>craftbukkit</artifactId>
-      <version>1.4.5-R0.3-SNAPSHOT</version>
-      <scope>provided</scope>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-shade-plugin</artifactId>
+      <version>2.0</version>
+      <type>maven-plugin</type>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.4.5-R0.3-SNAPSHOT</version>
-      <scope>provided</scope>
+      <artifactId>craftbukkit</artifactId>
+      <version>1.4.6-R0.2-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
