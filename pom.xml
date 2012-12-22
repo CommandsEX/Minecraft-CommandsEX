@@ -17,6 +17,18 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<finalName>${project.artifactId}-${project.version}</finalName>
+		<resources>
+			<resource>
+				<targetPath>.</targetPath>
+				<filtering>false</filtering>
+				<directory>${basedir}/resources</directory>
+				<includes>
+					<include>plugin.yml</include>
+					<include>config.yml</include>
+					<include>defaultLang.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -44,13 +56,13 @@
 							<shadedPattern>com.github.ikeirnez.commandsex.libs.org.reflections</shadedPattern>
 						</relocation>
 						<relocation>
-                            <pattern>org.mcstats</pattern>
-                            <shadedPattern>com.github.ikeirnez.commandsex.libs.org.mcstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>javassist</pattern>
-                            <shadedPattern>com.github.ikeirnez.commandsex.libs.javassist</shadedPattern>
-                        </relocation>
+							<pattern>org.mcstats</pattern>
+							<shadedPattern>com.github.ikeirnez.commandsex.libs.org.mcstats</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>javassist</pattern>
+							<shadedPattern>com.github.ikeirnez.commandsex.libs.javassist</shadedPattern>
+						</relocation>
 					</relocations>
 				</configuration>
 				<executions>
