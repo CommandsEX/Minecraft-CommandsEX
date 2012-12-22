@@ -56,23 +56,23 @@ public class Language {
     }
     
     public static String getTranslationForLanguage(String language, Object...args){
-        
+        return "";
     }
     
     public static String getUserLanguage(String user){
-        
+        return "";
     }
     
     public static String getDefaultLanguage(){
-        
+        return "";
     }
     
     public static Properties getLanguage(String lang){
-        
+        return null;
     }
     
     public static String[] getAvailableLanguages(){
-        
+        return new String[] {};
     }
     
 }
