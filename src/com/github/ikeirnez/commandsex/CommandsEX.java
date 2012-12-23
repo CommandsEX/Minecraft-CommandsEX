@@ -25,6 +25,7 @@ public class CommandsEX extends JavaPlugin {
     public static CommandManager cmdManger;
     public static EventManager evntManager;
     public static Database database;
+    public static PluginManager pluginManager;
 
     public void onEnable(){
         plugin = this;
@@ -33,12 +34,12 @@ public class CommandsEX extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
 
-        PluginManager pm = getServer().getPluginManager();
+        pluginManager = getServer().getPluginManager();
 
         if (!(Bukkit.getServer() instanceof CraftServer)){
             logger.log(Level.WARNING, "Unfortunately CommandsEX is not compatible with custom CraftBukkit builds");
             logger.log(Level.WARNING, "Please alert the developers of your CraftBukkit build and we may add support for it!");
-            pm.disablePlugin(this);
+            pluginManager.disablePlugin(this);
             return;
         }
 
@@ -56,7 +57,7 @@ public class CommandsEX extends JavaPlugin {
                 break;
             default : 
                 LogHelper.logSevere("Incorrect database type, disabling plugin...");
-                pm.disablePlugin(this);
+                pluginManager.disablePlugin(this);
                 break;
             }
 
@@ -67,7 +68,7 @@ public class CommandsEX extends JavaPlugin {
         } catch (Exception e){
             e.printStackTrace();
             LogHelper.logSevere("Error while connecting to CommandsEX database, disabling plugin...");
-            pm.disablePlugin(this);
+            pluginManager.disablePlugin(this);
         }
 
         cmdManger = new CommandManager();

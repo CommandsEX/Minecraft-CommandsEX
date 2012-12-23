@@ -11,15 +11,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.HackedCommand;
 import com.github.ikeirnez.commandsex.api.ICommand;
 import com.github.ikeirnez.commandsex.handlers.Meteor;
 
-public class Command_cex_meteor implements ICommand {
+public class Command_meteor implements ICommand {
 	private Random rand = new Random();
 
-	@Override public HackedCommand init(CommandsEX cex, FileConfiguration config) {
-		return new HackedCommand("cex_meteor", "Shoots a meteor where the player is looking.", "", new String[] {"meteor"});
+	@Override public void init(CommandsEX cex, FileConfiguration config) {
+	    
 	}
 
 	@Override public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex, FileConfiguration config) {

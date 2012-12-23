@@ -1,6 +1,6 @@
 package com.github.ikeirnez.commandsex.helpers;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
@@ -9,14 +9,8 @@ public class Utils {
         return s.matches("(-)?(\\d){1,10}(\\.(\\d){1,10})?");
     }
     
-    public static List<String> stringArrayToList(String[] array){
-        List<String> list = new ArrayList<String>();
-        
-        for (String s : array){
-            list.add(s);
-        }
-        
-        return list;
+    public static List<String> separateCommaList(String s){
+        return Arrays.asList(s.split("\\s*,\\s*"));
     }
     
 }

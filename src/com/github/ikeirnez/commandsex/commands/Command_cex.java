@@ -5,13 +5,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.HackedCommand;
+import com.github.ikeirnez.commandsex.api.ACommand;
 import com.github.ikeirnez.commandsex.api.ICommand;
 
+@ACommand(command = "cex", description = "Displays information about CommandsEX", aliases = "cex_about, cex_info")
 public class Command_cex implements ICommand {
 
-    public HackedCommand init(CommandsEX cex, FileConfiguration config) {
-        return new HackedCommand("cex", "Displays info about CommandsEX", "", new String[] {});
+    public void init(CommandsEX cex, FileConfiguration config) {
+        
     }
 
     public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex, FileConfiguration config) {

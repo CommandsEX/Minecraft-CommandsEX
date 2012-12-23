@@ -11,19 +11,22 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.ikeirnez.commandsex.CommandsEX;
-import com.github.ikeirnez.commandsex.HackedCommand;
+import com.github.ikeirnez.commandsex.api.ACommand;
 import com.github.ikeirnez.commandsex.api.ICommand;
 import com.github.ikeirnez.commandsex.helpers.Utils;
 
-public class Command_cex_discodog implements ICommand {
+@ACommand(description = "Changes a dogs collar color at a set interval", command = "discodog")
+public class Command_discodog implements ICommand {
 
     private HashMap<Integer, DyeColor> discoDogging = new HashMap<Integer, DyeColor>();
     
-    public HackedCommand init(CommandsEX cex, FileConfiguration config) {
-        return new HackedCommand("cex_discodog", "DISCODOG", "", new String[] {"discodog"});
+    public void init(CommandsEX cex, FileConfiguration config) {
+        CommandsEX.pluginManager.addPermission(new Permission("cex.discodog", "Allows access to /discodog", PermissionDefault.OP));
     }
 
     public boolean run(CommandSender sender, String[] args, String alias, CommandsEX cex, FileConfiguration config) {
@@ -49,6 +52,7 @@ public class Command_cex_discodog implements ICommand {
         for (Entity en : p.getNearbyEntities(5, 5, 5)){
             if (en.getType() == EntityType.WOLF){
                 e = en;
+                break;
             }
         }
         
