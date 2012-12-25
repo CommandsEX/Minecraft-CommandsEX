@@ -11,6 +11,7 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.craftbukkit.v1_4_6.CraftServer;
 import org.reflections.Reflections;
 
+import com.github.ikeirnez.commandsex.CommandsEX;
 import com.github.ikeirnez.commandsex.HackedCommand;
 import com.github.ikeirnez.commandsex.api.ACommand;
 import com.github.ikeirnez.commandsex.api.ICommand;
@@ -48,6 +49,7 @@ public class CommandManager {
             
             if (anno != null){
                 ACommand aCmd = (ACommand) anno;
+                
                 List<String> aliases = new ArrayList<String>();
                 aliases.add("cex_" + aCmd.command());
                 
@@ -58,6 +60,14 @@ public class CommandManager {
                 HackedCommand hackCmd = new HackedCommand(aCmd.command(), aCmd.description(), "/<command> " + aCmd.usage().trim(), aliases);
                 cmap.register("", hackCmd);
                 hackCmd.setExecutor(new CommandExe());
+                
+                try {
+                    ICommand iCmd = (ICommand) clazz.newInstance();
+                    iCmd.init(CommandsEX.plugin, CommandsEX.config);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    LogHelper.logSevere("Error while running init() method for class " + clazz.getName());
+                }
                 
                 ret++;
             } else {

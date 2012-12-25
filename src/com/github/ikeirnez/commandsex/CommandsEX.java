@@ -100,5 +100,4 @@ public class CommandsEX extends JavaPlugin {
     public void onDisable(){
         database.close();
     }
-
 }

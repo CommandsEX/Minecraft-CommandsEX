@@ -31,7 +31,7 @@ public class Command_meteor implements ICommand {
         Location target = targets.get(1).getLocation();
         target = player.getLocation();//TODO removed after test
         
-        new Meteor(findMeteorSpawn(target), target);//RODO arguments for explosion size
+        new Meteor(findMeteorSpawn(target), target);//TODO arguments for explosion size
         sender.sendMessage(ChatColor.GREEN + "Meteor successfully fired at your crosshair location");
         return true;
 	}
