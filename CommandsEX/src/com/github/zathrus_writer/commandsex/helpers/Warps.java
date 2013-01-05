@@ -3,6 +3,7 @@ package com.github.zathrus_writer.commandsex.helpers;
 import static com.github.zathrus_writer.commandsex.Language._;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,6 +129,17 @@ public class Warps {
 							|| args[1].equalsIgnoreCase("help") || args[1].equalsIgnoreCase("delete")){
 						LogHelper.showInfo("warpCannotUseThatName", sender, ChatColor.RED);
 						return true;
+					}
+					
+					try {
+					    ResultSet rs = SQLManager.query_res("SELECT warp_name FROM " + SQLManager.prefix + "warps WHERE warp_name = ?", args[1]);
+					    if (rs.next()){
+					        LogHelper.showWarning("warpExists", sender);
+					        return false;
+					    }
+					} catch (SQLException e){
+					    e.printStackTrace();
+					    return false;
 					}
 
 					Location l = player.getLocation();
