@@ -44,7 +44,7 @@ public class Command_cex_enderchest {
 			target = Bukkit.getPlayer(args[0]);
 			
 			if (target == null){
-				target = Utils.getOfflinePlayer(args[0]);
+				target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
 				if (target == null){
 					LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 					return true;

@@ -9,7 +9,6 @@ import org.bukkit.inventory.Inventory;
 import com.github.zathrus_writer.commandsex.helpers.Commands;
 import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import com.github.zathrus_writer.commandsex.helpers.Nicknames;
-import com.github.zathrus_writer.commandsex.helpers.Utils;
 
 public class Command_cex_invsee {
 
@@ -29,7 +28,7 @@ public class Command_cex_invsee {
 		Player player = (Player) sender;
 		
 		if (target == null){
-			target = Utils.getOfflinePlayer(args[0]);
+			target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
 			if (target == null){
 				target = Bukkit.getPlayer(args[0]);
 				if (target == null){

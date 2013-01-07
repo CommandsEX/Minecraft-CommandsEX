@@ -1,7 +1,6 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -304,43 +303,6 @@ public class Utils {
 	public static String userFriendlyNames(String name){
 		String formattedName = WordUtils.capitalize(name.replaceAll("_", " ").toLowerCase());
 		return formattedName;
-	}
-	
-	/***
-	 * Allows you to use functions for an offline player like they where an online player
-	 * By creating a fake entity
-	 * 
-	 * This method will break with every single minecraft update thanks to a recent commit
-	 * All version numbers in packages will have to be changed.
-	 * 
-	 * @param player
-	 * @return
-	 */
-	public static Player getOfflinePlayer(String player) {
-		Player player2 = Bukkit.getPlayerExact(player);
-		
-		if (player2 == null){
-			try {
-				File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
-				for (File playerfile : playerfolder.listFiles()) {
-					String filename = playerfile.getName();
-					String playername = filename.substring(0, filename.length() - 4);
-
-					if (playername.trim().equalsIgnoreCase(player)) {
-						final net.minecraft.server.v1_4_6.MinecraftServer server = ((org.bukkit.craftbukkit.v1_4_6.CraftServer) CommandsEX.plugin.getServer()).getServer();
-						final net.minecraft.server.v1_4_6.EntityPlayer entity = new net.minecraft.server.v1_4_6.EntityPlayer(server, server.getWorldServer(0), playername, new net.minecraft.server.v1_4_6.PlayerInteractManager(server.getWorldServer(0)));
-						player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
-						if (player2 != null) {
-							player2.loadData();
-						} else {
-							return null;
-						}
-					}
-				}
-			} catch (final Exception e) {}
-		}
-		
-		return player2;
 	}
 	
 	/***
