@@ -1,6 +1,7 @@
 package com.github.zathrus_writer.commandsex.helpers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -75,7 +76,7 @@ public class Utils {
 	/**
 	* Method to join list elements of type string
 	* @author Hendrik Will, imwill.com, updated by Zathrus_Writer
-	* @param inputArray List<String> which contains strings
+	* @param listInputArray List<String> which contains strings
 	* @param glueString String between each array element
 	* @return String containing all array elements seperated by glue string
 	*/
@@ -88,7 +89,7 @@ public class Utils {
 	/***
 	 * Checks if the given commandName was not executed within last minTimeout[0] seconds by given playerName.
 	 * Returns true if the player tried to spam command too frequently, false otherwise.
-	 * @param playerName
+	 * @param player
 	 * @param commandName
 	 * @param minTimeout
 	 * @return
@@ -502,5 +503,41 @@ public class Utils {
 		
 		return toReturn;
 	}
-	
+
+    /**
+     * Allows you to use functions for an offline player like they where an online player
+     * By creating a fake entity
+     *
+     * This method will break with every single minecraft update thanks to a recent commit
+     * All version numbers in packages will have to be changed.
+     *
+     * @param player
+     * @return
+     */
+    public static Player getOfflinePlayer(String player) {
+        Player player2 = Bukkit.getPlayerExact(player);
+
+        if (player2 == null){
+            try {
+                File playerfolder = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "players");
+                for (File playerfile : playerfolder.listFiles()) {
+                    String filename = playerfile.getName();
+                    String playername = filename.substring(0, filename.length() - 4);
+
+                    if (playername.trim().equalsIgnoreCase(player)) {
+                        final net.minecraft.server.v1_4_R1.MinecraftServer server = ((org.bukkit.craftbukkit.v1_4_R1.CraftServer) CommandsEX.plugin.getServer()).getServer();
+                        final net.minecraft.server.v1_4_R1.EntityPlayer entity = new net.minecraft.server.v1_4_R1.EntityPlayer(server, server.getWorldServer(0), playername, new net.minecraft.server.v1_4_R1.PlayerInteractManager(server.getWorldServer(0)));
+                        player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
+                        if (player2 != null) {
+                            player2.loadData();
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+            } catch (final Exception e) {}
+        }
+
+        return player2;
+    }
 }

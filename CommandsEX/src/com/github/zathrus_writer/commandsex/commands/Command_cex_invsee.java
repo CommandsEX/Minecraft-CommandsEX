@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import com.github.zathrus_writer.commandsex.helpers.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -28,9 +29,9 @@ public class Command_cex_invsee {
 		Player player = (Player) sender;
 		
 		if (target == null){
-			target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
+			target = Bukkit.getPlayer(args[0]);
 			if (target == null){
-				target = Bukkit.getPlayer(args[0]);
+				target = Utils.getOfflinePlayer(args[0]);
 				if (target == null){
 					LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
 					return true;
