@@ -10,7 +10,7 @@ public class Handler_email {
 	public static boolean classpathAdded = false;
 	
 	public Handler_email(){
-		File f = new File(CommandsEX.plugin.getDataFolder() + "/mail.jar");
+		File f = new File(CommandsEX.plugin.getDataFolder() + "/commons-email-1.2.jar");
 
 		if (!f.exists()){
 			return;
