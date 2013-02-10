@@ -83,7 +83,7 @@ public class Common implements Listener {
     		if (!Common.slappedPlayers.contains(pName)) return;
     		try {
 	    		// restore player's original position
-				p.teleport(Common.slappedLastLocations.get(pName));
+				p.teleport(Common.slappedLastLocations.get(pName), PlayerTeleportEvent.TeleportCause.PLUGIN);
 				LogHelper.showInfo("playerSlapReturned", p);
     		} catch (Throwable e) {
     			// player might log out, so our teleport request may fail with error, which can be safely ignored here
@@ -568,7 +568,7 @@ public class Common implements Listener {
 	public void slapPlayerQuit(PlayerQuitEvent e){
 		Player p = e.getPlayer();
 		if (slappedPlayers.contains(p.getName())){
-			p.teleport(slappedLastLocations.get(p.getName()));
+			p.teleport(slappedLastLocations.get(p.getName()), PlayerTeleportEvent.TeleportCause.PLUGIN);
 			
 			slappedLastLocations.remove(p.getName());
 			slappedPlayers.remove(p.getName());
@@ -708,7 +708,7 @@ public class Common implements Listener {
 			}
 			
 			// restore player's original position
-			p.teleport(slappedLastLocations.get(pName));
+			p.teleport(slappedLastLocations.get(pName), PlayerTeleportEvent.TeleportCause.PLUGIN);
 			
 			// remove records
 			slappedPlayers.remove(pName);
