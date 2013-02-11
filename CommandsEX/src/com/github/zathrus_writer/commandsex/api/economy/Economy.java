@@ -124,7 +124,7 @@ public class Economy {
 	/**
 	 * Creates an account for a player with a custom balance
 	 * @param player The player to create the account for
-	 * @param amount The amount the player should have
+	 * @param initialAmount The amount the player should have
 	 */
 	
 	public static void createAccount(String player, double initialAmount){
