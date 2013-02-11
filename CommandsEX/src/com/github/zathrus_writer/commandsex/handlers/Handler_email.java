@@ -7,19 +7,19 @@ import com.github.zathrus_writer.commandsex.helpers.ClasspathHacker;
 
 public class Handler_email {
 
+    public static File emailLibraryFile = new File(CommandsEX.plugin.getDataFolder(), "commons-email-1.2.jar");
 	public static boolean classpathAdded = false;
 	
 	public Handler_email(){
-		File f = new File(CommandsEX.plugin.getDataFolder() + "/commons-email-1.2.jar");
-
-		if (!f.exists()){
+		if (!emailLibraryFile.exists()){
 			return;
 		}
 
 		try {
-			ClasspathHacker.addFile(f);
+			ClasspathHacker.addFile(emailLibraryFile);
 			classpathAdded = true;
 		} catch (Exception e){
+            e.printStackTrace();
 		}
 	}
 	

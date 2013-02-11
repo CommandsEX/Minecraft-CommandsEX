@@ -28,9 +28,7 @@ public class Command_cex_email {
 			return true;
 		}
 		
-		File jar = new File(CommandsEX.plugin.getDataFolder() + "/commons-email-1.2.jar");
-		
-		if (!jar.exists()){
+		if (!Handler_email.emailLibraryFile.exists()){
 			LogHelper.showWarning("emailNoJar", sender);
 			return true;
 		}
