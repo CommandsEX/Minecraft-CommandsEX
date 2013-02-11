@@ -1,0 +1,544 @@
+Key:
++ = Addition
+- = Removal
+@ = Change
+* = Bug fix
+~ = New bug
+# = Note
+
+Release 2.1
+-----------
+
+# CraftBukkit 1.4.6 support
+
+* fixed creation of warps when a warp of that name already exists
+
+Release 2.00
+------------
+
++ added the long awaited Economy Support, with Vault integration!
++ added AFK support, players can go AFK by using /afk or automatically by staying idle
++ added AFK Auto-Kick, players who stay idle too long are kicked
++ added auto link shortening and /shorten command
++ added /sudo command, execute a command as another player
++ added /csudo command, chat as another player
++ added some basic command signs
+
++ added complete message sending API, including events
++ added complete Economy API and did some cleanup of the Economy code
++ added complete AFK API
+
+- removed the shutdown custom kick message feature, this was broken and replaced by a feature in CraftBukkit
+
+@ /balance will now display your balance with two decimal places
+@ /broadcast is now executable from the console
+@ renamed Economy class to Econ in favor of Economy API
+
+* fixed string collecting in /r
+* fixed /message and /r inheriting colors from a players Nickname
+* fixed NPE when a block ignite's and a player is frozen
+* fixed error when setting a TAB list name longer than 16 characters
+* fixed any player being able to set the time without the permission node
+* fixed /whois giving an NPE when Nicknames functionality is disabled
+* fixed NPE when a player joins
+* fixed 2 players using the same nickname and causing errors
+* fixed NPE when a player is damaged
+
+# new perm cex.economy
+# new perm cex.economy.balance
+# new perm cex.economy.others
+# new perm cex.economy.spawn
+# new perm cex.economy.pay
+# new perm cex.economy.take
+# new perm cex.economy.request
+# new perm cex.economy.request.accept
+# new perm cex.economy.request.deny
+# new perm cex.economy.purge
+# new perm cex.economy.save
+# new perm cex.economy.clear
+# new perm cex.afk
+# new perm cex.afk.auto
+# new perm cex.afk.kick
+# new perm cex.sign.create.balance
+# new perm cex.sign.create.pay
+# new perm cex.sign.create.item
+# new perm cex.sign.use.balance
+# new perm cex.sign.use.pay
+# new perm cex.sign.use.item
+# new perm cex.cmdu
+# new perm cex.shorten
+# new perm cex.shorten.auto
+# new perm cex.csudo
+
+Beta 1.98
+---------
+
+@ Setting the spawn location now works without a Database, however yaw and pitch's will not be saved without a database
+
+* fixed join condensing throwing an NPE with null join/quit messages
+
+Beta 1.97
+-----------
+
++ added a CommandBook converter, currently it will convert Homes and Warps
++ added command /fireball, like a ghast
+
+- removed sk language from default config as we no longer have that translation
+
+@ Condensed Joins and /online now also check to see if a player is invisible with VanishNoPacket
+
+* fixed some issues while going invisible with VanishNoPacket disabled
+
+Beta 1.96
+---------
+
++ added spawning api
+
+@ moved argument collecting to Utils
+@ rewrote /time command
+@ rewrote /ptime command
+@ updated the UpdateAlerter class
+@ version updates are now reported correctly
+
+* fixed tpaccept messages
+* fixed economy and timed promotions when used with promoteTime
+* fixed NPE in Spawning
+* fixed sending join and quit messages when another plugin has cancelled them
+
+# removed perm cex.ptime.set
+
+# new perm cex.ptime.others
+
+Beta 1.95
+---------
+
++ began work on an API for other plugins to use
++ added command /nametag to change your nametag/skin, TagAPI required
++ added command /workbench to open a virtual workbench
++ added command /enchantingtable to open a virtual enchanting table
++ added command /email, email any email address from within Minecraft
++ added command /message and /reply, send a private message to any player
++ added command /amessage, send an anonymous message to a player
++ added command /tpworld, teleport to any worlds spawn
++ added a feature to allow players with the permission "cex.joinfull" to join even when the server is full
+
+@ updated the UpdateAlerter to h31ix's version
+@ added promoteSet to the config, this will set a players group on promote rather than add
+@ world spawns are now stored in the database and so the spawns.yml file in the database is no longer of use
+
+* fixed a bug allowing any player to teleport to anyones home
+* fixed teleporting messages reporting incorrect players
+* fixed fake join and leave messages when using /inv
+* fixed ClassNotFoundException when using tp commands
+* fixed Nicknames and Database when CommandsEX is disabled
+* fixed chat spy messages being sent if the reciever is offline or is the sender of the command
+* fixed some minor bugs with string -> item matching
+
+# version formatting has changed slightly
+# replaced perm cex.update.announce with cex.update.alert
+
+# new perm cex.nametag
+# new perm cex.nametag.color
+# new perm cex.nametag.others
+# new perm cex.workbench
+# new perm cex.workbench.others
+# new perm cex.enchantingtable
+# new perm cex.enchantingtable.others
+# new perm cex.joinfull
+# new perm cex.message
+# new perm cex.amessage
+
+# new config node promoteSet
+# new config node aMessagePrefix
+
+Beta 1.90
+---------
+# support for CraftBukkit 1.3.1 RB R2.0
+
++ added command /enchant for all enchanting needs
++ added command /seed to show the seed of any world, even from the console
++ added command /nick to set a players nickname
++ added command /whois to find out the username behind a nickname
++ added command /enderchest to open a players Ender Chest
++ added AutoSave functionality to auto-save players, worlds & nicknames
++ added VanishNoPacket support, if a player does /inv when VanishNoPacket is installed VanishNoPacket will be used instead
++ added function to keep inventories, experience and armor
++ when a temp/perm banned player tries to join they will recieve information such as who banned them, why and how long their ban has left (if applicable)
++ players with permission can now teleport other players to any warp they have permission to
++ the warp command now has support for per-warp permissions
++ the spawn command can now be used to teleport other players to the global/per world spawn
+
+@ merged functions from /item and /give into one class file, this will make it easier to change them in the future
+@ /give and /item command now works the vanilla way too (/give iKeirNez 90 5 2) meaning you won't have to edit TooManyItem's settings if you use that
+@ /time command can now be used from the console and multiple worlds
+@ if an invisible player accepts a tp request while invisible, the requesting player will not be notified
+
+* fixed tones of tiny bugs everywhere by using the FindBugs plugin for Eclipse
+* fixed delayed removals of /back locations
+* fixed 2 bugs in /butcher command
+* fixed message when being notified that someone has used /burn on you
+* fixed some bad code in /clear command
+* fixed /inv not working if fakeJoin and/or fakeLeave messages are disabled
+* fixed seeJoins and seeLeaves permission nodes being ignored when sending fakeJoins and fakeLeaves with /inv when Condense Joins is disabled
+* fixed single join and leave messages not appearing in the correct language
+* fixed some teleport messages
+* fixed some bad code in /repair
+* fixed invisible players showing in the /tpaall count
+* fixed some bad code in /ownerstatus
+* fixed some bad code in unmuting
+* fixed XMPP join messages being re-relayed through XMPP
+* fixed join and quit colors
+* fixed broken Minecraft -> XMPP chat
+* fixed all MySQL databases
+
+# new perm cex.warp.others
+# new perm cex.warp.*
+# new perm cex.spawn.others
+# new perm cex.seed
+# new perm cex.whois
+# new perm cex.whois.ip
+# new perm cex.enderchest
+# new perm cex.enderchest.others
+# new perm cex.death.keep
+# new perm cex.death.keep.*
+# new perm cex.death.keep.inventory
+# new perm cex.death.keep.inventory.*
+# new perm cex.death.keep.inventory.<block>
+# new perm cex.death.keep.armor
+# new perm cex.death.keep.armor.*
+# new perm cex.death.keep.armor.helmet
+# new perm cex.death.keep.armor.chestplate
+# new perm cex.death.keep.armor.leggings
+# new perm cex.death.keep.armor.boots
+# new perm cex.death.keep.xp
+# new perm cex.enchant
+# new perm cex.enchant.*
+# new perm cex.enchant.<enchantment name>
+# new perm cex.enchant.all
+# new perm cex.enchant.remove
+# new perm cex.enchant.clear
+
+Beta 1.85
+---------
+# support for CraftBukkit 1.3.1 RB
+
++ added /cannonall to cannon all online players
++ added /butcher command to kill nearby mobs
+
+@ spawning items now work better, item names now spawn what you would expect them to
+@ completely rewrote the /gm command
+@ minor performance tweaks
+@ all chat related functions now use Asynchonous Chat
+@ added doubleslab to Material matching
+@ added a config option to select whether to use a global spawn or a per world spawn
+@ changed ticket link in /cex to github
+
+* fixed experience setting, adding and taking for 1.3.1
+
+# new perm cex.gamemode
+# new perm cex.gamemode.others
+# new perm cex.cannon.all
+# new perm cex.butcher
+
+# removed perm cex.gm.self
+
+Beta 1.80a
+----------
+
+* fixed ClassNotFoundExceptions when using a tpa command
+
+Beta 1.80
+---------
+
+@ updated to support CraftBukkit R5.0
+
++ /burn [player] [seconds], command to burn a player for a certain amount of time
++ /invsee <player>, opens a players inventory and allows editing
++ /tpaall, sends a teleport request to all online players
++ players can now create signs and use color codes to format them
+
+@ /cannon now works for entities like TNT and items!
+@ /item and /give now work for color damage values with wool, /give iKeirNez wool:red
+@ /mob command was completely rewritten and now has support for things like /mob chicken:baby or /mob sheep:red and even /mob wolf:angry
+@ leave messages now send before join messages to avoid confusion
+@ changed some incorrect death messages
+@ smoke now appears when a player teleports
+
+* fixed OPs not having access to all commands, like /time set
+* improved the Update Alerter, it can now cleverly tell the difference between Alpha 1.75a and Beta 1.75b and such like
+* fixed warping to worlds that no longer exist
+* fixed teleporting to homes where the world no longer exists
+* fixed a NullPointerException when a player dies and there is no death group configuration
+* fixed a potencial NullPointerException with Explosion handling
+* fixed join messages being sent if the player is invisible, joins the server and then turns invisibility off
+* fixed PvP and Entity Attacks conflicting with each other in Death Messages resulting in an NPE.
+
+# new perm cex.burn
+# new perm cex.burn.others
+# new perm cex.invsee
+# new perm cex.tpa.all
+
+Beta 1.76
+---------
+* fixed update alerter, no longer alerts you of a new update when BukGet is out of sync
+
+Beta 1.75
+---------
+HAPPY 5000th BUKKITDEV DOWNLOAD DAY, yeah we couldn't do every milestone inbetween as there are so many, thanks guys!
+
+- added PluginMetrics support to see usage stats for CommandsEx, http://mcstats.org/plugin/CommandsEX, you can opt out via the config file, metricsOptOut. But it would be nice if you kept metrics enabled
+- added plugin load time in console, Shows up as "CommandsEx Load Time: <0ms>", configurable in config, startupTimer - Thanks http://forums.bukkit.org/threads/test-your-plugins-load-time.58226/
+- added plugin update support
+
+- new command /blind, Blinds a player or yourself!
+- new command /nanosuit, info about NanoSuit
+- new command /spawner, sets the type of spawner you are looking at
+- new command /fly, allows you to fly without creative mode
+- new command /ptime, sets a players time
+- new command /xp for all your experience needs, thanks to desht on the bukkit forums for the amazing Experience Manager http://forums.bukkit.org/threads/experiencemanager-was-experienceutils-make-giving-taking-exp-a-bit-more-intuitive.54450/
+- new command /pinfo, shows information about a player including ip address, coordinates, armor (and armor enchantments)
+- new command /cannon, to replace /kittycannon, allows the player to fire a mob.
+
+- improved /tpa commands with a confirmation message "Teleport Request Accepted"
+- improved the calculator command, should now be more efficient and less code
+- improved some XMPP error messages slightly
+- improved NanoSuit commands when NanoSuit is not activated.
+- improved /platform command, you now must have permission to use a custom block type as a platform
+- improved /mob command, added a limit and a bypass node plus some more minor tweaks
+- improved /time command, it can now show the current time via /time view
+- improved debug mode, it will now print stack traces when an error occurs and debug mode is active
+- improved /broadcast, will no longer announce the senders name and also supports colors :D
+- improved /cex, will now show information and version.
+- improved kittycannon, it is now /cannon and allows you to fire any kind of mob.
+- improved /online, now has an alias of /list and lists the amount of users online out of the maximum allowed
+- improved /online some more, now has more support for hidden users.
+- improved item spawning, if no amount is specified then the maximum stack size will be spawned instead.
+- improved time setting, /time set day now works :)
+- improved time viewing, now shows time in real time, e.g. 9:00 PM
+- improved player time viewing, now shows time in real time, e.g. 9:00 PM
+- improved /explode, now works without any arguments and an explosion strength can also be defined.
+- improved custom kick messages, no longer kicks all players when the server is reloaded
+- improved custom kick messages, can now be changed via the config
+- improved kicking and banning, fixed some bugs and kick messages now appear in red.
+
+- updated /cex config commands for the new config nodes
+
+- fixed removing armor with /ci when NanoSuit is active.
+- fixed double explosions with TNT Kamikaze (again)
+- fixed /back when player dies
+- fixed naming warps to create, delete, help etc
+- fixed some double spaces in warp messages
+- fixed /cex config set
+- fixed some issues with setting config values via commands
+- fixed /sethome not working
+- fixed NPE when using kit commands when none are defined
+- fixed /spawn taking you to the current players world rather than the default worlds spawn.
+
+- removed command /removehat, it was a useless command and had too many problems
+
+- changed explosion config nodes for explosion preventing (blockMobExplosionDamage, blockCreeperExplosions, blockTNTExplosions, blockFireballExplosions)
+- changed KittyCannonExplosionStrength to CannonExplosionStrength
+
+- new config node spawnMobLimit, sets a limit for the amount of mobs spawned via the /mob command
+
+- perm change cex.kittycannon is now cex.cannon
+
+- new perm cex.blind
+- new perm cex.blind.others
+- new perm cex.spawner
+- new perm cex.fly
+- new perm cex.fly.others
+- new perm cex.extinguish.others
+- new perm cex.platform.block.<block-id>
+- new perm cex.mob.spawn.bypasslimit
+- new perm cex.time
+- new perm cex.ptime
+- new perm cex.ptime.set
+- new perm cex.xp
+- new perm cex.xp.all
+- new perm cex.xp.view
+- new perm cex.xp.view.others
+- new perm cex.xp.set
+- new perm cex.xp.set.others
+- new perm cex.xp.give
+- new perm cex.xp.give.others
+- new perm cex.xp.take
+- new perm cex.xp.take.others
+- new perm cex.pinfo
+- new perm cex.pinfo.others
+- new perm cex.pinfo.others.ip
+- new perm cex.cannon
+
+Beta 1.70
+---------
+- Happy 1000th Bukkit Dev download day!
+
+- prep for /ownerstatus command
+
+- /tploc <X,Y,Z> no longer works, you must do /tploc <X> <Y> <Z> [player]
+
+- added /feed command to refill your food level
+- added /hat celebratory command to place block on head
+- added /calc command, a simple calculator with this syntax: /calc [add/subtract/divive/multiply/help] [number1] [number2]
+- added /clock command for a quick date/time. GMT/ENGLISH ONLY.
+- added /heal command
+- added /kickall command, supports custom kick reason
+- added /platform command
+- added /smelt command which will smelt the item in your hand without the need for a furnace
+- added /healall command to heal all players.
+- added /feedall command to feed all players
+- added /ext command to extinguish a player
+- added /give command to spawn items for other players
+- added /slapall command
+- added /warp delete synonym, /warp remove
+- added some /slap aliases, /launch /catapult
+
+- added secret 1000th download celebration command ;)
+- added options in the config to disable certain explosions
+- added support for recognition of weeks in /ban (and possibly other future) commands - you can now do /ban <Player> 2w
+- added an announcement for when a CommandsEX developer joins the game, can be turned off in the config.
+
+- improved XMPP by forwarding private messages to it
+- improved XMPP in General
+- improved condensing of joins and leaves, the plugin will now check every set amount of seconds for joins and leaves and display them to the server, set the time in the config at joinSilentTime
+- improved /tpall command, you can now make the whole server teleport to someone other than yourself, /tpall [player]
+- improved /tploc command, you can now teleport another player to a location
+- improved /item command, it now works very Essentials like, /item <item-name>:[damage-value] [amount]
+- improved /slap command, players are now launched into the air rather than teleported
+
+- fixed players still showing in the TAB list when invisible
+- fixed invisible players showing in /online
+- fixed death messages showing while a player is invisible
+- fixed an IndexOutOfBounds exception when an invisible player leaves the server
+- fixed NullPointerException when no quizzes exist
+- fixed clear inventory not clearing the last item in the hotbar
+- fixed setrank, remrank and balance commands when economy or permission plugin is not present
+- fixed Quizzes where one of the answers was purely numeric
+- fixed Quiz error when no valid reward was found
+- fixed errors on startup if XMPP is enabled but Smack is not found.
+- fixed no permission node for /item
+- fixed players blowing up from TNT Kamikaze if they already died from the tnt/fire explosion
+- fixed players logging out while being slapped
+
+- possibly fixed some issues with events
+
+- perm change, tpaccept and tpdeny are available to everyone by default
+
+- new perm cex.heal
+- new perm cex.heal.others
+- new perm cex.heal.all
+- new perm cex.all
+- new perm cex.feed
+- new perm cex.feed.others
+- new perm cex.feed.all
+- new perm cex.platform
+- new perm cex.tpall
+- new perm cex.online.hidden
+- new perm cex.kick.bypass
+- new perm cex.kick.all
+- new perm cex.smelt
+- new perm cex.extinguish
+- new perm cex.item
+- new perm cex.give
+- new perm cex.calculator
+- new perm cex.hat
+- new perm cex.slap.all
+
+Beta 1.60
+---------
+- added /balance command to check your balance easily
+- added /explode command to effectivelly kill a player and make a TNT-like mess around him :)
+- added /smite command to kill a player with lightning!
+- added /setrank and /setmyrank commands to assign groups to players
+- added /remrank and /remmyrank commands to remove players from groups
+- added a simple /info command, which will display message set up in config
+- added /motd command that will re-display the Message Of The Day to player
+- added more aliases to the /inv command, so it does no longer clash with inventory plugins
+- added bypass permission for bans (cex.bypass.ban), disallowing the banning of players with this permission (i.e. admins and staff)
+- added possibility to create Message of the Day (MOTD) per user group
+- homes, spawn and warps now remember pitch and yaw (e.g. where you look at) when you set them
+- messages to invisible players will end up as if they were undelivered to the sender
+- players going invisible players will optionally generate a fake quit message and a fake join message when they become visible again
+- invisible players will not appear in list of all players anymore (i.e. the TAB-list)
+- invisible player are now notified of their ongoing invisibility after joining the server
+- fixed unmuting of online player being case-sensitive (is case-insensitive now)
+- fixed XMPP join message bypass
+- fixed errors on player quitting when no Promotions (playtime or economy) are set
+- fixed errors on player join when no startup kits are defined
+- fixed muting of players when first player gets muted (he wasn't being muted first, only on 2nd try)
+- fixed last position saving for the /back command
+- reverted old configuration handling, since the new one did not work as expected
+
+Beta 1.55
+---------
+- fixed permission nodes for rain and storm commands (they are now cex.weather.rain and cex.weather.storm instead of cex.rain and cex.storm)
+- fixed URL leading to explanation about Chat Color Codes
+- fixed startup of CommandsEX, so it doesn't add all default values into config (like kits and such) every time it does not find it there... annoying internal Bukkit functionality :P
+- fixed error in invite and uninvite commands in homes
+- fixed on/off message for chat spying
+- fixed quiz errors for answers that were purely numeric
+- fixed description of kits and their permissions in the config file
+- optimized muting when there are no players muted anymore
+- added inv command, allowing players to go invisible
+- added keep-alive messages into XMPP (Jabber) chat bridge, so in case nobody is on the server for configurable amount of time, the bot will send a (ping) message to keep the connection alive
+- added join/leave notification bypass in XMPP (Jabber) chat bridge when a user enters the Jabber chat room (i.e. no join/leave message in MC chat)
+- added possibility to create kits that are automatically given to a player upon joining the server for the first time
+- added NanoSuit functionality! Equip a chainmail armor to blast away with super-natural-powers!
+- removed Slovak language translation... 2 reasons: translator is no longer available and nobody uses it
+
+Beta 1.50
+---------
+- fixed permissions in warp functionality that creates warps for other players
+- fix for message translations
+- fix for remaining frozen players check when using the /freeze command to unfreeze a player
+- added chat spying and /spy command
+- added option to turn off XAMPP (Jabber) if it's not being used
+- added quizzes. Yey! Now your players can expand their knowledge while enjoying the rewards you prepared for them :)
+- added broadcast command, allowing to broadcast message in similar way that /say command does it, but with your name instead of [Server]
+- added ping command, outputs PONG, useful for checking server lag
+- added item command
+- added clear command, clears out player inventory - either full inventory (including armor) or just quick bar, backpack or armor section
+- added suicide command
+- added gm command, allowing for game mode changes
+- added Message Of The Day (MOTD)
+- added weather and time commands
+- added kits
+- added mob spawning command
+- added god command
+- added chunk command that refreshes 5 chunks around a player to fix rendering errors
+- added slap command!
+- added possibility to change player's group upon death and execute a predefined command
+- fixed a stupid Builder page mistake where config.yml file was not being added into CommandsEX folder in the ZIP archive
+- all features on the Builder page are now unselected, so you can start choosing what you want instead of trashing everything you don't :)
+
+Beta 1.40
+---------
+- fixed permission checking for back, hyes and lang commands
+- fixed join/leave messages grouping message timeout
+- fixed builder page (plugin no longer generates errors when you enable XMPP Chat Relay)
+- added Vault support
+- added playtime-based rank changes
+- added money-based rank changes
+- added /playtime command to check how long did a player play on the server for
+- expanded warping to allow admins create warps for other players. These players can then warp to private warps prepared directly for them (but not delete or update those).
+- added missing configuration options into /cex config
+- added 2 excellent Select All and Deselect All options to the CommandsEX Builder page :-)
+- added links to Wiki pages to the CommandsEX Builder page
+
+
+Beta 1.36k
+----------
+- added the deadly TNT Kamikaze mode :-D
+
+Beta 1.36
+---------
+- added /jail and /setjail commands
+- fixed error for players leaving the server when no SQL database is being used
+- added missing language elements
+
+Beta 1.35
+---------
+- source code is no longer being stored in the plugin JAR file to save download bandwidth (it's still available on GitHub)
+- updated chat/console replacements code to reflect latest Commander code updates
+- added join/leave chat messages grouping support (would not work if other plugins ignore join/leave message being cancelled)
+- added XMPP (Jabber) chat relay (you can see what's being blabbered on your server in a Jabber room and vice-versa now)
