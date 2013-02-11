@@ -5,7 +5,6 @@ import java.io.File;
 import com.github.zathrus_writer.commandsex.CommandsEX;
 import com.github.zathrus_writer.commandsex.helpers.ClasspathHacker;
 
-
 public class Handler_email {
 
     public static File emailLibraryFile = new File(CommandsEX.plugin.getDataFolder(), "commons-email-1.2.jar");
