@@ -525,8 +525,8 @@ public class Utils {
                     String playername = filename.substring(0, filename.length() - 4);
 
                     if (playername.trim().equalsIgnoreCase(player)) {
-                        final net.minecraft.server.v1_4_R1.MinecraftServer server = ((org.bukkit.craftbukkit.v1_4_R1.CraftServer) CommandsEX.plugin.getServer()).getServer();
-                        final net.minecraft.server.v1_4_R1.EntityPlayer entity = new net.minecraft.server.v1_4_R1.EntityPlayer(server, server.getWorldServer(0), playername, new net.minecraft.server.v1_4_R1.PlayerInteractManager(server.getWorldServer(0)));
+                        final net.minecraft.server.v1_5_R1.MinecraftServer server = ((org.bukkit.craftbukkit.v1_5_R1.CraftServer) CommandsEX.plugin.getServer()).getServer();
+                        final net.minecraft.server.v1_5_R1.EntityPlayer entity = new net.minecraft.server.v1_5_R1.EntityPlayer(server, server.getWorldServer(0), playername, new net.minecraft.server.v1_5_R1.PlayerInteractManager(server.getWorldServer(0)));
                         player2 = (entity == null) ? null : (Player) entity.getBukkitEntity();
                         if (player2 != null) {
                             player2.loadData();
