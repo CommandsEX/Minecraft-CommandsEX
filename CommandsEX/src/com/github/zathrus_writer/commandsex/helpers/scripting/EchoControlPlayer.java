@@ -8,18 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Achievement;
-import org.bukkit.Effect;
-import org.bukkit.EntityEffect;
-import org.bukkit.GameMode;
-import org.bukkit.Instrument;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Note;
-import org.bukkit.Server;
-import org.bukkit.Sound;
-import org.bukkit.Statistic;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -664,6 +653,11 @@ public class EchoControlPlayer extends EchoControl implements Player {
     }
 
     @Override
+    public boolean isOnGround() {
+        return ((Player) wrappedSender).isOnGround();
+    }
+
+    @Override
     public void chat(String arg0) {
         ((Player) wrappedSender).chat(arg0);
     }
@@ -831,6 +825,21 @@ public class EchoControlPlayer extends EchoControl implements Player {
     @Override
     public void resetPlayerTime() {
         ((Player) wrappedSender).resetPlayerTime();
+    }
+
+    @Override
+    public void setPlayerWeather(WeatherType weatherType) {
+        ((Player) wrappedSender).setPlayerWeather(weatherType);
+    }
+
+    @Override
+    public WeatherType getPlayerWeather() {
+        return ((Player) wrappedSender).getPlayerWeather();
+    }
+
+    @Override
+    public void resetPlayerWeather() {
+        ((Player) wrappedSender).resetPlayerWeather();
     }
 
     @Override
@@ -1028,6 +1037,26 @@ public class EchoControlPlayer extends EchoControl implements Player {
     @Override
     public boolean getCanPickupItems() {
         return ((Player) wrappedSender).getCanPickupItems();
+    }
+
+    @Override
+    public void setCustomName(String s) {
+        ((Player) wrappedSender).setCustomName(s);
+    }
+
+    @Override
+    public String getCustomName() {
+        return ((Player) wrappedSender).getCustomName();
+    }
+
+    @Override
+    public void setCustomNameVisible(boolean b) {
+        ((Player) wrappedSender).setCustomNameVisible(b);
+    }
+
+    @Override
+    public boolean isCustomNameVisible() {
+        return ((Player) wrappedSender).isCustomNameVisible();
     }
 
     @Override
