@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import com.github.zathrus_writer.commandsex.CombatTag;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,6 +36,11 @@ public class Command_cex_tpaccept {
 						LogHelper.showWarning("invalidPlayer", sender);
 						return true;
 					}
+
+                    if (CombatTag.isInCombat(tpaPlayer)){
+                        LogHelper.showWarning("tpCombatTag", player);
+                        return true;
+                    }
 					
 					// check if there is a TPA or TPAHERE request for the given players combination
 					String id = tpaPlayer.getName() + "#####" + player.getName();

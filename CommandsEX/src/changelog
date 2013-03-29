@@ -9,6 +9,8 @@ Key:
 Release 2.1
 -----------
 
++ added CombatLog support (UNTESTED)
+
 @ /invsee will now work for offline players
 
 Release 2.00

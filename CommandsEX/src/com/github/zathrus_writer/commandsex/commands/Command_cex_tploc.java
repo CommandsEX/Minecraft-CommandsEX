@@ -1,5 +1,6 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import com.github.zathrus_writer.commandsex.CombatTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -25,6 +26,11 @@ public class Command_cex_tploc extends Teleportation {
             Player player = (Player)sender;
 
             if (!Utils.checkCommandSpam(player, "tp-tploc")) {
+                if (CombatTag.isInCombat(player)){
+                    LogHelper.showWarning("combatTagCannotDo", player);
+                    return true;
+                }
+
                 // alternative usage, all 3 coords separated by comma in 1 argument
                 if (args.length == 1) {
                     if (args[0].contains(",")) {

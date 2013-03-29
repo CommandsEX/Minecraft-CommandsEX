@@ -1,5 +1,7 @@
 package com.github.zathrus_writer.commandsex.commands;
 
+import com.github.zathrus_writer.commandsex.CombatTag;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,8 +22,15 @@ public class Command_cex_spawn extends Spawning {
 				return true;
 			}
 		}
-		
-		doSpawn(sender, args, "spawn", alias);
+
+        Player player = (Player) sender;
+
+        if (CombatTag.isInCombat(player)){
+            LogHelper.showWarning("combatTagCannotDo", player);
+            return true;
+        }
+
+		doSpawn(player, args, "spawn", alias);
 		return true;
 	}
 }

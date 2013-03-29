@@ -1,6 +1,8 @@
 package com.github.zathrus_writer.commandsex.commands;
 
 
+import com.github.zathrus_writer.commandsex.CombatTag;
+import com.github.zathrus_writer.commandsex.helpers.LogHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,6 +20,11 @@ public class Command_cex_tp extends Teleportation {
 	public static Boolean run(CommandSender sender, String alias, String[] args) {
 		if (PlayerHelper.checkIsPlayer(sender)) {
 			Player player = (Player)sender;
+
+            if (CombatTag.isInCombat(player)){
+                LogHelper.showWarning("combatTagCannotDo", player);
+                return true;
+            }
 
 			// check permissions and call to action
 			if (args.length > 1) {

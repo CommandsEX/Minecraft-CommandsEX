@@ -117,7 +117,10 @@ public class CommandsEX extends JavaPlugin implements Listener {
 			new VanishNoPacket();
 			vanishNoPacketPresent = true;
 		} catch (Throwable e){}
-		
+
+        // Enable CombatTag support
+        new CombatTag();
+
 		// set up commands listener
 		cListener = new Commands(this);
 

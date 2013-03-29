@@ -2,6 +2,7 @@ package com.github.zathrus_writer.commandsex.commands;
 
 import java.util.List;
 
+import com.github.zathrus_writer.commandsex.CombatTag;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -52,12 +53,17 @@ public class Command_cex_tpworld {
 		} else {
 			if (sender instanceof Player){
 				target = (Player) sender;
+
+                if (CombatTag.isInCombat(target)){
+                    LogHelper.showWarning("combatTagCannotDo", target);
+                    return true;
+                }
 			} else {
 				Commands.showCommandHelpAndUsage(sender, "cex_tpworld", alias);
 				return true;
 			}
 		}
-		
+
 		List<World> matches = ClosestMatches.intellWorld(args[0], target.getWorld());
 		
 		if (matches.size() < 1){

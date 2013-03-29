@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.zathrus_writer.commandsex.CombatTag;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -201,6 +202,12 @@ public class Warps {
 				if (Utils.checkCommandSpam((Player) sender, "warp-go")){
 					return true;
 				}
+
+                if (CombatTag.isInCombat((Player) sender)){
+                    LogHelper.showWarning("combatTagCannotDo", (Player) sender);
+                    return true;
+                }
+
 				
 				if (args.length > 1){
 					if (!sender.hasPermission("cex.warp.others")){
