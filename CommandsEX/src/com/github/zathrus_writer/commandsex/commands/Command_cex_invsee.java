@@ -13,36 +13,33 @@ import com.github.zathrus_writer.commandsex.helpers.Nicknames;
 
 public class Command_cex_invsee {
 
-	public static Boolean run(CommandSender sender, String alias, String[] args){
-		
-		if (!(sender instanceof Player)){
-			LogHelper.showInfo("inWorldCommandOnly", sender, ChatColor.RED);
-			return true;
-		}
-		
-		if (args.length != 1){
-			Commands.showCommandHelpAndUsage(sender, "cex_invsee", alias);
-			return true;
-		}
-		
-		Player target = Bukkit.getPlayerExact(args[0]);
-		Player player = (Player) sender;
-		
-		if (target == null){
-			target = Bukkit.getPlayer(args[0]);
-			if (target == null){
-				target = Utils.getOfflinePlayer(args[0]);
-				if (target == null){
-					LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
-					return true;
-				}
-			}
-		}
-		
-		Inventory inv = target.getInventory();
-		player.openInventory(inv);
-		LogHelper.showInfo("invSeeNowEditing#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
-		
-		return true;
-	}
+    public static Boolean run(CommandSender sender, String alias, String[] args){
+
+        if (!(sender instanceof Player)){
+            LogHelper.showInfo("inWorldCommandOnly", sender, ChatColor.RED);
+            return true;
+        }
+
+        if (args.length != 1){
+            Commands.showCommandHelpAndUsage(sender, "cex_invsee", alias);
+            return true;
+        }
+
+        Player player = (Player) sender;
+        Player target = Bukkit.getPlayer(args[0]);
+
+        if (target == null){
+            target = Utils.getOfflinePlayer(args[0]);
+            if (target == null){
+                LogHelper.showInfo("invalidPlayer", sender, ChatColor.RED);
+                return true;
+            }
+        }
+
+        Inventory inv = target.getInventory();
+        player.openInventory(inv);
+        LogHelper.showInfo("invSeeNowEditing#####[" + Nicknames.getNick(target.getName()), sender, ChatColor.AQUA);
+
+        return true;
+    }
 }

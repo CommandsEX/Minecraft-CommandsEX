@@ -9,9 +9,7 @@ Key:
 Release 2.1
 -----------
 
-# CraftBukkit 1.4.6 support
-
-* fixed creation of warps when a warp of that name already exists
+@ /invsee will now work for offline players
 
 Release 2.00
 ------------
