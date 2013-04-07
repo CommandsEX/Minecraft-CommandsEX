@@ -52,11 +52,11 @@ public class ItemStackParser {
 			} else {
 				List<DyeColor> dyeMatches = ClosestMatches.dyeColor(data[1]);
 				if ((material == Material.WOOL || material == Material.INK_SACK) && dyeMatches.size() > 0){
-					damage = dyeMatches.get(0).getData();
-				} else {
-					if (sender != null){ LogHelper.showWarning("itemIncorrectDamage", sender); }
-					return null;
-				}
+                    damage = dyeMatches.get(0).getDyeData();
+                } else {
+                    if (sender != null){ LogHelper.showWarning("itemIncorrectDamage", sender); }
+                    return null;
+                }
 			}
 		} else {
 			List<Material> materialMatches = ClosestMatches.material(args[0]);
@@ -83,7 +83,7 @@ public class ItemStackParser {
 			} else {
 				List<DyeColor> dyeMatches = ClosestMatches.dyeColor(args[2]);
 				if (dyeMatches.size() > 0){
-					damage = dyeMatches.get(0).getData();
+					damage = dyeMatches.get(0).getDyeData();
 				} else {
 					if (sender != null){ LogHelper.showWarning("itemIncorrectAmount", sender); }
 					return null;

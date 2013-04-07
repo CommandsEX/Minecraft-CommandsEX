@@ -105,7 +105,7 @@ public class ClosestMatches {
         for (DyeColor dye : DyeColor.values()){
         	if (dye.name().replace("_", "").toLowerCase().equals(input.toLowerCase())){
         		return Arrays.asList(dye);
-            } else if ((b != -1 ? dye.getData() == b : false)){
+            } else if ((b != -1 ? dye.getDyeData() == b : false)){
             	return Arrays.asList(dye);
             } else if (dye.name().replace("_", "").toLowerCase().contains(input.toLowerCase())){
             	matches.add(dye);

@@ -35,6 +35,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
 /**
@@ -1072,5 +1073,15 @@ public class EchoControlPlayer extends EchoControl implements Player {
     @Override
     public void setTexturePack(String arg0) {
         ((Player) wrappedSender).setTexturePack(arg0);
+    }
+
+    @Override
+    public Scoreboard getScoreboard() {
+        return ((Player) wrappedSender).getScoreboard();
+    }
+
+    @Override
+    public void setScoreboard(Scoreboard scoreboard) {
+        ((Player) wrappedSender).setScoreboard(scoreboard);
     }
 }
